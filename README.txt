@@ -1,22 +1,21 @@
-SAHABAT KACA ALUMINIUM - WEBSITE
-==================================
-File utama: index.html
-Style: style.css
-Interaksi menu mobile: script.js
+SAHABAT KACA ALUMINIUM - WEBSITE FINAL
+========================================
+Referensi desain: modern corporate landing page, light background, teal/gold accents.
 
-Nomor WhatsApp yang digunakan:
-0896-3737-1166
+Kontak Bu LILIS:
+- WhatsApp: 0838-1504-0574
+- HP: 0881-1902-340
 
-Lokasi yang digunakan:
-Jl. Raden Rubaya, Nagasari, Kec. Karawang Barat, Karawang, Jawa Barat 41315
+Fitur clickable:
+- Beranda, Tentang Kami, Layanan, Proyek & Galeri, Hubungi Kami
+- Layanan 01-05 membuka Proyek & Galeri
+- Layanan 06 membuka WhatsApp Bu Lilis
+- Semua foto galeri dapat diklik untuk tampilan besar
+- Tombol WhatsApp floating
+- Tombol telepon/HP
+- Google Maps
+- Facebook resmi
 
 Catatan:
-Konten layanan dibuat sebagai website company profile berdasarkan informasi bisnis yang tersedia secara publik.
-Silakan ganti foto, logo, deskripsi layanan, portofolio, harga, dan kontak jika pemilik usaha memberikan data resmi tambahan.
-
-
-Update:
-- Kartu layanan 01-06 dibuat clickable menuju Proyek & Galeri.
-- Galeri berisi 9 foto pekerjaan dan dapat dibuka dalam tampilan besar.
-- WhatsApp dan telepon menggunakan nomor 0896-3737-1166.
-- Facebook resmi: https://www.facebook.com/people/Sahabat-Kaca-Aluminium/100090000475144/
+Logo menggunakan file resolusi tinggi dari logo yang diberikan.
+Foto proyek berada di assets/gallery/.

@@ -5,7 +5,7 @@ Style: style.css
 Interaksi menu mobile: script.js
 
 Nomor WhatsApp yang digunakan:
-0895-0830-0488
+0896-3737-1166
 
 Lokasi yang digunakan:
 Jl. Raden Rubaya, Nagasari, Kec. Karawang Barat, Karawang, Jawa Barat 41315

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sahabat-aluminium.my.id/sitemap.xml
+Sitemap: https://www.sahabat-aluminium.my.id/sitemap.xml

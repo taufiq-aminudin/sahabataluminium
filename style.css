@@ -9,3 +9,107 @@
 footer{background:#061f29;color:#a9bec5;padding:55px 0 22px}.footer-grid{display:grid;grid-template-columns:1.4fr .7fr 1fr;gap:70px;padding-bottom:35px}.footer-brand{color:#fff}.footer-grid>div{display:flex;flex-direction:column;gap:8px;font-size:12px}.footer-grid>div:first-child p{max-width:340px}.footer-grid b{color:#fff}.copyright{border-top:1px solid #173742;padding-top:18px;font-size:10px}.whatsapp-float{position:fixed;right:22px;bottom:22px;z-index:40;background:#16b95b;color:#fff;padding:13px 18px;border-radius:100px;font-weight:800;font-size:12px;box-shadow:0 10px 25px rgba(0,0,0,.2)}
 @media(max-width:1050px){.nav{grid-template-columns:1fr auto}.nav nav{grid-column:1/-1;grid-row:2;display:none;padding:12px 0 18px;flex-wrap:wrap}.nav nav.open{display:flex}.header-contact{display:none}.menu-toggle{display:block;justify-self:end;border:0;background:none;font-size:26px}.hero-grid{grid-template-columns:1fr}.hero-photo{height:340px;border-radius:0}.services{grid-template-columns:repeat(3,1fr)}.gallery-grid{grid-template-columns:repeat(3,1fr)}.about-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.container{width:calc(100% - 28px)}.nav{min-height:74px}.brand-logo{width:56px;height:56px}.brand-name{font-size:16px}.nav nav{gap:16px;justify-content:flex-start}.nav nav a{font-size:12px}.hero-grid{padding:45px 0}.hero h1{font-size:2.5rem}.hero-benefits{display:grid;grid-template-columns:1fr 1fr;gap:14px}.hero-photo{height:260px}.services{grid-template-columns:1fr 1fr}.service{min-height:245px}.gallery-grid{grid-template-columns:1fr 1fr}.gallery-item img{height:190px}.section{padding:60px 0}.section-head{grid-template-columns:1fr;gap:10px}.contact-card{display:block}.contact-actions{margin-top:20px}.footer-grid{grid-template-columns:1fr;gap:28px}.whatsapp-float{right:14px;bottom:14px}.about-photo{height:300px}}
+/* =========================================================
+   SPACE IKLAN
+   ========================================================= */
+
+/* IKLAN ATAS & BAWAH */
+.ad-space {
+    width: 100%;
+    min-height: 100px;
+    margin: 25px auto;
+    padding: 10px;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f7f7f7;
+    border: 2px dashed #bdbdbd;
+    border-radius: 8px;
+
+    color: #777;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.ad-space-box {
+    min-height: 250px;
+}
+
+/* IKLAN SAMPING KIRI & KANAN */
+.side-ad {
+    position: fixed;
+    top: 50%;
+    width: 160px;
+    height: 300px;
+
+    transform: translateY(-50%);
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    background: #f7f7f7;
+    border: 2px dashed #bdbdbd;
+    border-radius: 8px;
+
+    color: #777;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
+
+    animation: iklanGerak 3s ease-in-out infinite;
+}
+
+/* POSISI */
+.side-ad-left {
+    left: 10px;
+}
+
+.side-ad-right {
+    right: 10px;
+    animation-delay: 1.5s;
+}
+
+/* ANIMASI IKLAN SAMPING */
+@keyframes iklanGerak {
+    0% {
+        transform: translateY(-50%);
+    }
+
+    50% {
+        transform: translateY(calc(-50% - 15px));
+    }
+
+    100% {
+        transform: translateY(-50%);
+    }
+}
+
+/* LAYAR KECIL / TABLET */
+@media (max-width: 1200px) {
+    .side-ad {
+        display: none;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .ad-space {
+        min-height: 100px;
+        margin: 18px auto;
+    }
+
+    .ad-space-box {
+        min-height: 200px;
+    }
+}

@@ -2,17 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.sahabat-aluminium.my.id/</loc>
-  </url>
-  <url>
-    <loc>https://www.sahabat-aluminium.my.id/tentang.html</loc>
-  </url>
-  <url>
-    <loc>https://www.sahabat-aluminium.my.id/layanan.html</loc>
-  </url>
-  <url>
-    <loc>https://www.sahabat-aluminium.my.id/galeri.html</loc>
-  </url>
-  <url>
-    <loc>https://www.sahabat-aluminium.my.id/kontak.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
 </urlset>

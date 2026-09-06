@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
 
+# Blok area yang tidak perlu diindeks mesin pencari
+Disallow: /admin/
+Disallow: /login/
+Disallow: /api/
+
+# Sitemap
 Sitemap: https://www.sahabat-aluminium.my.id/sitemap.xml

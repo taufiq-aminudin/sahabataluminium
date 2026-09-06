@@ -3,24 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Sahabat Kaca Aluminium Karawang melayani jasa kaca dan aluminium untuk rumah, toko, kantor, interior, kusen, pintu, jendela, partisi, kanopi dan proyek custom.">
-  <title>Sahabat Kaca Aluminium Karawang | Kaca & Aluminium</title>
+  <meta name="description" content="Sahabat Kaca Aluminium Karawang — solusi kaca dan aluminium untuk rumah, komersial, interior dan proyek custom.">
+  <title>Beranda | Sahabat Kaca Aluminium</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="Sahabat Kaca Aluminium">
-  <meta property="og:locale" content="id_ID">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Sahabat Kaca Aluminium Karawang | Jasa Kaca & Aluminium">
-  <meta property="og:description" content="Sahabat Kaca Aluminium Karawang melayani jasa kaca dan aluminium untuk rumah, toko, kantor, interior, kusen, pintu, jendela, partisi, kanopi dan proyek custom.">
-  <meta property="og:site_name" content="Sahabat Kaca Aluminium">
-  <meta name="twitter:card" content="summary">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","name":"Sahabat Kaca Aluminium","description":"Jasa kaca dan aluminium di Karawang untuk hunian, toko, kantor, interior dan proyek custom.","telephone":"+6289637371166","address":{"@type":"PostalAddress","streetAddress":"Jl. Raden Rubaya, Nagasari","addressLocality":"Karawang","addressRegion":"Jawa Barat","postalCode":"41315","addressCountry":"ID"},"areaServed":{"@type":"City","name":"Karawang"},"sameAs":["https://www.facebook.com/people/Sahabat-Kaca-Aluminium/100090000475144/"],"serviceType":["Kusen Aluminium","Pintu dan Jendela","Pekerjaan Kaca","Partisi dan Interior","Kanopi dan Custom"]}</script>
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2437971183769682"
-     crossorigin="anonymous"></script>
+  <style>
+    /* === RUANG IKLAN DI SEMUA HALAMAN === */
+    .ad-space {
+      width: 100%;
+      min-height: 90px;
+      margin: 24px 0;
+    }
+    .ad-space-box {
+      min-height: 250px;
+    }
+
+    /* Iklan bergerak kiri & kanan — desktop */
+    .side-ad {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 160px;
+      height: 300px;
+      z-index: 900;
+      overflow: hidden;
+      pointer-events: auto;
+    }
+    .side-ad-left { left: 10px; }
+    .side-ad-right { right: 10px; }
+
+    .side-ad::before {
+      content: "SPACE IKLAN";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed rgba(0,0,0,.18);
+      border-radius: 10px;
+      font-size: 12px;
+      letter-spacing: 1px;
+      opacity: .65;
+      animation: sideAdFloat 3s ease-in-out infinite;
+    }
+    .side-ad-right::before { animation-delay: 1.5s; }
+
+    @keyframes sideAdFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-18px); }
+    }
+
+    /* Mobile: iklan samping otomatis disembunyikan */
+    @media (max-width: 1200px) {
+      .side-ad { display: none; }
+    }
+    @media (max-width: 768px) {
+      .ad-space {
+        min-height: 100px;
+        margin: 18px 0;
+      }
+    }
+  </style>
 </head>
 <body>
 <header class="site-header">
@@ -72,6 +118,8 @@
       </div>
     </div>
   </section>
+    <!-- IKLAN BAWAH -->
+    <div class="container"><div class="ad-space ad-space-box" aria-label="Ruang iklan bawah"></div></div>
 </main>
 
 <a class="whatsapp-float" href="https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20ingin%20konsultasi%20proyek." target="_blank" rel="noopener" aria-label="Chat WhatsApp Admin">WhatsApp Admin</a>

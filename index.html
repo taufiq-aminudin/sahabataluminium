@@ -9,107 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <style>
-/* =========================================================
-   PATCH IKLAN — HANYA BAGIAN IKLAN
-   ========================================================= */
-
-.ad-space {
-  width: 100%;
-  min-height: 100px;
-  margin: 24px 0;
-  padding: 10px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  background: #f7f9fa;
-  border: 2px dashed #aeb9bd;
-  border-radius: 8px;
-  color: #68757a;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: .8px;
-}
-
-.ad-space::before {
-  content: "SPACE IKLAN  •  BANNER";
-}
-
-.ad-space-box {
-  min-height: 250px;
-}
-
-.ad-space-box::before {
-  content: "SPACE IKLAN  •  BANNER";
-}
-
-.side-ad {
-  position: fixed;
-  top: 50%;
-  width: 160px;
-  height: 300px;
-  transform: translateY(-50%);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  overflow: hidden;
-  background: rgba(247,249,250,.98);
-  border: 2px dashed #aeb9bd;
-  border-radius: 8px;
-  color: #68757a;
-  text-align: center;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1.5;
-  letter-spacing: .8px;
-  box-shadow: 0 6px 20px rgba(0,0,0,.08);
-  animation: adSidebarFloat 3s ease-in-out infinite;
-}
-
-.side-ad::before {
-  content: "SPACE IKLAN\A160 × 300";
-  white-space: pre;
-}
-
-.side-ad-left { left: 10px; }
-
-.side-ad-right {
-  right: 10px;
-  animation-delay: 1.5s;
-}
-
-@keyframes adSidebarFloat {
-  0%, 100% { transform: translateY(-50%); }
-  50% { transform: translateY(calc(-50% - 14px)); }
-}
-
-@media (max-width: 1200px) {
-  .side-ad { display: none; }
-}
-
-@media (max-width: 768px) {
-  .ad-space {
-    min-height: 100px;
-    margin: 18px 0;
-  }
-
-  .ad-space-box {
-    min-height: 200px;
-  }
-}
-
-  </style>
+  <link rel="stylesheet" href="iklan.css">
 </head>
 <body>
-
-<!-- IKLAN SAMPING -->
-<aside class="side-ad side-ad-left" aria-label="Ruang iklan samping kiri"></aside>
-<aside class="side-ad side-ad-right" aria-label="Ruang iklan samping kanan"></aside>
 
 <header class="site-header">
   <div class="container nav">
@@ -136,12 +38,6 @@
   </div>
 </header>
 
-<!-- IKLAN ATAS -->
-<div class="container">
-  <div class="ad-space" aria-label="Ruang iklan atas"></div>
-</div>
-
-
 <main>
 <section class="hero">
     <div class="container hero-grid">
@@ -166,11 +62,6 @@
       </div>
     </div>
   </section>
-  <!-- IKLAN BAWAH -->
-  <div class="container">
-    <div class="ad-space ad-space-box" aria-label="Ruang iklan bawah"></div>
-  </div>
-
 </main>
 
 <a class="whatsapp-float" href="https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20ingin%20konsultasi%20proyek." target="_blank" rel="noopener" aria-label="Chat WhatsApp Admin">WhatsApp Admin</a>
@@ -187,6 +78,7 @@
   <div class="container copyright">© 2024 Sahabat Kaca Aluminium. All rights reserved.</div>
 </footer>
 
+<script src="iklan.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

@@ -1,0 +1,135 @@
+/* =========================================================
+   IKLAN WEBSITE — PATCH TERHUBUNG KE /admin
+   Hanya mengatur area iklan.
+   ========================================================= */
+.ad-slot{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-sizing:border-box;
+  position:relative;
+  overflow:hidden;
+  margin:24px 0;
+  background:#f7f9fa;
+  border:2px dashed #aeb9bd;
+  border-radius:8px;
+  min-height:100px;
+}
+
+.ad-slot.ad-top{min-height:100px;}
+.ad-slot.ad-bottom{min-height:250px;}
+
+.ad-slot.ad-side{
+  position:fixed;
+  top:50%;
+  width:160px;
+  height:300px;
+  min-height:300px;
+  margin:0;
+  padding:0;
+  transform:translateY(-50%);
+  z-index:45;
+  border-radius:8px;
+  box-shadow:0 8px 24px rgba(0,0,0,.10);
+  animation:adSideFloat 3.5s ease-in-out infinite;
+}
+.ad-slot.ad-left{left:10px;}
+.ad-slot.ad-right{right:10px;animation-delay:1.75s;}
+
+.ad-slot.has-content{
+  padding:0;
+  background:transparent;
+  border:0;
+  border-radius:0;
+}
+
+.ad-item{
+  width:100%;
+  height:100%;
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+.ad-item.active{display:flex;}
+
+.ad-item a{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+}
+
+.ad-item img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  background:#fff;
+}
+
+.ad-slot.ad-top .ad-item img{object-fit:cover;}
+.ad-slot.ad-bottom .ad-item img{object-fit:cover;}
+.ad-slot.ad-side .ad-item img{object-fit:cover;}
+
+.ad-html{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.ad-html > *{max-width:100%;}
+.ad-html img{max-width:100%;height:auto;display:block;}
+.ad-html a{display:flex;width:100%;height:100%;align-items:center;justify-content:center;}
+
+.ad-placeholder{
+  width:100%;
+  min-height:100px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#68757a;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.8px;
+  padding:12px;
+  box-sizing:border-box;
+}
+.ad-bottom .ad-placeholder{min-height:250px;}
+.ad-side .ad-placeholder{
+  min-height:300px;
+  width:160px;
+  flex-direction:column;
+}
+.ad-placeholder small{
+  display:block;
+  margin-top:5px;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.4px;
+}
+
+/* Compatibility: replaces any older static placeholders when the new renderer owns them. */
+.ad-slot.has-content::before,
+.ad-slot.has-content::after{content:none !important;}
+
+@keyframes adSideFloat{
+  0%,100%{transform:translateY(-50%);}
+  50%{transform:translateY(calc(-50% - 14px));}
+}
+
+@media (max-width:1200px){
+  .ad-slot.ad-side{display:none !important;}
+}
+
+@media (max-width:768px){
+  .ad-slot{margin:18px 0;}
+  .ad-slot.ad-top{min-height:100px;}
+  .ad-slot.ad-bottom{min-height:200px;}
+  .ad-bottom .ad-placeholder{min-height:200px;}
+}

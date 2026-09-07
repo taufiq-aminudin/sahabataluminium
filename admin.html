@@ -121,9 +121,65 @@
       .form-grid{grid-template-columns:1fr}
       .field.full{grid-column:auto}
     }
+  
+    /* LOGIN ADMIN */
+    .login-screen{
+      position:fixed;inset:0;z-index:100000;background:linear-gradient(135deg,#073746,#0d5c73);
+      display:grid;place-items:center;padding:20px;
+    }
+    .login-card{
+      width:min(420px,100%);background:#fff;border-radius:14px;padding:30px;
+      box-shadow:0 25px 70px rgba(0,0,0,.25);
+    }
+    .login-brand{
+      display:flex;align-items:center;gap:12px;margin-bottom:24px;
+    }
+    .login-mark{
+      width:48px;height:48px;border-radius:50%;background:var(--deep);color:#fff;
+      display:grid;place-items:center;font-weight:900;font-size:12px;
+    }
+    .login-brand b{display:block;font-size:18px}.login-brand small{color:var(--muted)}
+    .login-card h1{font-size:24px;margin-bottom:6px}.login-card p{color:var(--muted);font-size:12px;margin:0 0 20px}
+    .login-field{display:grid;gap:6px;margin-bottom:14px}
+    .login-field label{font-size:12px;font-weight:800}
+    .login-field input{width:100%;padding:11px;border:1px solid #cbd7db;border-radius:8px}
+    .login-submit{width:100%;padding:12px;border:0;border-radius:8px;background:var(--deep);color:#fff;font-weight:800}
+    .login-error{color:var(--danger);font-size:11px;margin-top:9px;min-height:16px}
+    .login-note{margin-top:15px;padding:10px 12px;border-radius:8px;background:#f4f7f8;color:var(--muted);font-size:10px}
+    body.locked{overflow:hidden}
+
   </style>
 </head>
-<body>
+<body class="locked">
+
+  <div id="loginScreen" class="login-screen">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="login-mark">SKA</div>
+        <div><b>Sahabat Kaca Aluminium</b><small>Panel Administrasi Iklan</small></div>
+      </div>
+      <h1>Masuk Admin</h1>
+      <p>Masukkan akun admin untuk mengelola iklan website.</p>
+
+      <form id="loginForm">
+        <div class="login-field">
+          <label for="loginUser">Username</label>
+          <input id="loginUser" type="text" autocomplete="username" required>
+        </div>
+        <div class="login-field">
+          <label for="loginPass">Password</label>
+          <input id="loginPass" type="password" autocomplete="current-password" required>
+        </div>
+        <button class="login-submit" type="submit">Masuk</button>
+        <div id="loginError" class="login-error" aria-live="polite"></div>
+      </form>
+
+      <div class="login-note">
+        Akun default awal: <b>admin</b> / <b>admin123</b>. Ubah kredensial di bagian konfigurasi JavaScript sebelum dipakai di produksi.
+      </div>
+    </div>
+  </div>
+
 <div class="admin-shell">
   <aside class="sidebar">
     <div class="brand">
@@ -152,7 +208,7 @@
           <h1>Dashboard Iklan</h1>
           <p>Kelola iklan atas, bawah, sidebar kiri, dan sidebar kanan.</p>
         </div>
-        <button class="btn btn-primary" onclick="openNewAd()">+ Tambah Iklan</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-light" onclick="logoutAdmin()">Keluar</button><button class="btn btn-primary" onclick="openNewAd()">+ Tambah Iklan</button></div>
       </div>
 
       <div class="cards">
@@ -542,6 +598,48 @@
       alert("Clipboard browser tidak tersedia. Salin JSON secara manual.");
     }
   }
+
+
+  const ADMIN_USERNAME = "admin";
+  const ADMIN_PASSWORD = "admin123";
+  const ADMIN_SESSION_KEY = "sahabat_admin_logged_in";
+
+  function showAdmin(){
+    document.getElementById("loginScreen").classList.add("hidden");
+    document.body.classList.remove("locked");
+  }
+
+  function showLogin(){
+    document.getElementById("loginScreen").classList.remove("hidden");
+    document.body.classList.add("locked");
+  }
+
+  document.getElementById("loginForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const user = document.getElementById("loginUser").value.trim();
+    const pass = document.getElementById("loginPass").value;
+    const error = document.getElementById("loginError");
+
+    if(user === ADMIN_USERNAME && pass === ADMIN_PASSWORD){
+      sessionStorage.setItem(ADMIN_SESSION_KEY, "1");
+      error.textContent = "";
+      showAdmin();
+    }else{
+      error.textContent = "Username atau password salah.";
+    }
+  });
+
+  if(sessionStorage.getItem(ADMIN_SESSION_KEY) === "1"){
+    showAdmin();
+  }
+
+  function logoutAdmin(){
+    sessionStorage.removeItem(ADMIN_SESSION_KEY);
+    document.getElementById("loginForm").reset();
+    showLogin();
+    document.getElementById("loginUser").focus();
+  }
+
 
   refreshAll();
 </script>

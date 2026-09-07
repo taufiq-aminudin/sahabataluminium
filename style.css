@@ -10,106 +10,144 @@ footer{background:#061f29;color:#a9bec5;padding:55px 0 22px}.footer-grid{display
 @media(max-width:1050px){.nav{grid-template-columns:1fr auto}.nav nav{grid-column:1/-1;grid-row:2;display:none;padding:12px 0 18px;flex-wrap:wrap}.nav nav.open{display:flex}.header-contact{display:none}.menu-toggle{display:block;justify-self:end;border:0;background:none;font-size:26px}.hero-grid{grid-template-columns:1fr}.hero-photo{height:340px;border-radius:0}.services{grid-template-columns:repeat(3,1fr)}.gallery-grid{grid-template-columns:repeat(3,1fr)}.about-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.container{width:calc(100% - 28px)}.nav{min-height:74px}.brand-logo{width:56px;height:56px}.brand-name{font-size:16px}.nav nav{gap:16px;justify-content:flex-start}.nav nav a{font-size:12px}.hero-grid{padding:45px 0}.hero h1{font-size:2.5rem}.hero-benefits{display:grid;grid-template-columns:1fr 1fr;gap:14px}.hero-photo{height:260px}.services{grid-template-columns:1fr 1fr}.service{min-height:245px}.gallery-grid{grid-template-columns:1fr 1fr}.gallery-item img{height:190px}.section{padding:60px 0}.section-head{grid-template-columns:1fr;gap:10px}.contact-card{display:block}.contact-actions{margin-top:20px}.footer-grid{grid-template-columns:1fr;gap:28px}.whatsapp-float{right:14px;bottom:14px}.about-photo{height:300px}}
 /* =========================================================
-   SPACE IKLAN
+   SPACE IKLAN — PATCH UTUH
+   Hanya mengatur area iklan
    ========================================================= */
 
-/* IKLAN ATAS & BAWAH */
+/* ---------- IKLAN ATAS & BAWAH ---------- */
 .ad-space {
-    width: 100%;
-    min-height: 100px;
-    margin: 25px auto;
-    padding: 10px;
-    box-sizing: border-box;
+  width: 100%;
+  min-height: 100px !important;
+  margin: 24px 0 !important;
+  padding: 10px !important;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
 
-    background: #f7f7f7;
-    border: 2px dashed #bdbdbd;
-    border-radius: 8px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
 
-    color: #777;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 1px;
+  background: #f7f9fa !important;
+  border: 2px dashed #aeb9bd !important;
+  border-radius: 8px;
+
+  color: #68757a !important;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .8px;
+}
+
+.ad-space::before {
+  content: "SPACE IKLAN • BANNER";
+  display: block;
+  pointer-events: none;
 }
 
 .ad-space-box {
-    min-height: 250px;
+  min-height: 250px !important;
 }
 
-/* IKLAN SAMPING KIRI & KANAN */
+.ad-space-box::before {
+  content: "SPACE IKLAN • BANNER";
+}
+
+/* ---------- SIDEBAR IKLAN ---------- */
+/*
+   Penting:
+   Sidebar TIDAK tampil pada layar yang ruang sampingnya
+   belum cukup. Ini mencegah sidebar menutup kartu/teks website.
+*/
 .side-ad {
-    position: fixed;
-    top: 50%;
-    width: 160px;
-    height: 300px;
+  display: none !important;
+}
 
-    transform: translateY(-50%);
-    z-index: 9999;
+/* Sidebar hanya aktif pada desktop lebar.
+   Container website max 1370px, sehingga iklan berada di
+   area luar container, bukan di atas isi website. */
+@media (min-width: 1720px) {
+  .side-ad {
+    position: fixed !important;
+    top: 50% !important;
 
-    display: flex;
+    width: 160px !important;
+    height: 300px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+
+    display: flex !important;
     align-items: center;
     justify-content: center;
 
-    box-sizing: border-box;
-    background: #f7f7f7;
-    border: 2px dashed #bdbdbd;
+    transform: translateY(-50%);
+    z-index: 40 !important;
+
+    overflow: hidden;
+
+    background: rgba(247,249,250,.98) !important;
+    border: 2px dashed #aeb9bd !important;
     border-radius: 8px;
 
-    color: #777;
+    color: #68757a !important;
     text-align: center;
     font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 1px;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: .8px;
 
-    box-shadow: 0 4px 15px rgba(0,0,0,.08);
+    box-shadow: 0 6px 20px rgba(0,0,0,.08);
 
-    animation: iklanGerak 3s ease-in-out infinite;
+    animation: adSidebarFloat 3.5s ease-in-out infinite;
+  }
+
+  .side-ad::before {
+    content: "SPACE IKLAN\A160 × 300";
+    white-space: pre;
+    display: block;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .side-ad-left {
+    left: max(12px, calc((100vw - 1370px) / 2 - 172px)) !important;
+    right: auto !important;
+  }
+
+  .side-ad-right {
+    right: max(12px, calc((100vw - 1370px) / 2 - 172px)) !important;
+    left: auto !important;
+    animation-delay: 1.75s;
+  }
 }
 
-/* POSISI */
-.side-ad-left {
-    left: 10px;
+/* Gerakan vertikal lembut */
+@keyframes adSidebarFloat {
+  0%, 100% {
+    transform: translateY(-50%);
+  }
+  50% {
+    transform: translateY(calc(-50% - 14px));
+  }
 }
 
-.side-ad-right {
-    right: 10px;
-    animation-delay: 1.5s;
+/* ---------- TABLET / MOBILE ---------- */
+@media (max-width: 1719px) {
+  .side-ad {
+    display: none !important;
+  }
 }
 
-/* ANIMASI IKLAN SAMPING */
-@keyframes iklanGerak {
-    0% {
-        transform: translateY(-50%);
-    }
-
-    50% {
-        transform: translateY(calc(-50% - 15px));
-    }
-
-    100% {
-        transform: translateY(-50%);
-    }
-}
-
-/* LAYAR KECIL / TABLET */
-@media (max-width: 1200px) {
-    .side-ad {
-        display: none;
-    }
-}
-
-/* MOBILE */
 @media (max-width: 768px) {
-    .ad-space {
-        min-height: 100px;
-        margin: 18px auto;
-    }
+  .ad-space {
+    min-height: 100px !important;
+    margin: 18px 0 !important;
+  }
 
-    .ad-space-box {
-        min-height: 200px;
-    }
+  .ad-space-box {
+    min-height: 200px !important;
+  }
 }

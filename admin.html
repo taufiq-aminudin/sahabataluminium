@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Admin Iklan | Sahabat Kaca Aluminium</title>
+  <style>
+    :root{
+      --ink:#102c3c;
+      --muted:#5f7380;
+      --line:#dce5e9;
+      --blue:#0d5c73;
+      --deep:#073746;
+      --gold:#c8943d;
+      --paper:#f6fafb;
+      --white:#fff;
+      --danger:#c0392b;
+      --success:#16824b;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"DM Sans",Arial,sans-serif;
+      color:var(--ink);
+      background:var(--paper);
+      line-height:1.5;
+    }
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    .admin-shell{min-height:100vh;display:grid;grid-template-columns:260px 1fr}
+    .sidebar{
+      background:var(--deep);color:#fff;padding:26px 20px;position:sticky;top:0;height:100vh;
+    }
+    .brand{display:flex;align-items:center;gap:12px;margin-bottom:34px}
+    .brand-mark{
+      width:46px;height:46px;border-radius:50%;background:#fff;color:var(--deep);
+      display:grid;place-items:center;font-weight:900;font-size:12px;
+    }
+    .brand b{display:block}.brand small{color:#b9cdd4}
+    .side-title{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#9db8c1;margin:24px 8px 10px}
+    .side-nav{display:grid;gap:7px}
+    .side-nav button{
+      width:100%;border:1px solid transparent;background:transparent;color:#d8e4e8;
+      text-align:left;padding:11px 12px;border-radius:8px;
+    }
+    .side-nav button.active,.side-nav button:hover{background:rgba(255,255,255,.09);color:#fff}
+    .sidebar-foot{
+      position:absolute;left:20px;right:20px;bottom:20px;border-top:1px solid rgba(255,255,255,.12);
+      padding-top:15px;font-size:11px;color:#a9bec5;
+    }
+
+    .main{padding:28px 34px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:25px}
+    h1,h2,h3{margin:0;font-family:Arial,sans-serif;letter-spacing:-.02em}
+    h1{font-size:30px}
+    .topbar p{margin:4px 0 0;color:var(--muted);font-size:13px}
+    .btn{
+      border:0;border-radius:8px;padding:11px 15px;font-weight:800;font-size:13px;
+    }
+    .btn-primary{background:var(--deep);color:#fff}
+    .btn-light{background:#fff;color:var(--ink);border:1px solid var(--line)}
+    .btn-danger{background:#fff;color:var(--danger);border:1px solid #efc9c4}
+    .btn-success{background:#fff;color:var(--success);border:1px solid #c7e5d4}
+    .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+    .stat{
+      background:#fff;border:1px solid var(--line);border-radius:10px;padding:17px;
+    }
+    .stat span{display:block;color:var(--muted);font-size:11px;margin-bottom:5px}
+    .stat strong{font-size:24px}
+    .panel{
+      background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px;margin-bottom:22px;
+    }
+    .panel-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:18px}
+    .panel-head p{margin:4px 0 0;color:var(--muted);font-size:12px}
+    .table-wrap{overflow:auto}
+    table{width:100%;border-collapse:collapse;min-width:760px}
+    th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);font-size:12px;vertical-align:middle}
+    th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:#fbfcfc}
+    .status{display:inline-flex;padding:5px 8px;border-radius:999px;font-weight:800;font-size:10px}
+    .status.on{background:#e8f7ee;color:var(--success)}
+    .status.off{background:#f2f3f4;color:#777}
+    .preview-box{
+      width:92px;height:54px;border:1px dashed #b8c4c9;border-radius:6px;background:#f6f8f9;
+      display:grid;place-items:center;overflow:hidden;font-size:10px;color:#7a8a91;text-align:center;
+    }
+    .preview-box img{width:100%;height:100%;object-fit:cover}
+    .actions{display:flex;gap:6px;flex-wrap:wrap}
+    .empty{padding:30px;text-align:center;color:var(--muted);font-size:13px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+    .field{display:grid;gap:6px}.field.full{grid-column:1/-1}
+    label{font-weight:800;font-size:12px}
+    input,select,textarea{
+      width:100%;border:1px solid #cbd7db;border-radius:7px;padding:10px 11px;background:#fff;color:var(--ink);
+    }
+    textarea{min-height:105px;resize:vertical}
+    .help{font-size:10px;color:var(--muted)}
+    .form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:6px}
+    .notice{
+      padding:11px 13px;border-radius:8px;background:#eef7fa;border:1px solid #cfe2e8;
+      color:var(--blue);font-size:12px;margin-bottom:16px;
+    }
+    .hidden{display:none!important}
+    .code-box{
+      margin-top:10px;background:#0d2028;color:#dcecef;border-radius:8px;padding:12px;
+      font:11px/1.55 Consolas,monospace;white-space:pre-wrap;word-break:break-word;
+    }
+
+    @media(max-width:1000px){
+      .admin-shell{grid-template-columns:1fr}
+      .sidebar{position:relative;height:auto}
+      .side-nav{grid-template-columns:repeat(4,1fr)}
+      .sidebar-foot{position:static;margin-top:18px}
+      .cards{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:650px){
+      .main{padding:20px 14px}
+      .topbar{align-items:flex-start;flex-direction:column}
+      .side-nav{grid-template-columns:1fr 1fr}
+      .cards{grid-template-columns:1fr 1fr}
+      .form-grid{grid-template-columns:1fr}
+      .field.full{grid-column:auto}
+    }
+  </style>
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">SKA</div>
+      <div><b>Sahabat</b><small>Kaca Aluminium</small></div>
+    </div>
+
+    <div class="side-title">Manajemen</div>
+    <div class="side-nav">
+      <button class="active" data-section="dashboard">Dashboard</button>
+      <button data-section="ads">Data Iklan</button>
+      <button data-section="editor">Tambah / Edit</button>
+      <button data-section="code">Data untuk Website</button>
+    </div>
+
+    <div class="sidebar-foot">
+      Admin Iklan<br>
+      Data disimpan di browser ini menggunakan localStorage.
+    </div>
+  </aside>
+
+  <main class="main">
+    <section id="dashboard" class="app-section">
+      <div class="topbar">
+        <div>
+          <h1>Dashboard Iklan</h1>
+          <p>Kelola iklan atas, bawah, sidebar kiri, dan sidebar kanan.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openNewAd()">+ Tambah Iklan</button>
+      </div>
+
+      <div class="cards">
+        <div class="stat"><span>Total iklan</span><strong id="statTotal">0</strong></div>
+        <div class="stat"><span>Iklan aktif</span><strong id="statActive">0</strong></div>
+        <div class="stat"><span>Banner</span><strong id="statBanner">0</strong></div>
+        <div class="stat"><span>Sidebar</span><strong id="statSidebar">0</strong></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div><h2>Iklan terbaru</h2><p>Daftar iklan yang tersimpan.</p></div>
+          <button class="btn btn-light" onclick="showSection('ads')">Lihat semua</button>
+        </div>
+        <div id="dashboardTable"></div>
+      </div>
+    </section>
+
+    <section id="ads" class="app-section hidden">
+      <div class="topbar">
+        <div>
+          <h1>Data Iklan</h1>
+          <p>Buat, edit, aktifkan, nonaktifkan, atau hapus iklan.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openNewAd()">+ Tambah Iklan</button>
+      </div>
+      <div class="panel">
+        <div id="adsTable"></div>
+      </div>
+    </section>
+
+    <section id="editor" class="app-section hidden">
+      <div class="topbar">
+        <div>
+          <h1 id="editorTitle">Tambah Iklan</h1>
+          <p>Isi data iklan yang akan ditempatkan di website.</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="notice">
+          Posisi iklan: <b>Atas</b>, <b>Bawah</b>, <b>Sidebar Kiri</b>, atau <b>Sidebar Kanan</b>.
+        </div>
+
+        <form id="adForm">
+          <input type="hidden" id="adId">
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="adName">Nama iklan</label>
+              <input id="adName" required placeholder="Contoh: Promo Kaca Tempered">
+            </div>
+
+            <div class="field">
+              <label for="adPosition">Posisi</label>
+              <select id="adPosition" required>
+                <option value="top">Atas</option>
+                <option value="bottom">Bawah</option>
+                <option value="left">Sidebar Kiri</option>
+                <option value="right">Sidebar Kanan</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="adImage">URL gambar/banner</label>
+              <input id="adImage" placeholder="assets/iklan/banner.jpg atau URL gambar">
+              <div class="help">Kosongkan untuk memakai kotak iklan bawaan.</div>
+            </div>
+
+            <div class="field">
+              <label for="adLink">URL tujuan</label>
+              <input id="adLink" placeholder="https://contoh.com">
+            </div>
+
+            <div class="field">
+              <label for="adSize">Ukuran / tipe</label>
+              <select id="adSize">
+                <option value="banner-top">Banner Atas 970 × 100</option>
+                <option value="banner-bottom">Banner Bawah 970 × 250</option>
+                <option value="sidebar">Sidebar 160 × 300</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="adActive">Status</label>
+              <select id="adActive">
+                <option value="true">Aktif</option>
+                <option value="false">Nonaktif</option>
+              </select>
+            </div>
+
+            <div class="field full">
+              <label for="adHtml">HTML iklan (opsional)</label>
+              <textarea id="adHtml" placeholder='Contoh: <a href="https://contoh.com"><img src="assets/iklan/banner.jpg" alt="Iklan"></a>'></textarea>
+              <div class="help">Bisa dipakai nanti untuk kode banner/HTML iklan sendiri.</div>
+            </div>
+
+            <div class="field full">
+              <label>Preview</label>
+              <div class="preview-box" id="editorPreview">SPACE IKLAN</div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-light" onclick="showSection('ads')">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan Iklan</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section id="code" class="app-section hidden">
+      <div class="topbar">
+        <div>
+          <h1>Data untuk Website</h1>
+          <p>Konfigurasi iklan tersimpan dalam format JSON.</p>
+        </div>
+        <button class="btn btn-light" onclick="copyJson()">Salin JSON</button>
+      </div>
+
+      <div class="panel">
+        <div class="notice">
+          Panel ini menjadi sumber data iklan. Tahap berikutnya dapat menghubungkan data ini ke halaman publik agar perubahan dari <b>/admin</b> langsung tampil di website.
+        </div>
+        <div id="jsonOutput" class="code-box"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  const STORAGE_KEY = "sahabat_kaca_aluminium_ads_v1";
+
+  const initialAds = [
+    {
+      id: "ad-top-default",
+      name: "Ruang Iklan Atas",
+      position: "top",
+      image: "",
+      link: "",
+      size: "banner-top",
+      html: "",
+      active: true,
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: "ad-bottom-default",
+      name: "Ruang Iklan Bawah",
+      position: "bottom",
+      image: "",
+      link: "",
+      size: "banner-bottom",
+      html: "",
+      active: true,
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: "ad-left-default",
+      name: "Ruang Iklan Sidebar Kiri",
+      position: "left",
+      image: "",
+      link: "",
+      size: "sidebar",
+      html: "",
+      active: true,
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: "ad-right-default",
+      name: "Ruang Iklan Sidebar Kanan",
+      position: "right",
+      image: "",
+      link: "",
+      size: "sidebar",
+      html: "",
+      active: true,
+      createdAt: new Date().toISOString()
+    }
+  ];
+
+  function getAds(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw){
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(initialAds));
+        return [...initialAds];
+      }
+      const data = JSON.parse(raw);
+      return Array.isArray(data) ? data : [...initialAds];
+    }catch(e){
+      return [...initialAds];
+    }
+  }
+
+  function saveAds(ads){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(ads));
+    refreshAll();
+  }
+
+  function esc(value){
+    return String(value ?? "")
+      .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;").replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
+  }
+
+  function positionLabel(position){
+    return ({
+      top:"Atas",
+      bottom:"Bawah",
+      left:"Sidebar Kiri",
+      right:"Sidebar Kanan"
+    })[position] || position;
+  }
+
+  function sizeLabel(size){
+    return ({
+      "banner-top":"970 × 100",
+      "banner-bottom":"970 × 250",
+      sidebar:"160 × 300"
+    })[size] || size;
+  }
+
+  function tableHtml(ads){
+    if(!ads.length) return '<div class="empty">Belum ada iklan.</div>';
+
+    return `
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Preview</th>
+            <th>Nama</th>
+            <th>Posisi</th>
+            <th>Ukuran</th>
+            <th>Status</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+        ${ads.map(ad => `
+          <tr>
+            <td>
+              <div class="preview-box">
+                ${ad.image ? `<img src="${esc(ad.image)}" alt="">` : "SPACE IKLAN"}
+              </div>
+            </td>
+            <td><b>${esc(ad.name)}</b></td>
+            <td>${esc(positionLabel(ad.position))}</td>
+            <td>${esc(sizeLabel(ad.size))}</td>
+            <td><span class="status ${ad.active ? "on":"off"}">${ad.active ? "Aktif":"Nonaktif"}</span></td>
+            <td>
+              <div class="actions">
+                <button class="btn btn-light" onclick="editAd('${esc(ad.id)}')">Edit</button>
+                <button class="btn ${ad.active ? "btn-danger":"btn-success"}" onclick="toggleAd('${esc(ad.id)}')">
+                  ${ad.active ? "Nonaktifkan":"Aktifkan"}
+                </button>
+                <button class="btn btn-danger" onclick="deleteAd('${esc(ad.id)}')">Hapus</button>
+              </div>
+            </td>
+          </tr>
+        `).join("")}
+        </tbody>
+      </table>
+      </div>
+    `;
+  }
+
+  function refreshAll(){
+    const ads = getAds();
+    const active = ads.filter(a=>a.active);
+    document.getElementById("statTotal").textContent = ads.length;
+    document.getElementById("statActive").textContent = active.length;
+    document.getElementById("statBanner").textContent = ads.filter(a=>a.position==="top"||a.position==="bottom").length;
+    document.getElementById("statSidebar").textContent = ads.filter(a=>a.position==="left"||a.position==="right").length;
+    document.getElementById("dashboardTable").innerHTML = tableHtml(ads.slice(0,8));
+    document.getElementById("adsTable").innerHTML = tableHtml(ads);
+    document.getElementById("jsonOutput").textContent = JSON.stringify(ads,null,2);
+  }
+
+  function showSection(id){
+    document.querySelectorAll(".app-section").forEach(s=>s.classList.add("hidden"));
+    document.getElementById(id).classList.remove("hidden");
+    document.querySelectorAll(".side-nav button").forEach(b=>b.classList.toggle("active", b.dataset.section===id));
+    if(id==="dashboard"||id==="ads"||id==="code") refreshAll();
+  }
+
+  document.querySelectorAll(".side-nav button").forEach(btn=>{
+    btn.addEventListener("click",()=>showSection(btn.dataset.section));
+  });
+
+  function openNewAd(){
+    document.getElementById("editorTitle").textContent = "Tambah Iklan";
+    document.getElementById("adForm").reset();
+    document.getElementById("adId").value = "";
+    document.getElementById("adActive").value = "true";
+    document.getElementById("adPosition").value = "top";
+    document.getElementById("adSize").value = "banner-top";
+    updatePreview();
+    showSection("editor");
+  }
+
+  function editAd(id){
+    const ad = getAds().find(a=>a.id===id);
+    if(!ad) return;
+    document.getElementById("editorTitle").textContent = "Edit Iklan";
+    document.getElementById("adId").value = ad.id;
+    document.getElementById("adName").value = ad.name || "";
+    document.getElementById("adPosition").value = ad.position || "top";
+    document.getElementById("adImage").value = ad.image || "";
+    document.getElementById("adLink").value = ad.link || "";
+    document.getElementById("adSize").value = ad.size || "banner-top";
+    document.getElementById("adActive").value = String(!!ad.active);
+    document.getElementById("adHtml").value = ad.html || "";
+    updatePreview();
+    showSection("editor");
+  }
+
+  function toggleAd(id){
+    const ads = getAds();
+    const ad = ads.find(a=>a.id===id);
+    if(!ad) return;
+    ad.active = !ad.active;
+    saveAds(ads);
+  }
+
+  function deleteAd(id){
+    const ads = getAds();
+    const ad = ads.find(a=>a.id===id);
+    if(!ad) return;
+    if(!confirm('Hapus iklan "' + ad.name + '"?')) return;
+    saveAds(ads.filter(a=>a.id!==id));
+  }
+
+  document.getElementById("adForm").addEventListener("submit",function(e){
+    e.preventDefault();
+
+    const ads = getAds();
+    const id = document.getElementById("adId").value || ("ad-" + Date.now());
+    const existing = ads.find(a=>a.id===id);
+
+    const item = {
+      id,
+      name: document.getElementById("adName").value.trim(),
+      position: document.getElementById("adPosition").value,
+      image: document.getElementById("adImage").value.trim(),
+      link: document.getElementById("adLink").value.trim(),
+      size: document.getElementById("adSize").value,
+      html: document.getElementById("adHtml").value,
+      active: document.getElementById("adActive").value === "true",
+      createdAt: existing?.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+
+    if(!item.name){
+      alert("Nama iklan wajib diisi.");
+      return;
+    }
+
+    const index = ads.findIndex(a=>a.id===id);
+    if(index>=0) ads[index]=item;
+    else ads.unshift(item);
+
+    saveAds(ads);
+    alert("Iklan berhasil disimpan.");
+    showSection("ads");
+  });
+
+  function updatePreview(){
+    const image = document.getElementById("adImage").value.trim();
+    const preview = document.getElementById("editorPreview");
+    if(image){
+      preview.innerHTML = `<img src="${esc(image)}" alt="Preview iklan" onerror="this.parentElement.textContent='Gambar tidak dapat dimuat'">`;
+    }else{
+      preview.textContent = "SPACE IKLAN";
+    }
+  }
+
+  document.getElementById("adImage").addEventListener("input",updatePreview);
+
+  async function copyJson(){
+    const text = document.getElementById("jsonOutput").textContent;
+    try{
+      await navigator.clipboard.writeText(text);
+      alert("JSON berhasil disalin.");
+    }catch(e){
+      alert("Clipboard browser tidak tersedia. Salin JSON secara manual.");
+    }
+  }
+
+  refreshAll();
+</script>
+</body>
+</html>

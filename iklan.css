@@ -10,22 +10,22 @@
   box-sizing:border-box;
   position:relative;
   overflow:hidden;
-  margin:12px 0;
+  margin:8px 0;
   background:#f7f9fa;
   border:2px dashed #aeb9bd;
   border-radius:8px;
-  min-height:70px;
+  min-height:50px;
 }
 
-.ad-slot.ad-top{min-height:70px;}
-.ad-slot.ad-bottom{min-height:120px;}
+.ad-slot.ad-top{min-height:50px;}
+.ad-slot.ad-bottom{min-height:90px;}
 
 .ad-slot.ad-side{
   position:fixed;
   top:50%;
-  width:120px;
-  height:220px;
-  min-height:220px;
+  width:100px;
+  height:180px;
+  min-height:180px;
   margin:0;
   padding:0;
   transform:translateY(-50%);
@@ -34,8 +34,8 @@
   box-shadow:0 8px 24px rgba(0,0,0,.10);
   animation:adSideFloat 3.5s ease-in-out infinite;
 }
-.ad-slot.ad-left{left:10px;}
-.ad-slot.ad-right{right:10px;animation-delay:1.75s;}
+.ad-slot.ad-left{left:8px;}
+.ad-slot.ad-right{right:8px;animation-delay:1.75s;}
 
 .ad-slot.has-content{
   padding:0;
@@ -88,32 +88,31 @@
 
 .ad-placeholder{
   width:100%;
-  min-height:70px;
+  min-height:50px;
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
   color:#68757a;
-  font-size:12px;
+  font-size:11px;
   font-weight:800;
-  letter-spacing:.8px;
-  padding:8px;
+  letter-spacing:.6px;
+  padding:6px;
   box-sizing:border-box;
 }
-.ad-bottom .ad-placeholder{min-height:120px;}
+.ad-bottom .ad-placeholder{min-height:90px;}
 
 .ad-side .ad-placeholder{
-  min-height:220px;
-  width:120px;
+  min-height:180px;
+  width:100px;
   flex-direction:column;
 }
-
 .ad-placeholder small{
   display:block;
-  margin-top:5px;
-  font-size:10px;
+  margin-top:4px;
+  font-size:9px;
   font-weight:700;
-  letter-spacing:.4px;
+  letter-spacing:.3px;
 }
 
 /* Compatibility: replaces any older static placeholders when the new renderer owns them. */
@@ -122,7 +121,7 @@
 
 @keyframes adSideFloat{
   0%,100%{transform:translateY(-50%);}
-  50%{transform:translateY(calc(-50% - 14px));}
+  50%{transform:translateY(calc(-50% - 10px));}
 }
 
 @media (max-width:1200px){
@@ -130,8 +129,8 @@
 }
 
 @media (max-width:768px){
-  .ad-slot{margin:10px 0;}
-  .ad-slot.ad-top{min-height:60px;}
-  .ad-slot.ad-bottom{min-height:100px;}
-  .ad-bottom .ad-placeholder{min-height:100px;}
+  .ad-slot{margin:6px 0;}
+  .ad-slot.ad-top{min-height:40px;}
+  .ad-slot.ad-bottom{min-height:70px;}
+  .ad-bottom .ad-placeholder{min-height:70px;}
 }

@@ -106,6 +106,13 @@
       font:11px/1.55 Consolas,monospace;white-space:pre-wrap;word-break:break-word;
     }
 
+
+    /* ARTIKEL SEO */
+    .article-status{display:inline-flex;padding:5px 8px;border-radius:999px;font-weight:800;font-size:10px}
+    .article-status.published{background:#e8f7ee;color:var(--success)}
+    .article-status.draft{background:#f2f3f4;color:#777}
+    .article-title-cell{min-width:260px}
+
     @media(max-width:1000px){
       .admin-shell{grid-template-columns:1fr}
       .sidebar{position:relative;height:auto}
@@ -192,6 +199,7 @@
       <button class="active" data-section="dashboard">Dashboard</button>
       <button data-section="ads">Data Iklan</button>
       <button data-section="editor">Tambah / Edit</button>
+      <button data-section="articles">Artikel SEO</button>
       <button data-section="code">Data untuk Website</button>
     </div>
 
@@ -320,6 +328,91 @@
       </div>
     </section>
 
+
+    <section id="articles" class="app-section hidden">
+      <div class="topbar">
+        <div>
+          <h1>Artikel SEO</h1>
+          <p>Tulis, edit, publikasikan, dan siapkan metadata SEO artikel Sahabat Kaca Aluminium.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openNewArticle()">+ Tulis Artikel</button>
+      </div>
+      <div class="panel">
+        <div class="notice">Kelola artikel dari sini. Artikel <b>Published</b> siap digunakan oleh sistem website publik setelah endpoint/backend artikel terhubung.</div>
+        <div id="articlesTable"></div>
+      </div>
+    </section>
+
+    <section id="articleEditor" class="app-section hidden">
+      <div class="topbar">
+        <div>
+          <h1 id="articleEditorTitle">Tulis Artikel</h1>
+          <p>Lengkapi konten dan metadata SEO sebelum menerbitkan artikel.</p>
+        </div>
+      </div>
+      <div class="panel">
+        <form id="articleForm">
+          <input type="hidden" id="articleId">
+          <div class="form-grid">
+            <div class="field full">
+              <label for="articleTitle">Judul artikel</label>
+              <input id="articleTitle" required placeholder="Contoh: Jasa Kaca Aluminium Karawang untuk Rumah dan Kantor">
+            </div>
+            <div class="field full">
+              <label for="articleSlug">Slug URL</label>
+              <input id="articleSlug" required placeholder="jasa-kaca-aluminium-karawang">
+              <div class="help">Gunakan huruf kecil, angka, dan tanda hubung. URL yang disarankan: /artikel/slug.</div>
+            </div>
+            <div class="field">
+              <label for="articleCategory">Kategori</label>
+              <input id="articleCategory" placeholder="Kaca Aluminium">
+            </div>
+            <div class="field">
+              <label for="articleStatus">Status</label>
+              <select id="articleStatus">
+                <option value="draft">Draft</option>
+                <option value="published">Published</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="articleImage">Featured image URL</label>
+              <input id="articleImage" placeholder="assets/artikel/kaca-aluminium-karawang.jpg">
+            </div>
+            <div class="field full">
+              <label for="articleExcerpt">Ringkasan artikel</label>
+              <textarea id="articleExcerpt" placeholder="Ringkasan singkat untuk kartu artikel dan hasil pencarian."></textarea>
+            </div>
+            <div class="field full">
+              <label for="articleContent">Isi artikel</label>
+              <textarea id="articleContent" style="min-height:320px" required placeholder="Tulis artikel lengkap di sini..."></textarea>
+              <div class="help">Gunakan paragraf yang informatif dan alami. Hindari penumpukan keyword/hashtag.</div>
+            </div>
+            <div class="field">
+              <label for="articleMetaTitle">SEO title</label>
+              <input id="articleMetaTitle" placeholder="Jasa Kaca Aluminium Karawang | Sahabat Kaca Aluminium">
+            </div>
+            <div class="field">
+              <label for="articleKeywords">Keyword SEO</label>
+              <input id="articleKeywords" placeholder="jasa kaca aluminium Karawang, aluminium Karawang, kaca Karawang">
+            </div>
+            <div class="field full">
+              <label for="articleMetaDescription">Meta description</label>
+              <textarea id="articleMetaDescription" placeholder="Deskripsi singkat halaman untuk mesin pencari."></textarea>
+            </div>
+            <div class="field full">
+              <label for="articleHashtags">Hashtag SEO</label>
+              <input id="articleHashtags" placeholder="#KacaAluminiumKarawang #JasaAluminiumKarawang #KacaKarawang">
+              <div class="help">Hashtag disimpan sebagai metadata konten. Hashtag bukan jaminan artikel muncul di Google.</div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-light" onclick="showSection('articles')">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan Artikel</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
     <section id="code" class="app-section hidden">
       <div class="topbar">
         <div>
@@ -340,6 +433,134 @@
 </div>
 
 <script>
+
+  /* ARTIKEL SEO */
+  const ARTICLE_STORAGE_KEY = "sahabat_kaca_aluminium_articles_v1";
+
+  function getArticles(){
+    try{
+      const raw = localStorage.getItem(ARTICLE_STORAGE_KEY);
+      const data = raw ? JSON.parse(raw) : [];
+      return Array.isArray(data) ? data : [];
+    }catch(e){ return []; }
+  }
+
+  function saveArticles(articles){
+    localStorage.setItem(ARTICLE_STORAGE_KEY, JSON.stringify(articles));
+    renderArticles();
+  }
+
+  function slugify(value){
+    return String(value||"").toLowerCase().trim()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+      .replace(/[^a-z0-9\s-]/g,"").replace(/\s+/g,"-").replace(/-+/g,"-")
+      .replace(/^-|-$/g,"");
+  }
+
+  function renderArticles(){
+    const box=document.getElementById("articlesTable");
+    if(!box) return;
+    const articles=getArticles().sort((a,b)=>new Date(b.updatedAt||b.createdAt)-new Date(a.updatedAt||a.createdAt));
+    if(!articles.length){
+      box.innerHTML='<div class="empty">Belum ada artikel. Klik “+ Tulis Artikel” untuk membuat artikel pertama.</div>';
+      return;
+    }
+    box.innerHTML=`<div class="table-wrap"><table><thead><tr><th>Judul</th><th>Status</th><th>Kategori</th><th>Update</th><th>Aksi</th></tr></thead><tbody>${articles.map(a=>`
+      <tr>
+        <td class="article-title-cell"><b>${esc(a.title)}</b><div class="help">/artikel/${esc(a.slug)}</div></td>
+        <td><span class="article-status ${a.status==='published'?'published':'draft'}">${a.status==='published'?'Published':'Draft'}</span></td>
+        <td>${esc(a.category||'-')}</td>
+        <td>${esc(new Date(a.updatedAt||a.createdAt).toLocaleString('id-ID'))}</td>
+        <td><div class="actions">
+          <button class="btn btn-light" onclick="editArticle('${esc(a.id)}')">Edit</button>
+          <button class="btn btn-danger" onclick="deleteArticle('${esc(a.id)}')">Hapus</button>
+        </div></td>
+      </tr>
+    `).join('')}</tbody></table></div>`;
+  }
+
+  function openNewArticle(){
+    document.getElementById("articleEditorTitle").textContent="Tulis Artikel";
+    document.getElementById("articleForm").reset();
+    document.getElementById("articleId").value="";
+    document.getElementById("articleSlug").dataset.manual="";
+    document.getElementById("articleStatus").value="draft";
+    showSection("articleEditor");
+  }
+
+  function editArticle(id){
+    const a=getArticles().find(x=>x.id===id); if(!a) return;
+    document.getElementById("articleEditorTitle").textContent="Edit Artikel";
+    document.getElementById("articleId").value=a.id;
+    document.getElementById("articleTitle").value=a.title||"";
+    document.getElementById("articleSlug").value=a.slug||"";
+    document.getElementById("articleSlug").dataset.manual="1";
+    document.getElementById("articleCategory").value=a.category||"";
+    document.getElementById("articleStatus").value=a.status||"draft";
+    document.getElementById("articleImage").value=a.image||"";
+    document.getElementById("articleExcerpt").value=a.excerpt||"";
+    document.getElementById("articleContent").value=a.content||"";
+    document.getElementById("articleMetaTitle").value=a.metaTitle||"";
+    document.getElementById("articleKeywords").value=a.keywords||"";
+    document.getElementById("articleMetaDescription").value=a.metaDescription||"";
+    document.getElementById("articleHashtags").value=a.hashtags||"";
+    showSection("articleEditor");
+  }
+
+  function deleteArticle(id){
+    const a=getArticles().find(x=>x.id===id); if(!a) return;
+    if(!confirm('Hapus artikel "'+a.title+'"?')) return;
+    saveArticles(getArticles().filter(x=>x.id!==id));
+  }
+
+  document.getElementById("articleTitle").addEventListener("input",function(){
+    const slug=document.getElementById("articleSlug");
+    if(!document.getElementById("articleId").value || !slug.dataset.manual){
+      slug.value=slugify(this.value);
+    }
+  });
+
+  document.getElementById("articleSlug").addEventListener("input",function(){
+    this.dataset.manual="1";
+    this.value=slugify(this.value);
+  });
+
+  document.getElementById("articleForm").addEventListener("submit",function(e){
+    e.preventDefault();
+    const articles=getArticles();
+    const id=document.getElementById("articleId").value || ("article-"+Date.now());
+    const existing=articles.find(a=>a.id===id);
+    const title=document.getElementById("articleTitle").value.trim();
+    const slug=slugify(document.getElementById("articleSlug").value.trim() || title);
+    if(!title || !slug){ alert("Judul dan slug wajib diisi."); return; }
+    const duplicate=articles.find(a=>a.slug===slug && a.id!==id);
+    if(duplicate){ alert("Slug sudah dipakai artikel lain. Gunakan slug yang berbeda."); return; }
+
+    const status=document.getElementById("articleStatus").value;
+    const item={
+      id,title,slug,
+      category:document.getElementById("articleCategory").value.trim(),
+      status,
+      image:document.getElementById("articleImage").value.trim(),
+      excerpt:document.getElementById("articleExcerpt").value.trim(),
+      content:document.getElementById("articleContent").value.trim(),
+      metaTitle:document.getElementById("articleMetaTitle").value.trim()||title,
+      keywords:document.getElementById("articleKeywords").value.trim(),
+      metaDescription:document.getElementById("articleMetaDescription").value.trim()||document.getElementById("articleExcerpt").value.trim(),
+      hashtags:document.getElementById("articleHashtags").value.trim(),
+      createdAt:existing?.createdAt||new Date().toISOString(),
+      updatedAt:new Date().toISOString(),
+      publishedAt:status==='published'?(existing?.publishedAt||new Date().toISOString()):null
+    };
+
+    const i=articles.findIndex(a=>a.id===id);
+    if(i>=0) articles[i]=item; else articles.unshift(item);
+    saveArticles(articles);
+    alert("Artikel berhasil disimpan.");
+    showSection("articles");
+  });
+
+
   const STORAGE_KEY = "sahabat_kaca_aluminium_ads_v1";
 
   const initialAds = [
@@ -494,6 +715,7 @@
     document.getElementById(id).classList.remove("hidden");
     document.querySelectorAll(".side-nav button").forEach(b=>b.classList.toggle("active", b.dataset.section===id));
     if(id==="dashboard"||id==="ads"||id==="code") refreshAll();
+    if(id==="articles") renderArticles();
   }
 
   document.querySelectorAll(".side-nav button").forEach(btn=>{
@@ -642,6 +864,7 @@
 
 
   refreshAll();
+  renderArticles();
 </script>
 </body>
 </html>

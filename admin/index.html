@@ -106,10 +106,13 @@
       font:11px/1.55 Consolas,monospace;white-space:pre-wrap;word-break:break-word;
     }
 
+
+    /* ARTIKEL SEO */
     .article-status{display:inline-flex;padding:5px 8px;border-radius:999px;font-weight:800;font-size:10px}
     .article-status.published{background:#e8f7ee;color:var(--success)}
     .article-status.draft{background:#f2f3f4;color:#777}
     .article-title-cell{min-width:260px}
+
     @media(max-width:1000px){
       .admin-shell{grid-template-columns:1fr}
       .sidebar{position:relative;height:auto}
@@ -126,97 +129,7 @@
       .field.full{grid-column:auto}
     }
   
-  
-  /* ARTIKEL SEO */
-  const ARTICLE_STORAGE_KEY = "sahabat_kaca_aluminium_articles_v1";
-
-  function getArticles(){
-    try{
-      const raw = localStorage.getItem(ARTICLE_STORAGE_KEY);
-      const data = raw ? JSON.parse(raw) : [];
-      return Array.isArray(data) ? data : [];
-    }catch(e){ return []; }
-  }
-
-  function saveArticles(articles){
-    localStorage.setItem(ARTICLE_STORAGE_KEY, JSON.stringify(articles));
-    renderArticles();
-  }
-
-  function slugify(value){
-    return String(value||"").toLowerCase().trim()
-      .normalize("NFD").replace(/[\\u0300-\\u036f]/g,"")
-      .replace(/[^a-z0-9\\s-]/g,"").replace(/\\s+/g,"-").replace(/-+/g,"-")
-      .replace(/^-|-$/g,"");
-  }
-
-  function renderArticles(){
-    const box=document.getElementById("articlesTable");
-    if(!box) return;
-    const articles=getArticles().sort((a,b)=>new Date(b.updatedAt||b.createdAt)-new Date(a.updatedAt||a.createdAt));
-    if(!articles.length){ box.innerHTML='<div class="empty">Belum ada artikel. Klik “+ Tulis Artikel” untuk membuat artikel pertama.</div>'; return; }
-    box.innerHTML=`<div class="table-wrap"><table><thead><tr><th>Judul</th><th>Status</th><th>Kategori</th><th>Update</th><th>Aksi</th></tr></thead><tbody>${articles.map(a=>`
-      <tr><td class="article-title-cell"><b>${esc(a.title)}</b><div class="help">/artikel/${esc(a.slug)}</div></td>
-      <td><span class="article-status ${a.status==='published'?'published':'draft'}">${a.status==='published'?'Published':'Draft'}</span></td>
-      <td>${esc(a.category||'-')}</td><td>${esc(new Date(a.updatedAt||a.createdAt).toLocaleString('id-ID'))}</td>
-      <td><div class="actions"><button class="btn btn-light" onclick="editArticle('${esc(a.id)}')">Edit</button><button class="btn btn-danger" onclick="deleteArticle('${esc(a.id)}')">Hapus</button></div></td></tr>
-    `).join('')}</tbody></table></div>`;
-  }
-
-  function openNewArticle(){
-    document.getElementById("articleEditorTitle").textContent="Tulis Artikel";
-    document.getElementById("articleForm").reset();
-    document.getElementById("articleId").value="";
-    document.getElementById("articleStatus").value="draft";
-    showSection("articleEditor");
-  }
-
-  function editArticle(id){
-    const a=getArticles().find(x=>x.id===id); if(!a) return;
-    document.getElementById("articleEditorTitle").textContent="Edit Artikel";
-    document.getElementById("articleId").value=a.id;
-    document.getElementById("articleTitle").value=a.title||"";
-    document.getElementById("articleSlug").value=a.slug||"";
-    document.getElementById("articleCategory").value=a.category||"";
-    document.getElementById("articleStatus").value=a.status||"draft";
-    document.getElementById("articleImage").value=a.image||"";
-    document.getElementById("articleExcerpt").value=a.excerpt||"";
-    document.getElementById("articleContent").value=a.content||"";
-    document.getElementById("articleMetaTitle").value=a.metaTitle||"";
-    document.getElementById("articleKeywords").value=a.keywords||"";
-    document.getElementById("articleMetaDescription").value=a.metaDescription||"";
-    document.getElementById("articleHashtags").value=a.hashtags||"";
-    showSection("articleEditor");
-  }
-
-  function deleteArticle(id){
-    const a=getArticles().find(x=>x.id===id); if(!a) return;
-    if(!confirm('Hapus artikel "'+a.title+'"?')) return;
-    saveArticles(getArticles().filter(x=>x.id!==id));
-  }
-
-  document.getElementById("articleTitle").addEventListener("input",function(){
-    const slug=document.getElementById("articleSlug");
-    if(!document.getElementById("articleId").value || !slug.dataset.manual){ slug.value=slugify(this.value); }
-  });
-  document.getElementById("articleSlug").addEventListener("input",function(){ this.dataset.manual="1"; this.value=slugify(this.value); });
-
-  document.getElementById("articleForm").addEventListener("submit",function(e){
-    e.preventDefault();
-    const articles=getArticles();
-    const id=document.getElementById("articleId").value || ("article-"+Date.now());
-    const existing=articles.find(a=>a.id===id);
-    const title=document.getElementById("articleTitle").value.trim();
-    const slug=slugify(document.getElementById("articleSlug").value.trim() || title);
-    if(!title || !slug){ alert("Judul dan slug wajib diisi."); return; }
-    const duplicate=articles.find(a=>a.slug===slug && a.id!==id);
-    if(duplicate){ alert("Slug sudah dipakai artikel lain. Gunakan slug yang berbeda."); return; }
-    const item={id,title,slug,category:document.getElementById("articleCategory").value.trim(),status:document.getElementById("articleStatus").value,image:document.getElementById("articleImage").value.trim(),excerpt:document.getElementById("articleExcerpt").value.trim(),content:document.getElementById("articleContent").value.trim(),metaTitle:document.getElementById("articleMetaTitle").value.trim()||title,keywords:document.getElementById("articleKeywords").value.trim(),metaDescription:document.getElementById("articleMetaDescription").value.trim()||document.getElementById("articleExcerpt").value.trim(),hashtags:document.getElementById("articleHashtags").value.trim(),createdAt:existing?.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString(),publishedAt:document.getElementById("articleStatus").value==='published'?(existing?.publishedAt||new Date().toISOString()):null};
-    const i=articles.findIndex(a=>a.id===id); if(i>=0) articles[i]=item; else articles.unshift(item);
-    saveArticles(articles); alert("Artikel berhasil disimpan."); showSection("articles");
-  });
-
-  /* LOGIN ADMIN */
+    /* LOGIN ADMIN */
     .login-screen{
       position:fixed;inset:0;z-index:100000;background:linear-gradient(135deg,#073746,#0d5c73);
       display:grid;place-items:center;padding:20px;
@@ -291,8 +204,8 @@
     </div>
 
     <div class="sidebar-foot">
-      Admin Sahabat Kaca Aluminium<br>
-      Data iklan & draft artikel tersimpan di browser ini menggunakan localStorage.
+      Admin Iklan<br>
+      Data disimpan di browser ini menggunakan localStorage.
     </div>
   </aside>
 
@@ -415,6 +328,7 @@
       </div>
     </section>
 
+
     <section id="articles" class="app-section hidden">
       <div class="topbar">
         <div>
@@ -423,9 +337,8 @@
         </div>
         <button class="btn btn-primary" onclick="openNewArticle()">+ Tulis Artikel</button>
       </div>
-
       <div class="panel">
-        <div class="notice">Artikel <b>Published</b> adalah artikel yang siap ditampilkan di website publik. Penyimpanan artikel di browser hanya bersifat sementara sampai API/backend artikel dipasang.</div>
+        <div class="notice">Kelola artikel dari sini. Artikel <b>Published</b> siap digunakan oleh sistem website publik setelah endpoint/backend artikel terhubung.</div>
         <div id="articlesTable"></div>
       </div>
     </section>
@@ -437,7 +350,6 @@
           <p>Lengkapi konten dan metadata SEO sebelum menerbitkan artikel.</p>
         </div>
       </div>
-
       <div class="panel">
         <form id="articleForm">
           <input type="hidden" id="articleId">
@@ -521,6 +433,134 @@
 </div>
 
 <script>
+
+  /* ARTIKEL SEO */
+  const ARTICLE_STORAGE_KEY = "sahabat_kaca_aluminium_articles_v1";
+
+  function getArticles(){
+    try{
+      const raw = localStorage.getItem(ARTICLE_STORAGE_KEY);
+      const data = raw ? JSON.parse(raw) : [];
+      return Array.isArray(data) ? data : [];
+    }catch(e){ return []; }
+  }
+
+  function saveArticles(articles){
+    localStorage.setItem(ARTICLE_STORAGE_KEY, JSON.stringify(articles));
+    renderArticles();
+  }
+
+  function slugify(value){
+    return String(value||"").toLowerCase().trim()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+      .replace(/[^a-z0-9\s-]/g,"").replace(/\s+/g,"-").replace(/-+/g,"-")
+      .replace(/^-|-$/g,"");
+  }
+
+  function renderArticles(){
+    const box=document.getElementById("articlesTable");
+    if(!box) return;
+    const articles=getArticles().sort((a,b)=>new Date(b.updatedAt||b.createdAt)-new Date(a.updatedAt||a.createdAt));
+    if(!articles.length){
+      box.innerHTML='<div class="empty">Belum ada artikel. Klik “+ Tulis Artikel” untuk membuat artikel pertama.</div>';
+      return;
+    }
+    box.innerHTML=`<div class="table-wrap"><table><thead><tr><th>Judul</th><th>Status</th><th>Kategori</th><th>Update</th><th>Aksi</th></tr></thead><tbody>${articles.map(a=>`
+      <tr>
+        <td class="article-title-cell"><b>${esc(a.title)}</b><div class="help">/artikel/${esc(a.slug)}</div></td>
+        <td><span class="article-status ${a.status==='published'?'published':'draft'}">${a.status==='published'?'Published':'Draft'}</span></td>
+        <td>${esc(a.category||'-')}</td>
+        <td>${esc(new Date(a.updatedAt||a.createdAt).toLocaleString('id-ID'))}</td>
+        <td><div class="actions">
+          <button class="btn btn-light" onclick="editArticle('${esc(a.id)}')">Edit</button>
+          <button class="btn btn-danger" onclick="deleteArticle('${esc(a.id)}')">Hapus</button>
+        </div></td>
+      </tr>
+    `).join('')}</tbody></table></div>`;
+  }
+
+  function openNewArticle(){
+    document.getElementById("articleEditorTitle").textContent="Tulis Artikel";
+    document.getElementById("articleForm").reset();
+    document.getElementById("articleId").value="";
+    document.getElementById("articleSlug").dataset.manual="";
+    document.getElementById("articleStatus").value="draft";
+    showSection("articleEditor");
+  }
+
+  function editArticle(id){
+    const a=getArticles().find(x=>x.id===id); if(!a) return;
+    document.getElementById("articleEditorTitle").textContent="Edit Artikel";
+    document.getElementById("articleId").value=a.id;
+    document.getElementById("articleTitle").value=a.title||"";
+    document.getElementById("articleSlug").value=a.slug||"";
+    document.getElementById("articleSlug").dataset.manual="1";
+    document.getElementById("articleCategory").value=a.category||"";
+    document.getElementById("articleStatus").value=a.status||"draft";
+    document.getElementById("articleImage").value=a.image||"";
+    document.getElementById("articleExcerpt").value=a.excerpt||"";
+    document.getElementById("articleContent").value=a.content||"";
+    document.getElementById("articleMetaTitle").value=a.metaTitle||"";
+    document.getElementById("articleKeywords").value=a.keywords||"";
+    document.getElementById("articleMetaDescription").value=a.metaDescription||"";
+    document.getElementById("articleHashtags").value=a.hashtags||"";
+    showSection("articleEditor");
+  }
+
+  function deleteArticle(id){
+    const a=getArticles().find(x=>x.id===id); if(!a) return;
+    if(!confirm('Hapus artikel "'+a.title+'"?')) return;
+    saveArticles(getArticles().filter(x=>x.id!==id));
+  }
+
+  document.getElementById("articleTitle").addEventListener("input",function(){
+    const slug=document.getElementById("articleSlug");
+    if(!document.getElementById("articleId").value || !slug.dataset.manual){
+      slug.value=slugify(this.value);
+    }
+  });
+
+  document.getElementById("articleSlug").addEventListener("input",function(){
+    this.dataset.manual="1";
+    this.value=slugify(this.value);
+  });
+
+  document.getElementById("articleForm").addEventListener("submit",function(e){
+    e.preventDefault();
+    const articles=getArticles();
+    const id=document.getElementById("articleId").value || ("article-"+Date.now());
+    const existing=articles.find(a=>a.id===id);
+    const title=document.getElementById("articleTitle").value.trim();
+    const slug=slugify(document.getElementById("articleSlug").value.trim() || title);
+    if(!title || !slug){ alert("Judul dan slug wajib diisi."); return; }
+    const duplicate=articles.find(a=>a.slug===slug && a.id!==id);
+    if(duplicate){ alert("Slug sudah dipakai artikel lain. Gunakan slug yang berbeda."); return; }
+
+    const status=document.getElementById("articleStatus").value;
+    const item={
+      id,title,slug,
+      category:document.getElementById("articleCategory").value.trim(),
+      status,
+      image:document.getElementById("articleImage").value.trim(),
+      excerpt:document.getElementById("articleExcerpt").value.trim(),
+      content:document.getElementById("articleContent").value.trim(),
+      metaTitle:document.getElementById("articleMetaTitle").value.trim()||title,
+      keywords:document.getElementById("articleKeywords").value.trim(),
+      metaDescription:document.getElementById("articleMetaDescription").value.trim()||document.getElementById("articleExcerpt").value.trim(),
+      hashtags:document.getElementById("articleHashtags").value.trim(),
+      createdAt:existing?.createdAt||new Date().toISOString(),
+      updatedAt:new Date().toISOString(),
+      publishedAt:status==='published'?(existing?.publishedAt||new Date().toISOString()):null
+    };
+
+    const i=articles.findIndex(a=>a.id===id);
+    if(i>=0) articles[i]=item; else articles.unshift(item);
+    saveArticles(articles);
+    alert("Artikel berhasil disimpan.");
+    showSection("articles");
+  });
+
+
   const STORAGE_KEY = "sahabat_kaca_aluminium_ads_v1";
 
   const initialAds = [

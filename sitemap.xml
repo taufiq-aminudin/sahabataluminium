@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://www.sahabat-aluminium.my.id/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
+  <url><loc>https://www.sahabat-aluminium.my.id/</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.sahabat-aluminium.my.id/tentang.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.sahabat-aluminium.my.id/layanan.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.sahabat-aluminium.my.id/galeri.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.sahabat-aluminium.my.id/artikel.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.sahabat-aluminium.my.id/kontak.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.sahabat-aluminium.my.id/artikel/jasa-kaca-aluminium-karawang.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.sahabat-aluminium.my.id/artikel/pintu-aluminium.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.sahabat-aluminium.my.id/artikel/jendela-aluminium.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.sahabat-aluminium.my.id/artikel/partisi-kaca-aluminium.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.sahabat-aluminium.my.id/artikel/pintu-kaca.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.sahabat-aluminium.my.id/artikel/kaca-kamar-mandi.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.sahabat-aluminium.my.id/artikel/kanopi-kaca-aluminium.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.sahabat-aluminium.my.id/artikel/etalase-kaca.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.sahabat-aluminium.my.id/artikel/tips-merawat-aluminium.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.sahabat-aluminium.my.id/artikel/memilih-kaca.html</loc><changefreq>weekly</changefreq></url>
 </urlset>

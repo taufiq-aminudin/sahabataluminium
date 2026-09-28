@@ -4783,6 +4783,193 @@ body.faq-drawer-open {
   margin-top: 4px;
 }
 
+/* Dedicated Visual Progress Bar Component */
+.order-progress-card {
+  padding: 28px 36px 24px;
+  background: #fbfdfe;
+  border-bottom: 1px solid var(--line);
+}
+
+.order-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.order-progress-title-wrap h4 {
+  font-family: "Manrope", sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--deep);
+  margin: 0 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.order-progress-stage-desc {
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.order-progress-stage-desc strong {
+  color: var(--ink);
+}
+
+.order-progress-badge {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  background: #edf5f7;
+  border: 1px solid #d4e3e8;
+  padding: 6px 14px;
+  border-radius: 8px;
+}
+
+.progress-big-number {
+  font-family: "Manrope", sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--deep);
+  line-height: 1;
+}
+
+.progress-big-unit {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* Progress Shell and Fill */
+.progress-bar-shell {
+  position: relative;
+  width: 100%;
+  height: 22px;
+  background: #e5ecef;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.07);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 12px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1), background 0.5s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 12px;
+  color: #ffffff;
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Stage color themes */
+.progress-bar-fill.stage-survey {
+  background: linear-gradient(90deg, #0d5c73 0%, #177a96 100%);
+}
+.progress-bar-fill.stage-fabrication {
+  background: linear-gradient(90deg, #0d5c73 0%, #c8943d 100%);
+}
+.progress-bar-fill.stage-installation {
+  background: linear-gradient(90deg, #073746 0%, #0d5c73 45%, #c8943d 100%);
+}
+.progress-bar-fill.stage-completed {
+  background: linear-gradient(90deg, #0d7a46 0%, #16b95b 100%);
+}
+
+/* Subtle Shimmer effect */
+.progress-bar-fill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  animation: progressShimmer 2.4s infinite;
+}
+
+@keyframes progressShimmer {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* Milestone Indicators Below Bar */
+.progress-milestones-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.progress-milestone-item {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  color: var(--muted);
+  position: relative;
+  padding-top: 12px;
+  border-top: 2px solid #e2eaed;
+  transition: all 0.3s ease;
+}
+
+.progress-milestone-item::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #ccd8dd;
+}
+
+.progress-milestone-item.passed {
+  border-top-color: #16b95b;
+  color: var(--ink);
+}
+.progress-milestone-item.passed::before {
+  background: #16b95b;
+  border-color: #16b95b;
+}
+
+.progress-milestone-item.current {
+  border-top-color: var(--deep);
+  color: var(--deep);
+  font-weight: 800;
+}
+.progress-milestone-item.current::before {
+  background: var(--gold);
+  border-color: var(--deep);
+  box-shadow: 0 0 0 3px rgba(200, 148, 61, 0.25);
+}
+
+.milestone-pct {
+  font-weight: 800;
+  font-family: "Manrope", sans-serif;
+  color: var(--deep);
+}
+.progress-milestone-item.passed .milestone-pct {
+  color: #16b95b;
+}
+
+.milestone-label {
+  font-size: 11px;
+  line-height: 1.3;
+}
+
 /* Stepper Pipeline Container */
 .order-stepper-wrap {
   padding: 38px 36px 30px;
@@ -5156,6 +5343,9 @@ body.faq-drawer-open {
     gap: 16px;
     padding: 24px;
   }
+  .order-progress-card {
+    padding: 24px 20px;
+  }
   .order-stage-status-box {
     text-align: left;
   }
@@ -5177,6 +5367,13 @@ body.faq-drawer-open {
 @media (max-width: 600px) {
   .status-dashboard-section {
     padding: 50px 0;
+  }
+  .order-progress-card {
+    padding: 20px 16px;
+  }
+  .progress-milestones-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
   .order-search-form {
     flex-direction: column;

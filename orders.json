@@ -16,7 +16,7 @@
     "stages": {
       "Survey": {
         "status": "in_progress",
-        "date": "26 September 2026",
+        "date": "28 September 2026",
         "notes": "Survey lokasi dan laser measurement bukaan kusen ruko (lebar 3.6m x tinggi 2.8m). Verifikasi level lantai dan kekuatan balok beton pengikat rel atas."
       },
       "Fabrication": {
@@ -36,6 +36,12 @@
       }
     },
     "activityLog": [
+      {
+        "timestamp": "2026-09-28 09:55",
+        "stage": "Survey",
+        "title": "Tahap Survey & Pengukuran Dimensi Selesai/Diperbarui",
+        "desc": "Status proyek berhasil diperbarui ke tahap Survey oleh tim operasional Sahabat Kaca Aluminium."
+      },
       {
         "timestamp": "2026-09-26 14:15",
         "stage": "Survey",

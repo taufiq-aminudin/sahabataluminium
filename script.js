@@ -2047,6 +2047,56 @@ function renderProjectOrder(order) {
         </div>
       </div>
 
+      <!-- Dedicated Visual Progress Bar Component -->
+      <div class="order-progress-card">
+        <div class="order-progress-header">
+          <div class="order-progress-title-wrap">
+            <h4>
+              <span>📊</span>
+              <span>Progres Pengerjaan Proyek (${percent}%)</span>
+            </h4>
+            <div class="order-progress-stage-desc">
+              <span>Tahap Saat Ini:</span>
+              <strong>${stageCfg.icon} ${stageCfg.title}</strong>
+              <span>·</span>
+              <span>${stageCfg.kicker}</span>
+            </div>
+          </div>
+
+          <div class="order-progress-badge">
+            <span class="progress-big-number">${percent}%</span>
+            <span class="progress-big-unit">Selesai</span>
+          </div>
+        </div>
+
+        <!-- The Progress Bar Shell & Fill -->
+        <div class="progress-bar-shell" role="progressbar" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100" aria-label="Progres pengerjaan proyek ${percent}%">
+          <div class="progress-bar-fill stage-${currentStage.toLowerCase()}" style="width: ${percent}%;">
+            ${percent >= 25 ? `${percent}%` : ''}
+          </div>
+        </div>
+
+        <!-- 4 Key Milestone Markers on the Progress Bar -->
+        <div class="progress-milestones-row">
+          <div class="progress-milestone-item ${percent >= 25 ? (percent === 25 ? 'current' : 'passed') : ''}">
+            <span class="milestone-pct">25%</span>
+            <span class="milestone-label">📐 1. Survey</span>
+          </div>
+          <div class="progress-milestone-item ${percent >= 50 ? (percent === 50 ? 'current' : 'passed') : ''}">
+            <span class="milestone-pct">50%</span>
+            <span class="milestone-label">⚙️ 2. Fabrikasi</span>
+          </div>
+          <div class="progress-milestone-item ${percent >= 75 ? (percent === 75 ? 'current' : 'passed') : ''}">
+            <span class="milestone-pct">75%</span>
+            <span class="milestone-label">🏗️ 3. Instalasi</span>
+          </div>
+          <div class="progress-milestone-item ${percent >= 100 ? 'passed current' : ''}">
+            <span class="milestone-pct">100%</span>
+            <span class="milestone-label">🛡️ 4. Selesai</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Stepper Progress Pipeline -->
       <div class="order-stepper-wrap">
         <div class="stepper-progress-track-bg">

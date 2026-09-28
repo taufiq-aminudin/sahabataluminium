@@ -169,4 +169,8 @@
   #faq .faq-answer i {
     color: #333333 !important;
   }
+
+  .recent-articles-pagination {
+    display: none !important;
+  }
 }

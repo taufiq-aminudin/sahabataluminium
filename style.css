@@ -551,17 +551,22 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   fill: currentColor;
 }
 .faq-answer{
-  max-height: 0;
+  height: 0;
   overflow: hidden;
-  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s ease;
-  padding: 0 24px;
+  opacity: 0;
+  padding: 0 24px 0 24px;
   color: #4a606d;
   font-size: 14.5px;
   line-height: 1.7;
+  box-sizing: border-box;
+  transition: height 0.36s cubic-bezier(0.22, 1, 0.36, 1), 
+              padding-bottom 0.36s cubic-bezier(0.22, 1, 0.36, 1), 
+              opacity 0.26s ease;
+  will-change: height, opacity;
 }
 .faq-item.active .faq-answer{
-  max-height: 500px;
-  padding: 0 24px 22px;
+  opacity: 1;
+  padding-bottom: 22px;
 }
 .faq-answer p{
   margin: 0 0 10px;

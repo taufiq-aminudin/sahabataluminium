@@ -1176,6 +1176,29 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   fill: currentColor;
 }
 
+/* Helpfulness Summary Chip in Header */
+.faq-helpfulness-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 5px 8px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: default;
+  transition: all 0.2s ease;
+}
+.faq-helpfulness-chip svg {
+  color: #16a34a;
+}
+
 /* Small Copy Link Button */
 .faq-copy-btn {
   display: inline-flex;
@@ -1558,6 +1581,170 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 .faq-answer li{
   margin-bottom: 6px;
 }
+
+/* =========================================================
+   FAQ HELPFULNESS FEEDBACK (WAS THIS HELPFUL? UPVOTE/DOWNVOTE)
+   ========================================================= */
+.faq-feedback {
+  margin-top: 20px;
+  padding: 14px 18px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.faq-feedback-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.faq-feedback-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--deep);
+}
+
+.faq-feedback-icon {
+  color: var(--blue);
+  flex-shrink: 0;
+}
+
+.faq-helpfulness-badge {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.faq-helpfulness-rate {
+  font-weight: 800;
+  color: #15803d;
+}
+
+.faq-feedback-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.faq-vote-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.faq-vote-btn:hover {
+  border-color: #94a3b8;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.07);
+}
+
+.faq-vote-btn:active {
+  transform: translateY(0);
+}
+
+.faq-vote-icon {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.faq-vote-btn:hover .faq-vote-icon {
+  transform: scale(1.15);
+}
+
+.faq-vote-count {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #475569;
+  transition: all 0.2s ease;
+}
+
+/* Active / Voted State - Upvote */
+.faq-vote-btn.faq-vote-up.voted-active {
+  background: #f0fdf4;
+  border-color: #22c55e;
+  color: #15803d;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.2);
+}
+
+.faq-vote-btn.faq-vote-up.voted-active .faq-vote-icon {
+  transform: scale(1.18);
+  animation: votePulse 0.4s ease;
+}
+
+.faq-vote-btn.faq-vote-up.voted-active .faq-vote-count {
+  background: #bbf7d0;
+  color: #14532d;
+}
+
+/* Active / Voted State - Downvote */
+.faq-vote-btn.faq-vote-down.voted-active {
+  background: #fef2f2;
+  border-color: #ef4444;
+  color: #b91c1c;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+}
+
+.faq-vote-btn.faq-vote-down.voted-active .faq-vote-icon {
+  transform: scale(1.18);
+  animation: votePulse 0.4s ease;
+}
+
+.faq-vote-btn.faq-vote-down.voted-active .faq-vote-count {
+  background: #fecaca;
+  color: #7f1d1d;
+}
+
+@keyframes votePulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.35) rotate(-10deg); }
+  100% { transform: scale(1.18); }
+}
+
+.faq-feedback-status {
+  font-size: 12px;
+  font-weight: 700;
+  color: #15803d;
+  margin-left: 4px;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: all 0.25s ease;
+  pointer-events: none;
+}
+
+.faq-feedback-status.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 .faq-cta{
   margin-top: 40px;
   background: #ffffff;

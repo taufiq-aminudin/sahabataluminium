@@ -274,6 +274,11 @@ function openFaqDrawer(item) {
   faqItems.forEach(other => other.classList.remove('active'));
   item.classList.add('active');
 
+  // Update live feedback buttons and counts in drawer body
+  if (typeof updateFaqFeedbackDisplay === 'function') {
+    updateFaqFeedbackDisplay(faqId);
+  }
+
   // Open Drawer UI
   faqMobileDrawer.classList.add('open');
   faqMobileDrawer.setAttribute('aria-hidden', 'false');
@@ -873,7 +878,182 @@ function initFaqCopyCounters() {
 initFaqCopyCounters();
 
 /* =========================================================
-   FAQ SORTING: 'Most Popular' OR 'Newest'
+   FAQ HELPFULNESS FEEDBACK ('Was this helpful?' UPVOTE/DOWNVOTE)
+   Provides live community feedback on which FAQs are most effective.
+   ========================================================= */
+const FAQ_FEEDBACK_COUNTS_KEY = 'sahabat_faq_feedback_counts_v1';
+const FAQ_USER_VOTES_KEY = 'sahabat_faq_user_votes_v1';
+
+const DEFAULT_FAQ_FEEDBACK = {
+  'faq-harga': { up: 62, down: 2 },
+  'faq-survey': { up: 54, down: 1 },
+  'faq-material': { up: 44, down: 1 },
+  'faq-garansi': { up: 38, down: 1 },
+  'faq-waktu': { up: 31, down: 2 }
+};
+
+function getFaqFeedbackCounts() {
+  try {
+    const raw = localStorage.getItem(FAQ_FEEDBACK_COUNTS_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      return Object.assign({}, DEFAULT_FAQ_FEEDBACK, parsed);
+    }
+  } catch (e) {}
+  return Object.assign({}, DEFAULT_FAQ_FEEDBACK);
+}
+
+function saveFaqFeedbackCounts(counts) {
+  try {
+    localStorage.setItem(FAQ_FEEDBACK_COUNTS_KEY, JSON.stringify(counts));
+  } catch (e) {}
+}
+
+function getUserFaqVotes() {
+  try {
+    const raw = localStorage.getItem(FAQ_USER_VOTES_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return {};
+}
+
+function saveUserFaqVotes(votes) {
+  try {
+    localStorage.setItem(FAQ_USER_VOTES_KEY, JSON.stringify(votes));
+  } catch (e) {}
+}
+
+function getFaqHelpfulStats(faqId) {
+  const counts = getFaqFeedbackCounts();
+  const item = counts[faqId] || { up: 10, down: 0 };
+  const up = Math.max(0, item.up || 0);
+  const down = Math.max(0, item.down || 0);
+  const total = up + down;
+  const rate = total > 0 ? Math.round((up / total) * 100) : 100;
+  return { up, down, total, rate };
+}
+
+function updateFaqFeedbackDisplay(faqId) {
+  const stats = getFaqHelpfulStats(faqId);
+  const userVotes = getUserFaqVotes();
+  const userVote = userVotes[faqId] || null;
+
+  // 1. Update all header helpfulness chips for this faqId
+  document.querySelectorAll(`.faq-helpfulness-chip[data-faq-id="${faqId}"]`).forEach(chip => {
+    const countEl = chip.querySelector('.faq-chip-count');
+    if (countEl) countEl.textContent = stats.up;
+    chip.setAttribute('title', `${stats.up} pengguna merasa jawaban ini membantu (${stats.rate}%)`);
+    chip.setAttribute('aria-label', `Tingkat efektivitas: ${stats.rate}% terbantu`);
+  });
+
+  // 2. Update all feedback containers for this faqId (both inline and in mobile drawer)
+  const containers = document.querySelectorAll(`.faq-feedback[data-faq-id="${faqId}"]`);
+  containers.forEach(container => {
+    const rateEl = container.querySelector('.faq-helpfulness-rate');
+    if (rateEl) rateEl.textContent = `${stats.rate}%`;
+
+    const totalEl = container.querySelector('.faq-total-votes');
+    if (totalEl) totalEl.textContent = stats.total;
+
+    const upBtn = container.querySelector('.faq-vote-up');
+    if (upBtn) {
+      const upCount = upBtn.querySelector('.faq-upvote-count');
+      if (upCount) upCount.textContent = stats.up;
+      upBtn.classList.toggle('voted-active', userVote === 'up');
+      upBtn.setAttribute('aria-pressed', userVote === 'up' ? 'true' : 'false');
+    }
+
+    const downBtn = container.querySelector('.faq-vote-down');
+    if (downBtn) {
+      const downCount = downBtn.querySelector('.faq-downvote-count');
+      if (downCount) downCount.textContent = stats.down;
+      downBtn.classList.toggle('voted-active', userVote === 'down');
+      downBtn.setAttribute('aria-pressed', userVote === 'down' ? 'true' : 'false');
+    }
+  });
+}
+
+function initAllFaqFeedback() {
+  const counts = getFaqFeedbackCounts();
+  Object.keys(counts).forEach(faqId => {
+    updateFaqFeedbackDisplay(faqId);
+  });
+}
+
+function handleFaqVoteClick(targetBtn) {
+  const faqId = targetBtn.getAttribute('data-faq-id');
+  const voteType = targetBtn.getAttribute('data-vote');
+  if (!faqId || !voteType) return;
+
+  const counts = getFaqFeedbackCounts();
+  const userVotes = getUserFaqVotes();
+  const currentVote = userVotes[faqId] || null;
+
+  if (!counts[faqId]) {
+    counts[faqId] = { up: 10, down: 0 };
+  }
+
+  let statusMsg = '';
+
+  if (currentVote === voteType) {
+    // Undo vote (toggle off)
+    if (voteType === 'up') counts[faqId].up = Math.max(0, counts[faqId].up - 1);
+    else counts[faqId].down = Math.max(0, counts[faqId].down - 1);
+    delete userVotes[faqId];
+    statusMsg = 'Pilihan dibatalkan';
+  } else if (currentVote) {
+    // Switch vote
+    if (voteType === 'up') {
+      counts[faqId].up = (counts[faqId].up || 0) + 1;
+      counts[faqId].down = Math.max(0, (counts[faqId].down || 0) - 1);
+    } else {
+      counts[faqId].down = (counts[faqId].down || 0) + 1;
+      counts[faqId].up = Math.max(0, (counts[faqId].up || 0) - 1);
+    }
+    userVotes[faqId] = voteType;
+    statusMsg = voteType === 'up' ? 'Terima kasih atas masukannya! 👍' : 'Terima kasih, masukan dicatat 🙏';
+  } else {
+    // New vote
+    if (voteType === 'up') {
+      counts[faqId].up = (counts[faqId].up || 0) + 1;
+      statusMsg = 'Terima kasih atas masukannya! 👍';
+    } else {
+      counts[faqId].down = (counts[faqId].down || 0) + 1;
+      statusMsg = 'Terima kasih, masukan dicatat 🙏';
+    }
+    userVotes[faqId] = voteType;
+  }
+
+  saveFaqFeedbackCounts(counts);
+  saveUserFaqVotes(userVotes);
+  updateFaqFeedbackDisplay(faqId);
+
+  // Show status feedback message
+  document.querySelectorAll(`.faq-feedback[data-faq-id="${faqId}"] .faq-feedback-status`).forEach(statusEl => {
+    statusEl.textContent = statusMsg;
+    statusEl.classList.add('show');
+    clearTimeout(statusEl._timer);
+    statusEl._timer = setTimeout(() => {
+      statusEl.classList.remove('show');
+    }, 2800);
+  });
+}
+
+// Global click delegation for vote buttons (handles inline accordion and mobile drawer)
+document.addEventListener('click', (e) => {
+  const voteBtn = e.target.closest('.faq-vote-btn');
+  if (voteBtn) {
+    e.preventDefault();
+    e.stopPropagation(); // Avoid triggering accordion or drawer gestures
+    handleFaqVoteClick(voteBtn);
+  }
+});
+
+// Initialize on page ready
+initAllFaqFeedback();
+
+/* =========================================================
+   FAQ SORTING: 'Most Popular', 'Most Helpful', OR 'Newest'
    Enhances navigation efficiency by organizing questions
    ========================================================= */
 const faqSortSelect = document.getElementById('faqSortSelect');
@@ -890,9 +1070,16 @@ function sortFaqItems(sortType) {
       const bBasePop = parseInt(b.getAttribute('data-popularity'), 10) || 0;
       const aCopies = (typeof copyCounts[a.id] === 'number') ? copyCounts[a.id] : 0;
       const bCopies = (typeof copyCounts[b.id] === 'number') ? copyCounts[b.id] : 0;
-      const aScore = aBasePop + (aCopies * 15);
-      const bScore = bBasePop + (bCopies * 15);
+      const aHelp = getFaqHelpfulStats(a.id);
+      const bHelp = getFaqHelpfulStats(b.id);
+      const aScore = aBasePop + (aCopies * 15) + (aHelp.up * 8);
+      const bScore = bBasePop + (bCopies * 15) + (bHelp.up * 8);
       return bScore - aScore; // Descending (highest score first)
+    } else if (sortType === 'helpful') {
+      const aHelp = getFaqHelpfulStats(a.id);
+      const bHelp = getFaqHelpfulStats(b.id);
+      if (bHelp.up !== aHelp.up) return bHelp.up - aHelp.up;
+      return bHelp.rate - aHelp.rate;
     } else if (sortType === 'newest') {
       const aDateStr = a.getAttribute('data-date') || '2026-09-01';
       const bDateStr = b.getAttribute('data-date') || '2026-09-01';
@@ -930,7 +1117,7 @@ if (faqSortSelect) {
   // Load user saved preference if exists
   try {
     const savedSort = localStorage.getItem('sahabat_faq_sort_pref');
-    if (savedSort && (savedSort === 'popular' || savedSort === 'newest')) {
+    if (savedSort && (savedSort === 'popular' || savedSort === 'helpful' || savedSort === 'newest')) {
       faqSortSelect.value = savedSort;
     }
   } catch (err) {}

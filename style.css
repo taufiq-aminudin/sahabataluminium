@@ -1034,6 +1034,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 
 /* Copy Button & Counter Wrap */
 .faq-copy-wrap {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -1062,6 +1063,76 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
+}
+
+/* Custom Tooltip Confirming Deep-Link Copied */
+.faq-copy-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 0;
+  background: #072e3b;
+  color: #ffffff;
+  padding: 10px 14px;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(7, 46, 59, 0.28), 0 2px 8px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  min-width: 210px;
+  max-width: 260px;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px) scale(0.94);
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.25s ease;
+  z-index: 80;
+}
+.faq-copy-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 28px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: #072e3b transparent transparent transparent;
+}
+.faq-copy-tooltip.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+.faq-tooltip-header {
+  margin-bottom: 4px;
+}
+.faq-tooltip-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #2ed573;
+  letter-spacing: 0.01em;
+}
+.faq-tooltip-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.faq-tooltip-url {
+  display: inline-block;
+  font-family: 'JetBrains Mono', Consolas, Monaco, monospace;
+  font-size: 10.5px;
+  color: #a3e8ff;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+  width: fit-content;
+}
+.faq-tooltip-desc {
+  font-size: 11px;
+  color: #b0c9d4;
+  line-height: 1.35;
 }
 
 /* Copy Counter Badge */
@@ -1201,6 +1272,15 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     height: 20px;
     padding: 0 4px;
     font-size: 10px;
+  }
+  .faq-copy-tooltip {
+    min-width: 190px;
+    max-width: 220px;
+    right: -10px;
+    padding: 8px 12px;
+  }
+  .faq-copy-tooltip::after {
+    right: 20px;
   }
 }
 

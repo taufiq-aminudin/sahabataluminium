@@ -770,7 +770,7 @@ faqCopyButtons.forEach((btn) => {
       setTimeout(() => targetItem.classList.remove('faq-target-highlight'), 1600);
     }
 
-    // Visual feedback on button
+    // 1. Micro-feedback on button itself (icon checkmark animation & label)
     btn.classList.add('copied');
     const label = btn.querySelector('.faq-copy-text');
     const originalText = label ? label.textContent : 'Salin Link';
@@ -779,7 +779,33 @@ faqCopyButtons.forEach((btn) => {
     setTimeout(() => {
       btn.classList.remove('copied');
       if (label) label.textContent = originalText;
-    }, 2000);
+    }, 2200);
+
+    // 2. Custom Tooltip / Popover confirming deep-link copied to clipboard
+    const copyWrap = btn.closest('.faq-copy-wrap');
+    if (copyWrap) {
+      // Dismiss any other open tooltips
+      document.querySelectorAll('.faq-copy-tooltip.show').forEach((t) => {
+        t.classList.remove('show');
+        t.setAttribute('aria-hidden', 'true');
+      });
+
+      const tooltip = copyWrap.querySelector('.faq-copy-tooltip');
+      if (tooltip) {
+        tooltip.classList.add('show');
+        tooltip.setAttribute('aria-hidden', 'false');
+
+        if (btn._tooltipTimer) {
+          clearTimeout(btn._tooltipTimer);
+        }
+
+        btn._tooltipTimer = setTimeout(() => {
+          tooltip.classList.remove('show');
+          tooltip.setAttribute('aria-hidden', 'true');
+          btn._tooltipTimer = null;
+        }, 2600);
+      }
+    }
   });
 });
 

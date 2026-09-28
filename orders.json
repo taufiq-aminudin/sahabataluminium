@@ -22,7 +22,7 @@
       "Fabrication": {
         "status": "pending",
         "date": "28 September 2026",
-        "notes": "Uji simulasi history log"
+        "notes": "Rel gantung heavy duty dan profil kusen telah dirakit dan siap pasang."
       },
       "Installation": {
         "status": "pending",
@@ -37,16 +37,28 @@
     },
     "activityLog": [
       {
+        "timestamp": "2026-09-28 11:34",
+        "stage": "Fabrication",
+        "title": "Uji Fabrikasi Profil Kusen Sliding Ruko",
+        "desc": "Rel gantung heavy duty dan profil kusen telah dirakit dan siap pasang.",
+        "photo": "/assets/uploads/orders/order-SKA-2026-001-1790595254742.png",
+        "photoCaption": "Rel gantung heavy duty dan profil kusen telah dirakit dan siap pasang.",
+        "uploader": "Tim Fabrikasi Workshop"
+      },
+      {
         "timestamp": "2026-09-28 10:13",
         "stage": "Survey",
-        "title": "Tahap Survey & Pengukuran Dimensi Selesai/Diperbarui",
-        "desc": "Survey lokasi dan laser measurement bukaan kusen ruko (lebar 3.6m x tinggi 2.8m)."
+        "title": "Tahap Survey & Pengukuran Dimensi Selesai",
+        "desc": "Survey lokasi dan laser measurement bukaan kusen ruko (lebar 3.6m x tinggi 2.8m).",
+        "photo": "/assets/gallery/pintu-sliding.jpg",
+        "photoCaption": "Laser measurement bukaan opening 3.6m x 2.8m untuk jalur pintu sliding gantung.",
+        "uploader": "Bpk. Hendra Gunawan"
       },
       {
         "timestamp": "2026-09-28 10:12",
         "stage": "Fabrication",
         "title": "Tahap Fabrikasi Rangka Aluminium di Workshop Berjalan",
-        "desc": "Uji simulasi history log"
+        "desc": "Pemotongan profil kusen sliding dan penyiapan rel gantung Dekkson heavy duty."
       },
       {
         "timestamp": "2026-09-28 09:55",
@@ -142,8 +154,11 @@
       {
         "timestamp": "2026-09-23 13:00",
         "stage": "Survey",
-        "title": "Approval Desain Shop Drawing oleh Facility Manager",
-        "desc": "Gambar kerja tata letak partisi ruangan cleanroom disetujui tanpa revisi dimensi."
+        "title": "Approval Desain Shop Drawing & Survey Cleanroom",
+        "desc": "Gambar kerja tata letak partisi ruangan cleanroom disetujui tanpa revisi dimensi.",
+        "photo": "/assets/gallery/partisi-aluminium.jpg",
+        "photoCaption": "Inspeksi opening partisi modular cleanroom 8 panel dan kesiapan struktur lantai.",
+        "uploader": "Bpk. Agus Hermawan (K3 Officer)"
       },
       {
         "timestamp": "2026-09-22 09:30",
@@ -194,7 +209,10 @@
         "timestamp": "2026-09-27 16:00",
         "stage": "Installation",
         "title": "Pemasangan 4 Unit Jendela Casement Utama Selesai",
-        "desc": "Rangka telah dipasang tegak lurus (waterpass terverifikasi). Aplikasi silikon sealent Dowsil tahan UV telah dirapikan."
+        "desc": "Rangka telah dipasang tegak lurus (waterpass terverifikasi). Aplikasi silikon sealent Dowsil tahan UV telah dirapikan.",
+        "photo": "/assets/gallery/jendela-kaca.jpg",
+        "photoCaption": "Pemasangan kusen casement lantai 2 dan perapian sealant tahan cuaca dan kedap suara.",
+        "uploader": "Bpk. Wawan Kurniawan (Master Installer)"
       },
       {
         "timestamp": "2026-09-26 10:30",
@@ -206,13 +224,19 @@
         "timestamp": "2026-09-22 17:00",
         "stage": "Fabrication",
         "title": "Fabrikasi Workshop & Tes Kelancaran Friction Stay Selesai",
-        "desc": "Semua aksesoris jendela telah diuji buka-tutup 50 kali untuk memastikan kehalusan fungsi."
+        "desc": "Semua aksesoris jendela telah diuji buka-tutup 50 kali untuk memastikan kehalusan fungsi.",
+        "photo": "/assets/gallery/shower-kaca.jpg",
+        "photoCaption": "Fabrikasi kaca shower screen tempered 10mm SNI presisi sudut 90 derajat dengan bevel halus.",
+        "uploader": "Bpk. Bambang Setiadi"
       },
       {
         "timestamp": "2026-09-18 11:45",
         "stage": "Survey",
         "title": "Survey Lokasi & Uji Kedap Suara Lingkungan",
-        "desc": "Rekomendasi kaca double laminated akustik dipilih untuk sisi hadap jalan utama perumahan."
+        "desc": "Rekomendasi kaca double laminated akustik dipilih untuk sisi hadap jalan utama perumahan.",
+        "photo": "/assets/gallery/jendela-aluminium.jpg",
+        "photoCaption": "Survey opening kusen jendela casement kamar tidur dan verifikasi dimensi bukaan.",
+        "uploader": "Bpk. Hendra Gunawan"
       }
     ]
   },
@@ -257,13 +281,19 @@
         "timestamp": "2026-09-24 11:30",
         "stage": "Completed",
         "title": "Serah Terima Proyek & Kartu Garansi Resmi",
-        "desc": "Seluruh pekerjaan disetujui memuaskan oleh Direktur Operasional Klinik. Garansi struktur fasad ACP 10 tahun dan aksesoris 2 tahun diterbitkan."
+        "desc": "Seluruh pekerjaan disetujui memuaskan oleh Direktur Operasional Klinik. Garansi struktur fasad ACP 10 tahun dan aksesoris 2 tahun diterbitkan.",
+        "photo": "/assets/gallery/pintu-kamar-mandi.jpg",
+        "photoCaption": "Serah terima pintu dan fasad selesai 100%, lolos uji waterproofing dan garansi 2 tahun.",
+        "uploader": "Direktur Operasional Klinik"
       },
       {
         "timestamp": "2026-09-22 15:00",
         "stage": "Installation",
         "title": "Uji Sensitivitas Radar Sensor Pintu Otomatis",
-        "desc": "Kecepatan buka tutup pintu dan sensor anti-jepit (safety infrared) berfungsi sempurna."
+        "desc": "Kecepatan buka tutup pintu dan sensor anti-jepit (safety infrared) berfungsi sempurna.",
+        "photo": "/assets/gallery/pintu-kaca-putih.jpg",
+        "photoCaption": "Pemasangan mesin radar pintu Dorma dan daun pintu kaca tempered 12mm terpasang presisi.",
+        "uploader": "Bpk. Agus Hermawan"
       },
       {
         "timestamp": "2026-09-18 16:30",
@@ -275,7 +305,19 @@
         "timestamp": "2026-09-11 14:00",
         "stage": "Fabrication",
         "title": "Grooving 42 Lembar Panel ACP Seven Presisi",
-        "desc": "Semua tekukan ACP menggunakan mesin router khusus menjamin radius tekukan rapi tanpa retak cat."
+        "desc": "Semua tekukan ACP menggunakan mesin router khusus menjamin radius tekukan rapi tanpa retak cat.",
+        "photo": "/assets/gallery/pintu-aluminium.jpg",
+        "photoCaption": "Fabrikasi modul panel ACP Seven dan perakitan braket sudut di workshop.",
+        "uploader": "Bpk. M. Syukri (Spesialis ACP & Otomasi)"
+      },
+      {
+        "timestamp": "2026-09-06 14:00",
+        "stage": "Survey",
+        "title": "Survey Elevasi Fasad & Jalur Sensor Otomatis",
+        "desc": "Pengukuran tinggi fasad 8 meter dan koordinasi jalur kelistrikan pintu sensor.",
+        "photo": "/assets/gallery/pintu-kaca.jpg",
+        "photoCaption": "Survey elevasi fasad gedung klinik & penentuan titik jalur sensor otomatis radar.",
+        "uploader": "Bpk. M. Syukri"
       }
     ]
   },
@@ -320,19 +362,28 @@
         "timestamp": "2026-09-28 10:15",
         "stage": "Installation",
         "title": "Ereksi Rangka Kanopi Carport & Dynabolt Kolom",
-        "desc": "Rangka hollow galvanis telah terpasang kokoh pada struktur dinding rumah dengan chemical anchor Fischer."
+        "desc": "Rangka hollow galvanis telah terpasang kokoh pada struktur dinding rumah dengan chemical anchor Fischer.",
+        "photo": "/assets/gallery/partisi-aluminium.jpg",
+        "photoCaption": "Ereksi tiang struktur kanopi dan verifikasi kelurusan bentang di lokasi Summarecon.",
+        "uploader": "Bpk. Hendra Gunawan"
       },
       {
         "timestamp": "2026-09-25 16:45",
         "stage": "Fabrication",
         "title": "Pengecatan Rangka & Glass Lamination Selesai",
-        "desc": "Kaca tempered laminated 5+5mm lolos uji adhesi PVB dan siap kirim ke jobsite Summarecon."
+        "desc": "Kaca tempered laminated 5+5mm lolos uji adhesi PVB dan siap kirim ke jobsite Summarecon.",
+        "photo": "/assets/gallery/pintu-sliding.jpg",
+        "photoCaption": "Fabrikasi 4 daun folding door aluminium dan pelapisan epoxy primer hollow galvanis.",
+        "uploader": "Bpk. Dedi Supriyadi"
       },
       {
         "timestamp": "2026-09-21 14:00",
         "stage": "Survey",
         "title": "Survey Kemiringan & Verifikasi Beban Kanopi",
-        "desc": "Perhitungan beban bentang kanopi carport disimulasikan aman dari lendutan angin dan hujan deras."
+        "desc": "Perhitungan beban bentang kanopi carport disimulasikan aman dari lendutan angin dan hujan deras.",
+        "photo": "/assets/gallery/shower-kaca.jpg",
+        "photoCaption": "Survey elevasi kemiringan talang air dan titik anchoring kolom carport.",
+        "uploader": "Bpk. Hendra Gunawan"
       }
     ]
   }

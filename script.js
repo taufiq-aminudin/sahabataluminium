@@ -2022,6 +2022,97 @@ function renderProjectOrder(order) {
 
   // Activity Logs & Previous Status Timestamps
   const activityLogs = Array.isArray(order.activityLog) ? order.activityLog : [];
+  const photoLogs = activityLogs.filter(log => Boolean(log.photo));
+
+  // Map the latest photo proof for each of the 4 milestones
+  const stageProofKeys = ['Survey', 'Fabrication', 'Installation', 'Completed'];
+  const stageProofMap = {
+    Survey: null,
+    Fabrication: null,
+    Installation: null,
+    Completed: null
+  };
+
+  activityLogs.forEach((log, lIdx) => {
+    if (log.photo && stageProofMap[log.stage] === null) {
+      stageProofMap[log.stage] = { log, index: lIdx };
+    }
+  });
+
+  let stagesWithProofCount = 0;
+  stageProofKeys.forEach(k => {
+    if (stageProofMap[k]) stagesWithProofCount++;
+  });
+
+  const stageProofCardsHtml = stageProofKeys.map(stKey => {
+    const stInfo = stageLabels[stKey] || { name: stKey, pct: '', icon: '📌' };
+    const proof = stageProofMap[stKey];
+    const sData = (order.stages && order.stages[stKey]) || {};
+    const isCur = order.currentStage === stKey;
+
+    if (proof && proof.log && proof.log.photo) {
+      const safeTitle = (proof.log.title || '').replace(/"/g, '&quot;').replace(/'/g, "\\'");
+      const safeCaption = (proof.log.photoCaption || proof.log.desc || '').replace(/"/g, '&quot;').replace(/'/g, "\\'");
+      const safeUploader = (proof.log.uploader || '').replace(/"/g, '&quot;').replace(/'/g, "\\'");
+      const formattedTime = formatLogTimestamp(proof.log.timestamp);
+
+      return `
+        <div class="stage-proof-card has-proof" onclick="window.openOrderPhotoModal('${proof.log.photo}', '${safeTitle}', '${safeCaption}', '${formattedTime}', '${order.id}', ${proof.index}, '${safeUploader}')" title="Klik untuk memperbesar bukti foto tahap ${stInfo.name}">
+          <div class="stage-proof-header">
+            <span class="stage-proof-badge">${stInfo.icon} ${stInfo.name}</span>
+            <span class="stage-proof-pct">${stInfo.pct}</span>
+          </div>
+          <div class="stage-proof-thumb-wrap">
+            <img src="${proof.log.photo}" alt="${proof.log.title}" class="stage-proof-thumb" loading="lazy" onerror="this.src='assets/logo.png'">
+            <span class="stage-proof-check-pill">✓ Bukti Ada</span>
+            <span class="stage-proof-zoom-pill">🔍 Perbesar</span>
+          </div>
+          <div class="stage-proof-caption" title="${proof.log.photoCaption || proof.log.title}">
+            ${proof.log.photoCaption || proof.log.title}
+          </div>
+        </div>
+      `;
+    } else {
+      return `
+        <div class="stage-proof-card no-proof">
+          <div class="stage-proof-header">
+            <span class="stage-proof-badge">${stInfo.icon} ${stInfo.name}</span>
+            <span class="stage-proof-pct">${stInfo.pct}</span>
+          </div>
+          <div class="stage-proof-empty-box" onclick="window.openUploadWithStage('${order.id}', '${stKey}')" title="Klik untuk mengunggah foto untuk tahap ${stInfo.name}">
+            <span class="stage-proof-empty-icon">📷</span>
+            <span class="stage-proof-empty-text">Belum ada foto</span>
+            <button type="button" class="btn-stage-proof-upload">
+              <span>+</span> Unggah Foto
+            </button>
+          </div>
+          <div class="stage-proof-caption empty">
+            ${sData.notes || 'Menunggu dokumentasi teknisi'}
+          </div>
+        </div>
+      `;
+    }
+  }).join('');
+
+  const stageProofGalleryHtml = `
+    <div class="stage-proof-gallery-section">
+      <div class="stage-proof-gallery-header">
+        <div class="stage-proof-gallery-title-box">
+          <span class="stage-proof-gallery-icon">📸</span>
+          <div>
+            <h6 class="stage-proof-gallery-title">Bukti Visual Progres per Tahap</h6>
+            <p class="stage-proof-gallery-subtitle">Pratinjau foto autentik dari lapangan untuk memastikan mutu pengerjaan di setiap tahapan proyek.</p>
+          </div>
+        </div>
+        <div class="stage-proof-counter-badge">
+          <span>${stagesWithProofCount}/4 Tahap Terdokumentasi</span>
+        </div>
+      </div>
+      <div class="stage-proof-grid">
+        ${stageProofCardsHtml}
+      </div>
+    </div>
+  `;
   
   const historyLogsHtml = activityLogs.length > 0
     ? activityLogs.map((log, index) => {
@@ -2056,12 +2147,15 @@ function renderProjectOrder(order) {
               <p class="history-event-desc">${log.desc}</p>
               ${hasPhoto ? `
                 <div class="history-photo-attachment">
-                  <div class="history-photo-card" onclick="window.openOrderPhotoModal('${log.photo}', '${safeTitle}', '${safeCaption}', '${formattedTime}', '${order.id}', ${index}, '${safeUploader}')" title="Klik untuk memperbesar foto">
+                  <div class="history-photo-card" onclick="window.openOrderPhotoModal('${log.photo}', '${safeTitle}', '${safeCaption}', '${formattedTime}', '${order.id}', ${index}, '${safeUploader}')" title="Klik untuk memperbesar pratinjau foto">
                     <div class="history-photo-img-wrap">
-                      <img src="${log.photo}" alt="${log.title}" class="history-photo-img" loading="lazy">
+                      <img src="${log.photo}" alt="${log.title}" class="history-photo-img" loading="lazy" onerror="this.src='assets/logo.png'">
+                      <span class="history-photo-stage-pill">${stInfo.icon} ${stInfo.name} (${stInfo.pct})</span>
                       <span class="history-photo-zoom-tag">🔍 Perbesar Foto</span>
                     </div>
-                    ${log.photoCaption ? `<div class="history-photo-caption">"${log.photoCaption}"</div>` : ''}
+                    <div class="history-photo-meta-box">
+                      ${log.photoCaption ? `<div class="history-photo-caption">"${log.photoCaption}"</div>` : ''}
+                    </div>
                   </div>
                   <div class="history-photo-footer-actions">
                     <button type="button" class="btn-edit-photo" onclick="event.stopPropagation(); window.openEditPhotoModal('${order.id}', ${index}, '${safeTitle}', '${safeCaption}', '${log.photo}', '${safeUploader}')" title="Ubah Nama & Keterangan Foto Proyek">
@@ -2303,7 +2397,25 @@ function renderProjectOrder(order) {
             </div>
           </div>
 
-          <div class="history-timeline-list">
+          <!-- Visual Proof of Progress by Stage Gallery -->
+          ${stageProofGalleryHtml}
+
+          <!-- History Timeline Filter Bar -->
+          <div class="history-timeline-filter-bar">
+            <div class="history-filter-chips-group">
+              <button type="button" class="history-filter-chip history-filter-chip-${order.id} active" onclick="window.filterHistoryTimeline('${order.id}', 'all', this)">
+                <span>Semua Riwayat (${activityLogs.length})</span>
+              </button>
+              <button type="button" class="history-filter-chip history-filter-chip-${order.id} photos-chip" onclick="window.filterHistoryTimeline('${order.id}', 'photos-only', this)">
+                <span>📸 Bukti Foto (${photoLogs.length})</span>
+              </button>
+            </div>
+            <div style="font-size: 11px; color: #6d8692;">
+              <span>Ketuk foto untuk melihat pratinjau penuh</span>
+            </div>
+          </div>
+
+          <div class="history-timeline-list" id="historyTimelineList_${order.id}">
             ${historyLogsHtml}
           </div>
         </div>
@@ -3167,6 +3279,48 @@ if (typeof document !== 'undefined') {
     }
   });
 }
+
+// Quick Open Upload Form with Stage preselected
+window.openUploadWithStage = function(orderId, stageKey) {
+  const card = document.getElementById(`orderPhotoUploadCard_${orderId}`);
+  if (card && (card.style.display === 'none' || !card.style.display)) {
+    window.toggleOrderPhotoUploadCard(orderId);
+  }
+  const stageSelect = document.getElementById(`uploadStageSelect_${orderId}`);
+  if (stageSelect && stageKey) {
+    stageSelect.value = stageKey;
+  }
+  const titleInput = document.getElementById(`uploadTitleInput_${orderId}`);
+  if (titleInput && stageKey) {
+    titleInput.value = `Dokumentasi Foto Lapangan (${stageKey})`;
+  }
+  if (card) {
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+};
+
+// Filter History Log Timeline: All vs Photos-only
+window.filterHistoryTimeline = function(orderId, mode, btn) {
+  const container = document.getElementById(`historyTimelineList_${orderId}`);
+  if (!container) return;
+
+  const filterBtns = document.querySelectorAll(`.history-filter-chip-${orderId}`);
+  filterBtns.forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  const items = container.querySelectorAll('.history-log-item');
+  items.forEach(item => {
+    if (mode === 'photos-only') {
+      if (item.classList.contains('has-photo')) {
+        item.style.display = 'flex';
+      } else {
+        item.style.display = 'none';
+      }
+    } else {
+      item.style.display = 'flex';
+    }
+  });
+};
 
 // =========================================================
 // PROJECT PDF REPORT GENERATOR & EXPORT CONTROLLER

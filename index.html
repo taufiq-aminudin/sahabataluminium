@@ -1017,6 +1017,30 @@
           </button>
         </div>
 
+        <!-- Tag-Based Filter System (Material, Pricing, Process) -->
+        <div class="faq-filter-nav" role="tablist" aria-label="Filter kategori topik FAQ">
+          <button type="button" class="faq-tag-filter active" data-category="all" role="tab" aria-selected="true">
+            <span class="faq-tag-icon">✦</span>
+            <span class="faq-tag-name">Semua Topik</span>
+            <span class="faq-tag-badge" id="faqCountAll">5</span>
+          </button>
+          <button type="button" class="faq-tag-filter" data-category="material" role="tab" aria-selected="false">
+            <span class="faq-tag-icon">🧱</span>
+            <span class="faq-tag-name">Material</span>
+            <span class="faq-tag-badge" id="faqCountMaterial">2</span>
+          </button>
+          <button type="button" class="faq-tag-filter" data-category="pricing" role="tab" aria-selected="false">
+            <span class="faq-tag-icon">💰</span>
+            <span class="faq-tag-name">Pricing</span>
+            <span class="faq-tag-badge" id="faqCountPricing">2</span>
+          </button>
+          <button type="button" class="faq-tag-filter" data-category="process" role="tab" aria-selected="false">
+            <span class="faq-tag-icon">⚙️</span>
+            <span class="faq-tag-name">Process</span>
+            <span class="faq-tag-badge" id="faqCountProcess">3</span>
+          </button>
+        </div>
+
         <!-- Mobile Drawer UX Hint -->
         <div class="faq-mobile-badge-hint" aria-hidden="true">
           <span>📱</span>
@@ -1090,7 +1114,7 @@
         <div class="faq-list">
 
           <!-- FAQ Item 1: Material -->
-          <div class="faq-item active" id="faq-material" data-popularity="88" data-date="2026-09-18">
+          <div class="faq-item active" id="faq-material" data-category="material" data-tags="material" data-popularity="88" data-date="2026-09-18">
             <div class="faq-item-header">
               <button class="faq-question" type="button" aria-expanded="true">
                 <span class="faq-q-icon" aria-hidden="true" title="Topik Material Kusen & Kaca">
@@ -1100,7 +1124,7 @@
                     <path d="M8 12.5h5"></path>
                   </svg>
                 </span>
-                <span class="faq-question-text">Apa saja jenis material kusen aluminium dan kaca yang digunakan?</span>
+                <span class="faq-question-text"><span class="faq-cat-badge cat-material">Material</span>Apa saja jenis material kusen aluminium dan kaca yang digunakan?</span>
                 <span class="faq-chevron" aria-hidden="true">
                   <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
                 </span>
@@ -1212,7 +1236,7 @@
           </div>
 
           <!-- FAQ Item 2: Waktu Instalasi -->
-          <div class="faq-item" id="faq-waktu" data-popularity="75" data-date="2026-09-22">
+          <div class="faq-item" id="faq-waktu" data-category="process" data-tags="process" data-popularity="75" data-date="2026-09-22">
             <div class="faq-item-header">
               <button class="faq-question" type="button" aria-expanded="false">
                 <span class="faq-q-icon" aria-hidden="true" title="Topik Estimasi Waktu Fabrikasi & Pemasangan">
@@ -1222,7 +1246,7 @@
                     <polyline points="12 8 12 10 13.5 11"></polyline>
                   </svg>
                 </span>
-                <span class="faq-question-text">Berapa lama waktu pembuatan dan pemasangan kaca aluminium di Karawang?</span>
+                <span class="faq-question-text"><span class="faq-cat-badge cat-process">Process</span>Berapa lama waktu pembuatan dan pemasangan kaca aluminium di Karawang?</span>
                 <span class="faq-chevron" aria-hidden="true">
                   <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
                 </span>
@@ -1333,7 +1357,7 @@
           </div>
 
           <!-- FAQ Item 3: Harga & Biaya -->
-          <div class="faq-item" id="faq-harga" data-popularity="98" data-date="2026-09-24">
+          <div class="faq-item" id="faq-harga" data-category="pricing" data-tags="pricing" data-popularity="98" data-date="2026-09-24">
             <div class="faq-item-header">
               <button class="faq-question" type="button" aria-expanded="false">
                 <span class="faq-q-icon" aria-hidden="true" title="Topik Perhitungan Biaya & RAB">
@@ -1343,7 +1367,7 @@
                     <path d="M9.5 8.5h3.5a1.2 1.2 0 0 1 0 2.4H11a1.2 1.2 0 0 0 0 2.4H14.5"></path>
                   </svg>
                 </span>
-                <span class="faq-question-text">Bagaimana sistem perhitungan estimasi harga jasa kaca dan aluminium?</span>
+                <span class="faq-question-text"><span class="faq-cat-badge cat-pricing">Pricing</span>Bagaimana sistem perhitungan estimasi harga jasa kaca dan aluminium?</span>
                 <span class="faq-chevron" aria-hidden="true">
                   <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
                 </span>
@@ -1454,7 +1478,7 @@
           </div>
 
           <!-- FAQ Item 4: Survey Lokasi Gratis -->
-          <div class="faq-item" id="faq-survey" data-popularity="95" data-date="2026-09-28">
+          <div class="faq-item" id="faq-survey" data-category="process pricing" data-tags="process pricing" data-popularity="95" data-date="2026-09-28">
             <div class="faq-item-header">
               <button class="faq-question" type="button" aria-expanded="false">
                 <span class="faq-q-icon" aria-hidden="true" title="Topik Survey Lokasi Gratis">
@@ -1464,7 +1488,7 @@
                     <path d="M12 6.5a2.5 2.5 0 0 0-2.5 2.5c0 1.8 2.5 4 2.5 4s2.5-2.2 2.5-4a2.5 2.5 0 0 0-2.5-2.5z"></path>
                   </svg>
                 </span>
-                <span class="faq-question-text">Apakah ada biaya untuk survey lokasi dan konsultasi proyek di Karawang, Cikarang, dan Bekasi?</span>
+                <span class="faq-question-text"><span class="faq-cat-badge cat-process">Process</span><span class="faq-cat-badge cat-pricing">Pricing</span>Apakah ada biaya untuk survey lokasi dan konsultasi proyek di Karawang, Cikarang, dan Bekasi?</span>
                 <span class="faq-chevron" aria-hidden="true">
                   <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
                 </span>
@@ -1575,7 +1599,7 @@
           </div>
 
           <!-- FAQ Item 5: Garansi Pemasangan -->
-          <div class="faq-item" id="faq-garansi" data-popularity="82" data-date="2026-09-26">
+          <div class="faq-item" id="faq-garansi" data-category="process material" data-tags="process material" data-popularity="82" data-date="2026-09-26">
             <div class="faq-item-header">
               <button class="faq-question" type="button" aria-expanded="false">
                 <span class="faq-q-icon" aria-hidden="true" title="Topik Garansi & Aksesoris">
@@ -1584,7 +1608,7 @@
                     <polyline points="9 10 11 12 15 8"></polyline>
                   </svg>
                 </span>
-                <span class="faq-question-text">Apakah ada garansi untuk hasil pengerjaan dan aksesoris?</span>
+                <span class="faq-question-text"><span class="faq-cat-badge cat-process">Process</span><span class="faq-cat-badge cat-material">Material</span>Apakah ada garansi untuk hasil pengerjaan dan aksesoris?</span>
                 <span class="faq-chevron" aria-hidden="true">
                   <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
                 </span>

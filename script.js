@@ -664,7 +664,8 @@ if (faqCollapseAllBtn) {
 }
 
 /* =========================================================
-   FAQ LIVE SEARCH & KEYWORD FILTER
+   FAQ LIVE SEARCH & KEYWORD / CATEGORY FILTER SYSTEM
+   Supports 'Material', 'Pricing', and 'Process' tag filters
    ========================================================= */
 const faqSearchInput = document.getElementById('faqSearchInput');
 const faqSearchClear = document.getElementById('faqSearchClear');
@@ -673,9 +674,15 @@ const faqNoResults = document.getElementById('faqNoResults');
 const faqQueryTerm = document.getElementById('faqQueryTerm');
 const faqResetBtn = document.getElementById('faqResetBtn');
 const faqTagBtns = document.querySelectorAll('.faq-tag-btn');
+const faqTagFilters = document.querySelectorAll('.faq-tag-filter');
 
-function filterFaq(query) {
-  const q = (query || '').trim().toLowerCase();
+let currentFaqCategory = 'all';
+
+function filterFaq(query, category) {
+  if (category !== undefined) {
+    currentFaqCategory = category;
+  }
+  const q = (query !== undefined ? query : (faqSearchInput ? faqSearchInput.value : '')).trim().toLowerCase();
   let matchedCount = 0;
   const total = faqItems.length;
 
@@ -687,52 +694,76 @@ function filterFaq(query) {
     }
   }
 
-  faqItems.forEach((item, index) => {
+  let firstMatch = null;
+
+  faqItems.forEach((item) => {
     const questionText = item.querySelector('.faq-question')?.textContent.toLowerCase() || '';
     const answerText = item.querySelector('.faq-answer')?.textContent.toLowerCase() || '';
+    const itemTags = (item.getAttribute('data-tags') || item.getAttribute('data-category') || '').toLowerCase();
 
-    if (!q || questionText.includes(q) || answerText.includes(q)) {
+    // Check category filter
+    const matchesCategory = (currentFaqCategory === 'all') || itemTags.includes(currentFaqCategory);
+
+    // Check search query
+    const matchesQuery = !q || questionText.includes(q) || answerText.includes(q);
+
+    if (matchesCategory && matchesQuery) {
       item.classList.remove('faq-filtered-out');
       matchedCount++;
-
-      // When searching with at least 2 characters, expand the matched item smoothly on desktop
-      if (q.length >= 2) {
-        if (!isMobileView()) {
-          openFaq(item);
-        }
-      } else if (!q) {
-        // Reset state: first item open, others closed on desktop
-        if (index === 0 && !isMobileView()) {
-          openFaq(item);
-        } else {
-          closeFaq(item);
-        }
-      }
+      if (!firstMatch) firstMatch = item;
     } else {
       item.classList.add('faq-filtered-out');
       closeFaq(item);
     }
   });
 
+  // When searching with at least 2 characters, expand the first matched item on desktop
+  if (q.length >= 2 && firstMatch && !isMobileView()) {
+    openFaq(firstMatch);
+  }
+
   // Update count indicator
   if (faqSearchCount) {
-    if (!q) {
-      faqSearchCount.textContent = `Menampilkan ${total} pertanyaan`;
+    const categoryNameMap = {
+      'all': 'Semua',
+      'material': 'Material',
+      'pricing': 'Pricing',
+      'process': 'Process'
+    };
+    const catLabel = currentFaqCategory === 'all' ? '' : ` (Topik: ${categoryNameMap[currentFaqCategory] || currentFaqCategory})`;
+    if (!q && currentFaqCategory === 'all') {
+      faqSearchCount.textContent = `Menampilkan semua ${total} pertanyaan`;
     } else {
-      faqSearchCount.textContent = `Ditemukan ${matchedCount} dari ${total} pertanyaan`;
+      faqSearchCount.textContent = `Menampilkan ${matchedCount} dari ${total} pertanyaan${catLabel}`;
     }
   }
 
   // Update no results box
   if (faqNoResults) {
-    if (matchedCount === 0 && q.length > 0) {
+    if (matchedCount === 0) {
       faqNoResults.classList.remove('hidden');
-      if (faqQueryTerm) faqQueryTerm.textContent = query;
+      if (faqQueryTerm) {
+        faqQueryTerm.textContent = q ? `"${q}"` : `Topik "${currentFaqCategory}"`;
+      }
     } else {
       faqNoResults.classList.add('hidden');
     }
   }
 }
+
+// Tag-based category filters in section header
+faqTagFilters.forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const category = btn.getAttribute('data-category') || 'all';
+    faqTagFilters.forEach((b) => {
+      const isActive = (b === btn);
+      b.classList.toggle('active', isActive);
+      b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+    filterFaq(faqSearchInput ? faqSearchInput.value : '', category);
+  });
+});
 
 if (faqSearchInput) {
   faqSearchInput.addEventListener('input', (e) => {
@@ -749,18 +780,38 @@ if (faqSearchInput) {
 
   if (faqResetBtn) {
     faqResetBtn.addEventListener('click', () => {
-      faqSearchInput.value = '';
-      faqSearchInput.focus();
-      filterFaq('');
+      if (faqSearchInput) faqSearchInput.value = '';
+      currentFaqCategory = 'all';
+      faqTagFilters.forEach((b) => {
+        const isAll = (b.getAttribute('data-category') === 'all');
+        b.classList.toggle('active', isAll);
+        b.setAttribute('aria-selected', isAll ? 'true' : 'false');
+      });
+      filterFaq('', 'all');
     });
   }
 
   faqTagBtns.forEach((tagBtn) => {
     tagBtn.addEventListener('click', () => {
       const tagQuery = tagBtn.getAttribute('data-query') || '';
-      faqSearchInput.value = tagQuery;
-      faqSearchInput.focus();
-      filterFaq(tagQuery);
+      const categoryMap = {
+        'material': 'material',
+        'harga': 'pricing',
+        'survey': 'process',
+        'waktu': 'process',
+        'garansi': 'process'
+      };
+      const mappedCategory = categoryMap[tagQuery];
+      if (mappedCategory) {
+        currentFaqCategory = mappedCategory;
+        faqTagFilters.forEach((b) => {
+          const isActive = (b.getAttribute('data-category') === mappedCategory);
+          b.classList.toggle('active', isActive);
+          b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+      }
+      if (faqSearchInput) faqSearchInput.value = '';
+      filterFaq('', mappedCategory || 'all');
     });
   });
 }

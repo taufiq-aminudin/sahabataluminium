@@ -2674,26 +2674,57 @@ body.faq-drawer-open {
 
 .faq-drawer-handle-bar {
   width: 100%;
-  padding: 12px 0 6px;
+  padding: 10px 0 6px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 4px;
   cursor: grab;
   touch-action: none;
   background: #ffffff;
   flex-shrink: 0;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .faq-drawer-pill {
-  width: 42px;
+  width: 44px;
   height: 5px;
   border-radius: 999px;
   background: #cbd8dc;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, width 0.2s ease, transform 0.2s ease;
 }
 
-.faq-drawer-handle-bar:active .faq-drawer-pill {
+.faq-drawer-swipe-hint {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #94a7b0;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.faq-drawer-handle-bar:active .faq-drawer-pill,
+.faq-drawer-sheet.is-dragging .faq-drawer-pill {
   background: var(--blue);
+  width: 56px;
+  transform: scaleY(1.2);
+}
+
+.faq-drawer-sheet.is-dragging {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.faq-drawer-sheet.is-dragging .faq-drawer-handle-bar {
+  cursor: grabbing;
 }
 
 .faq-drawer-head {

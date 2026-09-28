@@ -287,6 +287,12 @@ function closeFaqDrawer() {
   document.body.classList.remove('faq-drawer-open');
   if (faqDrawerSheet) {
     faqDrawerSheet.style.transform = '';
+    faqDrawerSheet.style.transition = '';
+    faqDrawerSheet.classList.remove('is-dragging');
+  }
+  if (faqDrawerOverlay) {
+    faqDrawerOverlay.style.opacity = '';
+    faqDrawerOverlay.style.transition = '';
   }
   currentDrawerFaqId = null;
 }
@@ -340,41 +346,190 @@ if (faqMobileDrawer) {
     });
   }
 
-  // Touch Swipe Down to Dismiss Drawer
-  let touchStartY = 0;
-  let currentTouchY = 0;
+  /* =========================================================
+     NATIVE-FEEL SWIPE-TO-CLOSE GESTURE INTERACTION (#faq drawer)
+     Features:
+     - 1:1 direct manipulation touch tracking
+     - Downward velocity & inertia detection (fast flick dismiss)
+     - Progressive backdrop overlay dimming
+     - Upward pull rubber-band resistance damping
+     - Pull-down anywhere on top handle / header or body at top scroll
+     - Smooth spring snap-back if canceled
+     - Desktop mouse drag support on handle
+     ========================================================= */
+  let startY = 0;
+  let currentY = 0;
+  let startTime = 0;
   let isDragging = false;
+  let canDragFromContent = false;
+  let isPointerDown = false;
 
-  const dragTarget = faqDrawerHandle || faqDrawerSheet;
-  if (dragTarget && faqDrawerSheet) {
-    dragTarget.addEventListener('touchstart', (e) => {
-      touchStartY = e.touches[0].clientY;
+  const isInteractiveElement = (elem) => {
+    return !!(elem && (elem.closest('button') || elem.closest('a') || elem.closest('input') || elem.closest('textarea') || elem.closest('select')));
+  };
+
+  const onDragStart = (clientY, target) => {
+    if (!faqMobileDrawer.classList.contains('open')) return false;
+    if (isInteractiveElement(target)) return false;
+
+    startY = clientY;
+    currentY = clientY;
+    startTime = Date.now();
+
+    const isTopArea = target.closest('#faqDrawerHandle') || target.closest('.faq-drawer-head') || target.closest('.faq-drawer-title-wrap');
+    const isBodyAtTop = faqDrawerBody && faqDrawerBody.scrollTop <= 2;
+
+    if (isTopArea) {
       isDragging = true;
+      canDragFromContent = false;
+      faqDrawerSheet.classList.add('is-dragging');
       faqDrawerSheet.style.transition = 'none';
-    }, { passive: true });
+      if (faqDrawerOverlay) faqDrawerOverlay.style.transition = 'none';
+      return true;
+    } else if (isBodyAtTop) {
+      canDragFromContent = true;
+      return true;
+    }
+    return false;
+  };
 
-    dragTarget.addEventListener('touchmove', (e) => {
-      if (!isDragging) return;
-      currentTouchY = e.touches[0].clientY;
-      const diffY = currentTouchY - touchStartY;
-      if (diffY > 0) {
-        faqDrawerSheet.style.transform = `translateY(${diffY}px)`;
+  const onDragMove = (clientY, cancelableEvent) => {
+    if (!startY) return;
+    currentY = clientY;
+    const deltaY = currentY - startY;
+
+    // If starting from content at top scroll, engage drag once downward motion is confirmed
+    if (canDragFromContent && !isDragging) {
+      if (deltaY > 6 && faqDrawerBody && faqDrawerBody.scrollTop <= 0) {
+        isDragging = true;
+        faqDrawerSheet.classList.add('is-dragging');
+        faqDrawerSheet.style.transition = 'none';
+        if (faqDrawerOverlay) faqDrawerOverlay.style.transition = 'none';
       }
-    }, { passive: true });
+    }
 
-    dragTarget.addEventListener('touchend', () => {
-      if (!isDragging) return;
-      isDragging = false;
-      faqDrawerSheet.style.transition = '';
-      const diffY = currentTouchY - touchStartY;
-      if (diffY > 70) {
+    if (!isDragging) return;
+
+    if (cancelableEvent && cancelableEvent.cancelable) {
+      cancelableEvent.preventDefault();
+    }
+
+    let translateY = 0;
+    if (deltaY > 0) {
+      // Linear downward tracking
+      translateY = deltaY;
+    } else {
+      // Physical rubber-band resistance when pulling upward
+      translateY = Math.max(-32, deltaY * 0.22);
+    }
+
+    faqDrawerSheet.style.transform = `translateY(${translateY}px)`;
+
+    // Proportional backdrop opacity reduction
+    if (faqDrawerOverlay && faqDrawerSheet) {
+      const sheetH = faqDrawerSheet.offsetHeight || window.innerHeight * 0.7;
+      const opacity = Math.max(0, Math.min(1, 1 - (deltaY / (sheetH * 0.85))));
+      faqDrawerOverlay.style.opacity = opacity.toFixed(3);
+    }
+  };
+
+  const onDragEnd = () => {
+    if (!isDragging) {
+      startY = 0;
+      canDragFromContent = false;
+      isPointerDown = false;
+      return;
+    }
+
+    const deltaY = currentY - startY;
+    const elapsedMs = Math.max(1, Date.now() - startTime);
+    const velocityY = deltaY / elapsedMs; // px/ms
+    const sheetH = (faqDrawerSheet && faqDrawerSheet.offsetHeight) || window.innerHeight * 0.7;
+
+    isDragging = false;
+    canDragFromContent = false;
+    isPointerDown = false;
+    if (faqDrawerSheet) faqDrawerSheet.classList.remove('is-dragging');
+
+    // Thresholds:
+    // 1. Distance > 80px or > 20% of sheet height
+    // 2. OR swift downward flick (velocity > 0.42 px/ms with positive movement > 25px)
+    const thresholdY = Math.min(110, Math.max(75, sheetH * 0.2));
+    const shouldClose = (deltaY >= thresholdY) || (velocityY > 0.42 && deltaY > 25);
+
+    if (shouldClose && faqDrawerSheet) {
+      // Smooth flick/drop exit animation
+      const remainingDist = Math.max(20, sheetH - deltaY);
+      const duration = Math.min(260, Math.max(160, Math.round(remainingDist / Math.max(0.75, velocityY * 1.2))));
+
+      faqDrawerSheet.style.transition = `transform ${duration}ms cubic-bezier(0.32, 1, 0.23, 1)`;
+      faqDrawerSheet.style.transform = 'translateY(100%)';
+      if (faqDrawerOverlay) {
+        faqDrawerOverlay.style.transition = `opacity ${duration}ms ease`;
+        faqDrawerOverlay.style.opacity = '0';
+      }
+
+      setTimeout(() => {
         closeFaqDrawer();
-      } else {
-        faqDrawerSheet.style.transform = '';
+      }, duration);
+    } else if (faqDrawerSheet) {
+      // Gentle spring snap-back
+      faqDrawerSheet.style.transition = 'transform 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.15)';
+      faqDrawerSheet.style.transform = 'translateY(0)';
+      if (faqDrawerOverlay) {
+        faqDrawerOverlay.style.transition = 'opacity 0.22s ease';
+        faqDrawerOverlay.style.opacity = '1';
       }
-      touchStartY = 0;
-      currentTouchY = 0;
-    });
+
+      setTimeout(() => {
+        if (!faqDrawerSheet.classList.contains('is-dragging')) {
+          faqDrawerSheet.style.transition = '';
+          faqDrawerSheet.style.transform = '';
+          if (faqDrawerOverlay) {
+            faqDrawerOverlay.style.transition = '';
+            faqDrawerOverlay.style.opacity = '';
+          }
+        }
+      }, 290);
+    }
+
+    startY = 0;
+    currentY = 0;
+  };
+
+  if (faqDrawerSheet) {
+    // Touch Event Listeners on Sheet
+    faqDrawerSheet.addEventListener('touchstart', (e) => {
+      onDragStart(e.touches[0].clientY, e.target);
+    }, { passive: true });
+
+    faqDrawerSheet.addEventListener('touchmove', (e) => {
+      onDragMove(e.touches[0].clientY, e);
+    }, { passive: false });
+
+    faqDrawerSheet.addEventListener('touchend', onDragEnd, { passive: true });
+    faqDrawerSheet.addEventListener('touchcancel', onDragEnd, { passive: true });
+
+    // Mouse Drag Support on Handle Bar (for desktop preview testing)
+    const handleBar = document.getElementById('faqDrawerHandle');
+    if (handleBar) {
+      handleBar.addEventListener('mousedown', (e) => {
+        if (e.button !== 0) return;
+        isPointerDown = true;
+        onDragStart(e.clientY, e.target);
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isPointerDown) return;
+        onDragMove(e.clientY, e);
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isPointerDown) {
+          onDragEnd();
+        }
+      });
+    }
   }
 
   // Handle Resize: if resized to desktop, close drawer and let desktop accordion take over

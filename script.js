@@ -809,6 +809,47 @@ faqCopyButtons.forEach((btn) => {
   });
 });
 
+/* =========================================================
+   FAQ WHATSAPP SHARING: DYNAMIC PRE-FILLED MESSAGE WITH
+   QUESTION TEXT & DIRECT ANCHOR LINK
+   ========================================================= */
+const faqWaShareButtons = document.querySelectorAll('.faq-wa-share-btn');
+
+function getFaqWaShareUrl(btn) {
+  const faqId = btn.getAttribute('data-faq-id');
+  if (!faqId) return 'https://api.whatsapp.com/';
+  const faqItem = document.getElementById(faqId);
+  const questionEl = faqItem ? faqItem.querySelector('.faq-question-text') : null;
+  const questionText = questionEl ? questionEl.textContent.trim() : 'Pertanyaan Kaca & Aluminium';
+
+  const origin = window.location.origin || (window.location.protocol + '//' + window.location.host);
+  const pathname = window.location.pathname || '/';
+  const fullAnchorUrl = `${origin}${pathname}#${faqId}`;
+
+  const message = `*Tanya Jawab Kaca & Aluminium - Sahabat Kaca:*\n"${questionText}"\n\nBaca jawaban lengkapnya di tautan berikut:\n${fullAnchorUrl}`;
+
+  return `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+}
+
+faqWaShareButtons.forEach((btn) => {
+  // Pre-populate href immediately
+  btn.href = getFaqWaShareUrl(btn);
+
+  // Re-verify on hover or focus to account for any hash/path changes
+  btn.addEventListener('mouseenter', () => {
+    btn.href = getFaqWaShareUrl(btn);
+  });
+  btn.addEventListener('focus', () => {
+    btn.href = getFaqWaShareUrl(btn);
+  });
+
+  // Prevent collapsing/expanding accordion on click
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    btn.href = getFaqWaShareUrl(btn);
+  });
+});
+
 // Auto-open target FAQ item when page loads or hash changes
 function checkFaqAnchorTarget() {
   const hash = window.location.hash;

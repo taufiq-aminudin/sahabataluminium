@@ -1032,14 +1032,60 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   flex: 1;
 }
 
+/* Actions Container in FAQ Item Header */
+.faq-item-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-right: 18px;
+  flex-shrink: 0;
+}
+
 /* Copy Button & Counter Wrap */
 .faq-copy-wrap {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-right: 18px;
+  margin-right: 0;
   flex-shrink: 0;
+}
+
+/* Share on WhatsApp Button in FAQ Header */
+.faq-wa-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 6px 11px;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+.faq-wa-share-btn:hover {
+  background: #25d366;
+  color: #ffffff;
+  border-color: #22c55e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.28);
+}
+.faq-wa-share-btn:active {
+  transform: translateY(0);
+}
+.faq-wa-share-btn .faq-wa-icon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  fill: currentColor;
 }
 
 /* Small Copy Link Button */
@@ -1253,9 +1299,13 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 }
 
 @media (max-width: 560px) {
-  .faq-copy-wrap {
+  .faq-item-actions {
     margin-right: 12px;
     gap: 4px;
+  }
+  .faq-copy-wrap {
+    margin-right: 0;
+    gap: 3px;
   }
   .faq-copy-btn {
     padding: 6px 8px;
@@ -1272,6 +1322,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     height: 20px;
     padding: 0 4px;
     font-size: 10px;
+  }
+  .faq-wa-share-btn {
+    padding: 6px 8px;
+  }
+  .faq-wa-share-btn .faq-wa-text {
+    display: none;
   }
   .faq-copy-tooltip {
     min-width: 190px;
@@ -3203,9 +3259,12 @@ body.faq-drawer-open {
   #faq .faq-social-bar,
   #faq .faq-head-actions,
   #faq .faq-collapse-all-btn,
+  #faq .faq-item-actions,
   #faq .faq-copy-wrap,
   #faq .faq-copy-btn,
   #faq .faq-copy-count,
+  #faq .faq-copy-tooltip,
+  #faq .faq-wa-share-btn,
   #faq .faq-chevron,
   #faq .faq-mobile-badge-hint,
   #faq .faq-no-results,

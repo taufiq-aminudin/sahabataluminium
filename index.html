@@ -922,37 +922,54 @@
                   <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
                 </span>
               </button>
-              <div class="faq-copy-wrap">
-                <button type="button" class="faq-copy-btn" data-faq-id="faq-material" aria-label="Salin tautan ke pertanyaan material" title="Salin tautan ke pertanyaan ini">
-                  <span class="faq-copy-icon-box" aria-hidden="true">
-                    <svg class="faq-copy-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                    </svg>
-                    <svg class="faq-check-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                  </span>
-                  <span class="faq-copy-text">Salin Link</span>
-                </button>
-                <span class="faq-copy-count" data-faq-id="faq-material" title="Tautan pertanyaan ini telah disalin 0 kali" aria-label="Jumlah disalin: 0">
-                  <span class="faq-copy-count-num">0</span>
-                </span>
-                <!-- Custom Tooltip Confirming Deep-Link Copied -->
-                <div class="faq-copy-tooltip" role="status" aria-live="polite" aria-hidden="true">
-                  <div class="faq-tooltip-header">
-                    <span class="faq-tooltip-badge">
-                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <div class="faq-item-actions">
+                <div class="faq-copy-wrap">
+                  <button type="button" class="faq-copy-btn" data-faq-id="faq-material" aria-label="Salin tautan ke pertanyaan material" title="Salin tautan ke pertanyaan ini">
+                    <span class="faq-copy-icon-box" aria-hidden="true">
+                      <svg class="faq-copy-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                      </svg>
+                      <svg class="faq-check-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="20 6 9 17 4 12"></polyline>
                       </svg>
-                      Deep-link Tersalin!
                     </span>
-                  </div>
-                  <div class="faq-tooltip-body">
-                    <span class="faq-tooltip-url">#faq-material</span>
-                    <span class="faq-tooltip-desc">Tautan langsung siap dibagikan ke klien atau rekan</span>
+                    <span class="faq-copy-text">Salin Link</span>
+                  </button>
+                  <span class="faq-copy-count" data-faq-id="faq-material" title="Tautan pertanyaan ini telah disalin 0 kali" aria-label="Jumlah disalin: 0">
+                    <span class="faq-copy-count-num">0</span>
+                  </span>
+                  <!-- Custom Tooltip Confirming Deep-Link Copied -->
+                  <div class="faq-copy-tooltip" role="status" aria-live="polite" aria-hidden="true">
+                    <div class="faq-tooltip-header">
+                      <span class="faq-tooltip-badge">
+                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Deep-link Tersalin!
+                      </span>
+                    </div>
+                    <div class="faq-tooltip-body">
+                      <span class="faq-tooltip-url">#faq-material</span>
+                      <span class="faq-tooltip-desc">Tautan langsung siap dibagikan ke klien atau rekan</span>
+                    </div>
                   </div>
                 </div>
+                <!-- Share on WhatsApp Button -->
+                <a 
+                  href="#" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="faq-wa-share-btn" 
+                  data-faq-id="faq-material" 
+                  aria-label="Bagikan pertanyaan ini ke WhatsApp" 
+                  title="Bagikan pertanyaan ini ke WhatsApp"
+                >
+                  <svg class="faq-wa-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
+                    <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.4-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44s-.56-1.35-.77-1.85c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.43 1.02 2.6c.13.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.18-.47-.3z"/>
+                  </svg>
+                  <span class="faq-wa-text">WhatsApp</span>
+                </a>
               </div>
             </div>
             <div class="faq-answer">
@@ -987,37 +1004,54 @@
                   <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
                 </span>
               </button>
-              <div class="faq-copy-wrap">
-                <button type="button" class="faq-copy-btn" data-faq-id="faq-waktu" aria-label="Salin tautan ke pertanyaan waktu pemasangan" title="Salin tautan ke pertanyaan ini">
-                  <span class="faq-copy-icon-box" aria-hidden="true">
-                    <svg class="faq-copy-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                    </svg>
-                    <svg class="faq-check-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                  </span>
-                  <span class="faq-copy-text">Salin Link</span>
-                </button>
-                <span class="faq-copy-count" data-faq-id="faq-waktu" title="Tautan pertanyaan ini telah disalin 0 kali" aria-label="Jumlah disalin: 0">
-                  <span class="faq-copy-count-num">0</span>
-                </span>
-                <!-- Custom Tooltip Confirming Deep-Link Copied -->
-                <div class="faq-copy-tooltip" role="status" aria-live="polite" aria-hidden="true">
-                  <div class="faq-tooltip-header">
-                    <span class="faq-tooltip-badge">
-                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <div class="faq-item-actions">
+                <div class="faq-copy-wrap">
+                  <button type="button" class="faq-copy-btn" data-faq-id="faq-waktu" aria-label="Salin tautan ke pertanyaan waktu pemasangan" title="Salin tautan ke pertanyaan ini">
+                    <span class="faq-copy-icon-box" aria-hidden="true">
+                      <svg class="faq-copy-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                      </svg>
+                      <svg class="faq-check-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="20 6 9 17 4 12"></polyline>
                       </svg>
-                      Deep-link Tersalin!
                     </span>
-                  </div>
-                  <div class="faq-tooltip-body">
-                    <span class="faq-tooltip-url">#faq-waktu</span>
-                    <span class="faq-tooltip-desc">Tautan langsung siap dibagikan ke klien atau rekan</span>
+                    <span class="faq-copy-text">Salin Link</span>
+                  </button>
+                  <span class="faq-copy-count" data-faq-id="faq-waktu" title="Tautan pertanyaan ini telah disalin 0 kali" aria-label="Jumlah disalin: 0">
+                    <span class="faq-copy-count-num">0</span>
+                  </span>
+                  <!-- Custom Tooltip Confirming Deep-Link Copied -->
+                  <div class="faq-copy-tooltip" role="status" aria-live="polite" aria-hidden="true">
+                    <div class="faq-tooltip-header">
+                      <span class="faq-tooltip-badge">
+                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Deep-link Tersalin!
+                      </span>
+                    </div>
+                    <div class="faq-tooltip-body">
+                      <span class="faq-tooltip-url">#faq-waktu</span>
+                      <span class="faq-tooltip-desc">Tautan langsung siap dibagikan ke klien atau rekan</span>
+                    </div>
                   </div>
                 </div>
+                <!-- Share on WhatsApp Button -->
+                <a 
+                  href="#" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="faq-wa-share-btn" 
+                  data-faq-id="faq-waktu" 
+                  aria-label="Bagikan pertanyaan ini ke WhatsApp" 
+                  title="Bagikan pertanyaan ini ke WhatsApp"
+                >
+                  <svg class="faq-wa-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
+                    <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.4-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44s-.56-1.35-.77-1.85c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.43 1.02 2.6c.13.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.18-.47-.3z"/>
+                  </svg>
+                  <span class="faq-wa-text">WhatsApp</span>
+                </a>
               </div>
             </div>
             <div class="faq-answer">
@@ -1051,37 +1085,54 @@
                   <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
                 </span>
               </button>
-              <div class="faq-copy-wrap">
-                <button type="button" class="faq-copy-btn" data-faq-id="faq-harga" aria-label="Salin tautan ke pertanyaan estimasi harga" title="Salin tautan ke pertanyaan ini">
-                  <span class="faq-copy-icon-box" aria-hidden="true">
-                    <svg class="faq-copy-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                    </svg>
-                    <svg class="faq-check-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                  </span>
-                  <span class="faq-copy-text">Salin Link</span>
-                </button>
-                <span class="faq-copy-count" data-faq-id="faq-harga" title="Tautan pertanyaan ini telah disalin 0 kali" aria-label="Jumlah disalin: 0">
-                  <span class="faq-copy-count-num">0</span>
-                </span>
-                <!-- Custom Tooltip Confirming Deep-Link Copied -->
-                <div class="faq-copy-tooltip" role="status" aria-live="polite" aria-hidden="true">
-                  <div class="faq-tooltip-header">
-                    <span class="faq-tooltip-badge">
-                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <div class="faq-item-actions">
+                <div class="faq-copy-wrap">
+                  <button type="button" class="faq-copy-btn" data-faq-id="faq-harga" aria-label="Salin tautan ke pertanyaan estimasi harga" title="Salin tautan ke pertanyaan ini">
+                    <span class="faq-copy-icon-box" aria-hidden="true">
+                      <svg class="faq-copy-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                      </svg>
+                      <svg class="faq-check-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="20 6 9 17 4 12"></polyline>
                       </svg>
-                      Deep-link Tersalin!
                     </span>
-                  </div>
-                  <div class="faq-tooltip-body">
-                    <span class="faq-tooltip-url">#faq-harga</span>
-                    <span class="faq-tooltip-desc">Tautan langsung siap dibagikan ke klien atau rekan</span>
+                    <span class="faq-copy-text">Salin Link</span>
+                  </button>
+                  <span class="faq-copy-count" data-faq-id="faq-harga" title="Tautan pertanyaan ini telah disalin 0 kali" aria-label="Jumlah disalin: 0">
+                    <span class="faq-copy-count-num">0</span>
+                  </span>
+                  <!-- Custom Tooltip Confirming Deep-Link Copied -->
+                  <div class="faq-copy-tooltip" role="status" aria-live="polite" aria-hidden="true">
+                    <div class="faq-tooltip-header">
+                      <span class="faq-tooltip-badge">
+                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Deep-link Tersalin!
+                      </span>
+                    </div>
+                    <div class="faq-tooltip-body">
+                      <span class="faq-tooltip-url">#faq-harga</span>
+                      <span class="faq-tooltip-desc">Tautan langsung siap dibagikan ke klien atau rekan</span>
+                    </div>
                   </div>
                 </div>
+                <!-- Share on WhatsApp Button -->
+                <a 
+                  href="#" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="faq-wa-share-btn" 
+                  data-faq-id="faq-harga" 
+                  aria-label="Bagikan pertanyaan ini ke WhatsApp" 
+                  title="Bagikan pertanyaan ini ke WhatsApp"
+                >
+                  <svg class="faq-wa-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
+                    <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.4-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44s-.56-1.35-.77-1.85c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.43 1.02 2.6c.13.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.18-.47-.3z"/>
+                  </svg>
+                  <span class="faq-wa-text">WhatsApp</span>
+                </a>
               </div>
             </div>
             <div class="faq-answer">
@@ -1115,37 +1166,54 @@
                   <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
                 </span>
               </button>
-              <div class="faq-copy-wrap">
-                <button type="button" class="faq-copy-btn" data-faq-id="faq-survey" aria-label="Salin tautan ke pertanyaan survey lokasi" title="Salin tautan ke pertanyaan ini">
-                  <span class="faq-copy-icon-box" aria-hidden="true">
-                    <svg class="faq-copy-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                    </svg>
-                    <svg class="faq-check-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                  </span>
-                  <span class="faq-copy-text">Salin Link</span>
-                </button>
-                <span class="faq-copy-count" data-faq-id="faq-survey" title="Tautan pertanyaan ini telah disalin 0 kali" aria-label="Jumlah disalin: 0">
-                  <span class="faq-copy-count-num">0</span>
-                </span>
-                <!-- Custom Tooltip Confirming Deep-Link Copied -->
-                <div class="faq-copy-tooltip" role="status" aria-live="polite" aria-hidden="true">
-                  <div class="faq-tooltip-header">
-                    <span class="faq-tooltip-badge">
-                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <div class="faq-item-actions">
+                <div class="faq-copy-wrap">
+                  <button type="button" class="faq-copy-btn" data-faq-id="faq-survey" aria-label="Salin tautan ke pertanyaan survey lokasi" title="Salin tautan ke pertanyaan ini">
+                    <span class="faq-copy-icon-box" aria-hidden="true">
+                      <svg class="faq-copy-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                      </svg>
+                      <svg class="faq-check-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="20 6 9 17 4 12"></polyline>
                       </svg>
-                      Deep-link Tersalin!
                     </span>
-                  </div>
-                  <div class="faq-tooltip-body">
-                    <span class="faq-tooltip-url">#faq-survey</span>
-                    <span class="faq-tooltip-desc">Tautan langsung siap dibagikan ke klien atau rekan</span>
+                    <span class="faq-copy-text">Salin Link</span>
+                  </button>
+                  <span class="faq-copy-count" data-faq-id="faq-survey" title="Tautan pertanyaan ini telah disalin 0 kali" aria-label="Jumlah disalin: 0">
+                    <span class="faq-copy-count-num">0</span>
+                  </span>
+                  <!-- Custom Tooltip Confirming Deep-Link Copied -->
+                  <div class="faq-copy-tooltip" role="status" aria-live="polite" aria-hidden="true">
+                    <div class="faq-tooltip-header">
+                      <span class="faq-tooltip-badge">
+                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Deep-link Tersalin!
+                      </span>
+                    </div>
+                    <div class="faq-tooltip-body">
+                      <span class="faq-tooltip-url">#faq-survey</span>
+                      <span class="faq-tooltip-desc">Tautan langsung siap dibagikan ke klien atau rekan</span>
+                    </div>
                   </div>
                 </div>
+                <!-- Share on WhatsApp Button -->
+                <a 
+                  href="#" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="faq-wa-share-btn" 
+                  data-faq-id="faq-survey" 
+                  aria-label="Bagikan pertanyaan ini ke WhatsApp" 
+                  title="Bagikan pertanyaan ini ke WhatsApp"
+                >
+                  <svg class="faq-wa-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
+                    <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.4-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44s-.56-1.35-.77-1.85c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.43 1.02 2.6c.13.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.18-.47-.3z"/>
+                  </svg>
+                  <span class="faq-wa-text">WhatsApp</span>
+                </a>
               </div>
             </div>
             <div class="faq-answer">
@@ -1178,37 +1246,54 @@
                   <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
                 </span>
               </button>
-              <div class="faq-copy-wrap">
-                <button type="button" class="faq-copy-btn" data-faq-id="faq-garansi" aria-label="Salin tautan ke pertanyaan garansi" title="Salin tautan ke pertanyaan ini">
-                  <span class="faq-copy-icon-box" aria-hidden="true">
-                    <svg class="faq-copy-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                    </svg>
-                    <svg class="faq-check-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                  </span>
-                  <span class="faq-copy-text">Salin Link</span>
-                </button>
-                <span class="faq-copy-count" data-faq-id="faq-garansi" title="Tautan pertanyaan ini telah disalin 0 kali" aria-label="Jumlah disalin: 0">
-                  <span class="faq-copy-count-num">0</span>
-                </span>
-                <!-- Custom Tooltip Confirming Deep-Link Copied -->
-                <div class="faq-copy-tooltip" role="status" aria-live="polite" aria-hidden="true">
-                  <div class="faq-tooltip-header">
-                    <span class="faq-tooltip-badge">
-                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <div class="faq-item-actions">
+                <div class="faq-copy-wrap">
+                  <button type="button" class="faq-copy-btn" data-faq-id="faq-garansi" aria-label="Salin tautan ke pertanyaan garansi" title="Salin tautan ke pertanyaan ini">
+                    <span class="faq-copy-icon-box" aria-hidden="true">
+                      <svg class="faq-copy-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                      </svg>
+                      <svg class="faq-check-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="20 6 9 17 4 12"></polyline>
                       </svg>
-                      Deep-link Tersalin!
                     </span>
-                  </div>
-                  <div class="faq-tooltip-body">
-                    <span class="faq-tooltip-url">#faq-garansi</span>
-                    <span class="faq-tooltip-desc">Tautan langsung siap dibagikan ke klien atau rekan</span>
+                    <span class="faq-copy-text">Salin Link</span>
+                  </button>
+                  <span class="faq-copy-count" data-faq-id="faq-garansi" title="Tautan pertanyaan ini telah disalin 0 kali" aria-label="Jumlah disalin: 0">
+                    <span class="faq-copy-count-num">0</span>
+                  </span>
+                  <!-- Custom Tooltip Confirming Deep-Link Copied -->
+                  <div class="faq-copy-tooltip" role="status" aria-live="polite" aria-hidden="true">
+                    <div class="faq-tooltip-header">
+                      <span class="faq-tooltip-badge">
+                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Deep-link Tersalin!
+                      </span>
+                    </div>
+                    <div class="faq-tooltip-body">
+                      <span class="faq-tooltip-url">#faq-garansi</span>
+                      <span class="faq-tooltip-desc">Tautan langsung siap dibagikan ke klien atau rekan</span>
+                    </div>
                   </div>
                 </div>
+                <!-- Share on WhatsApp Button -->
+                <a 
+                  href="#" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="faq-wa-share-btn" 
+                  data-faq-id="faq-garansi" 
+                  aria-label="Bagikan pertanyaan ini ke WhatsApp" 
+                  title="Bagikan pertanyaan ini ke WhatsApp"
+                >
+                  <svg class="faq-wa-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
+                    <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.4-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44s-.56-1.35-.77-1.85c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.43 1.02 2.6c.13.17 1.77 2.7 4.28 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.18-.47-.3z"/>
+                  </svg>
+                  <span class="faq-wa-text">WhatsApp</span>
+                </a>
               </div>
             </div>
             <div class="faq-answer">

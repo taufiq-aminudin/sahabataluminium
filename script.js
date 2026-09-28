@@ -2059,9 +2059,9 @@ function renderProjectOrder(order) {
     `;
 
   // Milestone QC Checkpoints for the details grid
-  const stageCheckpointsHtml = stagesOrder.map((key, idx) => {
+  const stageCheckpointsHtml = stagesList.map((key, idx) => {
     const sInfo = (order.stages && order.stages[key]) || {};
-    const cfg = stagesConfig[key];
+    const cfg = STAGE_CONFIG[key] || {};
     const isPast = idx < currentStageIndex;
     const isCur = idx === currentStageIndex;
     const statusText = isPast ? '✓ Selesai & Lulus QC' : (isCur ? '▶ Sedang Berjalan' : '⏳ Menunggu Antrean');
@@ -2070,8 +2070,8 @@ function renderProjectOrder(order) {
       <div class="timeline-entry">
         <div class="timeline-dot ${badgeClass}"></div>
         <div class="timeline-time">${sInfo.date || 'Estimasi'} · ${statusText}</div>
-        <div class="timeline-title">${cfg.icon} ${cfg.title} (${cfg.percent}%)</div>
-        <p class="timeline-desc">${sInfo.notes || cfg.desc}</p>
+        <div class="timeline-title">${cfg.icon || '📌'} ${cfg.title || key} (${cfg.percent || 0}%)</div>
+        <p class="timeline-desc">${sInfo.notes || cfg.desc || ''}</p>
       </div>
     `;
   }).join('');

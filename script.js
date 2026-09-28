@@ -241,6 +241,106 @@ faqItems.forEach((item) => {
 });
 
 /* =========================================================
+   FAQ LIVE SEARCH & KEYWORD FILTER
+   ========================================================= */
+const faqSearchInput = document.getElementById('faqSearchInput');
+const faqSearchClear = document.getElementById('faqSearchClear');
+const faqSearchCount = document.getElementById('faqSearchCount');
+const faqNoResults = document.getElementById('faqNoResults');
+const faqQueryTerm = document.getElementById('faqQueryTerm');
+const faqResetBtn = document.getElementById('faqResetBtn');
+const faqTagBtns = document.querySelectorAll('.faq-tag-btn');
+
+function filterFaq(query) {
+  const q = (query || '').trim().toLowerCase();
+  let matchedCount = 0;
+  const total = faqItems.length;
+
+  if (faqSearchClear) {
+    if (q.length > 0) {
+      faqSearchClear.classList.remove('hidden');
+    } else {
+      faqSearchClear.classList.add('hidden');
+    }
+  }
+
+  faqItems.forEach((item, index) => {
+    const questionText = item.querySelector('.faq-question')?.textContent.toLowerCase() || '';
+    const answerText = item.querySelector('.faq-answer')?.textContent.toLowerCase() || '';
+
+    if (!q || questionText.includes(q) || answerText.includes(q)) {
+      item.classList.remove('faq-filtered-out');
+      matchedCount++;
+
+      // When searching with at least 2 characters, expand the matched item smoothly
+      if (q.length >= 2) {
+        openFaq(item);
+      } else if (!q) {
+        // Reset state: first item open, others closed
+        if (index === 0) {
+          openFaq(item);
+        } else {
+          closeFaq(item);
+        }
+      }
+    } else {
+      item.classList.add('faq-filtered-out');
+      closeFaq(item);
+    }
+  });
+
+  // Update count indicator
+  if (faqSearchCount) {
+    if (!q) {
+      faqSearchCount.textContent = `Menampilkan ${total} pertanyaan`;
+    } else {
+      faqSearchCount.textContent = `Ditemukan ${matchedCount} dari ${total} pertanyaan`;
+    }
+  }
+
+  // Update no results box
+  if (faqNoResults) {
+    if (matchedCount === 0 && q.length > 0) {
+      faqNoResults.classList.remove('hidden');
+      if (faqQueryTerm) faqQueryTerm.textContent = query;
+    } else {
+      faqNoResults.classList.add('hidden');
+    }
+  }
+}
+
+if (faqSearchInput) {
+  faqSearchInput.addEventListener('input', (e) => {
+    filterFaq(e.target.value);
+  });
+
+  if (faqSearchClear) {
+    faqSearchClear.addEventListener('click', () => {
+      faqSearchInput.value = '';
+      faqSearchInput.focus();
+      filterFaq('');
+    });
+  }
+
+  if (faqResetBtn) {
+    faqResetBtn.addEventListener('click', () => {
+      faqSearchInput.value = '';
+      faqSearchInput.focus();
+      filterFaq('');
+    });
+  }
+
+  faqTagBtns.forEach((tagBtn) => {
+    tagBtn.addEventListener('click', () => {
+      const tagQuery = tagBtn.getAttribute('data-query') || '';
+      faqSearchInput.value = tagQuery;
+      faqSearchInput.focus();
+      filterFaq(tagQuery);
+    });
+  });
+}
+
+/* =========================================================
    FLOATING FAQ BUTTON: SCROLL & VISIBILITY TOGGLE (#faq)
    ========================================================= */
 const faqFloatBtn = document.getElementById('faqFloatBtn');

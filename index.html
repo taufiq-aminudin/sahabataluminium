@@ -579,6 +579,44 @@
       </div>
 
       <div class="faq-container">
+
+        <!-- FAQ Search Bar -->
+        <div class="faq-search-box">
+          <div class="faq-search-input-wrap">
+            <span class="faq-search-icon" aria-hidden="true">🔍</span>
+            <input 
+              type="text" 
+              id="faqSearchInput" 
+              class="faq-search-input" 
+              placeholder="Cari topik atau pertanyaan (misal: harga, garansi, material, survey, waktu)..." 
+              aria-label="Cari pertanyaan umum"
+              autocomplete="off"
+            >
+            <button type="button" id="faqSearchClear" class="faq-search-clear hidden" aria-label="Hapus kata kunci pencarian">✕</button>
+          </div>
+          <div class="faq-search-meta">
+            <span id="faqSearchCount" class="faq-search-count">Menampilkan 5 pertanyaan</span>
+            <div class="faq-search-tags">
+              <span>Topik Populer:</span>
+              <button type="button" class="faq-tag-btn" data-query="material">Material</button>
+              <button type="button" class="faq-tag-btn" data-query="harga">Harga</button>
+              <button type="button" class="faq-tag-btn" data-query="survey">Survey</button>
+              <button type="button" class="faq-tag-btn" data-query="garansi">Garansi</button>
+              <button type="button" class="faq-tag-btn" data-query="waktu">Waktu Pengerjaan</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- No Results Fallback -->
+        <div id="faqNoResults" class="faq-no-results hidden">
+          <div class="faq-no-results-icon">🔍</div>
+          <h4>Pertanyaan Tidak Ditemukan</h4>
+          <p>
+            Tidak ada jawaban yang cocok dengan kata kunci "<strong id="faqQueryTerm"></strong>". Silakan coba kata kunci lain atau hubungi admin kami untuk konsultasi langsung.
+          </p>
+          <button type="button" id="faqResetBtn" class="faq-reset-btn">Tampilkan Semua Pertanyaan</button>
+        </div>
+
         <div class="faq-list">
 
           <!-- FAQ Item 1: Material -->

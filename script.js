@@ -167,3 +167,25 @@ async function executeMapsSearch() {
   }
 }
 
+/* =========================================================
+   FAQ ACCORDION TOGGLE
+   ========================================================= */
+document.querySelectorAll('.faq-question').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+
+    document.querySelectorAll('.faq-item').forEach((other) => {
+      if (other !== item) {
+        other.classList.remove('active');
+        const otherBtn = other.querySelector('.faq-question');
+        if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    item.classList.toggle('active');
+    btn.setAttribute('aria-expanded', !isExpanded);
+  });
+});
+
+

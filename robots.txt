@@ -2,8 +2,6 @@ User-agent: *
 Allow: /
 
 # Blok area yang tidak perlu diindeks mesin pencari
-Disallow: /admin/
-Disallow: /login/
 Disallow: /api/
 
 # Sitemap

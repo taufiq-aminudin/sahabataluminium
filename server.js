@@ -287,11 +287,6 @@ app.post('/api/ads-config', (req, res) => {
   }
 });
 
-// Dedicated route for /admin to ensure smooth loading
-app.get(['/admin', '/admin/'], (req, res) => {
-  res.sendFile(path.join(__dirname, 'admin.html'));
-});
-
 // Serve static assets with html extension support
 app.use(express.static(__dirname, {
   extensions: ['html', 'htm'],

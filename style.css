@@ -1036,12 +1036,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 .faq-copy-btn {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   background: #f1f6f8;
   color: #556b78;
   border: 1px solid #d0e0e6;
   border-radius: 8px;
-  padding: 6px 10px;
+  padding: 6px 11px;
   margin-right: 18px;
   font-family: inherit;
   font-size: 11.5px;
@@ -1049,8 +1049,10 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   letter-spacing: 0.02em;
   cursor: pointer;
   white-space: nowrap;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
 }
 .faq-copy-btn:hover {
   background: var(--blue);
@@ -1058,19 +1060,80 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   border-color: var(--blue);
 }
 .faq-copy-btn:active {
-  transform: scale(0.96);
+  transform: scale(0.95);
 }
 .faq-copy-btn.copied {
-  background: #e8f7ee;
-  color: #16824b;
-  border-color: #a3deb8;
+  background: #e8f7ee !important;
+  color: #127241 !important;
+  border-color: #8cd6a7 !important;
+  box-shadow: 0 2px 8px rgba(18, 114, 65, 0.15);
+  animation: faqCopyPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Icon Box & Subtle Checkmark Animation */
+.faq-copy-icon-box {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 .faq-copy-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
   flex-shrink: 0;
-  transition: transform 0.2s ease;
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+  transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.faq-check-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  opacity: 0;
+  transform: scale(0.3) rotate(-20deg);
+  transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  color: #127241;
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
 }
 .faq-copy-btn:hover .faq-copy-icon {
-  transform: rotate(-12deg);
+  transform: scale(1.05) rotate(-10deg);
+}
+
+/* State when copied: link icon fades/shrinks out, checkmark springs in and draws stroke */
+.faq-copy-btn.copied .faq-copy-icon {
+  opacity: 0;
+  transform: scale(0.3) rotate(30deg);
+}
+.faq-copy-btn.copied .faq-check-icon {
+  opacity: 1;
+  transform: scale(1.1) rotate(0deg);
+  stroke-dashoffset: 0;
+  animation: faqCheckDraw 0.4s ease forwards;
+}
+
+@keyframes faqCopyPop {
+  0% { transform: scale(0.96); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+@keyframes faqCheckDraw {
+  0% {
+    stroke-dashoffset: 24;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
 @media (max-width: 560px) {

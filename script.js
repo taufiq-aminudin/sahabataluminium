@@ -2064,15 +2064,15 @@ function renderProjectOrder(order) {
           </div>
 
           <div class="order-progress-badge">
-            <span class="progress-big-number">${percent}%</span>
+            <span class="progress-big-number" id="progressBigNumber">0%</span>
             <span class="progress-big-unit">Selesai</span>
           </div>
         </div>
 
-        <!-- The Progress Bar Shell & Fill -->
+        <!-- The Progress Bar Shell & Fill (Animated from 0% to target) -->
         <div class="progress-bar-shell" role="progressbar" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100" aria-label="Progres pengerjaan proyek ${percent}%">
-          <div class="progress-bar-fill stage-${currentStage.toLowerCase()}" style="width: ${percent}%;">
-            ${percent >= 25 ? `${percent}%` : ''}
+          <div class="progress-bar-fill stage-${currentStage.toLowerCase()}" id="progressBarFill" style="width: 0%;">
+            <span class="progress-bar-label">${percent}%</span>
           </div>
         </div>
 
@@ -2100,7 +2100,7 @@ function renderProjectOrder(order) {
       <!-- Stepper Progress Pipeline -->
       <div class="order-stepper-wrap">
         <div class="stepper-progress-track-bg">
-          <div class="stepper-progress-fill" style="width: ${percent}%;"></div>
+          <div class="stepper-progress-fill" id="stepperProgressFill" style="width: 0%;"></div>
           <div class="stepper-nodes-row">
             ${stepperHtml}
           </div>
@@ -2206,6 +2206,44 @@ function renderProjectOrder(order) {
 
     </div>
   `;
+
+  // Trigger CSS transition animation smoothly filling from 0% to target percentage
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      const fillBar = document.getElementById('progressBarFill');
+      const stepperFill = document.getElementById('stepperProgressFill');
+      const numEl = document.getElementById('progressBigNumber');
+
+      if (fillBar) {
+        fillBar.style.width = `${percent}%`;
+        fillBar.classList.add('animated');
+      }
+      if (stepperFill) {
+        stepperFill.style.width = `${percent}%`;
+      }
+
+      // Smooth numerical counter from 0% to target percentage
+      if (numEl) {
+        let startTime = null;
+        const duration = 1150;
+        function stepCounter(timestamp) {
+          if (!startTime) startTime = timestamp;
+          const elapsed = timestamp - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          // Ease-out cubic: 1 - (1 - progress)^3
+          const ease = 1 - Math.pow(1 - progress, 3);
+          const currentVal = Math.round(percent * ease);
+          numEl.textContent = `${currentVal}%`;
+          if (progress < 1) {
+            requestAnimationFrame(stepCounter);
+          } else {
+            numEl.textContent = `${percent}%`;
+          }
+        }
+        requestAnimationFrame(stepCounter);
+      }
+    }, 40);
+  });
 }
 
 function renderProjectOrderError(errorMsg, availableIds = []) {

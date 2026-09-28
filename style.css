@@ -788,6 +788,65 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(10, 102, 194, 0.25);
 }
+
+/* =========================================================
+   FAQ HEADER ACTIONS (COLLAPSE ALL BUTTON)
+   ========================================================= */
+.faq-head-actions {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.faq-collapse-all-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  color: var(--deep);
+  border: 1.5px solid #cce0e6;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(7, 55, 70, 0.04);
+  transition: all 0.22s ease;
+  user-select: none;
+}
+
+.faq-collapse-all-btn:hover {
+  background: #f0f7f9;
+  border-color: var(--blue);
+  color: var(--blue);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(13, 92, 115, 0.12);
+}
+
+.faq-collapse-all-btn:active {
+  transform: scale(0.97);
+}
+
+.faq-collapse-all-btn.collapsed-feedback {
+  background: #eef9f2;
+  border-color: #8ed4a7;
+  color: #198754;
+}
+
+.faq-collapse-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.faq-collapse-all-btn:hover .faq-collapse-icon {
+  transform: translateY(-1px);
+}
+
 .faq-container{
   max-width: 900px;
   margin: 0 auto;

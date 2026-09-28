@@ -465,6 +465,45 @@ faqItems.forEach((item) => {
 });
 
 /* =========================================================
+   FAQ COLLAPSE ALL BUTTON HANDLER
+   ========================================================= */
+const faqCollapseAllBtn = document.getElementById('faqCollapseAllBtn');
+const faqCollapseLabel = document.getElementById('faqCollapseLabel');
+
+function collapseAllFaqs() {
+  faqItems.forEach((item) => {
+    closeFaq(item);
+    item.classList.remove('active');
+    const btn = item.querySelector('.faq-question');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  });
+
+  // Also close mobile bottom drawer if currently displayed
+  if (faqMobileDrawer && faqMobileDrawer.classList.contains('open')) {
+    closeFaqDrawer();
+  }
+
+  // Visual feedback on button
+  if (faqCollapseAllBtn) {
+    faqCollapseAllBtn.classList.add('collapsed-feedback');
+    const prevText = faqCollapseLabel ? faqCollapseLabel.textContent : 'Tutup Semua Jawaban (Collapse All)';
+    if (faqCollapseLabel) {
+      faqCollapseLabel.textContent = '✓ Semua Jawaban Ditutup';
+    }
+    setTimeout(() => {
+      faqCollapseAllBtn.classList.remove('collapsed-feedback');
+      if (faqCollapseLabel) {
+        faqCollapseLabel.textContent = prevText;
+      }
+    }, 1800);
+  }
+}
+
+if (faqCollapseAllBtn) {
+  faqCollapseAllBtn.addEventListener('click', collapseAllFaqs);
+}
+
+/* =========================================================
    FAQ LIVE SEARCH & KEYWORD FILTER
    ========================================================= */
 const faqSearchInput = document.getElementById('faqSearchInput');

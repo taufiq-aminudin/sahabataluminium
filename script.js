@@ -614,35 +614,17 @@ const faqSection = document.getElementById('faq');
 if (faqFloatBtn && faqSection) {
   const faqFloatText = faqFloatBtn.querySelector('.faq-float-text');
 
-  faqFloatBtn.addEventListener('click', () => {
-    const isHidden = faqSection.classList.contains('faq-hidden');
-
-    if (isHidden) {
-      // If hidden, restore visibility and smooth scroll to it
+  faqFloatBtn.addEventListener('click', (e) => {
+    if (e) e.preventDefault();
+    if (faqSection.classList.contains('faq-hidden')) {
       faqSection.classList.remove('faq-hidden');
       faqFloatBtn.setAttribute('aria-expanded', 'true');
-      if (faqFloatText) faqFloatText.textContent = 'Lihat FAQ';
-      
-      window.scrollTo({ top: document.querySelector('#faq').offsetTop, behavior: 'smooth' });
-      faqSection.classList.add('faq-highlight');
-      setTimeout(() => faqSection.classList.remove('faq-highlight'), 1200);
-    } else {
-      // Check if #faq is currently in viewport
-      const rect = faqSection.getBoundingClientRect();
-      const inView = rect.top <= window.innerHeight * 0.7 && rect.bottom >= 100;
-
-      if (!inView) {
-        // Smoothly scroll to #faq
-        window.scrollTo({ top: document.querySelector('#faq').offsetTop, behavior: 'smooth' });
-        faqSection.classList.add('faq-highlight');
-        setTimeout(() => faqSection.classList.remove('faq-highlight'), 1200);
-      } else {
-        // Toggle visibility (hide the #faq section)
-        faqSection.classList.add('faq-hidden');
-        faqFloatBtn.setAttribute('aria-expanded', 'false');
-        if (faqFloatText) faqFloatText.textContent = 'Buka FAQ';
-      }
     }
+    if (faqFloatText) faqFloatText.textContent = 'Lihat FAQ';
+
+    window.scrollTo({ top: document.querySelector('#faq').offsetTop, behavior: 'smooth' });
+    faqSection.classList.add('faq-highlight');
+    setTimeout(() => faqSection.classList.remove('faq-highlight'), 1200);
   });
 
   // Dynamically reflect scroll position on button

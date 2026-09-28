@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { GoogleGenAI } from '@google/genai';
 
@@ -135,6 +136,25 @@ app.post('/api/search-locations', async (req, res) => {
       ],
       googleSearchUrl: `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`
     });
+  }
+});
+
+// API: Get Published Articles Metadata
+app.get('/api/articles', (req, res) => {
+  try {
+    const filePath = path.join(__dirname, 'articles.json');
+    if (fs.existsSync(filePath)) {
+      const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+      // Filter only published articles and sort by published date descending
+      const published = data
+        .filter(item => item.status === 'published')
+        .sort((a, b) => new Date(b.publishedAt || b.createdAt || 0) - new Date(a.publishedAt || a.createdAt || 0));
+      return res.json({ success: true, articles: published });
+    }
+    return res.json({ success: true, articles: [] });
+  } catch (err) {
+    console.error('Error reading articles:', err);
+    return res.status(500).json({ success: false, error: 'Gagal memuat artikel' });
   }
 });
 

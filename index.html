@@ -1238,6 +1238,84 @@
   </section>
 
 
+  <!-- ===================================================
+       RECENT ARTICLES (ARTIKEL TERBARU) SECTION
+  ==================================================== -->
+  <section class="recent-articles-section" id="artikel-terbaru">
+    <div class="container">
+      <div class="recent-articles-head">
+        <div class="recent-articles-head-text">
+          <div class="eyebrow">
+            <span></span>
+            ARTIKEL & PANDUAN TERBARU
+          </div>
+          <h2>Artikel & Wawasan Kaca Aluminium</h2>
+          <p>
+            Informasi terkini, panduan teknis pemilihan material, serta tips seputar kusen, partisi kantor, pintu tempered, dan tren arsitektur di Karawang, Cikarang, dan Bekasi.
+          </p>
+        </div>
+        <div class="recent-articles-head-action">
+          <a href="artikel.html" class="btn-all-articles">
+            <span>Lihat Semua Artikel</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- DYNAMIC RECENT ARTICLES CONTAINER -->
+      <div id="recentArticlesContainer">
+        <!-- Skeleton / Loading State -->
+        <div id="recentArticlesSkeleton" class="recent-articles-grid" aria-label="Memuat artikel terbaru...">
+          <div class="article-card-skeleton">
+            <div class="skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-badge"></div>
+              <div class="skeleton-line skeleton-title"></div>
+              <div class="skeleton-line skeleton-desc"></div>
+              <div class="skeleton-line skeleton-link"></div>
+            </div>
+          </div>
+          <div class="article-card-skeleton">
+            <div class="skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-badge"></div>
+              <div class="skeleton-line skeleton-title"></div>
+              <div class="skeleton-line skeleton-desc"></div>
+              <div class="skeleton-line skeleton-link"></div>
+            </div>
+          </div>
+          <div class="article-card-skeleton">
+            <div class="skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-badge"></div>
+              <div class="skeleton-line skeleton-title"></div>
+              <div class="skeleton-line skeleton-desc"></div>
+              <div class="skeleton-line skeleton-link"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rendered Articles Grid -->
+        <div id="recentArticlesGrid" class="recent-articles-grid hidden"></div>
+
+        <!-- Empty State Fallback -->
+        <div id="recentArticlesEmpty" class="recent-articles-empty hidden">
+          <p>Belum ada artikel yang dipublikasikan saat ini.</p>
+        </div>
+      </div>
+
+      <!-- Bottom Mobile CTA -->
+      <div class="recent-articles-bottom-cta">
+        <a href="artikel.html" class="btn-outline-articles">
+          Jelajahi Semua Artikel & Panduan →
+        </a>
+      </div>
+    </div>
+  </section>
+
+
 </main>
 
 

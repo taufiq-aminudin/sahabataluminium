@@ -521,6 +521,173 @@ if (document.readyState === 'loading') {
 }
 window.addEventListener('hashchange', checkFaqAnchorTarget);
 
+/* =========================================================
+   DYNAMIC RECENT ARTICLES FETCHER & RENDERER
+   ========================================================= */
+const recentArticlesGrid = document.getElementById('recentArticlesGrid');
+const recentArticlesSkeleton = document.getElementById('recentArticlesSkeleton');
+const recentArticlesEmpty = document.getElementById('recentArticlesEmpty');
+
+if (recentArticlesGrid && recentArticlesSkeleton) {
+  async function loadRecentArticles() {
+    let articles = [];
+
+    // 1. Fetch from server endpoint (/api/articles or fallback to articles.json)
+    try {
+      const response = await fetch('/api/articles');
+      if (response.ok) {
+        const result = await response.json();
+        if (result && Array.isArray(result.articles)) {
+          articles = result.articles;
+        }
+      }
+    } catch (err) {
+      console.warn('Gagal memuat /api/articles, mencoba fallback:', err);
+    }
+
+    // Fallback to static articles.json if /api/articles returned empty or failed
+    if (!articles.length) {
+      try {
+        const fallbackRes = await fetch('articles.json');
+        if (fallbackRes.ok) {
+          const rawData = await fallbackRes.json();
+          if (Array.isArray(rawData)) {
+            articles = rawData.filter(a => a && a.status === 'published');
+          }
+        }
+      } catch (e2) {
+        console.warn('Fallback articles.json gagal:', e2);
+      }
+    }
+
+    // 2. Also merge with any local articles saved in browser's localStorage by the admin
+    try {
+      const localRaw = localStorage.getItem('sahabat_kaca_aluminium_articles_v1');
+      if (localRaw) {
+        const localArticles = JSON.parse(localRaw);
+        if (Array.isArray(localArticles)) {
+          localArticles.forEach(item => {
+            if (item && item.status === 'published') {
+              const idx = articles.findIndex(a => a.id === item.id || (item.slug && a.slug === item.slug));
+              if (idx >= 0) {
+                articles[idx] = { ...articles[idx], ...item };
+              } else {
+                articles.unshift(item);
+              }
+            } else if (item && item.status !== 'published') {
+              // If draft, exclude from published list
+              articles = articles.filter(a => a.id !== item.id && a.slug !== item.slug);
+            }
+          });
+        }
+      }
+    } catch (err) {
+      console.warn('Gagal membaca localStorage artikel:', err);
+    }
+
+    // 3. Strictly filter published status and sort by published date descending
+    const publishedArticles = articles
+      .filter(a => a && a.status === 'published')
+      .sort((a, b) => new Date(b.publishedAt || b.createdAt || 0) - new Date(a.publishedAt || a.createdAt || 0));
+
+    // Hide skeleton loading
+    recentArticlesSkeleton.classList.add('hidden');
+
+    if (!publishedArticles.length) {
+      if (recentArticlesEmpty) recentArticlesEmpty.classList.remove('hidden');
+      return;
+    }
+
+    // Limit to latest 6 published articles for the homepage grid
+    const latestArticles = publishedArticles.slice(0, 6);
+
+    // Format Indonesian date helper
+    const formatDate = (dateString) => {
+      if (!dateString) return 'Terbaru';
+      try {
+        const d = new Date(dateString);
+        return d.toLocaleDateString('id-ID', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric'
+        });
+      } catch (e) {
+        return 'Terbaru';
+      }
+    };
+
+    // Helper escape HTML
+    const escapeHtml = (str) => {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    };
+
+    recentArticlesGrid.innerHTML = latestArticles.map(art => {
+      const artUrl = art.url || (art.slug ? `artikel/${art.slug}.html` : 'artikel.html');
+      const artImg = art.image || 'assets/gallery/partisi-aluminium.jpg';
+      const artTitle = art.title || 'Artikel Kaca & Aluminium';
+      const artExcerpt = art.excerpt || 'Panduan dan informasi seputar pemasangan kaca dan kusen aluminium profesional.';
+      const artCategory = art.category || 'Kaca & Aluminium';
+      const artDate = formatDate(art.publishedAt || art.createdAt);
+      const artReadingTime = art.readingTime || '4 mnt baca';
+
+      return `
+        <article class="recent-article-card" data-slug="${escapeHtml(art.slug || '')}">
+          <a href="${escapeHtml(artUrl)}" class="recent-article-thumb-link" aria-label="${escapeHtml(artTitle)}">
+            <img 
+              src="${escapeHtml(artImg)}" 
+              alt="${escapeHtml(artTitle)}" 
+              class="recent-article-thumb-img" 
+              loading="lazy"
+              onerror="this.onerror=null; this.src='assets/gallery/partisi-aluminium.jpg';"
+            >
+            <span class="recent-article-badge">${escapeHtml(artCategory)}</span>
+          </a>
+          <div class="recent-article-body">
+            <div class="recent-article-meta">
+              <span class="recent-article-meta-date">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                ${escapeHtml(artDate)}
+              </span>
+              <span class="recent-article-meta-time">${escapeHtml(artReadingTime)}</span>
+            </div>
+            <h3 class="recent-article-title">
+              <a href="${escapeHtml(artUrl)}">${escapeHtml(artTitle)}</a>
+            </h3>
+            <p class="recent-article-excerpt">${escapeHtml(artExcerpt)}</p>
+            <div class="recent-article-action">
+              <a href="${escapeHtml(artUrl)}" class="recent-article-link">
+                <span>Baca Selengkapnya</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+
+    recentArticlesGrid.classList.remove('hidden');
+  }
+
+  // Trigger load on DOM ready or immediate
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadRecentArticles);
+  } else {
+    loadRecentArticles();
+  }
+}
+
+
 
 
 

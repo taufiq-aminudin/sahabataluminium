@@ -1097,6 +1097,21 @@ document.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation(); // Avoid triggering accordion or drawer gestures
     handleFaqVoteClick(voteBtn);
+    return;
+  }
+
+  // Interactive step card click highlight within visual timeline
+  const step = e.target.closest('.faq-timeline-step');
+  if (step) {
+    e.stopPropagation();
+    const timeline = step.closest('.faq-process-timeline');
+    if (timeline) {
+      const isAlreadySelected = step.classList.contains('step-selected');
+      timeline.querySelectorAll('.faq-timeline-step').forEach(s => s.classList.remove('step-selected'));
+      if (!isAlreadySelected) {
+        step.classList.add('step-selected');
+      }
+    }
   }
 });
 

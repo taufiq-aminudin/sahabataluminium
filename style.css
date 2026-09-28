@@ -1710,6 +1710,414 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 }
 
 /* =========================================================
+   FAQ PROCESS STEP-BY-STEP VISUAL TIMELINE ANIMATION
+   Unfolds project stages (Survey, Fabrication, Installation)
+   when a Process-categorized FAQ item is clicked / opened.
+   ========================================================= */
+#faq .faq-process-timeline,
+.faq-process-timeline {
+  margin: 18px 0 22px 0;
+  padding: 22px 20px 20px;
+  background: linear-gradient(135deg, #f8fcfe 0%, #f0f7fa 100%);
+  border: 1px solid #cce5ed;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(7, 55, 70, 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+#faq .faq-timeline-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 22px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed #cfe0e6;
+}
+
+#faq .faq-timeline-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--deep);
+  letter-spacing: -0.01em;
+}
+
+#faq .faq-timeline-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #0d5c73;
+  box-shadow: 0 0 0 0 rgba(13, 92, 115, 0.7);
+  animation: timelineDotPulse 2s infinite;
+  display: inline-block;
+}
+
+@keyframes timelineDotPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(13, 92, 115, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(13, 92, 115, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(13, 92, 115, 0); }
+}
+
+#faq .faq-timeline-duration-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #e6f4f8;
+  color: #0b4e61;
+  border: 1px solid #b5dbe5;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+#faq .faq-timeline-flow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  position: relative;
+  padding-top: 6px;
+}
+
+/* Connecting track line across stages */
+#faq .faq-timeline-track-line {
+  position: absolute;
+  top: 26px;
+  left: 14%;
+  right: 14%;
+  height: 3px;
+  background: #d4e7ee;
+  border-radius: 3px;
+  z-index: 1;
+  overflow: hidden;
+}
+
+#faq .faq-timeline-track-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #0d5c73 0%, #177e9e 50%, #10b981 100%);
+  border-radius: 3px;
+  transition: width 0.85s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* When FAQ item is active, line fills smoothly */
+#faq .faq-item.active .faq-timeline-track-fill,
+#faqMobileDrawer.open .faq-timeline-track-fill {
+  width: 100%;
+  transition-delay: 0.12s;
+}
+
+/* Timeline steps initially folded/hidden */
+#faq .faq-timeline-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(20px) scale(0.94);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Unfolding animation sequence triggered when clicked / active */
+#faq .faq-item.active .faq-timeline-step.step-survey,
+#faqMobileDrawer.open .faq-timeline-step.step-survey {
+  animation: faqStageUnfold 0.52s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.12s;
+}
+
+#faq .faq-item.active .faq-timeline-step.step-fabrication,
+#faqMobileDrawer.open .faq-timeline-step.step-fabrication {
+  animation: faqStageUnfold 0.52s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.32s;
+}
+
+#faq .faq-item.active .faq-timeline-step.step-installation,
+#faqMobileDrawer.open .faq-timeline-step.step-installation {
+  animation: faqStageUnfold 0.52s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.52s;
+}
+
+@keyframes faqStageUnfold {
+  0% {
+    opacity: 0;
+    transform: translateY(22px) scale(0.93);
+  }
+  65% {
+    transform: translateY(-4px) scale(1.015);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Step Node (Icon circle + Badge number) */
+#faq .faq-step-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+#faq .faq-step-icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2.2px solid #0d5c73;
+  color: #0d5c73;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(13, 92, 115, 0.16);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+#faq .faq-timeline-step:hover .faq-step-icon-circle,
+#faq .faq-timeline-step:focus-visible .faq-step-icon-circle {
+  background: #0d5c73;
+  color: #ffffff;
+  transform: scale(1.12);
+  box-shadow: 0 6px 18px rgba(13, 92, 115, 0.32);
+}
+
+#faq .faq-step-badge-num {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: #072e3b;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+  z-index: 3;
+}
+
+#faq .faq-step-status-chip {
+  margin-top: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #0b4e61;
+  background: #e2f1f5;
+  padding: 2.5px 8px;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+}
+
+#faq .faq-timeline-step:hover .faq-step-status-chip {
+  background: #0d5c73;
+  color: #ffffff;
+}
+
+/* Step Card Content */
+#faq .faq-step-card {
+  background: #ffffff;
+  border: 1px solid #d3e5eb;
+  border-radius: 12px;
+  padding: 15px 14px;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(7, 55, 70, 0.04);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+#faq .faq-timeline-step:hover .faq-step-card,
+#faq .faq-timeline-step:focus-visible .faq-step-card {
+  border-color: #0d5c73;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(7, 55, 70, 0.1);
+}
+
+#faq .faq-step-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+}
+
+#faq .faq-step-phase {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #0d5c73;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#faq .faq-step-timing {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+#faq .faq-step-title {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--deep);
+  line-height: 1.35;
+}
+
+#faq .faq-step-desc {
+  margin: 0;
+  font-size: 12px;
+  color: #556973;
+  line-height: 1.5;
+}
+
+#faq .faq-step-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 3px;
+}
+
+#faq .faq-step-pill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+/* Highlight focused current stage */
+#faq .faq-timeline-step.step-current .faq-step-card {
+  border-color: #0d5c73;
+  border-width: 1.5px;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(13, 92, 115, 0.14), 0 8px 22px rgba(7, 55, 70, 0.09);
+}
+
+#faq .faq-timeline-step.step-current .faq-step-icon-circle {
+  background: #0d5c73;
+  color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(13, 92, 115, 0.2);
+}
+
+#faq .faq-timeline-step.step-current .faq-step-status-chip {
+  background: #0d5c73;
+  color: #ffffff;
+}
+
+/* Selected interactive stage state */
+#faq .faq-timeline-step.step-selected .faq-step-card {
+  border-color: #0d5c73;
+  background: #fbfdfe;
+  box-shadow: 0 0 0 3px rgba(13, 92, 115, 0.2), 0 10px 24px rgba(7, 55, 70, 0.12);
+  transform: translateY(-4px);
+}
+
+#faq .faq-timeline-step.step-selected .faq-step-icon-circle {
+  background: #0d5c73;
+  color: #ffffff;
+  transform: scale(1.15);
+}
+
+/* Responsive Mobile Stepped Layout (<= 768px) */
+@media (max-width: 768px) {
+  #faq .faq-process-timeline,
+  .faq-process-timeline {
+    padding: 16px 14px 14px;
+    margin: 14px 0 18px 0;
+  }
+
+  #faq .faq-timeline-header {
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+  }
+
+  #faq .faq-timeline-flow {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding-top: 0;
+    padding-left: 20px;
+  }
+
+  #faq .faq-timeline-track-line {
+    top: 24px;
+    bottom: 24px;
+    left: 20px;
+    right: auto;
+    width: 3px;
+    height: auto;
+  }
+
+  #faq .faq-timeline-track-fill {
+    width: 100%;
+    height: 0%;
+    transition: height 0.85s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  #faq .faq-item.active .faq-timeline-track-fill,
+  #faqMobileDrawer.open .faq-timeline-track-fill {
+    height: 100%;
+    transition-delay: 0.12s;
+  }
+
+  #faq .faq-timeline-step {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 14px;
+    margin-left: -20px;
+    transform: translateX(16px);
+  }
+
+  @keyframes faqStageUnfold {
+    0% {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  #faq .faq-step-node {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  #faq .faq-step-icon-circle {
+    width: 40px;
+    height: 40px;
+  }
+
+  #faq .faq-step-status-chip {
+    display: none;
+  }
+
+  #faq .faq-step-card {
+    padding: 12px 14px;
+    flex: 1;
+  }
+}
+
+/* =========================================================
    FAQ HELPFULNESS FEEDBACK (WAS THIS HELPFUL? UPVOTE/DOWNVOTE)
    ========================================================= */
 .faq-feedback {
@@ -3879,6 +4287,23 @@ body.faq-drawer-open {
   #faq .faq-answer strong,
   #faq .faq-answer b {
     color: #000000 !important;
+  }
+
+  #faq .faq-process-timeline {
+    border: 1px solid #d0d7de !important;
+    background: #f9fbfc !important;
+    box-shadow: none !important;
+    margin: 8pt 0 !important;
+    padding: 8pt 10pt !important;
+    page-break-inside: avoid !important;
+  }
+  #faq .faq-timeline-step {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  #faq .faq-timeline-track-fill {
+    width: 100% !important;
   }
 
   #faq .faq-answer em,

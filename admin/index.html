@@ -529,19 +529,19 @@
     saveArticles(getArticles().filter(x=>x.id!==id));
   }
 
-  document.getElementById("articleTitle").addEventListener("input",function(){
+  document.getElementById("articleTitle")?.addEventListener("input",function(){
     const slug=document.getElementById("articleSlug");
     if(!document.getElementById("articleId").value || !slug.dataset.manual){
       slug.value=slugify(this.value);
     }
   });
 
-  document.getElementById("articleSlug").addEventListener("input",function(){
+  document.getElementById("articleSlug")?.addEventListener("input",function(){
     this.dataset.manual="1";
     this.value=slugify(this.value);
   });
 
-  document.getElementById("articleForm").addEventListener("submit",function(e){
+  document.getElementById("articleForm")?.addEventListener("submit",function(e){
     e.preventDefault();
     const articles=getArticles();
     const id=document.getElementById("articleId").value || ("article-"+Date.now());
@@ -781,7 +781,7 @@
     saveAds(ads.filter(a=>a.id!==id));
   }
 
-  document.getElementById("adForm").addEventListener("submit",function(e){
+  document.getElementById("adForm")?.addEventListener("submit",function(e){
     e.preventDefault();
 
     const ads = getAds();
@@ -825,7 +825,7 @@
     }
   }
 
-  document.getElementById("adImage").addEventListener("input",updatePreview);
+  document.getElementById("adImage")?.addEventListener("input",updatePreview);
 
   async function copyJson(){
     const text = document.getElementById("jsonOutput").textContent;
@@ -852,7 +852,7 @@
     document.body.classList.add("locked");
   }
 
-  document.getElementById("loginForm").addEventListener("submit", function(e){
+  document.getElementById("loginForm")?.addEventListener("submit", function(e){
     e.preventDefault();
     const user = document.getElementById("loginUser").value.trim();
     const pass = document.getElementById("loginPass").value;

@@ -1997,18 +1997,84 @@ function renderProjectOrder(order) {
   const activeNote = activeStageInfo.notes || stageCfg.desc;
   const activeDate = activeStageInfo.date ? `Tanggal: ${activeStageInfo.date}` : '';
 
-  // Activity Logs HTML
+  // Helper to format log timestamp nicely
+  function formatLogTimestamp(ts) {
+    if (!ts) return '-';
+    try {
+      const parts = ts.split(' ');
+      if (parts.length === 2 && parts[0].includes('-')) {
+        const [year, month, day] = parts[0].split('-');
+        const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        const mIdx = parseInt(month, 10) - 1;
+        const mName = months[mIdx] || month;
+        return `${parseInt(day, 10)} ${mName} ${year} · ${parts[1]} WIB`;
+      }
+    } catch (e) {}
+    return `${ts} WIB`;
+  }
+
+  const stageLabels = {
+    'Survey': { name: 'Survey & Pengukuran', pct: '25%', icon: '📐' },
+    'Fabrication': { name: 'Fabrikasi Workshop', pct: '50%', icon: '⚙️' },
+    'Installation': { name: 'Instalasi On-Site', pct: '75%', icon: '🏗️' },
+    'Completed': { name: 'Selesai & Garansi', pct: '100%', icon: '🛡️' }
+  };
+
+  // Activity Logs & Previous Status Timestamps
   const activityLogs = Array.isArray(order.activityLog) ? order.activityLog : [];
-  const activityLogsHtml = activityLogs.length > 0
-    ? activityLogs.map(log => `
-        <div class="timeline-entry">
-          <div class="timeline-dot"></div>
-          <div class="timeline-time">${log.timestamp} · ${log.stage || ''}</div>
-          <div class="timeline-title">${log.title}</div>
-          <p class="timeline-desc">${log.desc}</p>
-        </div>
-      `).join('')
-    : `<p style="color:var(--muted);font-size:13px;">Belum ada log aktivitas tercatat.</p>`;
+  
+  const historyLogsHtml = activityLogs.length > 0
+    ? activityLogs.map((log, index) => {
+        const stKey = log.stage || 'Survey';
+        const stInfo = stageLabels[stKey] || { name: stKey, pct: '', icon: '📌' };
+        const isLatest = index === 0;
+        const formattedTime = formatLogTimestamp(log.timestamp);
+
+        return `
+          <div class="history-log-item ${isLatest ? 'is-latest' : ''}">
+            <div class="history-log-item-dot">
+              ${isLatest ? '★' : '✓'}
+            </div>
+            <div class="history-log-item-content">
+              <div class="history-log-item-header">
+                <span class="history-time-badge">
+                  <span>🕒</span>
+                  <span>${formattedTime}</span>
+                </span>
+                <span class="history-stage-pill stage-${stKey.toLowerCase()}">
+                  ${stInfo.icon} ${stInfo.name} ${stInfo.pct ? `(${stInfo.pct})` : ''}
+                </span>
+                ${isLatest ? '<span class="history-latest-pill">Status Terkini / Live</span>' : ''}
+              </div>
+              <div class="history-event-title">${log.title}</div>
+              <p class="history-event-desc">${log.desc}</p>
+            </div>
+          </div>
+        `;
+      }).join('')
+    : `
+      <div class="history-log-empty">
+        <p>Belum ada riwayat timestamp status untuk nomor pesanan #${order.id}.</p>
+      </div>
+    `;
+
+  // Milestone QC Checkpoints for the details grid
+  const stageCheckpointsHtml = stagesOrder.map((key, idx) => {
+    const sInfo = (order.stages && order.stages[key]) || {};
+    const cfg = stagesConfig[key];
+    const isPast = idx < currentStageIndex;
+    const isCur = idx === currentStageIndex;
+    const statusText = isPast ? '✓ Selesai & Lulus QC' : (isCur ? '▶ Sedang Berjalan' : '⏳ Menunggu Antrean');
+    const badgeClass = isPast ? 'completed' : (isCur ? 'in-progress' : 'pending');
+    return `
+      <div class="timeline-entry">
+        <div class="timeline-dot ${badgeClass}"></div>
+        <div class="timeline-time">${sInfo.date || 'Estimasi'} · ${statusText}</div>
+        <div class="timeline-title">${cfg.icon} ${cfg.title} (${cfg.percent}%)</div>
+        <p class="timeline-desc">${sInfo.notes || cfg.desc}</p>
+      </div>
+    `;
+  }).join('');
 
   // WhatsApp Pre-filled URL
   const waMessage = encodeURIComponent(
@@ -2095,6 +2161,27 @@ function renderProjectOrder(order) {
             <span class="milestone-label">🛡️ 4. Selesai</span>
           </div>
         </div>
+
+        <!-- History Log with Previous Status Timestamps (Directly Underneath Progress Bar) -->
+        <div class="order-history-log-section">
+          <div class="history-log-top-bar">
+            <div class="history-log-title-group">
+              <span class="history-icon-badge">⏱️</span>
+              <div>
+                <h5 class="history-log-title">History Log & Status Timestamps</h5>
+                <p class="history-log-subtitle">Riwayat pembaruan status resmi untuk Order ID <strong>#${order.id}</strong></p>
+              </div>
+            </div>
+            <div class="history-count-badge">
+              <span class="count-num">${activityLogs.length}</span>
+              <span class="count-text">Pembaruan Tercatat</span>
+            </div>
+          </div>
+
+          <div class="history-timeline-list">
+            ${historyLogsHtml}
+          </div>
+        </div>
       </div>
 
       <!-- Stepper Progress Pipeline -->
@@ -2162,15 +2249,15 @@ function renderProjectOrder(order) {
           </div>
         </div>
 
-        <!-- Right Column: Workshop & Jobsite Activity Log -->
+        <!-- Right Column: Verification & QC Milestones -->
         <div class="details-column">
           <h3>
-            <span>⏱️</span>
-            <span>Log Aktivitas & Riwayat Pengerjaan</span>
+            <span>🔍</span>
+            <span>Jadwal & Standar Verifikasi Lapangan</span>
           </h3>
 
           <div class="activity-timeline">
-            ${activityLogsHtml}
+            ${stageCheckpointsHtml}
           </div>
         </div>
 

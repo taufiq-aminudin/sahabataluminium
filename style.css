@@ -4992,6 +4992,240 @@ body.faq-drawer-open {
   line-height: 1.3;
 }
 
+/* =========================================================
+   DEDICATED HISTORY LOG UNDERNEATH PROGRESS BAR
+   Menampilkan riwayat status dan timestamp lengkap
+   ========================================================= */
+.order-history-log-section {
+  margin-top: 24px;
+  background: #fbfdfe;
+  border: 1px solid #dce8ec;
+  border-radius: 14px;
+  padding: 20px 22px;
+  box-shadow: 0 4px 14px rgba(7, 55, 70, 0.04);
+}
+
+.history-log-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #e7f0f3;
+  flex-wrap: wrap;
+}
+
+.history-log-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.history-icon-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(13, 92, 115, 0.08);
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.history-log-title {
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.history-log-subtitle {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.history-count-badge {
+  background: #ffffff;
+  border: 1px solid #d4e2e7;
+  border-radius: 20px;
+  padding: 5px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--deep);
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.history-count-badge .count-num {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--deep);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+/* History Timeline Feed */
+.history-timeline-list {
+  position: relative;
+  margin-top: 18px;
+  padding-left: 28px;
+}
+
+.history-timeline-list::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: #dce7eb;
+}
+
+.history-log-item {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.history-log-item:last-child {
+  margin-bottom: 0;
+}
+
+.history-log-item-dot {
+  position: absolute;
+  left: -28px;
+  top: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid #16b95b;
+  display: grid;
+  place-items: center;
+  font-size: 9px;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.history-log-item.is-latest .history-log-item-dot {
+  border-color: var(--gold);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(200, 148, 61, 0.25);
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+  0% { box-shadow: 0 0 0 2px rgba(200, 148, 61, 0.35); }
+  50% { box-shadow: 0 0 0 6px rgba(200, 148, 61, 0.1); }
+  100% { box-shadow: 0 0 0 2px rgba(200, 148, 61, 0.35); }
+}
+
+.history-log-item-content {
+  background: #ffffff;
+  border: 1px solid #e3edf0;
+  border-radius: 10px;
+  padding: 12px 16px;
+  box-shadow: 0 2px 8px rgba(7, 55, 70, 0.03);
+  transition: all 0.2s ease;
+}
+
+.history-log-item.is-latest .history-log-item-content {
+  border-color: #d1e2e8;
+  background: linear-gradient(180deg, #ffffff 0%, #fafdff 100%);
+  box-shadow: 0 4px 14px rgba(7, 55, 70, 0.06);
+}
+
+.history-log-item-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.history-time-badge {
+  font-family: "Manrope", sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--deep);
+  background: #ebf3f6;
+  padding: 3px 9px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.history-stage-pill {
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.history-stage-pill.stage-survey {
+  background: rgba(13, 92, 115, 0.12);
+  color: #0d5c73;
+}
+
+.history-stage-pill.stage-fabrication {
+  background: rgba(200, 148, 61, 0.16);
+  color: #9c6e1c;
+}
+
+.history-stage-pill.stage-installation {
+  background: rgba(22, 185, 91, 0.13);
+  color: #0d843e;
+}
+
+.history-stage-pill.stage-completed {
+  background: rgba(7, 55, 70, 0.12);
+  color: #073746;
+}
+
+.history-latest-pill {
+  background: linear-gradient(135deg, var(--gold), #d69f3d);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.history-event-title {
+  font-family: "Manrope", sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 4px;
+}
+
+.history-event-desc {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #556c78;
+  margin: 0;
+}
+
+.history-log-empty {
+  padding: 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+
 /* Stepper Pipeline Container */
 .order-stepper-wrap {
   padding: 38px 36px 30px;
@@ -5211,6 +5445,22 @@ body.faq-drawer-open {
   border: 3px solid var(--blue);
 }
 
+.timeline-dot.completed {
+  background: #16b95b;
+  border-color: #16b95b;
+}
+
+.timeline-dot.in-progress {
+  background: var(--gold);
+  border-color: var(--deep);
+  box-shadow: 0 0 0 3px rgba(200, 148, 61, 0.25);
+}
+
+.timeline-dot.pending {
+  background: #ffffff;
+  border-color: #ccd8de;
+}
+
 .timeline-entry:first-child .timeline-dot {
   background: var(--gold);
   border-color: var(--deep);
@@ -5394,6 +5644,33 @@ body.faq-drawer-open {
   }
   .order-progress-card {
     padding: 20px 16px;
+  }
+  .order-history-log-section {
+    padding: 16px 14px;
+    margin-top: 18px;
+  }
+  .history-log-top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .history-timeline-list {
+    padding-left: 24px;
+  }
+  .history-log-item-dot {
+    left: -24px;
+    width: 18px;
+    height: 18px;
+  }
+  .history-timeline-list::before {
+    left: 8px;
+  }
+  .history-log-item-content {
+    padding: 10px 12px;
+  }
+  .history-time-badge {
+    font-size: 11px;
+    padding: 2px 7px;
   }
   .progress-milestones-row {
     grid-template-columns: 1fr 1fr;

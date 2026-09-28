@@ -17,12 +17,12 @@
       "Survey": {
         "status": "in_progress",
         "date": "28 September 2026",
-        "notes": "Survey lokasi dan laser measurement bukaan kusen ruko (lebar 3.6m x tinggi 2.8m). Verifikasi level lantai dan kekuatan balok beton pengikat rel atas."
+        "notes": "Survey lokasi dan laser measurement bukaan kusen ruko (lebar 3.6m x tinggi 2.8m)."
       },
       "Fabrication": {
         "status": "pending",
-        "date": "Estimasi 28 September 2026",
-        "notes": "Pemotongan profil kusen Alexindo 45 derajat dan proses beveling/edging kaca tempered."
+        "date": "28 September 2026",
+        "notes": "Uji simulasi history log"
       },
       "Installation": {
         "status": "pending",
@@ -36,6 +36,18 @@
       }
     },
     "activityLog": [
+      {
+        "timestamp": "2026-09-28 10:13",
+        "stage": "Survey",
+        "title": "Tahap Survey & Pengukuran Dimensi Selesai/Diperbarui",
+        "desc": "Survey lokasi dan laser measurement bukaan kusen ruko (lebar 3.6m x tinggi 2.8m)."
+      },
+      {
+        "timestamp": "2026-09-28 10:12",
+        "stage": "Fabrication",
+        "title": "Tahap Fabrikasi Rangka Aluminium di Workshop Berjalan",
+        "desc": "Uji simulasi history log"
+      },
       {
         "timestamp": "2026-09-28 09:55",
         "stage": "Survey",

@@ -1359,6 +1359,32 @@ function setupFaqAskForm() {
   });
 }
 
+/* =========================================================
+   HOMEPAGE FEATURED PORTFOLIO FILTER
+   ========================================================= */
+const homePortfolioFilter = document.getElementById('featuredPortfolioFilter');
+if (homePortfolioFilter) {
+  const filterBtns = homePortfolioFilter.querySelectorAll('button');
+  const projectCards = document.querySelectorAll('#featuredPortfolioGrid .featured-project-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.getAttribute('data-cat');
+
+      projectCards.forEach(card => {
+        const cardCat = card.getAttribute('data-cat');
+        if (cat === 'all' || cardCat === cat) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+}
+
 
 
 

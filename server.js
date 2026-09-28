@@ -46,44 +46,30 @@ app.post('/api/search-locations', async (req, res) => {
       });
     }
 
-    const ai = new GoogleGenAI();
-    let response;
+    const ai = new GoogleGenAI({
+      apiKey,
+      httpOptions: {
+        headers: {
+          'User-Agent': 'aistudio-build',
+        }
+      }
+    });
 
-    // Use gemini-3.5-flash with googleMaps tool as requested
-    try {
-      response = await ai.models.generateContent({
-        model: 'gemini-3.5-flash',
-        contents: `Berikan informasi akurat dan rekomendasi lokasi bengkel, toko, atau jasa aluminium & kaca untuk query: "${searchQuery}" di Karawang atau sekitarnya. Tuliskan dalam Bahasa Indonesia yang informatif, rapi, dan mencakup area Karawang.`,
-        config: {
-          tools: [{ googleMaps: {} }],
-          toolConfig: {
-            retrievalConfig: {
-              latLng: {
-                latitude,
-                longitude
-              }
+    const response = await ai.models.generateContent({
+      model: 'gemini-3.8-flash',
+      contents: `Berikan informasi akurat dan rekomendasi lokasi bengkel, toko, atau jasa aluminium & kaca untuk query: "${searchQuery}" di Karawang atau sekitarnya. Tuliskan dalam Bahasa Indonesia yang informatif, rapi, dan mencakup area Karawang.`,
+      config: {
+        tools: [{ googleMaps: {} }],
+        toolConfig: {
+          retrievalConfig: {
+            latLng: {
+              latitude,
+              longitude
             }
           }
         }
-      });
-    } catch (modelError) {
-      console.warn('gemini-3.5-flash fallback to gemini-3.8-flash:', modelError.message);
-      response = await ai.models.generateContent({
-        model: 'gemini-3.8-flash',
-        contents: `Berikan informasi akurat dan rekomendasi lokasi bengkel, toko, atau jasa aluminium & kaca untuk query: "${searchQuery}" di Karawang atau sekitarnya. Tuliskan dalam Bahasa Indonesia yang informatif, rapi, dan mencakup area Karawang.`,
-        config: {
-          tools: [{ googleMaps: {} }],
-          toolConfig: {
-            retrievalConfig: {
-              latLng: {
-                latitude,
-                longitude
-              }
-            }
-          }
-        }
-      });
-    }
+      }
+    });
 
     const text = response.text || '';
     const groundingChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];

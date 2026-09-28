@@ -1,8 +1,9 @@
 (function(){
   'use strict';
 
-  const STORAGE_KEY = 'sahabat_kaca_aluminium_ads_v1';
-  const POSITIONS = ['top','bottom','left','right'];
+  const STORAGE_KEY_ADMIN = 'sahabat_kaca_aluminium_ads_v1';
+  const STORAGE_KEY_ADSENSE = 'sahabat_kaca_aluminium_adsense_v1';
+  const POSITIONS = ['top', 'bottom', 'left', 'right'];
   const state = {};
 
   function esc(value){
@@ -14,14 +15,45 @@
       .replace(/'/g,'&#039;');
   }
 
-  function getAds(){
-    try{
-      const raw = localStorage.getItem(STORAGE_KEY);
-      const data = raw ? JSON.parse(raw) : [];
-      return Array.isArray(data) ? data : [];
-    }catch(e){
-      return [];
+  // Fetch full configuration (combining API and localStorage)
+  async function loadConfig(){
+    let remoteConfig = null;
+    try {
+      const res = await fetch('/api/ads-config');
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success && json.config) {
+          remoteConfig = json.config;
+        }
+      }
+    } catch(e) {
+      // offline or static fallback
     }
+
+    let localAdminAds = [];
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY_ADMIN);
+      if (raw) localAdminAds = JSON.parse(raw);
+    } catch(e) {}
+
+    let localAdSense = null;
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY_ADSENSE);
+      if (raw) localAdSense = JSON.parse(raw);
+    } catch(e) {}
+
+    const adminAds = (localAdminAds && localAdminAds.length)
+      ? localAdminAds
+      : (remoteConfig?.adminAds || []);
+
+    const adsense = localAdSense || remoteConfig?.adsense || {
+      enabled: true,
+      publisherId: "pub-2437971183769682",
+      autoAds: false,
+      slots: {}
+    };
+
+    return { adminAds, adsense };
   }
 
   function removeOldPlaceholders(){
@@ -32,7 +64,7 @@
     const slot = document.createElement('div');
     slot.className = 'ad-slot ad-' + position;
     slot.dataset.adPosition = position;
-    slot.setAttribute('aria-label','Iklan ' + position);
+    slot.setAttribute('aria-label','Area Iklan ' + position);
     return slot;
   }
 
@@ -56,7 +88,58 @@
     document.body.appendChild(left);
     document.body.appendChild(right);
 
-    return {top,bottom,left,right};
+    return {top, bottom, left, right};
+  }
+
+  // Load Google AdSense Script if Auto Ads or AdSense enabled
+  function injectAdSenseScript(publisherId, isAutoAds){
+    if(!publisherId) return;
+    const cleanPub = publisherId.startsWith('ca-') ? publisherId : `ca-${publisherId}`;
+    const scriptId = 'google-adsense-script';
+    if(document.getElementById(scriptId)) return;
+
+    const script = document.createElement('script');
+    script.id = scriptId;
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(cleanPub)}`;
+    document.head.appendChild(script);
+  }
+
+  // Render Google AdSense Unit
+  function renderAdSenseUnit(slot, slotConfig, publisherId, fallbackAdminAds, position){
+    slot.innerHTML = '';
+    const cleanPub = publisherId.startsWith('ca-') ? publisherId : `ca-${publisherId}`;
+    const slotId = slotConfig?.slotId || '8912345671';
+    const format = slotConfig?.format || 'auto';
+
+    const ins = document.createElement('ins');
+    ins.className = 'adsbygoogle';
+    ins.style.display = 'block';
+    ins.style.width = '100%';
+    ins.style.minHeight = position === 'top' ? '60px' : (position === 'bottom' ? '90px' : '180px');
+    ins.dataset.adClient = cleanPub;
+    ins.dataset.adSlot = slotId;
+    ins.dataset.adFormat = format;
+    ins.dataset.fullWidthResponsive = 'true';
+
+    // Label AdSense
+    const badge = document.createElement('span');
+    badge.className = 'ad-type-badge adsense-badge';
+    badge.textContent = 'Google AdSense';
+
+    slot.appendChild(badge);
+    slot.appendChild(ins);
+    slot.classList.add('has-content', 'is-adsense-slot');
+
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch(e) {
+      console.warn('AdSense push error:', e);
+      if (fallbackAdminAds && fallbackAdminAds.length) {
+        renderAdminAds(slot, fallbackAdminAds, position);
+      }
+    }
   }
 
   function renderAdItem(ad, position){
@@ -78,10 +161,10 @@
     if(image){
       const img = document.createElement('img');
       img.src = image;
-      img.alt = String(ad.name || 'Iklan');
+      img.alt = String(ad.name || 'Iklan Sahabat Kaca Aluminium');
       img.loading = 'lazy';
       img.addEventListener('error',function(){
-        item.innerHTML = '<div class="ad-placeholder">SPACE IKLAN<small>' + esc(ad.name || 'Gambar iklan tidak dapat dimuat') + '</small></div>';
+        item.innerHTML = '<div class="ad-placeholder">SPACE IKLAN ADMIN<small>' + esc(ad.name || 'Gambar tidak dapat dimuat') + '</small></div>';
       },{once:true});
 
       if(link){
@@ -97,26 +180,32 @@
       return item;
     }
 
-    item.innerHTML = '<div class="ad-placeholder">SPACE IKLAN<small>' + esc(ad.name || '') + '</small></div>';
+    item.innerHTML = '<div class="ad-placeholder">SPACE IKLAN ADMIN<small>' + esc(ad.name || '') + '</small></div>';
     return item;
   }
 
-  function renderSlot(slot, ads, position){
-    if(!slot) return;
+  function renderAdminAds(slot, ads, position){
     slot.innerHTML = '';
-    slot.classList.remove('has-content');
+    slot.classList.remove('has-content', 'is-adsense-slot');
 
     const active = ads.filter(ad => ad && ad.active && ad.position === position);
     if(!active.length){
-      slot.innerHTML = '<div class="ad-placeholder">SPACE IKLAN<small>' +
+      slot.innerHTML = '<div class="ad-placeholder">IKLAN ADMIN (MANDIRI)<small>' +
         (position === 'top' ? 'Banner Atas 970 × 100' :
-         position === 'bottom' ? 'Banner Bawah 970 × 250' : '160 × 300') +
+         position === 'bottom' ? 'Banner Bawah 970 × 250' : 'Sidebar 160 × 300') +
         '</small></div>';
       return;
     }
 
     slot.classList.add('has-content');
-    active.forEach((ad,index)=>{
+    
+    // Add Admin Ad Badge
+    const badge = document.createElement('span');
+    badge.className = 'ad-type-badge admin-badge';
+    badge.textContent = 'Iklan Mitra / Admin';
+    slot.appendChild(badge);
+
+    active.forEach((ad, index) => {
       const item = renderAdItem(ad, position);
       item.classList.toggle('active', index === 0);
       slot.appendChild(item);
@@ -132,19 +221,49 @@
         items.forEach(el => el.classList.remove('active'));
         state[position].index = (state[position].index + 1) % items.length;
         items[state[position].index].classList.add('active');
-      },5000);
+      }, 5000);
     }else if(state[position]?.timer){
       clearInterval(state[position].timer);
       state[position].timer = null;
     }
   }
 
-  function renderAll(slots){
-    const ads = getAds();
-    renderSlot(slots.top, ads, 'top');
-    renderSlot(slots.bottom, ads, 'bottom');
-    renderSlot(slots.left, ads, 'left');
-    renderSlot(slots.right, ads, 'right');
+  function renderSlotWithSeparation(slot, config, position){
+    if(!slot) return;
+    const { adminAds, adsense } = config;
+    const slotAdSense = adsense?.slots?.[position] || {};
+    const mode = slotAdSense.mode || (adsense?.enabled ? 'hybrid' : 'admin');
+
+    // Slot turned off
+    if(mode === 'off' || slotAdSense.enabled === false && mode === 'adsense'){
+      slot.style.display = 'none';
+      return;
+    }
+    slot.style.display = '';
+
+    // Route based on explicit separation
+    if(mode === 'adsense' && adsense?.enabled){
+      renderAdSenseUnit(slot, slotAdSense, adsense.publisherId, [], position);
+    } else if(mode === 'hybrid' && adsense?.enabled && slotAdSense.slotId){
+      renderAdSenseUnit(slot, slotAdSense, adsense.publisherId, adminAds, position);
+    } else {
+      // Default: Admin Ads (Iklan Mandiri / Banner Toko)
+      renderAdminAds(slot, adminAds, position);
+    }
+  }
+
+  async function renderAll(slots){
+    const config = await loadConfig();
+    
+    // Check if AdSense autoAds or slots enabled
+    if(config.adsense?.enabled && (config.adsense?.autoAds || Object.values(config.adsense?.slots || {}).some(s => s.enabled))){
+      injectAdSenseScript(config.adsense.publisherId, config.adsense.autoAds);
+    }
+
+    renderSlotWithSeparation(slots.top, config, 'top');
+    renderSlotWithSeparation(slots.bottom, config, 'bottom');
+    renderSlotWithSeparation(slots.left, config, 'left');
+    renderSlotWithSeparation(slots.right, config, 'right');
   }
 
   function init(){
@@ -154,17 +273,19 @@
     if(!slots) return;
     renderAll(slots);
 
-    window.addEventListener('storage',function(event){
-      if(event.key === STORAGE_KEY) renderAll(slots);
+    window.addEventListener('storage', function(event){
+      if(event.key === STORAGE_KEY_ADMIN || event.key === STORAGE_KEY_ADSENSE){
+        renderAll(slots);
+      }
     });
 
-    document.addEventListener('visibilitychange',function(){
+    document.addEventListener('visibilitychange', function(){
       if(!document.hidden) renderAll(slots);
     });
   }
 
   if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded',init,{once:true});
+    document.addEventListener('DOMContentLoaded', init, {once:true});
   }else{
     init();
   }

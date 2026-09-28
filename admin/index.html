@@ -4,883 +4,2022 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex,nofollow">
-  <title>Admin Iklan | Sahabat Kaca Aluminium</title>
+  <title>Pusat Kontrol Artikel & Iklan | Sahabat Kaca Aluminium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..800;1,9..40,400..700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --ink:#102c3c;
-      --muted:#5f7380;
-      --line:#dce5e9;
-      --blue:#0d5c73;
-      --deep:#073746;
-      --gold:#c8943d;
-      --paper:#f6fafb;
-      --white:#fff;
-      --danger:#c0392b;
-      --success:#16824b;
+    :root {
+      --ink: #0b222d;
+      --muted: #536b77;
+      --line: #d3e0e5;
+      --blue: #0d5c73;
+      --deep: #073746;
+      --gold: #c8943d;
+      --paper: #f4f8fa;
+      --card-bg: #ffffff;
+      --danger: #d93829;
+      --success: #138a4b;
+      --adsense-blue: #1a73e8;
+      --admin-badge: #073746;
+      --hybrid-purple: #7b2cbf;
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:"DM Sans",Arial,sans-serif;
-      color:var(--ink);
-      background:var(--paper);
-      line-height:1.5;
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "DM Sans", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.5;
     }
-    button,input,select,textarea{font:inherit}
-    button{cursor:pointer}
-    .admin-shell{min-height:100vh;display:grid;grid-template-columns:260px 1fr}
-    .sidebar{
-      background:var(--deep);color:#fff;padding:26px 20px;position:sticky;top:0;height:100vh;
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* LAYOUT SHELL */
+    .admin-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 280px 1fr;
     }
-    .brand{display:flex;align-items:center;gap:12px;margin-bottom:34px}
-    .brand-mark{
-      width:46px;height:46px;border-radius:50%;background:#fff;color:var(--deep);
-      display:grid;place-items:center;font-weight:900;font-size:12px;
+    .sidebar {
+      background: var(--deep);
+      color: #ffffff;
+      padding: 26px 20px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      box-shadow: 4px 0 20px rgba(7, 55, 70, 0.12);
+      z-index: 100;
     }
-    .brand b{display:block}.brand small{color:#b9cdd4}
-    .side-title{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#9db8c1;margin:24px 8px 10px}
-    .side-nav{display:grid;gap:7px}
-    .side-nav button{
-      width:100%;border:1px solid transparent;background:transparent;color:#d8e4e8;
-      text-align:left;padding:11px 12px;border-radius:8px;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
     }
-    .side-nav button.active,.side-nav button:hover{background:rgba(255,255,255,.09);color:#fff}
-    .sidebar-foot{
-      position:absolute;left:20px;right:20px;bottom:20px;border-top:1px solid rgba(255,255,255,.12);
-      padding-top:15px;font-size:11px;color:#a9bec5;
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #ffffff;
+      color: var(--deep);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      flex-shrink: 0;
+    }
+    .brand-text b { display: block; font-size: 15px; color: #ffffff; line-height: 1.2; }
+    .brand-text small { color: #9bc0cc; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .side-status-strip {
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 20px;
+      font-size: 11.5px;
+      display: grid;
+      gap: 6px;
+    }
+    .status-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #cbe0e6;
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 99px;
+      background: rgba(19, 138, 75, 0.25);
+      color: #55e696;
+      border: 1px solid rgba(85, 230, 150, 0.3);
     }
 
-    .main{padding:28px 34px}
-    .topbar{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:25px}
-    h1,h2,h3{margin:0;font-family:Arial,sans-serif;letter-spacing:-.02em}
-    h1{font-size:30px}
-    .topbar p{margin:4px 0 0;color:var(--muted);font-size:13px}
-    .btn{
-      border:0;border-radius:8px;padding:11px 15px;font-weight:800;font-size:13px;
+    .side-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: #8daab4;
+      margin: 14px 8px 8px;
+      font-weight: 800;
     }
-    .btn-primary{background:var(--deep);color:#fff}
-    .btn-light{background:#fff;color:var(--ink);border:1px solid var(--line)}
-    .btn-danger{background:#fff;color:var(--danger);border:1px solid #efc9c4}
-    .btn-success{background:#fff;color:var(--success);border:1px solid #c7e5d4}
-    .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
-    .stat{
-      background:#fff;border:1px solid var(--line);border-radius:10px;padding:17px;
+    .side-nav {
+      display: grid;
+      gap: 6px;
+      flex: 1;
     }
-    .stat span{display:block;color:var(--muted);font-size:11px;margin-bottom:5px}
-    .stat strong{font-size:24px}
-    .panel{
-      background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px;margin-bottom:22px;
+    .side-nav button {
+      width: 100%;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #d1e2e7;
+      text-align: left;
+      padding: 11px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s ease;
     }
-    .panel-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:18px}
-    .panel-head p{margin:4px 0 0;color:var(--muted);font-size:12px}
-    .table-wrap{overflow:auto}
-    table{width:100%;border-collapse:collapse;min-width:760px}
-    th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);font-size:12px;vertical-align:middle}
-    th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:#fbfcfc}
-    .status{display:inline-flex;padding:5px 8px;border-radius:999px;font-weight:800;font-size:10px}
-    .status.on{background:#e8f7ee;color:var(--success)}
-    .status.off{background:#f2f3f4;color:#777}
-    .preview-box{
-      width:92px;height:54px;border:1px dashed #b8c4c9;border-radius:6px;background:#f6f8f9;
-      display:grid;place-items:center;overflow:hidden;font-size:10px;color:#7a8a91;text-align:center;
+    .side-nav button:hover {
+      background: rgba(255, 255, 255, 0.09);
+      color: #ffffff;
+      transform: translateX(3px);
     }
-    .preview-box img{width:100%;height:100%;object-fit:cover}
-    .actions{display:flex;gap:6px;flex-wrap:wrap}
-    .empty{padding:30px;text-align:center;color:var(--muted);font-size:13px}
-    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-    .field{display:grid;gap:6px}.field.full{grid-column:1/-1}
-    label{font-weight:800;font-size:12px}
-    input,select,textarea{
-      width:100%;border:1px solid #cbd7db;border-radius:7px;padding:10px 11px;background:#fff;color:var(--ink);
+    .side-nav button.active {
+      background: var(--blue);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
     }
-    textarea{min-height:105px;resize:vertical}
-    .help{font-size:10px;color:var(--muted)}
-    .form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:6px}
-    .notice{
-      padding:11px 13px;border-radius:8px;background:#eef7fa;border:1px solid #cfe2e8;
-      color:var(--blue);font-size:12px;margin-bottom:16px;
+    .side-icon {
+      font-size: 16px;
+      width: 22px;
+      display: inline-flex;
+      justify-content: center;
     }
-    .hidden{display:none!important}
-    .code-box{
-      margin-top:10px;background:#0d2028;color:#dcecef;border-radius:8px;padding:12px;
-      font:11px/1.55 Consolas,monospace;white-space:pre-wrap;word-break:break-word;
+    .side-badge {
+      margin-left: auto;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
     }
 
+    .sidebar-foot {
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      padding-top: 16px;
+      margin-top: 20px;
+      font-size: 11px;
+      color: #92b0bb;
+      display: grid;
+      gap: 8px;
+    }
+    .side-link-out {
+      color: #e2eff2;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .side-link-out:hover { color: #ffffff; }
 
-    /* ARTIKEL SEO */
-    .article-status{display:inline-flex;padding:5px 8px;border-radius:999px;font-weight:800;font-size:10px}
-    .article-status.published{background:#e8f7ee;color:var(--success)}
-    .article-status.draft{background:#f2f3f4;color:#777}
-    .article-title-cell{min-width:260px}
+    /* MAIN VIEWPORT */
+    .main {
+      padding: 32px 36px;
+      max-width: 1400px;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    h1, h2, h3, h4 { margin: 0; font-family: "DM Sans", Arial, sans-serif; letter-spacing: -.02em; }
+    h1 { font-size: 26px; color: var(--deep); font-weight: 800; }
+    .topbar p { margin: 4px 0 0; color: var(--muted); font-size: 13.5px; }
 
-    @media(max-width:1000px){
-      .admin-shell{grid-template-columns:1fr}
-      .sidebar{position:relative;height:auto}
-      .side-nav{grid-template-columns:repeat(4,1fr)}
-      .sidebar-foot{position:static;margin-top:18px}
-      .cards{grid-template-columns:repeat(2,1fr)}
+    .btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-weight: 800;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s ease;
+      text-decoration: none;
     }
-    @media(max-width:650px){
-      .main{padding:20px 14px}
-      .topbar{align-items:flex-start;flex-direction:column}
-      .side-nav{grid-template-columns:1fr 1fr}
-      .cards{grid-template-columns:1fr 1fr}
-      .form-grid{grid-template-columns:1fr}
-      .field.full{grid-column:auto}
-    }
-  
-    /* LOGIN ADMIN */
-    .login-screen{
-      position:fixed;inset:0;z-index:100000;background:linear-gradient(135deg,#073746,#0d5c73);
-      display:grid;place-items:center;padding:20px;
-    }
-    .login-card{
-      width:min(420px,100%);background:#fff;border-radius:14px;padding:30px;
-      box-shadow:0 25px 70px rgba(0,0,0,.25);
-    }
-    .login-brand{
-      display:flex;align-items:center;gap:12px;margin-bottom:24px;
-    }
-    .login-mark{
-      width:48px;height:48px;border-radius:50%;background:var(--deep);color:#fff;
-      display:grid;place-items:center;font-weight:900;font-size:12px;
-    }
-    .login-brand b{display:block;font-size:18px}.login-brand small{color:var(--muted)}
-    .login-card h1{font-size:24px;margin-bottom:6px}.login-card p{color:var(--muted);font-size:12px;margin:0 0 20px}
-    .login-field{display:grid;gap:6px;margin-bottom:14px}
-    .login-field label{font-size:12px;font-weight:800}
-    .login-field input{width:100%;padding:11px;border:1px solid #cbd7db;border-radius:8px}
-    .login-submit{width:100%;padding:12px;border:0;border-radius:8px;background:var(--deep);color:#fff;font-weight:800}
-    .login-error{color:var(--danger);font-size:11px;margin-top:9px;min-height:16px}
-    .login-note{margin-top:15px;padding:10px 12px;border-radius:8px;background:#f4f7f8;color:var(--muted);font-size:10px}
-    body.locked{overflow:hidden}
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: var(--deep); color: #ffffff; box-shadow: 0 4px 14px rgba(7, 55, 70, 0.2); }
+    .btn-primary:hover { background: var(--blue); color: #ffffff; text-decoration: none; }
+    .btn-adsense { background: var(--adsense-blue); color: #ffffff; box-shadow: 0 4px 14px rgba(26, 115, 232, 0.25); }
+    .btn-adsense:hover { background: #1557b0; color: #ffffff; text-decoration: none; }
+    .btn-light { background: #ffffff; color: var(--ink); border: 1.5px solid var(--line); }
+    .btn-light:hover { background: #f8fafb; border-color: var(--blue); color: var(--blue); text-decoration: none; }
+    .btn-danger { background: #fff1f0; color: var(--danger); border: 1px solid #ffccc7; }
+    .btn-danger:hover { background: var(--danger); color: #ffffff; text-decoration: none; }
+    .btn-success { background: #e8f7ee; color: var(--success); border: 1px solid #a3e2bb; }
+    .btn-success:hover { background: var(--success); color: #ffffff; text-decoration: none; }
+    .btn-sm { padding: 6px 10px; font-size: 11.5px; border-radius: 7px; }
 
+    /* STAT CARDS */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 26px;
+    }
+    .stat {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 4px 16px rgba(7, 55, 70, 0.04);
+      position: relative;
+      overflow: hidden;
+    }
+    .stat::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: var(--blue);
+    }
+    .stat.stat-adsense::before { background: var(--adsense-blue); }
+    .stat.stat-articles::before { background: var(--gold); }
+    .stat.stat-adtxt::before { background: var(--success); }
+    .stat span { display: block; color: var(--muted); font-size: 12px; font-weight: 700; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .stat strong { font-size: 26px; font-weight: 800; color: var(--deep); line-height: 1.1; }
+    .stat small { display: block; margin-top: 6px; font-size: 11px; color: var(--muted); }
+
+    /* PANELS */
+    .panel {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 18px rgba(7, 55, 70, 0.04);
+    }
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .panel-head h2 { font-size: 18px; color: var(--deep); font-weight: 800; }
+    .panel-head p { margin: 3px 0 0; color: var(--muted); font-size: 12.5px; }
+
+    /* SEPARATION CALLOUTS */
+    .notice {
+      padding: 14px 18px;
+      border-radius: 10px;
+      background: #eef7fa;
+      border: 1px solid #cce4ec;
+      color: var(--blue);
+      font-size: 13px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .notice.notice-adsense {
+      background: #e8f0fe;
+      border-color: #c2d7fa;
+      color: #1a73e8;
+    }
+    .notice.notice-admin {
+      background: #fdf6e7;
+      border-color: #f7e1b5;
+      color: #946200;
+    }
+
+    /* BADGES */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 11px;
+      line-height: 1;
+    }
+    .tag-admin { background: #073746; color: #ffffff; }
+    .tag-adsense { background: #1a73e8; color: #ffffff; }
+    .tag-hybrid { background: #7b2cbf; color: #ffffff; }
+    .tag-off { background: #e0e6e8; color: #627278; }
+    .tag-published { background: #e8f7ee; color: #138a4b; border: 1px solid #a8e5be; }
+    .tag-draft { background: #fdf5e6; color: #9c6800; border: 1px solid #fae3b3; }
+
+    /* TABLES */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 780px; }
+    th, td { text-align: left; padding: 13px 12px; border-bottom: 1px solid var(--line); font-size: 12.5px; vertical-align: middle; }
+    th { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); background: #fbfcfc; font-weight: 800; }
+    tr:hover td { background: #fbfdfd; }
+    .actions { display: flex; gap: 6px; flex-wrap: wrap; }
+    .empty { padding: 40px 20px; text-align: center; color: var(--muted); font-size: 13.5px; }
+
+    /* FORMS */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .field { display: grid; gap: 6px; }
+    .field.full { grid-column: 1 / -1; }
+    label { font-weight: 800; font-size: 12.5px; color: var(--deep); }
+    input, select, textarea {
+      width: 100%;
+      border: 1.5px solid #c9d8dc;
+      border-radius: 9px;
+      padding: 10px 13px;
+      background: #ffffff;
+      color: var(--ink);
+      transition: all 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(13, 92, 115, 0.15);
+    }
+    textarea { min-height: 110px; resize: vertical; }
+    .help { font-size: 11px; color: var(--muted); }
+    .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 14px; }
+
+    /* TOGGLE SWITCH */
+    .switch-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: #ccc;
+      transition: .3s;
+      border-radius: 24px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+    input:checked + .slider { background-color: #138a4b; }
+    input:checked + .slider.adsense-slider { background-color: var(--adsense-blue); }
+    input:checked + .slider:before { transform: translateX(20px); }
+
+    /* PREVIEW BOXES */
+    .preview-box {
+      width: 100%;
+      min-height: 80px;
+      border: 1.5px dashed #b2c5cc;
+      border-radius: 10px;
+      background: #f7fafb;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      font-size: 11.5px;
+      color: #6d848f;
+      text-align: center;
+      padding: 10px;
+    }
+    .preview-box img { max-height: 140px; width: auto; object-fit: contain; border-radius: 6px; }
+
+    .code-box {
+      background: #091c24;
+      color: #d1e8ef;
+      border-radius: 10px;
+      padding: 16px;
+      font: 12px/1.6 Consolas, Monaco, monospace;
+      white-space: pre-wrap;
+      word-break: break-all;
+      overflow-x: auto;
+    }
+
+    /* TABS */
+    .tab-nav {
+      display: flex;
+      gap: 6px;
+      border-bottom: 2px solid var(--line);
+      margin-bottom: 22px;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      padding: 10px 18px;
+      border: 0;
+      background: transparent;
+      font-weight: 800;
+      font-size: 13.5px;
+      color: var(--muted);
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      border-radius: 6px 6px 0 0;
+    }
+    .tab-btn:hover { color: var(--deep); }
+    .tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); background: rgba(13, 92, 115, 0.05); }
+    .tab-btn.active.tab-adsense { color: var(--adsense-blue); border-bottom-color: var(--adsense-blue); background: rgba(26, 115, 232, 0.05); }
+
+    .hidden { display: none !important; }
+
+    /* LOGIN SCREEN */
+    .login-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      background: linear-gradient(135deg, #073746 0%, #0d5c73 100%);
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+    .login-card {
+      width: min(440px, 100%);
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 34px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+    }
+    .login-brand { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+    .login-mark {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      background: var(--deep);
+      color: #ffffff;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 14px;
+    }
+    .login-brand b { display: block; font-size: 17px; color: var(--deep); }
+    .login-brand small { color: var(--muted); font-size: 12px; }
+    .login-card h1 { font-size: 24px; margin-bottom: 6px; }
+    .login-card p { color: var(--muted); font-size: 13px; margin: 0 0 20px; }
+    .login-field { display: grid; gap: 6px; margin-bottom: 14px; }
+    .login-field label { font-size: 12.5px; font-weight: 800; }
+    .login-submit {
+      width: 100%;
+      padding: 13px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--deep);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 14px;
+      box-shadow: 0 4px 14px rgba(7, 55, 70, 0.25);
+      margin-top: 6px;
+    }
+    .login-submit:hover { background: var(--blue); }
+    .login-error { color: var(--danger); font-size: 12px; margin-top: 10px; min-height: 18px; font-weight: 700; text-align: center; }
+    .login-note {
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #f4f8fa;
+      color: var(--muted);
+      font-size: 11.5px;
+      border: 1px solid var(--line);
+    }
+    body.locked { overflow: hidden; }
+
+    @media(max-width: 1100px) {
+      .admin-shell { grid-template-columns: 1fr; }
+      .sidebar { position: relative; height: auto; }
+      .side-nav { grid-template-columns: repeat(3, 1fr); }
+      .cards { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media(max-width: 768px) {
+      .main { padding: 20px 16px; }
+      .side-nav { grid-template-columns: 1fr 1fr; }
+      .cards { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+    }
   </style>
 </head>
 <body class="locked">
 
+  <!-- ===================================================
+       ADMIN LOGIN SCREEN
+  ==================================================== -->
   <div id="loginScreen" class="login-screen">
     <div class="login-card">
       <div class="login-brand">
         <div class="login-mark">SKA</div>
-        <div><b>Sahabat Kaca Aluminium</b><small>Panel Administrasi Iklan</small></div>
+        <div>
+          <b>Sahabat Kaca Aluminium</b>
+          <small>Pusat Kontrol Artikel & Iklan</small>
+        </div>
       </div>
-      <h1>Masuk Admin</h1>
-      <p>Masukkan akun admin untuk mengelola iklan website.</p>
+      <h1>Masuk Pusat Kontrol</h1>
+      <p>Silakan masuk untuk mengelola artikel publikasi, iklan admin mandiri, dan Google AdSense.</p>
 
       <form id="loginForm">
         <div class="login-field">
           <label for="loginUser">Username</label>
-          <input id="loginUser" type="text" autocomplete="username" required>
+          <input id="loginUser" type="text" autocomplete="username" value="admin" required>
         </div>
         <div class="login-field">
           <label for="loginPass">Password</label>
-          <input id="loginPass" type="password" autocomplete="current-password" required>
+          <input id="loginPass" type="password" autocomplete="current-password" value="admin123" required>
         </div>
-        <button class="login-submit" type="submit">Masuk</button>
+        <button class="login-submit" type="submit">Masuk ke Pusat Kontrol →</button>
         <div id="loginError" class="login-error" aria-live="polite"></div>
       </form>
 
       <div class="login-note">
-        Akun default awal: <b>admin</b> / <b>admin123</b>. Ubah kredensial di bagian konfigurasi JavaScript sebelum dipakai di produksi.
+        Kredensial bawaan: <b>admin</b> / <b>admin123</b>. Data sinkron langsung dengan backend server dan browser.
       </div>
     </div>
   </div>
 
-<div class="admin-shell">
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="brand-mark">SKA</div>
-      <div><b>Sahabat</b><small>Kaca Aluminium</small></div>
-    </div>
-
-    <div class="side-title">Manajemen</div>
-    <div class="side-nav">
-      <button class="active" data-section="dashboard">Dashboard</button>
-      <button data-section="ads">Data Iklan</button>
-      <button data-section="editor">Tambah / Edit</button>
-      <button data-section="articles">Artikel SEO</button>
-      <button data-section="code">Data untuk Website</button>
-    </div>
-
-    <div class="sidebar-foot">
-      Admin Iklan<br>
-      Data disimpan di browser ini menggunakan localStorage.
-    </div>
-  </aside>
-
-  <main class="main">
-    <section id="dashboard" class="app-section">
-      <div class="topbar">
-        <div>
-          <h1>Dashboard Iklan</h1>
-          <p>Kelola iklan atas, bawah, sidebar kiri, dan sidebar kanan.</p>
-        </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-light" onclick="logoutAdmin()">Keluar</button><button class="btn btn-primary" onclick="openNewAd()">+ Tambah Iklan</button></div>
-      </div>
-
-      <div class="cards">
-        <div class="stat"><span>Total iklan</span><strong id="statTotal">0</strong></div>
-        <div class="stat"><span>Iklan aktif</span><strong id="statActive">0</strong></div>
-        <div class="stat"><span>Banner</span><strong id="statBanner">0</strong></div>
-        <div class="stat"><span>Sidebar</span><strong id="statSidebar">0</strong></div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-head">
-          <div><h2>Iklan terbaru</h2><p>Daftar iklan yang tersimpan.</p></div>
-          <button class="btn btn-light" onclick="showSection('ads')">Lihat semua</button>
-        </div>
-        <div id="dashboardTable"></div>
-      </div>
-    </section>
-
-    <section id="ads" class="app-section hidden">
-      <div class="topbar">
-        <div>
-          <h1>Data Iklan</h1>
-          <p>Buat, edit, aktifkan, nonaktifkan, atau hapus iklan.</p>
-        </div>
-        <button class="btn btn-primary" onclick="openNewAd()">+ Tambah Iklan</button>
-      </div>
-      <div class="panel">
-        <div id="adsTable"></div>
-      </div>
-    </section>
-
-    <section id="editor" class="app-section hidden">
-      <div class="topbar">
-        <div>
-          <h1 id="editorTitle">Tambah Iklan</h1>
-          <p>Isi data iklan yang akan ditempatkan di website.</p>
+  <!-- ===================================================
+       MAIN ADMIN SHELL
+  ==================================================== -->
+  <div class="admin-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">SKA</div>
+        <div class="brand-text">
+          <b>Sahabat Kaca Aluminium</b>
+          <small>Pusat Kontrol Sistem</small>
         </div>
       </div>
 
-      <div class="panel">
-        <div class="notice">
-          Posisi iklan: <b>Atas</b>, <b>Bawah</b>, <b>Sidebar Kiri</b>, atau <b>Sidebar Kanan</b>.
+      <div class="side-status-strip">
+        <div class="status-item">
+          <span>Server Backend:</span>
+          <span class="status-pill">🟢 Aktif</span>
+        </div>
+        <div class="status-item">
+          <span>Google Ads.txt:</span>
+          <span class="status-pill" id="sideAdsTxtStatus">🟢 Terverifikasi</span>
+        </div>
+        <div class="status-item">
+          <span>AdSense:</span>
+          <span class="status-pill" id="sideAdSenseStatus">🟢 Terhubung</span>
+        </div>
+      </div>
+
+      <div class="side-title">Navigasi Kontrol</div>
+      <div class="side-nav">
+        <button class="active" data-section="dashboard">
+          <span class="side-icon">📊</span>
+          <span>Dashboard</span>
+        </button>
+        <button data-section="articles">
+          <span class="side-icon">📝</span>
+          <span>Pusat Artikel</span>
+          <span class="side-badge" id="navArticleCount">0</span>
+        </button>
+        <button data-section="adminAds">
+          <span class="side-icon">📢</span>
+          <span>Iklan Admin</span>
+          <span class="side-badge" id="navAdminAdsCount">0</span>
+        </button>
+        <button data-section="adsense">
+          <span class="side-icon">🌐</span>
+          <span>Google AdSense</span>
+          <span class="side-badge" style="background:#1a73e8">AdSense</span>
+        </button>
+        <button data-section="syncConfig">
+          <span class="side-icon">⚙️</span>
+          <span>Data & Sinkron</span>
+        </button>
+      </div>
+
+      <div class="sidebar-foot">
+        <a href="/" target="_blank" class="side-link-out">
+          <span>↗️</span>
+          <span>Buka Website Publik</span>
+        </a>
+        <a href="/artikel.html" target="_blank" class="side-link-out">
+          <span>📄</span>
+          <span>Lihat Halaman Artikel</span>
+        </a>
+        <button type="button" class="btn btn-light btn-sm" onclick="logoutAdmin()" style="width:100%;margin-top:6px;justify-content:center">
+          Keluar (Logout)
+        </button>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <!-- ===================================================
+           SECTION 1: DASHBOARD RINGKASAN
+      ==================================================== -->
+      <section id="dashboard" class="app-section">
+        <div class="topbar">
+          <div>
+            <h1>Dashboard Pusat Kontrol</h1>
+            <p>Pengelolaan terpusat artikel informasi, iklan mandiri/sponsor, dan monetisasi Google AdSense.</p>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="showSection('articles'); openNewArticle();">+ Tulis Artikel</button>
+            <button class="btn btn-light" onclick="showSection('adminAds'); openNewAdminAd();">+ Iklan Admin</button>
+            <button class="btn btn-adsense" onclick="showSection('adsense')">Kelola AdSense</button>
+          </div>
         </div>
 
-        <form id="adForm">
-          <input type="hidden" id="adId">
+        <div class="cards">
+          <div class="stat stat-articles">
+            <span>Total Artikel</span>
+            <strong id="statArticlesTotal">0</strong>
+            <small id="statArticlesPublished">0 Published • 0 Draft</small>
+          </div>
+          <div class="stat">
+            <span>Iklan Admin Aktif</span>
+            <strong id="statAdminAdsActive">0</strong>
+            <small id="statAdminAdsTotal">Dari 0 banner internal</small>
+          </div>
+          <div class="stat stat-adsense">
+            <span>Google AdSense</span>
+            <strong id="statAdSenseStatus">Aktif</strong>
+            <small id="statAdSenseSlots">pub-2437971183769682</small>
+          </div>
+          <div class="stat stat-adtxt">
+            <span>Status Ads.txt</span>
+            <strong style="color:var(--success)">Valid DIRECT</strong>
+            <small>sahabat-aluminium.my.id/ads.txt</small>
+          </div>
+        </div>
 
-          <div class="form-grid">
-            <div class="field">
-              <label for="adName">Nama iklan</label>
-              <input id="adName" required placeholder="Contoh: Promo Kaca Tempered">
+        <!-- Dua Panel Bersebelahan / Grid -->
+        <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:20px;margin-bottom:24px">
+          <!-- Artikel Terbaru -->
+          <div class="panel" style="margin-bottom:0">
+            <div class="panel-head">
+              <div>
+                <h2>Artikel Terbaru</h2>
+                <p>Status artikel yang tayang di website.</p>
+              </div>
+              <button class="btn btn-light btn-sm" onclick="showSection('articles')">Semua Artikel →</button>
             </div>
+            <div id="dashArticlesTable"></div>
+          </div>
 
-            <div class="field">
-              <label for="adPosition">Posisi</label>
-              <select id="adPosition" required>
-                <option value="top">Atas</option>
-                <option value="bottom">Bawah</option>
-                <option value="left">Sidebar Kiri</option>
-                <option value="right">Sidebar Kanan</option>
-              </select>
+          <!-- Status Slot Iklan Live -->
+          <div class="panel" style="margin-bottom:0">
+            <div class="panel-head">
+              <div>
+                <h2>Pemisahan Slot Iklan</h2>
+                <p>Distribusi slot antara Iklan Admin & AdSense.</p>
+              </div>
+              <button class="btn btn-light btn-sm" onclick="showSection('adsense')">Atur Slot →</button>
             </div>
+            <div id="dashSlotsTable"></div>
+          </div>
+        </div>
+      </section>
 
-            <div class="field">
-              <label for="adImage">URL gambar/banner</label>
-              <input id="adImage" placeholder="assets/iklan/banner.jpg atau URL gambar">
-              <div class="help">Kosongkan untuk memakai kotak iklan bawaan.</div>
+      <!-- ===================================================
+           SECTION 2: PUSAT KONTROL ARTIKEL
+      ==================================================== -->
+      <section id="articles" class="app-section hidden">
+        <div class="topbar">
+          <div>
+            <h1>Pusat Kontrol Artikel SEO & Berita</h1>
+            <p>Tulis, edit, publikasikan, dan kelola metadata SEO artikel Sahabat Kaca Aluminium.</p>
+          </div>
+          <div style="display:flex;gap:10px">
+            <button class="btn btn-light" onclick="loadArticlesFromServer()">🔄 Segarkan Data</button>
+            <button class="btn btn-primary" onclick="openNewArticle()">+ Tulis Artikel Baru</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap">
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn btn-sm btn-light active" id="filterArtAll" onclick="filterArticleStatus('all')">Semua (<span id="countArtAll">0</span>)</button>
+              <button class="btn btn-sm btn-light" id="filterArtPub" onclick="filterArticleStatus('published')">🟢 Published (<span id="countArtPub">0</span>)</button>
+              <button class="btn btn-sm btn-light" id="filterArtDraft" onclick="filterArticleStatus('draft')">🟡 Draft (<span id="countArtDraft">0</span>)</button>
             </div>
-
-            <div class="field">
-              <label for="adLink">URL tujuan</label>
-              <input id="adLink" placeholder="https://contoh.com">
-            </div>
-
-            <div class="field">
-              <label for="adSize">Ukuran / tipe</label>
-              <select id="adSize">
-                <option value="banner-top">Banner Atas 970 × 100</option>
-                <option value="banner-bottom">Banner Bawah 970 × 250</option>
-                <option value="sidebar">Sidebar 160 × 300</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label for="adActive">Status</label>
-              <select id="adActive">
-                <option value="true">Aktif</option>
-                <option value="false">Nonaktif</option>
-              </select>
-            </div>
-
-            <div class="field full">
-              <label for="adHtml">HTML iklan (opsional)</label>
-              <textarea id="adHtml" placeholder='Contoh: <a href="https://contoh.com"><img src="assets/iklan/banner.jpg" alt="Iklan"></a>'></textarea>
-              <div class="help">Bisa dipakai nanti untuk kode banner/HTML iklan sendiri.</div>
-            </div>
-
-            <div class="field full">
-              <label>Preview</label>
-              <div class="preview-box" id="editorPreview">SPACE IKLAN</div>
+            <div style="width:280px">
+              <input type="text" id="articleSearchInput" placeholder="Cari judul atau slug artikel..." oninput="handleArticleSearch(this.value)">
             </div>
           </div>
 
-          <div class="form-actions">
-            <button type="button" class="btn btn-light" onclick="showSection('ads')">Batal</button>
-            <button type="submit" class="btn btn-primary">Simpan Iklan</button>
+          <div id="articlesTableContainer"></div>
+        </div>
+      </section>
+
+      <!-- ===================================================
+           SECTION 2B: ARTICLE EDITOR FORM
+      ==================================================== -->
+      <section id="articleEditor" class="app-section hidden">
+        <div class="topbar">
+          <div>
+            <h1 id="articleEditorTitle">Tulis Artikel Baru</h1>
+            <p>Lengkapi konten dan metadata SEO sebelum mempublikasikan artikel.</p>
           </div>
-        </form>
-      </div>
-    </section>
-
-
-    <section id="articles" class="app-section hidden">
-      <div class="topbar">
-        <div>
-          <h1>Artikel SEO</h1>
-          <p>Tulis, edit, publikasikan, dan siapkan metadata SEO artikel Sahabat Kaca Aluminium.</p>
+          <button class="btn btn-light" onclick="showSection('articles')">← Kembali ke Daftar Artikel</button>
         </div>
-        <button class="btn btn-primary" onclick="openNewArticle()">+ Tulis Artikel</button>
-      </div>
-      <div class="panel">
-        <div class="notice">Kelola artikel dari sini. Artikel <b>Published</b> siap digunakan oleh sistem website publik setelah endpoint/backend artikel terhubung.</div>
-        <div id="articlesTable"></div>
-      </div>
-    </section>
 
-    <section id="articleEditor" class="app-section hidden">
-      <div class="topbar">
-        <div>
-          <h1 id="articleEditorTitle">Tulis Artikel</h1>
-          <p>Lengkapi konten dan metadata SEO sebelum menerbitkan artikel.</p>
+        <div class="panel">
+          <form id="articleForm" onsubmit="handleArticleSubmit(event)">
+            <input type="hidden" id="articleId">
+            <div class="form-grid">
+              <div class="field full">
+                <label for="articleTitle">Judul Artikel <span style="color:var(--danger)">*</span></label>
+                <input id="articleTitle" required placeholder="Contoh: Jasa Kaca Aluminium Karawang untuk Rumah dan Kantor" oninput="autoGenerateSlug(this.value)">
+              </div>
+
+              <div class="field">
+                <label for="articleSlug">Slug URL (Permanen) <span style="color:var(--danger)">*</span></label>
+                <input id="articleSlug" required placeholder="jasa-kaca-aluminium-karawang">
+                <div class="help">URL publik: <b>artikel/[slug].html</b></div>
+              </div>
+
+              <div class="field">
+                <label for="articleCategory">Kategori</label>
+                <select id="articleCategory">
+                  <option value="Kaca & Aluminium">Kaca & Aluminium</option>
+                  <option value="Pintu & Kusen">Pintu & Kusen</option>
+                  <option value="Partisi Kantor">Partisi Kantor</option>
+                  <option value="Jendela">Jendela</option>
+                  <option value="Kaca Tempered">Kaca Tempered</option>
+                  <option value="Kanopi Kaca">Kanopi Kaca</option>
+                  <option value="Kamar Mandi">Kamar Mandi</option>
+                  <option value="Fasad & ACP">Fasad & ACP</option>
+                  <option value="Bisnis">Bisnis</option>
+                  <option value="Ekonomi">Ekonomi</option>
+                  <option value="Desain">Desain</option>
+                  <option value="Teknologi">Teknologi</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="articleStatus">Status Publikasi</label>
+                <select id="articleStatus">
+                  <option value="published">🟢 Published (Langsung Tayang di Website)</option>
+                  <option value="draft">🟡 Draft (Hanya Disimpan Internal)</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="articleReadingTime">Estimasi Waktu Baca</label>
+                <input id="articleReadingTime" placeholder="4 mnt baca" value="4 mnt baca">
+              </div>
+
+              <div class="field full">
+                <label for="articleImage">Featured Image URL</label>
+                <input id="articleImage" placeholder="assets/gallery/partisi-aluminium.jpg atau URL online" oninput="previewArticleImage(this.value)">
+                <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+                  <span style="font-size:11px;color:var(--muted)">Pilihan cepat:</span>
+                  <button type="button" class="btn btn-sm btn-light" onclick="setArticleImg('assets/gallery/partisi-aluminium.jpg')">Partisi</button>
+                  <button type="button" class="btn btn-sm btn-light" onclick="setArticleImg('assets/gallery/pintu-aluminium.jpg')">Pintu Aluminium</button>
+                  <button type="button" class="btn btn-sm btn-light" onclick="setArticleImg('assets/gallery/pintu-kaca.jpg')">Pintu Kaca</button>
+                  <button type="button" class="btn btn-sm btn-light" onclick="setArticleImg('assets/gallery/jendela-aluminium.jpg')">Jendela</button>
+                  <button type="button" class="btn btn-sm btn-light" onclick="setArticleImg('assets/gallery/shower-kaca.jpg')">Shower Kaca</button>
+                </div>
+                <div class="preview-box" id="articleImgPreview" style="margin-top:8px">Preview Gambar</div>
+              </div>
+
+              <div class="field full">
+                <label for="articleExcerpt">Ringkasan Singkat (Excerpt) <span style="color:var(--danger)">*</span></label>
+                <textarea id="articleExcerpt" rows="2" required placeholder="Ringkasan 1-2 kalimat untuk kartu artikel di halaman index dan hasil pencarian."></textarea>
+              </div>
+
+              <div class="field full">
+                <label for="articleContent">Isi Konten Artikel Lengkap</label>
+                <textarea id="articleContent" style="min-height:260px" placeholder="Tuliskan isi artikel lengkap di sini... Paragraf dapat menggunakan pemisah baris ganda."></textarea>
+              </div>
+
+              <div class="field">
+                <label for="articleMetaTitle">SEO Meta Title</label>
+                <input id="articleMetaTitle" placeholder="Judul halaman untuk Google Search">
+              </div>
+
+              <div class="field">
+                <label for="articleKeywords">Target Keywords SEO</label>
+                <input id="articleKeywords" placeholder="kaca aluminium karawang, kusen aluminium, partisi ruko">
+              </div>
+
+              <div class="field full">
+                <label for="articleMetaDesc">Meta Description</label>
+                <textarea id="articleMetaDesc" rows="2" placeholder="Deskripsi ringkas yang tampil di hasil pencarian Google."></textarea>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-light" onclick="showSection('articles')">Batal</button>
+              <button type="submit" class="btn btn-primary" id="saveArticleBtn">💾 Simpan & Publikasikan Artikel</button>
+            </div>
+          </form>
         </div>
-      </div>
-      <div class="panel">
-        <form id="articleForm">
-          <input type="hidden" id="articleId">
-          <div class="form-grid">
-            <div class="field full">
-              <label for="articleTitle">Judul artikel</label>
-              <input id="articleTitle" required placeholder="Contoh: Jasa Kaca Aluminium Karawang untuk Rumah dan Kantor">
-            </div>
-            <div class="field full">
-              <label for="articleSlug">Slug URL</label>
-              <input id="articleSlug" required placeholder="jasa-kaca-aluminium-karawang">
-              <div class="help">Gunakan huruf kecil, angka, dan tanda hubung. URL yang disarankan: /artikel/slug.</div>
-            </div>
-            <div class="field">
-              <label for="articleCategory">Kategori</label>
-              <input id="articleCategory" placeholder="Kaca Aluminium">
-            </div>
-            <div class="field">
-              <label for="articleStatus">Status</label>
-              <select id="articleStatus">
-                <option value="draft">Draft</option>
-                <option value="published">Published</option>
-              </select>
-            </div>
-            <div class="field full">
-              <label for="articleImage">Featured image URL</label>
-              <input id="articleImage" placeholder="assets/artikel/kaca-aluminium-karawang.jpg">
-            </div>
-            <div class="field full">
-              <label for="articleExcerpt">Ringkasan artikel</label>
-              <textarea id="articleExcerpt" placeholder="Ringkasan singkat untuk kartu artikel dan hasil pencarian."></textarea>
-            </div>
-            <div class="field full">
-              <label for="articleContent">Isi artikel</label>
-              <textarea id="articleContent" style="min-height:320px" required placeholder="Tulis artikel lengkap di sini..."></textarea>
-              <div class="help">Gunakan paragraf yang informatif dan alami. Hindari penumpukan keyword/hashtag.</div>
-            </div>
-            <div class="field">
-              <label for="articleMetaTitle">SEO title</label>
-              <input id="articleMetaTitle" placeholder="Jasa Kaca Aluminium Karawang | Sahabat Kaca Aluminium">
-            </div>
-            <div class="field">
-              <label for="articleKeywords">Keyword SEO</label>
-              <input id="articleKeywords" placeholder="jasa kaca aluminium Karawang, aluminium Karawang, kaca Karawang">
-            </div>
-            <div class="field full">
-              <label for="articleMetaDescription">Meta description</label>
-              <textarea id="articleMetaDescription" placeholder="Deskripsi singkat halaman untuk mesin pencari."></textarea>
-            </div>
-            <div class="field full">
-              <label for="articleHashtags">Hashtag SEO</label>
-              <input id="articleHashtags" placeholder="#KacaAluminiumKarawang #JasaAluminiumKarawang #KacaKarawang">
-              <div class="help">Hashtag disimpan sebagai metadata konten. Hashtag bukan jaminan artikel muncul di Google.</div>
+      </section>
+
+      <!-- ===================================================
+           SECTION 3: PUSAT KONTROL IKLAN ADMIN (MANDIRI)
+      ==================================================== -->
+      <section id="adminAds" class="app-section hidden">
+        <div class="topbar">
+          <div>
+            <h1>Pusat Kontrol Iklan Admin (Mandiri & Sponsor)</h1>
+            <p>Kelola banner promosi internal toko, diskon pelanggan, penawaran WhatsApp, dan sponsor mandiri.</p>
+          </div>
+          <button class="btn btn-primary" onclick="openNewAdminAd()">+ Tambah Iklan Admin</button>
+        </div>
+
+        <div class="notice notice-admin">
+          <span>📢</span>
+          <div>
+            <b>Terpisah dari Google AdSense:</b> Iklan Admin adalah materi promosi milik bengkel Sahabat Kaca Aluminium atau sponsor langsung. Anda dapat memasang link chat WhatsApp langsung atau halaman promo.
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>Daftar Iklan Admin</h2>
+              <p>Banner yang sedang aktif dan siap tampil di website.</p>
             </div>
           </div>
-          <div class="form-actions">
-            <button type="button" class="btn btn-light" onclick="showSection('articles')">Batal</button>
-            <button type="submit" class="btn btn-primary">Simpan Artikel</button>
+          <div id="adminAdsTableContainer"></div>
+        </div>
+      </section>
+
+      <!-- ===================================================
+           SECTION 3B: ADMIN AD EDITOR FORM
+      ==================================================== -->
+      <section id="adminAdEditor" class="app-section hidden">
+        <div class="topbar">
+          <div>
+            <h1 id="adminAdEditorTitle">Tambah Iklan Admin</h1>
+            <p>Buat materi promosi mandiri untuk ditempatkan pada slot website.</p>
           </div>
-        </form>
-      </div>
-    </section>
-
-    <section id="code" class="app-section hidden">
-      <div class="topbar">
-        <div>
-          <h1>Data untuk Website</h1>
-          <p>Konfigurasi iklan tersimpan dalam format JSON.</p>
+          <button class="btn btn-light" onclick="showSection('adminAds')">← Kembali ke Daftar Iklan Admin</button>
         </div>
-        <button class="btn btn-light" onclick="copyJson()">Salin JSON</button>
-      </div>
 
-      <div class="panel">
-        <div class="notice">
-          Panel ini menjadi sumber data iklan. Tahap berikutnya dapat menghubungkan data ini ke halaman publik agar perubahan dari <b>/admin</b> langsung tampil di website.
+        <div class="panel">
+          <form id="adminAdForm" onsubmit="handleAdminAdSubmit(event)">
+            <input type="hidden" id="adId">
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="adName">Nama Iklan / Kampanye <span style="color:var(--danger)">*</span></label>
+                <input id="adName" required placeholder="Contoh: Promo Kusen Aluminium & Survey Gratis">
+              </div>
+
+              <div class="field">
+                <label for="adPosition">Posisi Penempatan Slot <span style="color:var(--danger)">*</span></label>
+                <select id="adPosition" required onchange="handleAdPositionChange(this.value)">
+                  <option value="top">Banner Atas (Header - Rekomendasi 970 × 90)</option>
+                  <option value="bottom">Banner Bawah (Footer - Rekomendasi 970 × 250)</option>
+                  <option value="left">Floating Sidebar Kiri (Desktop 160 × 600)</option>
+                  <option value="right">Floating Sidebar Kanan (Desktop 160 × 600)</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="adImage">URL Gambar / Banner</label>
+                <input id="adImage" placeholder="assets/gallery/pintu-aluminium.jpg atau URL gambar" oninput="previewAdImage(this.value)">
+                <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+                  <span style="font-size:11px;color:var(--muted)">Preset:</span>
+                  <button type="button" class="btn btn-sm btn-light" onclick="setAdImg('assets/gallery/pintu-aluminium.jpg')">Pintu</button>
+                  <button type="button" class="btn btn-sm btn-light" onclick="setAdImg('assets/gallery/partisi-aluminium.jpg')">Partisi</button>
+                  <button type="button" class="btn btn-sm btn-light" onclick="setAdImg('assets/gallery/pintu-kaca.jpg')">Kaca Tempered</button>
+                  <button type="button" class="btn btn-sm btn-light" onclick="setAdImg('assets/gallery/jendela-aluminium.jpg')">Jendela</button>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="adLink">URL Target Tujuan (Klik)</label>
+                <input id="adLink" placeholder="https://wa.me/6289637371166?text=Halo%20Admin...">
+                <div style="display:flex;gap:6px;margin-top:6px">
+                  <button type="button" class="btn btn-sm btn-light" onclick="setAdWhatsAppLink()">💬 Set Link WhatsApp Admin</button>
+                  <button type="button" class="btn btn-sm btn-light" onclick="document.getElementById('adLink').value='#kontak'">Hubungi Kami</button>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="adActive">Status Iklan</label>
+                <select id="adActive">
+                  <option value="true">🟢 Aktif (Tayang)</option>
+                  <option value="false">⚪ Nonaktif (Disimpan)</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="adSize">Tipe Ukuran</label>
+                <select id="adSize">
+                  <option value="banner-top">Banner Atas 970 × 90</option>
+                  <option value="banner-bottom">Banner Bawah 970 × 250</option>
+                  <option value="sidebar">Sidebar Floating 160 × 600</option>
+                </select>
+              </div>
+
+              <div class="field full">
+                <label for="adHtml">HTML / Embed Mandiri (Opsional)</label>
+                <textarea id="adHtml" rows="2" placeholder='Contoh: <a href="..."><img src="..." alt="..."></a>'></textarea>
+                <div class="help">Jika diisi, HTML ini akan di-render langsung menggantikan gambar bawaan.</div>
+              </div>
+
+              <div class="field full">
+                <label>Preview Tampilan Banner</label>
+                <div class="preview-box" id="adminAdPreview">SPACE IKLAN ADMIN</div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-light" onclick="showSection('adminAds')">Batal</button>
+              <button type="submit" class="btn btn-primary">💾 Simpan Iklan Admin</button>
+            </div>
+          </form>
         </div>
-        <div id="jsonOutput" class="code-box"></div>
-      </div>
-    </section>
-  </main>
-</div>
+      </section>
 
-<script>
+      <!-- ===================================================
+           SECTION 4: PUSAT KONTROL GOOGLE ADSENSE
+      ==================================================== -->
+      <section id="adsense" class="app-section hidden">
+        <div class="topbar">
+          <div>
+            <h1>Pusat Kontrol Iklan Google AdSense</h1>
+            <p>Pengaturan akun, file ads.txt, unit slot, dan strategi prioritas AdSense vs Iklan Admin.</p>
+          </div>
+          <button class="btn btn-adsense" onclick="saveAdSenseSettings()">💾 Simpan Konfigurasi AdSense</button>
+        </div>
 
-  // Iframe-safe non-blocking alert notification
-  function showAlert(msg) {
-    let t = document.getElementById("adminToast");
-    if (!t) {
-      t = document.createElement("div");
-      t.id = "adminToast";
-      t.style.cssText = "position:fixed;bottom:24px;right:24px;background:#073746;color:#fff;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,0.25);z-index:999999;transition:opacity 0.3s;max-width:360px;";
-      document.body.appendChild(t);
+        <div class="notice notice-adsense">
+          <span>🌐</span>
+          <div>
+            <b>Terpisah dari Iklan Admin:</b> Bagian ini mengatur akun monetisasi Google AdSense resmi Anda. Iklan disajikan otomatis oleh jaringan Google sesuai kebijakan program AdSense.
+          </div>
+        </div>
+
+        <!-- Kartu Pengaturan Utama AdSense -->
+        <div class="cards" style="grid-template-columns:repeat(3,1fr);margin-bottom:24px">
+          <div class="panel" style="margin-bottom:0">
+            <h3 style="font-size:15px;margin-bottom:12px;color:var(--deep)">1. Saklar Global AdSense</h3>
+            <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Aktifkan atau matikan seluruh tampilan AdSense di semua halaman website secara instan.</p>
+            <label class="switch-label">
+              <div class="switch">
+                <input type="checkbox" id="adsenseGlobalToggle" onchange="toggleAdSenseGlobal(this.checked)">
+                <span class="slider adsense-slider"></span>
+              </div>
+              <span id="adsenseGlobalLabel" style="font-weight:800;color:var(--adsense-blue)">AdSense Aktif</span>
+            </label>
+          </div>
+
+          <div class="panel" style="margin-bottom:0">
+            <h3 style="font-size:15px;margin-bottom:12px;color:var(--deep)">2. Publisher ID & Ads.txt</h3>
+            <div class="field" style="margin-bottom:10px">
+              <label for="adsensePublisherId" style="font-size:11px">Google Publisher ID</label>
+              <input id="adsensePublisherId" value="pub-2437971183769682" style="font-family:monospace;font-weight:700">
+            </div>
+            <div style="font-size:11px;color:var(--success);font-weight:700;display:flex;align-items:center;gap:5px">
+              <span>✓ ads.txt terkonfigurasi di root domain</span>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-bottom:0">
+            <h3 style="font-size:15px;margin-bottom:12px;color:var(--deep)">3. Google Auto Ads</h3>
+            <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Biarkan AI Google menempatkan iklan secara dinamis di area dengan performa terbaik.</p>
+            <label class="switch-label">
+              <div class="switch">
+                <input type="checkbox" id="adsenseAutoAdsToggle">
+                <span class="slider adsense-slider"></span>
+              </div>
+              <span id="adsenseAutoAdsLabel" style="font-weight:700">Auto Ads Aktif</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Tabel Konfigurasi Slot Terpisah -->
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>Aturan Prioritas per Slot Iklan</h2>
+              <p>Tentukan apakah setiap posisi menggunakan <b>Iklan Admin</b>, <b>Google AdSense</b>, atau <b>Hybrid (AdSense + Fallback Admin)</b>.</p>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:160px">Posisi Slot</th>
+                  <th style="width:240px">Mode Penayangan</th>
+                  <th>AdSense Ad Slot ID</th>
+                  <th>Format AdSense</th>
+                  <th style="width:120px">Status Slot</th>
+                </tr>
+              </thead>
+              <tbody id="adsenseSlotRows">
+                <!-- Injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <div style="display:flex;justify-content:flex-end;margin-top:20px">
+            <button class="btn btn-adsense" onclick="saveAdSenseSettings()">💾 Simpan Semua Aturan AdSense</button>
+          </div>
+        </div>
+
+        <!-- Kode ads.txt & Snippet -->
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>Verifikasi ads.txt & Kode AdSense</h2>
+              <p>Pastikan baris berikut ada di <code>https://www.sahabat-aluminium.my.id/ads.txt</code></p>
+            </div>
+            <a href="/ads.txt" target="_blank" class="btn btn-light btn-sm">Buka /ads.txt ↗</a>
+          </div>
+
+          <div class="code-box" id="adsTxtDisplay">google.com, pub-2437971183769682, DIRECT, f08c47fec0942fa0</div>
+          
+          <div style="margin-top:16px">
+            <h4 style="font-size:13px;color:var(--deep);margin-bottom:6px">Script Tag Header AdSense (Otomatis Diinjeksikan oleh iklan.js):</h4>
+            <div class="code-box">&lt;script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2437971183769682" crossorigin="anonymous"&gt;&lt;/script&gt;</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================
+           SECTION 5: DATA & SINKRONISASI SERVER
+      ==================================================== -->
+      <section id="syncConfig" class="app-section hidden">
+        <div class="topbar">
+          <div>
+            <h1>Data & Sinkronisasi Konfigurasi</h1>
+            <p>Sinkronkan konfigurasi artikel dan iklan antara browser dan server live.</p>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-light" onclick="copyFullConfigJson()">📋 Salin JSON</button>
+            <button class="btn btn-primary" onclick="syncAllToServer()">☁️ Simpan Semua ke Server Live</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="notice">
+            <span>ℹ️</span>
+            <div>
+              Data artikel tersimpan di <code>articles.json</code> dan data iklan tersimpan di <code>ads-config.json</code>. Anda dapat menyalin data ini untuk cadangan (backup) kapan saja.
+            </div>
+          </div>
+
+          <h3 style="font-size:15px;margin-bottom:10px;color:var(--deep)">JSON Data Gabungan (Live State)</h3>
+          <div class="code-box" id="fullConfigOutput">Memuat data...</div>
+
+          <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="syncAllToServer()">☁️ Sinkronkan ke Server Sekarang</button>
+            <button class="btn btn-light" onclick="downloadBackupJson()">📥 Download Backup JSON</button>
+            <button class="btn btn-danger" onclick="resetToFactoryDefaults()">⚠️ Reset ke Bawaan</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="adminToast" style="display:none;position:fixed;bottom:24px;right:24px;background:#073746;color:#ffffff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,0.25);z-index:999999;transition:all 0.3s ease;max-width:400px;border-left:4px solid #138a4b"></div>
+
+  <script>
+    'use strict';
+
+    /* =========================================================
+       AUTHENTICATION & SESSION
+       ========================================================= */
+    const AUTH_KEY = 'ska_admin_session_auth';
+
+    function initAuth() {
+      const isAuth = sessionStorage.getItem(AUTH_KEY) === 'true' || localStorage.getItem(AUTH_KEY) === 'true';
+      const screen = document.getElementById('loginScreen');
+      if (isAuth) {
+        document.body.classList.remove('locked');
+        if (screen) screen.style.display = 'none';
+      } else {
+        document.body.classList.add('locked');
+        if (screen) screen.style.display = 'grid';
+      }
     }
-    t.textContent = msg;
-    t.style.opacity = "1";
-    clearTimeout(t._timer);
-    t._timer = setTimeout(() => { t.style.opacity = "0"; }, 3000);
-  }
-  window.alert = showAlert;
 
-  /* ARTIKEL SEO */
-  const ARTICLE_STORAGE_KEY = "sahabat_kaca_aluminium_articles_v1";
+    document.getElementById('loginForm')?.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const u = document.getElementById('loginUser').value.trim();
+      const p = document.getElementById('loginPass').value.trim();
+      const err = document.getElementById('loginError');
 
-  function getArticles(){
-    try{
-      const raw = localStorage.getItem(ARTICLE_STORAGE_KEY);
-      const data = raw ? JSON.parse(raw) : [];
-      return Array.isArray(data) ? data : [];
-    }catch(e){ return []; }
-  }
+      if (u === 'admin' && p === 'admin123') {
+        sessionStorage.setItem(AUTH_KEY, 'true');
+        localStorage.setItem(AUTH_KEY, 'true');
+        document.body.classList.remove('locked');
+        document.getElementById('loginScreen').style.display = 'none';
+        showToast('✓ Berhasil masuk ke Pusat Kontrol!');
+      } else {
+        if (err) err.textContent = 'Username atau password salah. Coba: admin / admin123';
+      }
+    });
 
-  function saveArticles(articles){
-    localStorage.setItem(ARTICLE_STORAGE_KEY, JSON.stringify(articles));
-    renderArticles();
-  }
-
-  function slugify(value){
-    return String(value||"").toLowerCase().trim()
-      .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
-      .replace(/[^a-z0-9\s-]/g,"").replace(/\s+/g,"-").replace(/-+/g,"-")
-      .replace(/^-|-$/g,"");
-  }
-
-  function renderArticles(){
-    const box=document.getElementById("articlesTable");
-    if(!box) return;
-    const articles=getArticles().sort((a,b)=>new Date(b.updatedAt||b.createdAt)-new Date(a.updatedAt||a.createdAt));
-    if(!articles.length){
-      box.innerHTML='<div class="empty">Belum ada artikel. Klik “+ Tulis Artikel” untuk membuat artikel pertama.</div>';
-      return;
+    function logoutAdmin() {
+      if (confirm('Apakah Anda yakin ingin keluar dari Pusat Kontrol?')) {
+        sessionStorage.removeItem(AUTH_KEY);
+        localStorage.removeItem(AUTH_KEY);
+        location.reload();
+      }
     }
-    box.innerHTML=`<div class="table-wrap"><table><thead><tr><th>Judul</th><th>Status</th><th>Kategori</th><th>Update</th><th>Aksi</th></tr></thead><tbody>${articles.map(a=>`
-      <tr>
-        <td class="article-title-cell"><b>${esc(a.title)}</b><div class="help">/artikel/${esc(a.slug)}</div></td>
-        <td><span class="article-status ${a.status==='published'?'published':'draft'}">${a.status==='published'?'Published':'Draft'}</span></td>
-        <td>${esc(a.category||'-')}</td>
-        <td>${esc(new Date(a.updatedAt||a.createdAt).toLocaleString('id-ID'))}</td>
-        <td><div class="actions">
-          <button class="btn btn-light" onclick="editArticle('${esc(a.id)}')">Edit</button>
-          <button class="btn btn-danger" onclick="deleteArticle('${esc(a.id)}')">Hapus</button>
-        </div></td>
-      </tr>
-    `).join('')}</tbody></table></div>`;
-  }
 
-  function openNewArticle(){
-    document.getElementById("articleEditorTitle").textContent="Tulis Artikel";
-    document.getElementById("articleForm").reset();
-    document.getElementById("articleId").value="";
-    document.getElementById("articleSlug").dataset.manual="";
-    document.getElementById("articleStatus").value="draft";
-    showSection("articleEditor");
-  }
-
-  function editArticle(id){
-    const a=getArticles().find(x=>x.id===id); if(!a) return;
-    document.getElementById("articleEditorTitle").textContent="Edit Artikel";
-    document.getElementById("articleId").value=a.id;
-    document.getElementById("articleTitle").value=a.title||"";
-    document.getElementById("articleSlug").value=a.slug||"";
-    document.getElementById("articleSlug").dataset.manual="1";
-    document.getElementById("articleCategory").value=a.category||"";
-    document.getElementById("articleStatus").value=a.status||"draft";
-    document.getElementById("articleImage").value=a.image||"";
-    document.getElementById("articleExcerpt").value=a.excerpt||"";
-    document.getElementById("articleContent").value=a.content||"";
-    document.getElementById("articleMetaTitle").value=a.metaTitle||"";
-    document.getElementById("articleKeywords").value=a.keywords||"";
-    document.getElementById("articleMetaDescription").value=a.metaDescription||"";
-    document.getElementById("articleHashtags").value=a.hashtags||"";
-    showSection("articleEditor");
-  }
-
-  function deleteArticle(id){
-    const a=getArticles().find(x=>x.id===id); if(!a) return;
-    if(!confirm('Hapus artikel "'+a.title+'"?')) return;
-    saveArticles(getArticles().filter(x=>x.id!==id));
-  }
-
-  document.getElementById("articleTitle")?.addEventListener("input",function(){
-    const slug=document.getElementById("articleSlug");
-    if(!document.getElementById("articleId").value || !slug.dataset.manual){
-      slug.value=slugify(this.value);
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('adminToast');
+      if (!t) return;
+      t.textContent = msg;
+      t.style.display = 'block';
+      t.style.opacity = '1';
+      t.style.borderLeftColor = isError ? '#d93829' : '#138a4b';
+      clearTimeout(t._timer);
+      t._timer = setTimeout(() => {
+        t.style.opacity = '0';
+        setTimeout(() => { t.style.display = 'none'; }, 300);
+      }, 3500);
     }
-  });
+    window.alert = (msg) => showToast(msg);
 
-  document.getElementById("articleSlug")?.addEventListener("input",function(){
-    this.dataset.manual="1";
-    this.value=slugify(this.value);
-  });
+    /* =========================================================
+       NAVIGATION ROUTING
+       ========================================================= */
+    function showSection(sectionId) {
+      document.querySelectorAll('.app-section').forEach(sec => sec.classList.add('hidden'));
+      const target = document.getElementById(sectionId);
+      if (target) target.classList.remove('hidden');
 
-  document.getElementById("articleForm")?.addEventListener("submit",function(e){
-    e.preventDefault();
-    const articles=getArticles();
-    const id=document.getElementById("articleId").value || ("article-"+Date.now());
-    const existing=articles.find(a=>a.id===id);
-    const title=document.getElementById("articleTitle").value.trim();
-    const slug=slugify(document.getElementById("articleSlug").value.trim() || title);
-    if(!title || !slug){ alert("Judul dan slug wajib diisi."); return; }
-    const duplicate=articles.find(a=>a.slug===slug && a.id!==id);
-    if(duplicate){ alert("Slug sudah dipakai artikel lain. Gunakan slug yang berbeda."); return; }
+      document.querySelectorAll('.side-nav button').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-section') === sectionId);
+      });
 
-    const status=document.getElementById("articleStatus").value;
-    const item={
-      id,title,slug,
-      category:document.getElementById("articleCategory").value.trim(),
-      status,
-      image:document.getElementById("articleImage").value.trim(),
-      excerpt:document.getElementById("articleExcerpt").value.trim(),
-      content:document.getElementById("articleContent").value.trim(),
-      metaTitle:document.getElementById("articleMetaTitle").value.trim()||title,
-      keywords:document.getElementById("articleKeywords").value.trim(),
-      metaDescription:document.getElementById("articleMetaDescription").value.trim()||document.getElementById("articleExcerpt").value.trim(),
-      hashtags:document.getElementById("articleHashtags").value.trim(),
-      createdAt:existing?.createdAt||new Date().toISOString(),
-      updatedAt:new Date().toISOString(),
-      publishedAt:status==='published'?(existing?.publishedAt||new Date().toISOString()):null
+      if (sectionId === 'syncConfig') updateFullConfigOutput();
+    }
+
+    document.querySelectorAll('.side-nav button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const sec = btn.getAttribute('data-section');
+        if (sec) showSection(sec);
+      });
+    });
+
+    /* =========================================================
+       DATA STORES: ARTICLES & ADS
+       ========================================================= */
+    const STORAGE_KEY_ARTICLES = 'sahabat_kaca_aluminium_articles_v1';
+    const STORAGE_KEY_ADS_CONFIG = 'sahabat_kaca_aluminium_ads_v1';
+    const STORAGE_KEY_ADSENSE = 'sahabat_kaca_aluminium_adsense_v1';
+
+    let articlesData = [];
+    let adminAdsData = [];
+    let adsenseConfig = {
+      enabled: true,
+      publisherId: "pub-2437971183769682",
+      autoAds: false,
+      adsTxtVerified: true,
+      slots: {
+        top: { enabled: true, slotId: "8912345671", format: "horizontal", mode: "hybrid" },
+        bottom: { enabled: true, slotId: "8912345672", format: "rectangle", mode: "hybrid" },
+        inArticle: { enabled: true, slotId: "8912345673", format: "fluid", mode: "adsense" },
+        left: { enabled: false, slotId: "8912345674", format: "vertical", mode: "admin" },
+        right: { enabled: false, slotId: "8912345675", format: "vertical", mode: "admin" }
+      }
     };
 
-    const i=articles.findIndex(a=>a.id===id);
-    if(i>=0) articles[i]=item; else articles.unshift(item);
-    saveArticles(articles);
-    alert("Artikel berhasil disimpan.");
-    showSection("articles");
-  });
-
-
-  const STORAGE_KEY = "sahabat_kaca_aluminium_ads_v1";
-
-  const initialAds = [
-    {
-      id: "ad-top-default",
-      name: "Ruang Iklan Atas",
-      position: "top",
-      image: "",
-      link: "",
-      size: "banner-top",
-      html: "",
-      active: true,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: "ad-bottom-default",
-      name: "Ruang Iklan Bawah",
-      position: "bottom",
-      image: "",
-      link: "",
-      size: "banner-bottom",
-      html: "",
-      active: true,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: "ad-left-default",
-      name: "Ruang Iklan Sidebar Kiri",
-      position: "left",
-      image: "",
-      link: "",
-      size: "sidebar",
-      html: "",
-      active: true,
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: "ad-right-default",
-      name: "Ruang Iklan Sidebar Kanan",
-      position: "right",
-      image: "",
-      link: "",
-      size: "sidebar",
-      html: "",
-      active: true,
-      createdAt: new Date().toISOString()
+    function esc(val) {
+      return String(val ?? '')
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#039;');
     }
-  ];
 
-  function getAds(){
-    try{
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if(!raw){
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(initialAds));
-        return [...initialAds];
+    /* =========================================================
+       ARTICLES MANAGEMENT
+       ========================================================= */
+    async function loadArticlesFromServer() {
+      try {
+        const res = await fetch('/api/articles?all=true');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.articles)) {
+            articlesData = json.articles;
+            localStorage.setItem(STORAGE_KEY_ARTICLES, JSON.stringify(articlesData));
+            renderArticlesTable();
+            renderDashboardArticles();
+            updateArticleCounts();
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn('Fallback to local storage for articles:', err);
       }
-      const data = JSON.parse(raw);
-      return Array.isArray(data) ? data : [...initialAds];
-    }catch(e){
-      return [...initialAds];
+
+      // Local fallback
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_ARTICLES);
+        if (raw) articlesData = JSON.parse(raw);
+      } catch (e) {}
+      renderArticlesTable();
+      renderDashboardArticles();
+      updateArticleCounts();
     }
-  }
 
-  function saveAds(ads){
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(ads));
-    refreshAll();
-  }
+    let currentArticleFilter = 'all';
+    let currentArticleSearch = '';
 
-  function esc(value){
-    return String(value ?? "")
-      .replace(/&/g,"&amp;").replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;").replace(/"/g,"&quot;")
-      .replace(/'/g,"&#039;");
-  }
+    function filterArticleStatus(status) {
+      currentArticleFilter = status;
+      ['filterArtAll', 'filterArtPub', 'filterArtDraft'].forEach(id => {
+        document.getElementById(id)?.classList.remove('active');
+      });
+      if (status === 'all') document.getElementById('filterArtAll')?.classList.add('active');
+      if (status === 'published') document.getElementById('filterArtPub')?.classList.add('active');
+      if (status === 'draft') document.getElementById('filterArtDraft')?.classList.add('active');
+      renderArticlesTable();
+    }
 
-  function positionLabel(position){
-    return ({
-      top:"Atas",
-      bottom:"Bawah",
-      left:"Sidebar Kiri",
-      right:"Sidebar Kanan"
-    })[position] || position;
-  }
+    function handleArticleSearch(query) {
+      currentArticleSearch = (query || '').toLowerCase().trim();
+      renderArticlesTable();
+    }
 
-  function sizeLabel(size){
-    return ({
-      "banner-top":"970 × 100",
-      "banner-bottom":"970 × 250",
-      sidebar:"160 × 300"
-    })[size] || size;
-  }
+    function updateArticleCounts() {
+      const total = articlesData.length;
+      const pub = articlesData.filter(a => a.status === 'published').length;
+      const draft = total - pub;
 
-  function tableHtml(ads){
-    if(!ads.length) return '<div class="empty">Belum ada iklan.</div>';
+      document.getElementById('statArticlesTotal').textContent = total;
+      document.getElementById('statArticlesPublished').textContent = `${pub} Published • ${draft} Draft`;
+      document.getElementById('navArticleCount').textContent = total;
+      document.getElementById('countArtAll').textContent = total;
+      document.getElementById('countArtPub').textContent = pub;
+      document.getElementById('countArtDraft').textContent = draft;
+    }
 
-    return `
-      <div class="table-wrap">
-      <table>
+    function renderArticlesTable() {
+      const container = document.getElementById('articlesTableContainer');
+      if (!container) return;
+
+      let list = [...articlesData];
+      if (currentArticleFilter !== 'all') {
+        list = list.filter(a => a.status === currentArticleFilter);
+      }
+      if (currentArticleSearch) {
+        list = list.filter(a => 
+          (a.title || '').toLowerCase().includes(currentArticleSearch) ||
+          (a.slug || '').toLowerCase().includes(currentArticleSearch) ||
+          (a.category || '').toLowerCase().includes(currentArticleSearch)
+        );
+      }
+
+      if (!list.length) {
+        container.innerHTML = `<div class="empty">Tidak ada artikel yang sesuai kriteria pencarian/filter. Klik <b>"+ Tulis Artikel Baru"</b> untuk mulai menulis.</div>`;
+        return;
+      }
+
+      let html = `<div class="table-wrap"><table>
         <thead>
           <tr>
-            <th>Preview</th>
-            <th>Nama</th>
-            <th>Posisi</th>
-            <th>Ukuran</th>
-            <th>Status</th>
-            <th>Aksi</th>
+            <th style="width:70px">Gambar</th>
+            <th>Judul Artikel & URL</th>
+            <th style="width:130px">Kategori</th>
+            <th style="width:110px">Status</th>
+            <th style="width:110px">Waktu Baca</th>
+            <th style="width:130px">Aksi</th>
           </tr>
         </thead>
-        <tbody>
-        ${ads.map(ad => `
+        <tbody>`;
+
+      list.forEach(a => {
+        const isPub = a.status === 'published';
+        const img = a.image || 'assets/gallery/partisi-aluminium.jpg';
+        html += `
           <tr>
             <td>
-              <div class="preview-box">
-                ${ad.image ? `<img src="${esc(ad.image)}" alt="">` : "SPACE IKLAN"}
+              <div style="width:60px;height:42px;border-radius:6px;overflow:hidden;background:#f0f4f6;border:1px solid #dce5e8">
+                <img src="${esc(img)}" alt="${esc(a.title)}" style="width:100%;height:100%;object-fit:cover" onerror="this.src='assets/logo.png'">
               </div>
             </td>
-            <td><b>${esc(ad.name)}</b></td>
-            <td>${esc(positionLabel(ad.position))}</td>
-            <td>${esc(sizeLabel(ad.size))}</td>
-            <td><span class="status ${ad.active ? "on":"off"}">${ad.active ? "Aktif":"Nonaktif"}</span></td>
+            <td>
+              <b style="color:var(--deep);font-size:13.5px">${esc(a.title)}</b>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">
+                <code>artikel/${esc(a.slug)}.html</code>
+              </div>
+            </td>
+            <td><span style="font-weight:700;color:#355361">${esc(a.category || 'Umum')}</span></td>
+            <td>
+              <button type="button" class="btn btn-sm ${isPub ? 'btn-success' : 'btn-light'}" onclick="toggleArticleStatus('${esc(a.id)}')">
+                ${isPub ? '🟢 Published' : '🟡 Draft'}
+              </button>
+            </td>
+            <td>${esc(a.readingTime || '4 mnt baca')}</td>
             <td>
               <div class="actions">
-                <button class="btn btn-light" onclick="editAd('${esc(ad.id)}')">Edit</button>
-                <button class="btn ${ad.active ? "btn-danger":"btn-success"}" onclick="toggleAd('${esc(ad.id)}')">
-                  ${ad.active ? "Nonaktifkan":"Aktifkan"}
-                </button>
-                <button class="btn btn-danger" onclick="deleteAd('${esc(ad.id)}')">Hapus</button>
+                <button type="button" class="btn btn-light btn-sm" onclick="editArticle('${esc(a.id)}')">Edit</button>
+                <a href="${esc(a.url || `artikel/${a.slug}.html`)}" target="_blank" class="btn btn-light btn-sm" title="Lihat di Web">↗️</a>
+                <button type="button" class="btn btn-danger btn-sm" onclick="deleteArticle('${esc(a.id)}')">Hapus</button>
               </div>
             </td>
           </tr>
-        `).join("")}
-        </tbody>
-      </table>
-      </div>
-    `;
-  }
+        `;
+      });
 
-  function refreshAll(){
-    const ads = getAds();
-    const active = ads.filter(a=>a.active);
-    document.getElementById("statTotal").textContent = ads.length;
-    document.getElementById("statActive").textContent = active.length;
-    document.getElementById("statBanner").textContent = ads.filter(a=>a.position==="top"||a.position==="bottom").length;
-    document.getElementById("statSidebar").textContent = ads.filter(a=>a.position==="left"||a.position==="right").length;
-    document.getElementById("dashboardTable").innerHTML = tableHtml(ads.slice(0,8));
-    document.getElementById("adsTable").innerHTML = tableHtml(ads);
-    document.getElementById("jsonOutput").textContent = JSON.stringify(ads,null,2);
-  }
-
-  function showSection(id){
-    document.querySelectorAll(".app-section").forEach(s=>s.classList.add("hidden"));
-    document.getElementById(id).classList.remove("hidden");
-    document.querySelectorAll(".side-nav button").forEach(b=>b.classList.toggle("active", b.dataset.section===id));
-    if(id==="dashboard"||id==="ads"||id==="code") refreshAll();
-    if(id==="articles") renderArticles();
-  }
-
-  document.querySelectorAll(".side-nav button").forEach(btn=>{
-    btn.addEventListener("click",()=>showSection(btn.dataset.section));
-  });
-
-  function openNewAd(){
-    document.getElementById("editorTitle").textContent = "Tambah Iklan";
-    document.getElementById("adForm").reset();
-    document.getElementById("adId").value = "";
-    document.getElementById("adActive").value = "true";
-    document.getElementById("adPosition").value = "top";
-    document.getElementById("adSize").value = "banner-top";
-    updatePreview();
-    showSection("editor");
-  }
-
-  function editAd(id){
-    const ad = getAds().find(a=>a.id===id);
-    if(!ad) return;
-    document.getElementById("editorTitle").textContent = "Edit Iklan";
-    document.getElementById("adId").value = ad.id;
-    document.getElementById("adName").value = ad.name || "";
-    document.getElementById("adPosition").value = ad.position || "top";
-    document.getElementById("adImage").value = ad.image || "";
-    document.getElementById("adLink").value = ad.link || "";
-    document.getElementById("adSize").value = ad.size || "banner-top";
-    document.getElementById("adActive").value = String(!!ad.active);
-    document.getElementById("adHtml").value = ad.html || "";
-    updatePreview();
-    showSection("editor");
-  }
-
-  function toggleAd(id){
-    const ads = getAds();
-    const ad = ads.find(a=>a.id===id);
-    if(!ad) return;
-    ad.active = !ad.active;
-    saveAds(ads);
-  }
-
-  function deleteAd(id){
-    const ads = getAds();
-    const ad = ads.find(a=>a.id===id);
-    if(!ad) return;
-    if(!confirm('Hapus iklan "' + ad.name + '"?')) return;
-    saveAds(ads.filter(a=>a.id!==id));
-  }
-
-  document.getElementById("adForm")?.addEventListener("submit",function(e){
-    e.preventDefault();
-
-    const ads = getAds();
-    const id = document.getElementById("adId").value || ("ad-" + Date.now());
-    const existing = ads.find(a=>a.id===id);
-
-    const item = {
-      id,
-      name: document.getElementById("adName").value.trim(),
-      position: document.getElementById("adPosition").value,
-      image: document.getElementById("adImage").value.trim(),
-      link: document.getElementById("adLink").value.trim(),
-      size: document.getElementById("adSize").value,
-      html: document.getElementById("adHtml").value,
-      active: document.getElementById("adActive").value === "true",
-      createdAt: existing?.createdAt || new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
-
-    if(!item.name){
-      alert("Nama iklan wajib diisi.");
-      return;
+      html += `</tbody></table></div>`;
+      container.innerHTML = html;
     }
 
-    const index = ads.findIndex(a=>a.id===id);
-    if(index>=0) ads[index]=item;
-    else ads.unshift(item);
+    function renderDashboardArticles() {
+      const container = document.getElementById('dashArticlesTable');
+      if (!container) return;
 
-    saveAds(ads);
-    alert("Iklan berhasil disimpan.");
-    showSection("ads");
-  });
+      const recent = articlesData.slice(0, 5);
+      if (!recent.length) {
+        container.innerHTML = `<div class="empty" style="padding:20px">Belum ada artikel.</div>`;
+        return;
+      }
 
-  function updatePreview(){
-    const image = document.getElementById("adImage").value.trim();
-    const preview = document.getElementById("editorPreview");
-    if(image){
-      preview.innerHTML = `<img src="${esc(image)}" alt="Preview iklan" onerror="this.parentElement.textContent='Gambar tidak dapat dimuat'">`;
-    }else{
-      preview.textContent = "SPACE IKLAN";
+      let html = `<table style="min-width:auto"><tbody>`;
+      recent.forEach(a => {
+        const isPub = a.status === 'published';
+        html += `
+          <tr>
+            <td>
+              <b style="display:block;font-size:13px;color:var(--deep)">${esc(a.title)}</b>
+              <small style="color:var(--muted)">${esc(a.category || '-')} • <code>${esc(a.slug)}</code></small>
+            </td>
+            <td style="text-align:right">
+              <span class="tag ${isPub ? 'tag-published' : 'tag-draft'}">${isPub ? 'Published' : 'Draft'}</span>
+            </td>
+          </tr>
+        `;
+      });
+      html += `</tbody></table>`;
+      container.innerHTML = html;
     }
-  }
 
-  document.getElementById("adImage")?.addEventListener("input",updatePreview);
-
-  async function copyJson(){
-    const text = document.getElementById("jsonOutput").textContent;
-    try{
-      await navigator.clipboard.writeText(text);
-      alert("JSON berhasil disalin.");
-    }catch(e){
-      alert("Clipboard browser tidak tersedia. Salin JSON secara manual.");
+    function openNewArticle() {
+      document.getElementById('articleEditorTitle').textContent = 'Tulis Artikel Baru';
+      document.getElementById('articleForm').reset();
+      document.getElementById('articleId').value = '';
+      document.getElementById('articleStatus').value = 'published';
+      document.getElementById('articleReadingTime').value = '4 mnt baca';
+      document.getElementById('articleImage').value = 'assets/gallery/partisi-aluminium.jpg';
+      previewArticleImage('assets/gallery/partisi-aluminium.jpg');
+      showSection('articleEditor');
     }
-  }
 
-
-  const ADMIN_USERNAME = "admin";
-  const ADMIN_PASSWORD = "admin123";
-  const ADMIN_SESSION_KEY = "sahabat_admin_logged_in";
-
-  function showAdmin(){
-    document.getElementById("loginScreen").classList.add("hidden");
-    document.body.classList.remove("locked");
-  }
-
-  function showLogin(){
-    document.getElementById("loginScreen").classList.remove("hidden");
-    document.body.classList.add("locked");
-  }
-
-  document.getElementById("loginForm")?.addEventListener("submit", function(e){
-    e.preventDefault();
-    const user = document.getElementById("loginUser").value.trim();
-    const pass = document.getElementById("loginPass").value;
-    const error = document.getElementById("loginError");
-
-    if(user === ADMIN_USERNAME && pass === ADMIN_PASSWORD){
-      sessionStorage.setItem(ADMIN_SESSION_KEY, "1");
-      error.textContent = "";
-      showAdmin();
-    }else{
-      error.textContent = "Username atau password salah.";
+    function autoGenerateSlug(title) {
+      const slugInput = document.getElementById('articleSlug');
+      if (document.getElementById('articleId').value) return; // Do not auto-change existing slug
+      if (slugInput) {
+        slugInput.value = String(title || '').toLowerCase().trim()
+          .replace(/[^\w\s-]/g, '')
+          .replace(/\s+/g, '-')
+          .replace(/--+/g, '-');
+      }
     }
-  });
 
-  if(sessionStorage.getItem(ADMIN_SESSION_KEY) === "1"){
-    showAdmin();
-  }
+    function previewArticleImage(url) {
+      const p = document.getElementById('articleImgPreview');
+      if (!p) return;
+      if (url && url.trim()) {
+        p.innerHTML = `<img src="${esc(url.trim())}" alt="Preview" onerror="this.onerror=null;this.parentElement.innerHTML='Gambar tidak dapat dimuat'">`;
+      } else {
+        p.innerHTML = 'Preview Gambar';
+      }
+    }
 
-  function logoutAdmin(){
-    sessionStorage.removeItem(ADMIN_SESSION_KEY);
-    document.getElementById("loginForm").reset();
-    showLogin();
-    document.getElementById("loginUser").focus();
-  }
+    function setArticleImg(path) {
+      document.getElementById('articleImage').value = path;
+      previewArticleImage(path);
+    }
 
+    function editArticle(id) {
+      const art = articlesData.find(a => a.id === id);
+      if (!art) return;
 
-  refreshAll();
-  renderArticles();
-</script>
+      document.getElementById('articleEditorTitle').textContent = 'Edit Artikel: ' + art.title;
+      document.getElementById('articleId').value = art.id;
+      document.getElementById('articleTitle').value = art.title || '';
+      document.getElementById('articleSlug').value = art.slug || '';
+      document.getElementById('articleCategory').value = art.category || 'Kaca & Aluminium';
+      document.getElementById('articleStatus').value = art.status || 'published';
+      document.getElementById('articleReadingTime').value = art.readingTime || '4 mnt baca';
+      document.getElementById('articleImage').value = art.image || '';
+      document.getElementById('articleExcerpt').value = art.excerpt || '';
+      document.getElementById('articleContent').value = art.content || '';
+      document.getElementById('articleMetaTitle').value = art.metaTitle || art.title || '';
+      document.getElementById('articleKeywords').value = art.keywords || '';
+      document.getElementById('articleMetaDesc').value = art.metaDescription || art.excerpt || '';
+
+      previewArticleImage(art.image);
+      showSection('articleEditor');
+    }
+
+    async function handleArticleSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('saveArticleBtn');
+      const origText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = 'Menyimpan...';
+
+      const id = document.getElementById('articleId').value.trim();
+      const title = document.getElementById('articleTitle').value.trim();
+      const slug = document.getElementById('articleSlug').value.trim();
+      const category = document.getElementById('articleCategory').value;
+      const status = document.getElementById('articleStatus').value;
+      const readingTime = document.getElementById('articleReadingTime').value.trim() || '4 mnt baca';
+      const image = document.getElementById('articleImage').value.trim() || 'assets/gallery/partisi-aluminium.jpg';
+      const excerpt = document.getElementById('articleExcerpt').value.trim();
+      const content = document.getElementById('articleContent').value.trim();
+      const metaTitle = document.getElementById('articleMetaTitle').value.trim();
+      const keywords = document.getElementById('articleKeywords').value.trim();
+      const metaDescription = document.getElementById('articleMetaDesc').value.trim();
+
+      const payload = {
+        id: id || `art-${Date.now().toString(36)}`,
+        title,
+        slug,
+        category,
+        status,
+        readingTime,
+        image,
+        excerpt,
+        content,
+        metaTitle,
+        keywords,
+        metaDescription,
+        url: `artikel/${slug}.html`
+      };
+
+      try {
+        const res = await fetch('/api/articles', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const resJson = await res.json();
+        if (resJson.success) {
+          showToast('✓ Artikel berhasil disimpan dan disinkronkan ke server!');
+          await loadArticlesFromServer();
+          showSection('articles');
+        } else {
+          showToast('Gagal: ' + (resJson.error || 'Terjadi kesalahan'), true);
+        }
+      } catch (err) {
+        // Local fallback
+        const idx = articlesData.findIndex(a => a.id === payload.id);
+        if (idx !== -1) articlesData[idx] = payload;
+        else articlesData.unshift(payload);
+        localStorage.setItem(STORAGE_KEY_ARTICLES, JSON.stringify(articlesData));
+        showToast('✓ Disimpan di memori browser lokal!');
+        renderArticlesTable();
+        renderDashboardArticles();
+        updateArticleCounts();
+        showSection('articles');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = origText;
+      }
+    }
+
+    async function toggleArticleStatus(id) {
+      const art = articlesData.find(a => a.id === id);
+      if (!art) return;
+      art.status = art.status === 'published' ? 'draft' : 'published';
+
+      try {
+        await fetch('/api/articles', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(art)
+        });
+        showToast(`✓ Status diubah menjadi: ${art.status === 'published' ? 'Published' : 'Draft'}`);
+      } catch (e) {
+        localStorage.setItem(STORAGE_KEY_ARTICLES, JSON.stringify(articlesData));
+      }
+      renderArticlesTable();
+      renderDashboardArticles();
+      updateArticleCounts();
+    }
+
+    async function deleteArticle(id) {
+      if (!confirm('Hapus artikel ini secara permanen?')) return;
+      try {
+        const res = await fetch(`/api/articles/${encodeURIComponent(id)}`, { method: 'DELETE' });
+        const json = await res.json();
+        if (json.success) showToast('✓ Artikel berhasil dihapus');
+      } catch(e) {}
+
+      articlesData = articlesData.filter(a => a.id !== id);
+      localStorage.setItem(STORAGE_KEY_ARTICLES, JSON.stringify(articlesData));
+      renderArticlesTable();
+      renderDashboardArticles();
+      updateArticleCounts();
+    }
+
+    /* =========================================================
+       ADS MANAGEMENT: SEPARATED ADMIN ADS & GOOGLE ADSENSE
+       ========================================================= */
+    async function loadAdsConfigFromServer() {
+      try {
+        const res = await fetch('/api/ads-config');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && json.config) {
+            if (Array.isArray(json.config.adminAds)) adminAdsData = json.config.adminAds;
+            if (json.config.adsense) adsenseConfig = json.config.adsense;
+            saveLocalAds();
+            renderAdminAdsTable();
+            renderAdSenseSettings();
+            renderDashboardSlots();
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn('Fallback to local storage for ads config:', err);
+      }
+
+      // Local fallback
+      try {
+        const rawAds = localStorage.getItem(STORAGE_KEY_ADS_CONFIG);
+        if (rawAds) adminAdsData = JSON.parse(rawAds);
+        const rawAdSense = localStorage.getItem(STORAGE_KEY_ADSENSE);
+        if (rawAdSense) adsenseConfig = JSON.parse(rawAdSense);
+      } catch (e) {}
+
+      renderAdminAdsTable();
+      renderAdSenseSettings();
+      renderDashboardSlots();
+    }
+
+    function saveLocalAds() {
+      localStorage.setItem(STORAGE_KEY_ADS_CONFIG, JSON.stringify(adminAdsData));
+      localStorage.setItem(STORAGE_KEY_ADSENSE, JSON.stringify(adsenseConfig));
+      updateAdCounts();
+    }
+
+    function updateAdCounts() {
+      const active = adminAdsData.filter(a => a.active).length;
+      document.getElementById('statAdminAdsActive').textContent = active;
+      document.getElementById('statAdminAdsTotal').textContent = `Dari ${adminAdsData.length} banner internal`;
+      document.getElementById('navAdminAdsCount').textContent = adminAdsData.length;
+    }
+
+    /* ADMIN ADS (MANDIRI) */
+    function renderAdminAdsTable() {
+      const container = document.getElementById('adminAdsTableContainer');
+      if (!container) return;
+
+      if (!adminAdsData.length) {
+        container.innerHTML = `<div class="empty">Belum ada Iklan Admin terdaftar. Klik <b>"+ Tambah Iklan Admin"</b> untuk memasang promosi toko atau sponsor.</div>`;
+        return;
+      }
+
+      let html = `<div class="table-wrap"><table>
+        <thead>
+          <tr>
+            <th style="width:70px">Banner</th>
+            <th>Nama & Keterangan Iklan</th>
+            <th style="width:130px">Posisi Slot</th>
+            <th>Tautan Target (Klik)</th>
+            <th style="width:100px">Status</th>
+            <th style="width:120px">Aksi</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+      adminAdsData.forEach(ad => {
+        const posLabel = {
+          top: 'Atas (Header)',
+          bottom: 'Bawah (Footer)',
+          left: 'Sidebar Kiri',
+          right: 'Sidebar Kanan'
+        }[ad.position] || ad.position;
+
+        html += `
+          <tr>
+            <td>
+              <div style="width:60px;height:42px;border-radius:6px;overflow:hidden;background:#f0f4f6;border:1px solid #dce5e8">
+                <img src="${esc(ad.image || 'assets/logo.png')}" alt="${esc(ad.name)}" style="width:100%;height:100%;object-fit:cover" onerror="this.src='assets/logo.png'">
+              </div>
+            </td>
+            <td>
+              <b style="color:var(--deep);font-size:13.5px">${esc(ad.name)}</b>
+              <div style="font-size:11px;color:var(--muted)">Tipe: ${esc(ad.size || 'banner')}</div>
+            </td>
+            <td><span class="tag tag-admin">${esc(posLabel)}</span></td>
+            <td>
+              <a href="${esc(ad.link || '#')}" target="_blank" style="font-size:12px;color:var(--blue);display:block;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                ${esc(ad.link || 'Tidak ada link')}
+              </a>
+            </td>
+            <td>
+              <button type="button" class="btn btn-sm ${ad.active ? 'btn-success' : 'btn-light'}" onclick="toggleAdminAdStatus('${esc(ad.id)}')">
+                ${ad.active ? '🟢 Aktif' : '⚪ Nonaktif'}
+              </button>
+            </td>
+            <td>
+              <div class="actions">
+                <button type="button" class="btn btn-light btn-sm" onclick="editAdminAd('${esc(ad.id)}')">Edit</button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="deleteAdminAd('${esc(ad.id)}')">Hapus</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      html += `</tbody></table></div>`;
+      container.innerHTML = html;
+      updateAdCounts();
+    }
+
+    function openNewAdminAd() {
+      document.getElementById('adminAdEditorTitle').textContent = 'Tambah Iklan Admin Baru';
+      document.getElementById('adminAdForm').reset();
+      document.getElementById('adId').value = '';
+      document.getElementById('adActive').value = 'true';
+      setAdImg('assets/gallery/pintu-aluminium.jpg');
+      setAdWhatsAppLink();
+      showSection('adminAdEditor');
+    }
+
+    function setAdImg(path) {
+      document.getElementById('adImage').value = path;
+      previewAdImage(path);
+    }
+
+    function previewAdImage(url) {
+      const p = document.getElementById('adminAdPreview');
+      if (!p) return;
+      if (url && url.trim()) {
+        p.innerHTML = `<img src="${esc(url.trim())}" alt="Preview" onerror="this.onerror=null;this.parentElement.innerHTML='Gambar tidak dapat dimuat'">`;
+      } else {
+        p.innerHTML = 'SPACE IKLAN ADMIN';
+      }
+    }
+
+    function setAdWhatsAppLink() {
+      document.getElementById('adLink').value = 'https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20tertarik%20dengan%20promo%20pemasangan%20kaca%20aluminium.';
+    }
+
+    function handleAdPositionChange(pos) {
+      const sizeSelect = document.getElementById('adSize');
+      if (pos === 'top') sizeSelect.value = 'banner-top';
+      else if (pos === 'bottom') sizeSelect.value = 'banner-bottom';
+      else sizeSelect.value = 'sidebar';
+    }
+
+    function editAdminAd(id) {
+      const ad = adminAdsData.find(a => a.id === id);
+      if (!ad) return;
+
+      document.getElementById('adminAdEditorTitle').textContent = 'Edit Iklan Admin: ' + ad.name;
+      document.getElementById('adId').value = ad.id;
+      document.getElementById('adName').value = ad.name || '';
+      document.getElementById('adPosition').value = ad.position || 'top';
+      document.getElementById('adImage').value = ad.image || '';
+      document.getElementById('adLink').value = ad.link || '';
+      document.getElementById('adSize').value = ad.size || 'banner-top';
+      document.getElementById('adActive').value = ad.active ? 'true' : 'false';
+      document.getElementById('adHtml').value = ad.html || '';
+
+      previewAdImage(ad.image);
+      showSection('adminAdEditor');
+    }
+
+    async function handleAdminAdSubmit(e) {
+      e.preventDefault();
+      const id = document.getElementById('adId').value.trim();
+      const name = document.getElementById('adName').value.trim();
+      const position = document.getElementById('adPosition').value;
+      const image = document.getElementById('adImage').value.trim();
+      const link = document.getElementById('adLink').value.trim();
+      const size = document.getElementById('adSize').value;
+      const active = document.getElementById('adActive').value === 'true';
+      const html = document.getElementById('adHtml').value.trim();
+
+      const item = {
+        id: id || `ad-${position}-${Date.now().toString(36)}`,
+        name,
+        position,
+        type: 'admin',
+        image,
+        link,
+        size,
+        active,
+        html
+      };
+
+      const idx = adminAdsData.findIndex(a => a.id === item.id);
+      if (idx !== -1) adminAdsData[idx] = item;
+      else adminAdsData.push(item);
+
+      saveLocalAds();
+      await syncAllToServer(false);
+      showToast('✓ Iklan Admin berhasil disimpan!');
+      renderAdminAdsTable();
+      renderDashboardSlots();
+      showSection('adminAds');
+    }
+
+    function toggleAdminAdStatus(id) {
+      const ad = adminAdsData.find(a => a.id === id);
+      if (!ad) return;
+      ad.active = !ad.active;
+      saveLocalAds();
+      syncAllToServer(false);
+      renderAdminAdsTable();
+      renderDashboardSlots();
+      showToast(`✓ Iklan "${ad.name}" sekarang ${ad.active ? 'Aktif' : 'Nonaktif'}`);
+    }
+
+    function deleteAdminAd(id) {
+      if (!confirm('Hapus Iklan Admin ini?')) return;
+      adminAdsData = adminAdsData.filter(a => a.id !== id);
+      saveLocalAds();
+      syncAllToServer(false);
+      renderAdminAdsTable();
+      renderDashboardSlots();
+      showToast('✓ Iklan Admin berhasil dihapus');
+    }
+
+    /* GOOGLE ADSENSE SECTION */
+    function renderAdSenseSettings() {
+      const globalToggle = document.getElementById('adsenseGlobalToggle');
+      const globalLabel = document.getElementById('adsenseGlobalLabel');
+      const autoAdsToggle = document.getElementById('adsenseAutoAdsToggle');
+      const pubInput = document.getElementById('adsensePublisherId');
+
+      if (globalToggle) {
+        globalToggle.checked = !!adsenseConfig.enabled;
+        globalLabel.textContent = adsenseConfig.enabled ? 'AdSense Aktif' : 'AdSense Nonaktif';
+        globalLabel.style.color = adsenseConfig.enabled ? 'var(--adsense-blue)' : 'var(--muted)';
+      }
+      if (autoAdsToggle) autoAdsToggle.checked = !!adsenseConfig.autoAds;
+      if (pubInput) pubInput.value = adsenseConfig.publisherId || 'pub-2437971183769682';
+
+      // Update stat cards
+      const statAdSense = document.getElementById('statAdSenseStatus');
+      if (statAdSense) {
+        statAdSense.textContent = adsenseConfig.enabled ? 'Aktif' : 'Nonaktif';
+        statAdSense.style.color = adsenseConfig.enabled ? 'var(--adsense-blue)' : 'var(--muted)';
+      }
+      const sideStatus = document.getElementById('sideAdSenseStatus');
+      if (sideStatus) {
+        sideStatus.textContent = adsenseConfig.enabled ? '🟢 Aktif' : '⚪ Mati';
+      }
+
+      // Slot Configuration Table
+      const tbody = document.getElementById('adsenseSlotRows');
+      if (!tbody) return;
+
+      const slotDefs = [
+        { key: 'top', name: 'Banner Atas (Header)', defaultFormat: 'horizontal' },
+        { key: 'bottom', name: 'Banner Bawah (Footer)', defaultFormat: 'rectangle' },
+        { key: 'inArticle', name: 'Tengah Artikel (In-Article)', defaultFormat: 'fluid' },
+        { key: 'left', name: 'Floating Sidebar Kiri', defaultFormat: 'vertical' },
+        { key: 'right', name: 'Floating Sidebar Kanan', defaultFormat: 'vertical' }
+      ];
+
+      tbody.innerHTML = slotDefs.map(def => {
+        const slot = adsenseConfig.slots?.[def.key] || {
+          enabled: true,
+          slotId: '8912345671',
+          format: def.defaultFormat,
+          mode: 'hybrid'
+        };
+
+        return `
+          <tr>
+            <td>
+              <b style="color:var(--deep)">${esc(def.name)}</b>
+              <div style="font-size:11px;color:var(--muted)">Key: <code>${esc(def.key)}</code></div>
+            </td>
+            <td>
+              <select id="slot_mode_${def.key}" style="font-size:12px;padding:6px 10px">
+                <option value="admin" ${slot.mode === 'admin' ? 'selected' : ''}>📢 Iklan Admin Saja</option>
+                <option value="adsense" ${slot.mode === 'adsense' ? 'selected' : ''}>🔵 Google AdSense Saja</option>
+                <option value="hybrid" ${slot.mode === 'hybrid' ? 'selected' : ''}>🟣 Hybrid (AdSense + Fallback Admin)</option>
+                <option value="off" ${slot.mode === 'off' ? 'selected' : ''}>⚪ Nonaktifkan Slot</option>
+              </select>
+            </td>
+            <td>
+              <input type="text" id="slot_id_${def.key}" value="${esc(slot.slotId || '')}" placeholder="Contoh: 8912345671" style="font-family:monospace;font-size:12px;padding:6px 10px">
+            </td>
+            <td>
+              <select id="slot_format_${def.key}" style="font-size:12px;padding:6px 10px">
+                <option value="auto" ${slot.format === 'auto' ? 'selected' : ''}>Auto / Responsif</option>
+                <option value="horizontal" ${slot.format === 'horizontal' ? 'selected' : ''}>Horizontal Banner</option>
+                <option value="rectangle" ${slot.format === 'rectangle' ? 'selected' : ''}>Rectangle Kotak</option>
+                <option value="vertical" ${slot.format === 'vertical' ? 'selected' : ''}>Vertical Skyscraper</option>
+                <option value="fluid" ${slot.format === 'fluid' ? 'selected' : ''}>Fluid (In-Article)</option>
+              </select>
+            </td>
+            <td>
+              <label class="switch-label">
+                <div class="switch">
+                  <input type="checkbox" id="slot_enable_${def.key}" ${slot.enabled ? 'checked' : ''}>
+                  <span class="slider adsense-slider"></span>
+                </div>
+              </label>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function toggleAdSenseGlobal(checked) {
+      adsenseConfig.enabled = checked;
+      const label = document.getElementById('adsenseGlobalLabel');
+      if (label) {
+        label.textContent = checked ? 'AdSense Aktif' : 'AdSense Nonaktif';
+        label.style.color = checked ? 'var(--adsense-blue)' : 'var(--muted)';
+      }
+    }
+
+    async function saveAdSenseSettings() {
+      const pubId = document.getElementById('adsensePublisherId')?.value.trim() || 'pub-2437971183769682';
+      const autoAds = !!document.getElementById('adsenseAutoAdsToggle')?.checked;
+      const enabled = !!document.getElementById('adsenseGlobalToggle')?.checked;
+
+      const keys = ['top', 'bottom', 'inArticle', 'left', 'right'];
+      const slots = {};
+      keys.forEach(k => {
+        slots[k] = {
+          enabled: !!document.getElementById(`slot_enable_${k}`)?.checked,
+          slotId: document.getElementById(`slot_id_${k}`)?.value.trim() || '8912345671',
+          format: document.getElementById(`slot_format_${k}`)?.value || 'auto',
+          mode: document.getElementById(`slot_mode_${k}`)?.value || 'hybrid'
+        };
+      });
+
+      adsenseConfig = {
+        enabled,
+        publisherId: pubId,
+        autoAds,
+        adsTxtVerified: true,
+        slots
+      };
+
+      saveLocalAds();
+      await syncAllToServer(false);
+      showToast('✓ Konfigurasi Google AdSense berhasil disimpan & disinkronkan!');
+      renderAdSenseSettings();
+      renderDashboardSlots();
+    }
+
+    function renderDashboardSlots() {
+      const container = document.getElementById('dashSlotsTable');
+      if (!container) return;
+
+      const keys = [
+        { key: 'top', label: 'Banner Header' },
+        { key: 'bottom', label: 'Banner Footer' },
+        { key: 'inArticle', label: 'In-Article' },
+        { key: 'left', label: 'Sidebar Kiri' },
+        { key: 'right', label: 'Sidebar Kanan' }
+      ];
+
+      let html = `<table style="min-width:auto"><tbody>`;
+      keys.forEach(item => {
+        const slot = adsenseConfig.slots?.[item.key] || {};
+        const mode = slot.mode || (adsenseConfig.enabled ? 'hybrid' : 'admin');
+
+        let modeBadge = '<span class="tag tag-admin">Iklan Admin</span>';
+        if (mode === 'adsense') modeBadge = '<span class="tag tag-adsense">Google AdSense</span>';
+        else if (mode === 'hybrid') modeBadge = '<span class="tag tag-hybrid">Hybrid Mode</span>';
+        else if (mode === 'off' || slot.enabled === false) modeBadge = '<span class="tag tag-off">Nonaktif</span>';
+
+        html += `
+          <tr>
+            <td><b style="font-size:13px;color:var(--deep)">${esc(item.label)}</b></td>
+            <td style="text-align:right">${modeBadge}</td>
+          </tr>
+        `;
+      });
+      html += `</tbody></table>`;
+      container.innerHTML = html;
+    }
+
+    /* =========================================================
+       SYNC & JSON CONFIGURATION
+       ========================================================= */
+    function updateFullConfigOutput() {
+      const box = document.getElementById('fullConfigOutput');
+      if (!box) return;
+      const full = {
+        adminAds: adminAdsData,
+        adsense: adsenseConfig,
+        articlesSummary: {
+          total: articlesData.length,
+          published: articlesData.filter(a => a.status === 'published').length
+        }
+      };
+      box.textContent = JSON.stringify(full, null, 2);
+    }
+
+    async function syncAllToServer(notify = true) {
+      try {
+        const payload = {
+          adminAds: adminAdsData,
+          adsense: adsenseConfig
+        };
+        const res = await fetch('/api/ads-config', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const json = await res.json();
+        if (json.success) {
+          if (notify) showToast('✓ Semua konfigurasi berhasil disinkronkan ke server live!');
+          updateFullConfigOutput();
+          return true;
+        }
+      } catch (err) {
+        if (notify) showToast('Peringatan: Gagal kirim ke server, data disimpan lokal di browser.', true);
+      }
+      return false;
+    }
+
+    function copyFullConfigJson() {
+      const box = document.getElementById('fullConfigOutput');
+      if (box && navigator.clipboard) {
+        navigator.clipboard.writeText(box.textContent).then(() => {
+          showToast('✓ JSON Konfigurasi berhasil disalin ke clipboard!');
+        });
+      }
+    }
+
+    function downloadBackupJson() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+        articles: articlesData,
+        adminAds: adminAdsData,
+        adsense: adsenseConfig
+      }, null, 2));
+      const a = document.createElement('a');
+      a.setAttribute("href", dataStr);
+      a.setAttribute("download", `sahabat-aluminium-backup-${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    function resetToFactoryDefaults() {
+      if (!confirm('Kembalikan konfigurasi iklan ke bawaan pabrik?')) return;
+      adminAdsData = [
+        {
+          id: "ad-top-01",
+          name: "Promo Kusen Aluminium Karawang & Survey Gratis",
+          position: "top",
+          type: "admin",
+          image: "assets/gallery/pintu-aluminium.jpg",
+          link: "https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20tertarik%20dengan%20Promo%20Kusen%20Aluminium.",
+          size: "banner-top",
+          active: true,
+          html: ""
+        }
+      ];
+      adsenseConfig = {
+        enabled: true,
+        publisherId: "pub-2437971183769682",
+        autoAds: false,
+        adsTxtVerified: true,
+        slots: {
+          top: { enabled: true, slotId: "8912345671", format: "horizontal", mode: "hybrid" },
+          bottom: { enabled: true, slotId: "8912345672", format: "rectangle", mode: "hybrid" },
+          inArticle: { enabled: true, slotId: "8912345673", format: "fluid", mode: "adsense" },
+          left: { enabled: false, slotId: "8912345674", format: "vertical", mode: "admin" },
+          right: { enabled: false, slotId: "8912345675", format: "vertical", mode: "admin" }
+        }
+      };
+      saveLocalAds();
+      syncAllToServer(false);
+      renderAdminAdsTable();
+      renderAdSenseSettings();
+      renderDashboardSlots();
+      showToast('✓ Konfigurasi telah di-reset ke bawaan.');
+    }
+
+    // Initialize everything on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      initAuth();
+      loadArticlesFromServer();
+      loadAdsConfigFromServer();
+    });
+  </script>
 </body>
 </html>

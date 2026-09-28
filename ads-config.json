@@ -1,0 +1,30 @@
+{
+  "adminAds": [
+    {
+      "id": "ad-top-01",
+      "name": "Promo Kusen Aluminium Karawang & Survey Gratis",
+      "position": "top",
+      "type": "admin",
+      "image": "assets/gallery/pintu-aluminium.jpg",
+      "link": "https://wa.me/6289637371166",
+      "size": "banner-top",
+      "active": true,
+      "html": ""
+    }
+  ],
+  "adsense": {
+    "enabled": true,
+    "publisherId": "pub-2437971183769682",
+    "autoAds": false,
+    "adsTxtVerified": true,
+    "slots": {
+      "top": {
+        "enabled": true,
+        "slotId": "8912345671",
+        "format": "horizontal",
+        "mode": "hybrid"
+      }
+    }
+  },
+  "updatedAt": "2026-09-28T05:57:38.774Z"
+}

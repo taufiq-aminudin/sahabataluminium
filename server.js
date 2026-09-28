@@ -139,23 +139,157 @@ app.post('/api/search-locations', async (req, res) => {
   }
 });
 
-// API: Get Published Articles Metadata
+// API: Get Articles (Supports ?all=true or ?admin=true for all articles, otherwise published only)
 app.get('/api/articles', (req, res) => {
   try {
     const filePath = path.join(__dirname, 'articles.json');
     if (fs.existsSync(filePath)) {
       const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-      // Filter only published articles and sort by published date descending
-      const published = data
-        .filter(item => item.status === 'published')
-        .sort((a, b) => new Date(b.publishedAt || b.createdAt || 0) - new Date(a.publishedAt || a.createdAt || 0));
-      return res.json({ success: true, articles: published });
+      const showAll = req.query.all === 'true' || req.query.admin === 'true';
+      const articles = showAll
+        ? data.sort((a, b) => new Date(b.updatedAt || b.publishedAt || b.createdAt || 0) - new Date(a.updatedAt || a.publishedAt || a.createdAt || 0))
+        : data
+            .filter(item => item.status === 'published')
+            .sort((a, b) => new Date(b.publishedAt || b.createdAt || 0) - new Date(a.publishedAt || a.createdAt || 0));
+      return res.json({ success: true, articles });
     }
     return res.json({ success: true, articles: [] });
   } catch (err) {
     console.error('Error reading articles:', err);
     return res.status(500).json({ success: false, error: 'Gagal memuat artikel' });
   }
+});
+
+// API: Save or Update Article in articles.json
+app.post('/api/articles', (req, res) => {
+  try {
+    const filePath = path.join(__dirname, 'articles.json');
+    let articles = [];
+    if (fs.existsSync(filePath)) {
+      articles = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    }
+
+    const item = req.body || {};
+    if (!item.title || !item.slug) {
+      return res.status(400).json({ success: false, error: 'Judul dan slug artikel wajib diisi' });
+    }
+
+    const now = new Date().toISOString();
+    let updated = false;
+
+    if (item.id) {
+      const idx = articles.findIndex(a => a.id === item.id);
+      if (idx !== -1) {
+        articles[idx] = {
+          ...articles[idx],
+          ...item,
+          updatedAt: now,
+          publishedAt: item.status === 'published' ? (articles[idx].publishedAt || now) : null
+        };
+        updated = true;
+      }
+    }
+
+    if (!updated) {
+      const newArticle = {
+        id: item.id || `art-${Date.now().toString(36)}`,
+        title: item.title,
+        slug: item.slug,
+        category: item.category || 'Kaca & Aluminium',
+        status: item.status || 'draft',
+        image: item.image || 'assets/gallery/partisi-aluminium.jpg',
+        excerpt: item.excerpt || '',
+        content: item.content || '',
+        metaTitle: item.metaTitle || item.title,
+        metaDescription: item.metaDescription || item.excerpt || '',
+        keywords: item.keywords || '',
+        readingTime: item.readingTime || '4 mnt baca',
+        url: item.url || `artikel/${item.slug}.html`,
+        createdAt: now,
+        updatedAt: now,
+        publishedAt: item.status === 'published' ? now : null
+      };
+      articles.unshift(newArticle);
+    }
+
+    fs.writeFileSync(filePath, JSON.stringify(articles, null, 2), 'utf-8');
+    return res.json({ success: true, message: 'Artikel berhasil disimpan', articles });
+  } catch (err) {
+    console.error('Error saving article:', err);
+    return res.status(500).json({ success: false, error: 'Gagal menyimpan artikel: ' + err.message });
+  }
+});
+
+// API: Delete Article
+app.delete('/api/articles/:id', (req, res) => {
+  try {
+    const { id } = req.params;
+    const filePath = path.join(__dirname, 'articles.json');
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ success: false, error: 'File artikel tidak ditemukan' });
+    }
+
+    let articles = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    const initialLen = articles.length;
+    articles = articles.filter(a => a.id !== id);
+
+    if (articles.length === initialLen) {
+      return res.status(404).json({ success: false, error: 'Artikel tidak ditemukan' });
+    }
+
+    fs.writeFileSync(filePath, JSON.stringify(articles, null, 2), 'utf-8');
+    return res.json({ success: true, message: 'Artikel berhasil dihapus' });
+  } catch (err) {
+    console.error('Error deleting article:', err);
+    return res.status(500).json({ success: false, error: 'Gagal menghapus artikel' });
+  }
+});
+
+// API: Get Ads Configuration (Admin Ads + AdSense Separated)
+app.get('/api/ads-config', (req, res) => {
+  try {
+    const filePath = path.join(__dirname, 'ads-config.json');
+    if (fs.existsSync(filePath)) {
+      const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+      return res.json({ success: true, config: data });
+    }
+    return res.json({ success: false, error: 'Konfigurasi iklan belum ada' });
+  } catch (err) {
+    console.error('Error reading ads-config:', err);
+    return res.status(500).json({ success: false, error: 'Gagal memuat konfigurasi iklan' });
+  }
+});
+
+// API: Save Ads Configuration
+app.post('/api/ads-config', (req, res) => {
+  try {
+    const filePath = path.join(__dirname, 'ads-config.json');
+    const { adminAds, adsense } = req.body || {};
+    
+    // Ensure both adminAds and adsense exist and are cleanly separated
+    const newConfig = {
+      adminAds: Array.isArray(adminAds) ? adminAds : [],
+      adsense: adsense || {
+        enabled: true,
+        publisherId: "pub-2437971183769682",
+        autoAds: false,
+        adsTxtVerified: true,
+        slots: {}
+      },
+      updatedAt: new Date().toISOString()
+    };
+
+    fs.writeFileSync(filePath, JSON.stringify(newConfig, null, 2), 'utf-8');
+    return res.json({ success: true, message: 'Konfigurasi iklan berhasil disimpan', config: newConfig });
+  } catch (err) {
+    console.error('Error saving ads-config:', err);
+    return res.status(500).json({ success: false, error: 'Gagal menyimpan konfigurasi iklan' });
+  }
+});
+
+// Dedicated route for /admin to ensure smooth loading
+app.get(['/admin', '/admin/'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
 // Serve static assets with html extension support

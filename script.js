@@ -648,7 +648,75 @@ if (faqFloatBtn && faqSection) {
 
 /* =========================================================
    FAQ DIRECT ANCHOR LINK COPY & DEEP LINK AUTO-OPEN
+   WITH LOCALSTORAGE COPY COUNTER
    ========================================================= */
+const FAQ_COPY_COUNTS_KEY = 'sahabat_faq_copy_counts_v1';
+
+function getFaqCopyCounts() {
+  try {
+    const raw = localStorage.getItem(FAQ_COPY_COUNTS_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (err) {
+    console.warn('Gagal membaca copy counts dari localStorage:', err);
+    return {};
+  }
+}
+
+function updateFaqCounterDisplay(faqId, count) {
+  const badge = document.querySelector(`.faq-copy-count[data-faq-id="${faqId}"]`);
+  if (!badge) return;
+  const numSpan = badge.querySelector('.faq-copy-count-num');
+  if (numSpan) numSpan.textContent = count;
+  badge.setAttribute('title', `Tautan pertanyaan ini telah disalin ${count} kali`);
+  badge.setAttribute('aria-label', `Jumlah disalin: ${count}`);
+
+  if (count > 0) {
+    badge.classList.add('has-copies');
+  } else {
+    badge.classList.remove('has-copies');
+  }
+}
+
+function incrementFaqCopyCount(faqId) {
+  const counts = getFaqCopyCounts();
+  const current = (typeof counts[faqId] === 'number') ? counts[faqId] : 0;
+  const updated = current + 1;
+  counts[faqId] = updated;
+
+  try {
+    localStorage.setItem(FAQ_COPY_COUNTS_KEY, JSON.stringify(counts));
+  } catch (err) {
+    console.warn('Gagal menyimpan copy count ke localStorage:', err);
+  }
+
+  updateFaqCounterDisplay(faqId, updated);
+
+  // Trigger brief bounce animation on badge
+  const badge = document.querySelector(`.faq-copy-count[data-faq-id="${faqId}"]`);
+  if (badge) {
+    badge.classList.remove('count-bump');
+    void badge.offsetWidth; // trigger reflow
+    badge.classList.add('count-bump');
+    setTimeout(() => badge.classList.remove('count-bump'), 600);
+  }
+
+  return updated;
+}
+
+// Initialize counts from localStorage on page load
+function initFaqCopyCounters() {
+  const counts = getFaqCopyCounts();
+  document.querySelectorAll('.faq-copy-count').forEach((badge) => {
+    const faqId = badge.getAttribute('data-faq-id');
+    if (faqId) {
+      const count = (typeof counts[faqId] === 'number') ? counts[faqId] : 0;
+      updateFaqCounterDisplay(faqId, count);
+    }
+  });
+}
+
+initFaqCopyCounters();
+
 const faqCopyButtons = document.querySelectorAll('.faq-copy-btn');
 
 faqCopyButtons.forEach((btn) => {
@@ -685,6 +753,9 @@ faqCopyButtons.forEach((btn) => {
         copySuccessful = false;
       }
     }
+
+    // Increment and record to localStorage on copy click
+    incrementFaqCopyCount(faqId);
 
     // Update URL hash without instant jumping
     try {

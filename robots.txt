@@ -1,8 +1,14 @@
+User-agent: Googlebot
+Allow: /
+Allow: /assets/
+Allow: /artikel/
+
+User-agent: Googlebot-Image
+Allow: /assets/
+
 User-agent: *
 Allow: /
-
-# Blok area yang tidak perlu diindeks mesin pencari
 Disallow: /api/
 
-# Sitemap
+# XML Sitemap Index
 Sitemap: https://www.sahabat-aluminium.my.id/sitemap.xml

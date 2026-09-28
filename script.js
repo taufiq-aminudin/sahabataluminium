@@ -2033,6 +2033,7 @@ function renderProjectOrder(order) {
 
         const safeTitle = (log.title || '').replace(/"/g, '&quot;').replace(/'/g, "\\'");
         const safeCaption = (log.photoCaption || log.desc || '').replace(/"/g, '&quot;').replace(/'/g, "\\'");
+        const safeUploader = (log.uploader || '').replace(/"/g, '&quot;').replace(/'/g, "\\'");
 
         return `
           <div class="history-log-item ${isLatest ? 'is-latest' : ''} ${hasPhoto ? 'has-photo' : ''}">
@@ -2055,14 +2056,21 @@ function renderProjectOrder(order) {
               <p class="history-event-desc">${log.desc}</p>
               ${hasPhoto ? `
                 <div class="history-photo-attachment">
-                  <div class="history-photo-card" onclick="window.openOrderPhotoModal('${log.photo}', '${safeTitle}', '${safeCaption}', '${formattedTime}')" title="Klik untuk memperbesar foto">
+                  <div class="history-photo-card" onclick="window.openOrderPhotoModal('${log.photo}', '${safeTitle}', '${safeCaption}', '${formattedTime}', '${order.id}', ${index}, '${safeUploader}')" title="Klik untuk memperbesar foto">
                     <div class="history-photo-img-wrap">
                       <img src="${log.photo}" alt="${log.title}" class="history-photo-img" loading="lazy">
                       <span class="history-photo-zoom-tag">🔍 Perbesar Foto</span>
                     </div>
                     ${log.photoCaption ? `<div class="history-photo-caption">"${log.photoCaption}"</div>` : ''}
                   </div>
-                  ${log.uploader ? `<div class="history-photo-author"><span>👤</span> Diunggah oleh: <b>${log.uploader}</b></div>` : ''}
+                  <div class="history-photo-footer-actions">
+                    <button type="button" class="btn-edit-photo" onclick="event.stopPropagation(); window.openEditPhotoModal('${order.id}', ${index}, '${safeTitle}', '${safeCaption}', '${log.photo}', '${safeUploader}')" title="Ubah Nama & Keterangan Foto Proyek">
+                      <span>✏️</span>
+                      <span>Edit Keterangan / Nama</span>
+                    </button>
+                    ${log.editedAt ? `<span class="history-photo-edited-tag" title="Terakhir diedit pada ${log.editedAt}">✏️ Diedit</span>` : ''}
+                    ${log.uploader ? `<div class="history-photo-author"><span>👤</span> Diunggah oleh: <b>${log.uploader}</b></div>` : ''}
+                  </div>
                 </div>
               ` : ''}
             </div>
@@ -2869,7 +2877,7 @@ window.showOrderPhotoFeedback = function(orderId, type, message) {
 };
 
 // Order Photo Full-Screen Lightbox Modal
-window.openOrderPhotoModal = function(photoUrl, title, caption, time) {
+window.openOrderPhotoModal = function(photoUrl, title, caption, time, orderId, logIndex, uploader) {
   let modal = document.getElementById('orderPhotoModal');
   if (!modal) {
     modal = document.createElement('div');
@@ -2887,9 +2895,16 @@ window.openOrderPhotoModal = function(photoUrl, title, caption, time) {
           <img id="orderPhotoModalImg" class="order-photo-modal-img" src="" alt="Pratinjau Dokumentasi">
         </div>
         <div class="order-photo-modal-footer">
-          <p id="orderPhotoModalCaption" class="order-photo-modal-caption"></p>
+          <div class="order-photo-modal-footer-top">
+            <p id="orderPhotoModalCaption" class="order-photo-modal-caption"></p>
+            <button type="button" class="btn-lightbox-edit" id="btnLightboxEdit" style="display: none;">
+              <span>✏️</span>
+              <span>Edit Keterangan</span>
+            </button>
+          </div>
           <div class="order-photo-modal-meta">
             <span id="orderPhotoModalTime"></span>
+            <span id="orderPhotoModalUploader"></span>
           </div>
         </div>
       </div>
@@ -2904,6 +2919,8 @@ window.openOrderPhotoModal = function(photoUrl, title, caption, time) {
   const titleEl = document.getElementById('orderPhotoModalTitle');
   const captionEl = document.getElementById('orderPhotoModalCaption');
   const timeEl = document.getElementById('orderPhotoModalTime');
+  const uploaderEl = document.getElementById('orderPhotoModalUploader');
+  const btnLightboxEdit = document.getElementById('btnLightboxEdit');
 
   if (imgEl) imgEl.src = photoUrl;
   if (titleEl) titleEl.textContent = title || 'Dokumentasi Foto Proyek';
@@ -2912,6 +2929,19 @@ window.openOrderPhotoModal = function(photoUrl, title, caption, time) {
     captionEl.style.display = caption ? 'block' : 'none';
   }
   if (timeEl) timeEl.textContent = time ? `Waktu: ${time}` : '';
+  if (uploaderEl) uploaderEl.textContent = uploader ? `Pengunggah: ${uploader}` : '';
+
+  if (btnLightboxEdit) {
+    if (orderId) {
+      btnLightboxEdit.style.display = 'inline-flex';
+      btnLightboxEdit.onclick = function() {
+        window.closeOrderPhotoModal();
+        window.openEditPhotoModal(orderId, logIndex, title, caption, photoUrl, uploader);
+      };
+    } else {
+      btnLightboxEdit.style.display = 'none';
+    }
+  }
 
   modal.style.display = 'flex';
   document.body.style.overflow = 'hidden';
@@ -2925,11 +2955,202 @@ window.closeOrderPhotoModal = function() {
   }
 };
 
-// Keyboard escape listener for photo modal
+// =========================================================
+// EDIT PHOTO CAPTION & NAME MODAL CONTROLLER
+// =========================================================
+window.currentEditingPhoto = null;
+
+window.openEditPhotoModal = function(orderId, logIndex, currentTitle, currentCaption, photoUrl, currentUploader) {
+  let modal = document.getElementById('editPhotoModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'editPhotoModal';
+    modal.className = 'edit-photo-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.innerHTML = `
+      <div class="edit-photo-modal-content">
+        <div class="edit-photo-modal-header">
+          <h5 class="edit-photo-modal-title">
+            <span>✏️</span>
+            <span>Edit Nama & Keterangan Foto Proyek</span>
+          </h5>
+          <button type="button" class="edit-photo-modal-close" onclick="window.closeEditPhotoModal()" aria-label="Tutup Formulir">✕</button>
+        </div>
+        <div class="edit-photo-modal-body">
+          <div class="edit-photo-preview-bar">
+            <img id="editPhotoModalThumb" class="edit-photo-thumb" src="" alt="Pratinjau Foto">
+            <div class="edit-photo-preview-info">
+              <div class="edit-photo-target-order" id="editPhotoTargetOrder">ORDER #...</div>
+              <div class="edit-photo-target-name" id="editPhotoTargetOriginalName">...</div>
+            </div>
+          </div>
+          <div class="upload-form-group">
+            <label class="upload-label" for="editPhotoTitleInput">Nama / Judul Foto Proyek</label>
+            <input type="text" id="editPhotoTitleInput" class="upload-input" placeholder="Masukkan judul foto...">
+          </div>
+          <div class="upload-form-group">
+            <label class="upload-label" for="editPhotoCaptionInput">Keterangan / Catatan Foto (Caption)</label>
+            <textarea id="editPhotoCaptionInput" class="upload-textarea" placeholder="Tambahkan rincian progres atau catatan foto..."></textarea>
+          </div>
+          <div class="upload-form-group">
+            <label class="upload-label" for="editPhotoUploaderInput">Nama Pengunggah / Editor</label>
+            <input type="text" id="editPhotoUploaderInput" class="upload-input" placeholder="Nama pengunggah atau peran...">
+          </div>
+          <div class="upload-feedback-msg" id="editPhotoFeedbackMsg" style="display: none;"></div>
+        </div>
+        <div class="edit-photo-modal-footer">
+          <button type="button" class="btn-edit-modal-cancel" onclick="window.closeEditPhotoModal()">Batal</button>
+          <button type="button" class="btn-edit-modal-save" id="btnSavePhotoEdit" onclick="window.submitEditPhoto()">
+            <span>Simpan Perubahan</span>
+            <span>↗</span>
+          </button>
+        </div>
+      </div>
+    `;
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) window.closeEditPhotoModal();
+    });
+    document.body.appendChild(modal);
+  }
+
+  window.currentEditingPhoto = {
+    orderId,
+    logIndex,
+    photoUrl,
+    title: currentTitle || '',
+    caption: currentCaption || '',
+    uploader: currentUploader || ''
+  };
+
+  const thumbEl = document.getElementById('editPhotoModalThumb');
+  const targetOrderEl = document.getElementById('editPhotoTargetOrder');
+  const targetOriginalNameEl = document.getElementById('editPhotoTargetOriginalName');
+  const titleInput = document.getElementById('editPhotoTitleInput');
+  const captionInput = document.getElementById('editPhotoCaptionInput');
+  const uploaderInput = document.getElementById('editPhotoUploaderInput');
+  const feedbackEl = document.getElementById('editPhotoFeedbackMsg');
+  const saveBtn = document.getElementById('btnSavePhotoEdit');
+
+  if (thumbEl) thumbEl.src = photoUrl;
+  if (targetOrderEl) targetOrderEl.textContent = `ORDER ID: #${orderId}`;
+  if (targetOriginalNameEl) targetOriginalNameEl.textContent = currentTitle || 'Foto Proyek';
+  if (titleInput) titleInput.value = currentTitle || '';
+  if (captionInput) captionInput.value = currentCaption || '';
+  if (uploaderInput) uploaderInput.value = currentUploader || 'Klien / Pengawas Lapangan';
+  if (feedbackEl) {
+    feedbackEl.style.display = 'none';
+    feedbackEl.className = 'upload-feedback-msg';
+    feedbackEl.textContent = '';
+  }
+  if (saveBtn) {
+    saveBtn.disabled = false;
+    saveBtn.innerHTML = `<span>Simpan Perubahan</span><span>↗</span>`;
+  }
+
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+
+  setTimeout(() => {
+    if (captionInput) captionInput.focus();
+  }, 100);
+};
+
+window.closeEditPhotoModal = function() {
+  const modal = document.getElementById('editPhotoModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+  window.currentEditingPhoto = null;
+};
+
+window.submitEditPhoto = async function() {
+  if (!window.currentEditingPhoto) return;
+
+  const { orderId, logIndex, photoUrl } = window.currentEditingPhoto;
+  const titleInput = document.getElementById('editPhotoTitleInput');
+  const captionInput = document.getElementById('editPhotoCaptionInput');
+  const uploaderInput = document.getElementById('editPhotoUploaderInput');
+  const saveBtn = document.getElementById('btnSavePhotoEdit');
+  const feedbackEl = document.getElementById('editPhotoFeedbackMsg');
+
+  const newTitle = titleInput ? titleInput.value.trim() : '';
+  const newCaption = captionInput ? captionInput.value.trim() : '';
+  const newUploader = uploaderInput ? uploaderInput.value.trim() : '';
+
+  if (!newTitle) {
+    if (feedbackEl) {
+      feedbackEl.className = 'upload-feedback-msg error';
+      feedbackEl.textContent = '⚠️ Nama / judul foto tidak boleh kosong.';
+      feedbackEl.style.display = 'block';
+    }
+    if (titleInput) titleInput.focus();
+    return;
+  }
+
+  if (saveBtn) {
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = `<span>⏳ Menyimpan perubahan...</span>`;
+  }
+
+  try {
+    const res = await fetch(`/api/orders/${encodeURIComponent(orderId)}/update-photo-caption`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        logIndex,
+        photoUrl,
+        title: newTitle,
+        caption: newCaption,
+        uploader: newUploader
+      })
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.success && data.order) {
+      if (feedbackEl) {
+        feedbackEl.className = 'upload-feedback-msg success';
+        feedbackEl.textContent = `✓ ${data.message || 'Keterangan dan nama foto berhasil diperbarui!'}`;
+        feedbackEl.style.display = 'block';
+      }
+
+      setTimeout(() => {
+        window.closeEditPhotoModal();
+        renderProjectOrder(data.order);
+      }, 500);
+    } else {
+      if (feedbackEl) {
+        feedbackEl.className = 'upload-feedback-msg error';
+        feedbackEl.textContent = `⚠️ ${data.error || 'Gagal menyimpan perubahan. Silakan coba lagi.'}`;
+        feedbackEl.style.display = 'block';
+      }
+      if (saveBtn) {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = `<span>Simpan Perubahan</span><span>↗</span>`;
+      }
+    }
+  } catch (err) {
+    console.error('Error updating photo caption:', err);
+    if (feedbackEl) {
+      feedbackEl.className = 'upload-feedback-msg error';
+      feedbackEl.textContent = '⚠️ Terjadi gangguan koneksi internet. Silakan coba kembali.';
+      feedbackEl.style.display = 'block';
+    }
+    if (saveBtn) {
+      saveBtn.disabled = false;
+      saveBtn.innerHTML = `<span>Simpan Perubahan</span><span>↗</span>`;
+    }
+  }
+};
+
+// Keyboard escape listener for modals
 if (typeof document !== 'undefined') {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       window.closeOrderPhotoModal();
+      window.closeEditPhotoModal();
     }
   });
 }

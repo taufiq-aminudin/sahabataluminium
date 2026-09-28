@@ -474,6 +474,81 @@ app.post('/api/orders/:id/upload-photo', (req, res) => {
   }
 });
 
+// API: Update Project Photo Name & Caption in History Log
+app.patch('/api/orders/:id/update-photo-caption', (req, res) => {
+  try {
+    const rawOrderId = (req.params.id || '').trim();
+    const orderId = rawOrderId.toLowerCase();
+    const { logIndex, photoUrl, title, caption, uploader } = req.body || {};
+
+    const filePath = path.join(__dirname, 'orders.json');
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ success: false, error: 'Database order tidak ditemukan' });
+    }
+
+    let orders = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    const idx = orders.findIndex(o => o.id.toLowerCase() === orderId);
+    if (idx === -1) {
+      return res.status(404).json({ success: false, error: `Pesanan dengan ID ${rawOrderId} tidak ditemukan` });
+    }
+
+    const currentOrder = { ...orders[idx] };
+    if (!Array.isArray(currentOrder.activityLog) || currentOrder.activityLog.length === 0) {
+      return res.status(404).json({ success: false, error: 'Tidak ada riwayat aktivitas pada pesanan ini' });
+    }
+
+    // Locate target log item
+    let targetIdx = -1;
+    if (typeof logIndex === 'number' && logIndex >= 0 && logIndex < currentOrder.activityLog.length) {
+      targetIdx = logIndex;
+    } else if (photoUrl) {
+      targetIdx = currentOrder.activityLog.findIndex(log => log.photo === photoUrl);
+    }
+
+    if (targetIdx === -1) {
+      return res.status(404).json({ success: false, error: 'Dokumentasi foto riwayat tidak ditemukan' });
+    }
+
+    const targetLog = { ...currentOrder.activityLog[targetIdx] };
+
+    // Update title / rename photo
+    if (title && title.trim()) {
+      targetLog.title = title.trim();
+    }
+
+    // Update caption and description
+    if (typeof caption === 'string') {
+      const trimmedCaption = caption.trim();
+      targetLog.photoCaption = trimmedCaption;
+      if (trimmedCaption) {
+        targetLog.desc = trimmedCaption;
+      }
+    }
+
+    // Update uploader if specified
+    if (uploader && uploader.trim()) {
+      targetLog.uploader = uploader.trim();
+    }
+
+    const now = new Date();
+    targetLog.editedAt = `${now.toISOString().slice(0, 10)} ${now.toTimeString().slice(0, 5)}`;
+
+    currentOrder.activityLog[targetIdx] = targetLog;
+    orders[idx] = currentOrder;
+    fs.writeFileSync(filePath, JSON.stringify(orders, null, 2), 'utf-8');
+
+    return res.json({
+      success: true,
+      message: 'Nama dan keterangan foto proyek berhasil diperbarui!',
+      order: currentOrder,
+      updatedLog: targetLog
+    });
+  } catch (err) {
+    console.error('Error updating photo caption:', err);
+    return res.status(500).json({ success: false, error: 'Gagal memperbarui keterangan foto proyek' });
+  }
+});
+
 // API: Save or Create Order
 app.post('/api/orders', (req, res) => {
   try {

@@ -2349,7 +2349,7 @@
       </div>
 
       <!-- Testimonial Grid -->
-      <div class="testimonials-grid">
+      <div class="testimonials-grid" id="testimonialsGrid">
 
         <!-- Review 1: Ruko Galuh Mas -->
         <article class="testimonial-card">
@@ -2477,6 +2477,178 @@
           </div>
         </article>
 
+      </div>
+
+      <!-- ===================================================
+           SUBMIT CLIENT PROJECT FEEDBACK SECTION
+      ==================================================== -->
+      <div class="feedback-submission-section" id="feedbackSubmissionSection">
+        <div class="feedback-submission-card">
+          <div class="feedback-header">
+            <div class="feedback-header-content">
+              <div class="feedback-eyebrow">
+                <span></span>
+                ULASAN & PENGALAMAN PROYEK
+              </div>
+              <h3 class="feedback-title">Pernah Menggunakan Layanan Kami? Bagikan Ulasan Anda</h3>
+              <p class="feedback-subtitle">
+                Masukan jujur dan testimoni Anda sangat berharga bagi kami untuk terus menjaga standar kerapihan sealent, ketepatan jadwal, dan kepuasan pengerjaan kaca serta aluminium.
+              </p>
+            </div>
+            <div class="feedback-badge-guarantee">
+              <span class="guarantee-icon">⭐</span>
+              <div>
+                <b>100% Ulasan Nyata</b>
+                <small>Langsung Tampil di Website</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUCCESS BANNER -->
+          <div class="feedback-success-banner" id="feedbackSuccessBanner" style="display: none;" role="alert">
+            <div class="success-icon-wrap">✓</div>
+            <div class="success-content">
+              <h4>Terima Kasih Atas Ulasan Anda!</h4>
+              <p id="feedbackSuccessMsg">Testimoni Anda telah berhasil disimpan dan langsung dipublikasikan pada daftar testimoni di atas.</p>
+              <button type="button" class="btn-submit-another" id="btnSubmitAnother">Tulis Ulasan Lain</button>
+            </div>
+          </div>
+
+          <!-- FEEDBACK FORM -->
+          <form id="projectFeedbackForm" class="feedback-form" novalidate>
+            <!-- Rating Star Selector -->
+            <div class="feedback-rating-group">
+              <label class="feedback-label" id="ratingLabel">
+                <b>Rating Kepuasan Proyek:</b>
+                <span class="rating-required">*</span>
+              </label>
+              <div class="star-rating-widget" role="radiogroup" aria-labelledby="ratingLabel">
+                <div class="stars-row" id="starsRow">
+                  <button type="button" class="star-btn active" data-rating="1" aria-label="1 bintang: Kurang Memuaskan" title="1 Bintang">★</button>
+                  <button type="button" class="star-btn active" data-rating="2" aria-label="2 bintang: Cukup" title="2 Bintang">★</button>
+                  <button type="button" class="star-btn active" data-rating="3" aria-label="3 bintang: Baik" title="3 Bintang">★</button>
+                  <button type="button" class="star-btn active" data-rating="4" aria-label="4 bintang: Sangat Baik" title="4 Bintang">★</button>
+                  <button type="button" class="star-btn active" data-rating="5" aria-label="5 bintang: Luar Biasa / Sangat Puas" title="5 Bintang">★</button>
+                </div>
+                <span class="star-text-indicator" id="starTextIndicator">⭐⭐⭐⭐⭐ Sangat Puas (5.0 / 5.0)</span>
+                <input type="hidden" name="rating" id="feedbackRatingInput" value="5">
+              </div>
+            </div>
+
+            <!-- Two-Column Fields -->
+            <div class="feedback-form-grid">
+              <div class="form-group">
+                <label for="feedbackName" class="form-label">
+                  Nama Lengkap / Instansi <span class="required-star">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="feedbackName"
+                  name="name"
+                  class="form-input"
+                  placeholder="Contoh: Bpk. H. Suryadi / PT. Makmur"
+                  required
+                  autocomplete="name"
+                  maxlength="70"
+                >
+                <div class="field-error" id="nameError"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="feedbackRole" class="form-label">
+                  Tipe Klien / Jabatan <span class="required-star">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="feedbackRole"
+                  name="role"
+                  class="form-input"
+                  placeholder="Contoh: Pemilik Rumah Tinggal / Facility Mgr Pabrik"
+                  required
+                  maxlength="80"
+                >
+                <div class="field-error" id="roleError"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="feedbackLocation" class="form-label">
+                  Lokasi / Wilayah Proyek <span class="required-star">*</span>
+                </label>
+                <select id="feedbackLocation" name="location" class="form-select" required>
+                  <option value="" disabled selected>Pilih Wilayah Proyek...</option>
+                  <option value="Karawang Barat (Galuh Mas, Badami, Telukjambe)">Karawang Barat (Galuh Mas, Badami, Telukjambe)</option>
+                  <option value="Karawang Timur (Klari, Kosambi, Cibalongsari)">Karawang Timur (Klari, Kosambi, Cibalongsari)</option>
+                  <option value="Kawasan Industri KIIC Karawang">Kawasan Industri KIIC Karawang</option>
+                  <option value="Kawasan Industri Suryacipta / KIM">Kawasan Industri Suryacipta / KIM</option>
+                  <option value="Subang (Subang Smartpolitan, Patimban, Pagaden)">Subang (Subang Smartpolitan, Patimban, Pagaden)</option>
+                  <option value="Purwakarta (Kota Bukit Indah BIC, Sadang, Campaka)">Purwakarta (Kota Bukit Indah BIC, Sadang, Campaka)</option>
+                  <option value="Cikampek (Indotaisei, Dawuan, Kotabaru)">Cikampek (Indotaisei, Dawuan, Kotabaru)</option>
+                  <option value="Cikarang (Jababeka, EJIP, MM2100, Lippo Cikarang)">Cikarang (Jababeka, EJIP, MM2100, Lippo Cikarang)</option>
+                  <option value="Bekasi & Sekitarnya (Grand Wisata, Harapan Indah)">Bekasi & Sekitarnya (Grand Wisata, Harapan Indah)</option>
+                  <option value="Area Lainnya di Jawa Barat">Area Lainnya di Jawa Barat</option>
+                </select>
+                <div class="field-error" id="locationError"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="feedbackProject" class="form-label">
+                  Jenis Pekerjaan / Produk <span class="required-star">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="feedbackProject"
+                  name="project"
+                  class="form-input"
+                  placeholder="Contoh: Partisi Kaca Kantor 10mm & Pintu Swing"
+                  required
+                  maxlength="90"
+                >
+                <div class="field-error" id="projectError"></div>
+              </div>
+            </div>
+
+            <!-- Comment / Feedback Textarea -->
+            <div class="form-group">
+              <label for="feedbackComment" class="form-label">
+                Ulasan / Komentar Anda <span class="required-star">*</span>
+              </label>
+              <textarea
+                id="feedbackComment"
+                name="comment"
+                class="form-textarea"
+                rows="4"
+                placeholder="Ceritakan pengalaman Anda mengenai kerapihan sealent, ketepatan jadwal survey & pasang, serta kualitas bahan aluminium dan kaca yang kami kerjakan..."
+                required
+                minlength="15"
+                maxlength="600"
+              ></textarea>
+              <div class="textarea-footer">
+                <span class="min-chars-note">Minimal 15 karakter. Ulasan jujur membantu calon klien lain.</span>
+                <span class="char-count" id="commentCharCount">0 / 600</span>
+              </div>
+              <div class="field-error" id="commentError"></div>
+            </div>
+
+            <!-- Recommendation Checkbox -->
+            <div class="feedback-consent-row">
+              <label class="checkbox-container">
+                <input type="checkbox" id="feedbackRecommend" name="recommend" checked>
+                <span class="checkbox-text">Saya merekomendasikan <strong>Sahabat Kaca Aluminium</strong> untuk rekan, keluarga, dan mitra proyek.</span>
+              </label>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="feedback-actions">
+              <button type="submit" class="btn-submit-feedback" id="btnSubmitFeedback">
+                <span class="btn-icon">⭐</span>
+                <span>Kirim Ulasan Proyek</span>
+              </button>
+              <span class="feedback-privacy-note">
+                🔒 Data ulasan dipublikasikan secara transparan pada daftar testimoni di atas.
+              </span>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </section>

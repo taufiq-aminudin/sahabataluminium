@@ -8630,6 +8630,440 @@ footer .footer-grid {
   }
 }
 
+/* =========================================================
+   CLIENT PROJECT FEEDBACK SUBMISSION SECTION
+   Interactive star rating and review submission card placed
+   below the Testimonials grid.
+   ========================================================= */
+
+.feedback-submission-section {
+  margin-top: 48px;
+  max-width: 1140px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.feedback-submission-card {
+  background: #ffffff;
+  border: 1.5px solid #cbe0e7;
+  border-radius: 18px;
+  padding: 34px 38px;
+  box-shadow: 0 10px 30px rgba(7, 46, 59, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.feedback-submission-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--gold), #16b95b);
+}
+
+.feedback-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #edf4f7;
+}
+
+.feedback-header-content {
+  flex: 1;
+  min-width: 280px;
+}
+
+.feedback-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Manrope", sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: 0.14em;
+  margin-bottom: 6px;
+}
+
+.feedback-eyebrow span {
+  width: 22px;
+  height: 1.5px;
+  background: var(--gold);
+}
+
+.feedback-title {
+  font-family: "Manrope", sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--deep);
+  margin: 0 0 6px;
+  line-height: 1.35;
+}
+
+.feedback-subtitle {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.55;
+  max-width: 640px;
+}
+
+.feedback-badge-guarantee {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fdfaf2;
+  border: 1px solid rgba(200, 148, 61, 0.35);
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: #875c12;
+  flex-shrink: 0;
+}
+
+.feedback-badge-guarantee .guarantee-icon {
+  font-size: 22px;
+  color: #f59e0b;
+}
+
+.feedback-badge-guarantee b {
+  display: block;
+  font-family: "Manrope", sans-serif;
+  font-size: 13px;
+  color: #724c08;
+}
+
+.feedback-badge-guarantee small {
+  display: block;
+  font-size: 11px;
+  color: #926d24;
+}
+
+/* Success Banner */
+.feedback-success-banner {
+  background: #ecfdf5;
+  border: 1.5px solid #a7f3d0;
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  animation: bannerFadeIn 0.3s ease;
+}
+
+@keyframes bannerFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.feedback-success-banner .success-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #10b981;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.feedback-success-banner .success-content h4 {
+  font-family: "Manrope", sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: #065f46;
+  margin: 0 0 4px;
+}
+
+.feedback-success-banner .success-content p {
+  font-size: 13.5px;
+  color: #047857;
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+
+.btn-submit-another {
+  background: #065f46;
+  color: #ffffff;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 6px;
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-submit-another:hover {
+  background: #044e3a;
+}
+
+/* Star Rating Widget */
+.feedback-rating-group {
+  margin-bottom: 20px;
+}
+
+.feedback-rating-group .feedback-label {
+  display: block;
+  font-family: "Manrope", sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--deep);
+  margin-bottom: 6px;
+}
+
+.rating-required,
+.required-star {
+  color: #dc2626;
+  font-weight: 800;
+}
+
+.star-rating-widget {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 10px 16px;
+  background: #f8fafc;
+  border: 1px solid #dce8ed;
+  border-radius: 10px;
+}
+
+.stars-row {
+  display: flex;
+  gap: 4px;
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  font-size: 30px;
+  color: #cbd5e1;
+  cursor: pointer;
+  padding: 0 2px;
+  transition: color 0.15s ease, transform 0.15s ease;
+  line-height: 1;
+}
+
+.star-btn:hover,
+.star-btn.hover-active {
+  color: #f59e0b;
+  transform: scale(1.15);
+}
+
+.star-btn.active {
+  color: #f59e0b;
+}
+
+.star-text-indicator {
+  font-family: "Manrope", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--deep);
+}
+
+/* Form Layout */
+.feedback-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 22px;
+  margin-bottom: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-family: "Manrope", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e333d;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  font-family: inherit;
+  font-size: 13.5px;
+  color: #1a2f38;
+  padding: 11px 14px;
+  border: 1.5px solid #cbe0e7;
+  border-radius: 8px;
+  background: #ffffff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(13, 92, 115, 0.15);
+}
+
+.form-input.input-error,
+.form-select.input-error,
+.form-textarea.input-error {
+  border-color: #ef4444;
+  background: #fffafa;
+}
+
+.field-error {
+  font-size: 11.5px;
+  color: #dc2626;
+  font-weight: 600;
+  min-height: 16px;
+  display: none;
+}
+
+.field-error.visible {
+  display: block;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.textarea-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* Checkbox Consent */
+.feedback-consent-row {
+  margin: 16px 0 22px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-container input {
+  width: 17px;
+  height: 17px;
+  accent-color: #072e3b;
+  cursor: pointer;
+}
+
+.checkbox-text {
+  font-size: 12.5px;
+  color: #3f5561;
+  line-height: 1.4;
+}
+
+/* Submit Actions */
+.feedback-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.btn-submit-feedback {
+  background: linear-gradient(135deg, #072e3b 0%, #0d5c73 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 9px;
+  padding: 13px 28px;
+  font-family: "Manrope", sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(7, 46, 59, 0.2);
+}
+
+.btn-submit-feedback:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(7, 46, 59, 0.28);
+}
+
+.btn-submit-feedback:active {
+  transform: translateY(0);
+}
+
+.btn-submit-feedback:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.feedback-privacy-note {
+  font-size: 11.5px;
+  color: #6d858f;
+  line-height: 1.4;
+}
+
+/* Newly Submitted Testimonial Card in Grid */
+.new-testimonial-card {
+  border-left: 4px solid var(--gold) !important;
+  animation: newCardAppear 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.testimonial-new-tag {
+  background: #fef3c7 !important;
+  color: #92400e !important;
+  border-color: #fde68a !important;
+}
+
+@keyframes newCardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .feedback-submission-card {
+    padding: 24px 20px;
+  }
+  .feedback-form-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .feedback-header {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .feedback-badge-guarantee {
+    width: 100%;
+  }
+  .star-btn {
+    font-size: 26px;
+  }
+}
+
+
 
 
 

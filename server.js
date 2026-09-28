@@ -678,6 +678,85 @@ app.post('/api/newsletter/subscribe', (req, res) => {
   }
 });
 
+// =========================================================
+// API: Client Project Feedbacks / Testimonials
+// =========================================================
+
+const FEEDBACKS_FILE = path.join(__dirname, 'feedbacks.json');
+
+function readFeedbacks() {
+  if (!fs.existsSync(FEEDBACKS_FILE)) {
+    return [];
+  }
+  try {
+    const data = JSON.parse(fs.readFileSync(FEEDBACKS_FILE, 'utf-8'));
+    return Array.isArray(data) ? data : [];
+  } catch (err) {
+    console.error('Error reading feedbacks.json:', err);
+    return [];
+  }
+}
+
+function writeFeedbacks(feedbacks) {
+  try {
+    fs.writeFileSync(FEEDBACKS_FILE, JSON.stringify(feedbacks, null, 2), 'utf-8');
+    return true;
+  } catch (err) {
+    console.error('Error writing feedbacks.json:', err);
+    return false;
+  }
+}
+
+app.get('/api/feedbacks', (req, res) => {
+  try {
+    const feedbacks = readFeedbacks();
+    return res.json({ success: true, count: feedbacks.length, feedbacks });
+  } catch (err) {
+    console.error('Error fetching feedbacks:', err);
+    return res.status(500).json({ success: false, error: 'Gagal memuat ulasan proyek' });
+  }
+});
+
+app.post('/api/feedbacks', (req, res) => {
+  try {
+    const { name, role, location, project, rating, comment, recommend } = req.body || {};
+
+    if (!name || typeof name !== 'string' || name.trim().length < 2) {
+      return res.status(400).json({ success: false, error: 'Nama klien wajib diisi (minimal 2 karakter).' });
+    }
+    if (!comment || typeof comment !== 'string' || comment.trim().length < 15) {
+      return res.status(400).json({ success: false, error: 'Ulasan wajib diisi minimal 15 karakter.' });
+    }
+
+    const numericRating = Math.min(5, Math.max(1, parseInt(rating, 10) || 5));
+    const feedbacks = readFeedbacks();
+
+    const newFeedback = {
+      id: 'fb-' + Date.now() + '-' + Math.random().toString(36).substring(2, 7),
+      name: name.trim().substring(0, 80),
+      role: (role && typeof role === 'string') ? role.trim().substring(0, 90) : 'Klien Terverifikasi',
+      location: (location && typeof location === 'string') ? location.trim().substring(0, 100) : 'Karawang & Sekitarnya',
+      project: (project && typeof project === 'string') ? project.trim().substring(0, 100) : 'Proyek Kaca & Aluminium',
+      rating: numericRating,
+      comment: comment.trim().substring(0, 800),
+      recommend: recommend !== false,
+      createdAt: new Date().toISOString()
+    };
+
+    feedbacks.unshift(newFeedback);
+    writeFeedbacks(feedbacks);
+
+    return res.json({
+      success: true,
+      message: 'Ulasan berhasil disimpan dan dipublikasikan.',
+      feedback: newFeedback
+    });
+  } catch (err) {
+    console.error('Error submitting feedback:', err);
+    return res.status(500).json({ success: false, error: 'Terjadi kesalahan sistem saat menyimpan ulasan.' });
+  }
+});
+
 // Serve static assets with html extension support
 app.use(express.static(__dirname, {
   extensions: ['html', 'htm'],

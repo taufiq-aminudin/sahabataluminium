@@ -432,5 +432,95 @@ if (faqFloatBtn && faqSection) {
   }, { passive: true });
 }
 
+/* =========================================================
+   FAQ DIRECT ANCHOR LINK COPY & DEEP LINK AUTO-OPEN
+   ========================================================= */
+const faqCopyButtons = document.querySelectorAll('.faq-copy-btn');
+
+faqCopyButtons.forEach((btn) => {
+  btn.addEventListener('click', async (e) => {
+    e.stopPropagation(); // Prevent toggling the accordion
+    const faqId = btn.getAttribute('data-faq-id');
+    if (!faqId) return;
+
+    const shareUrl = `${window.location.origin}${window.location.pathname}#${faqId}`;
+    
+    let copySuccessful = false;
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        copySuccessful = true;
+      } catch (err) {
+        copySuccessful = false;
+      }
+    }
+    
+    if (!copySuccessful) {
+      // Fallback copy method
+      try {
+        const tempInput = document.createElement('input');
+        tempInput.value = shareUrl;
+        tempInput.style.position = 'fixed';
+        tempInput.style.opacity = '0';
+        document.body.appendChild(tempInput);
+        tempInput.focus();
+        tempInput.select();
+        copySuccessful = document.execCommand('copy');
+        document.body.removeChild(tempInput);
+      } catch (err) {
+        copySuccessful = false;
+      }
+    }
+
+    // Update URL hash without instant jumping
+    try {
+      history.replaceState(null, '', `#${faqId}`);
+    } catch (e) {}
+
+    // Ensure item is opened and highlighted
+    const targetItem = document.getElementById(faqId);
+    if (targetItem) {
+      openFaq(targetItem);
+      targetItem.classList.add('faq-target-highlight');
+      setTimeout(() => targetItem.classList.remove('faq-target-highlight'), 1600);
+    }
+
+    // Visual feedback on button
+    btn.classList.add('copied');
+    const label = btn.querySelector('.faq-copy-text');
+    const originalText = label ? label.textContent : 'Salin Link';
+    if (label) label.textContent = 'Tersalin!';
+
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      if (label) label.textContent = originalText;
+    }, 2000);
+  });
+});
+
+// Auto-open target FAQ item when page loads or hash changes
+function checkFaqAnchorTarget() {
+  const hash = window.location.hash;
+  if (!hash || !hash.startsWith('#faq-')) return;
+  const targetId = hash.substring(1);
+  const targetItem = document.getElementById(targetId);
+  if (targetItem && targetItem.classList.contains('faq-item')) {
+    openFaq(targetItem);
+    setTimeout(() => {
+      targetItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      targetItem.classList.add('faq-target-highlight');
+      setTimeout(() => targetItem.classList.remove('faq-target-highlight'), 1800);
+    }, 300);
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', checkFaqAnchorTarget);
+} else {
+  checkFaqAnchorTarget();
+}
+window.addEventListener('hashchange', checkFaqAnchorTarget);
+
+
 
 

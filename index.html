@@ -576,6 +576,76 @@
         <p>
           Jawaban lengkap seputar pilihan material aluminium & kaca, estimasi waktu fabrikasi dan pemasangan, perhitungan harga, serta garansi layanan di Karawang.
         </p>
+
+        <!-- Social Media Links Bar -->
+        <div class="faq-social-bar">
+          <span class="faq-social-label">
+            <svg class="faq-social-sparkle" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true">
+              <path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/>
+            </svg>
+            Ikuti profil resmi kami:
+          </span>
+          <div class="faq-social-list">
+            <a 
+              href="https://www.instagram.com/sahabatkacaaluminium" 
+              class="faq-social-btn faq-social-ig" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              title="Ikuti Sahabat Kaca Aluminium di Instagram"
+              aria-label="Instagram Sahabat Kaca Aluminium"
+            >
+              <span class="faq-social-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </span>
+              <span>Instagram</span>
+              <svg class="faq-external-arrow" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M7 17L17 7M7 7h10v10"/>
+              </svg>
+            </a>
+
+            <a 
+              href="https://www.facebook.com/people/Sahabat-Kaca-Aluminium/100090000475144/" 
+              class="faq-social-btn faq-social-fb" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              title="Ikuti Sahabat Kaca Aluminium di Facebook"
+              aria-label="Facebook Sahabat Kaca Aluminium"
+            >
+              <span class="faq-social-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </span>
+              <span>Facebook</span>
+              <svg class="faq-external-arrow" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M7 17L17 7M7 7h10v10"/>
+              </svg>
+            </a>
+
+            <a 
+              href="https://www.linkedin.com/company/sahabat-kaca-aluminium" 
+              class="faq-social-btn faq-social-li" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              title="Ikuti Sahabat Kaca Aluminium di LinkedIn"
+              aria-label="LinkedIn Sahabat Kaca Aluminium"
+            >
+              <span class="faq-social-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                </svg>
+              </span>
+              <span>LinkedIn</span>
+              <svg class="faq-external-arrow" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M7 17L17 7M7 7h10v10"/>
+              </svg>
+            </a>
+          </div>
+        </div>
       </div>
 
       <div class="faq-container">
@@ -620,13 +690,22 @@
         <div class="faq-list">
 
           <!-- FAQ Item 1: Material -->
-          <div class="faq-item active">
-            <button class="faq-question" type="button" aria-expanded="true">
-              <span>Apa saja jenis material kusen aluminium dan kaca yang digunakan?</span>
-              <span class="faq-chevron" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-              </span>
-            </button>
+          <div class="faq-item active" id="faq-material">
+            <div class="faq-item-header">
+              <button class="faq-question" type="button" aria-expanded="true">
+                <span>Apa saja jenis material kusen aluminium dan kaca yang digunakan?</span>
+                <span class="faq-chevron" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+                </span>
+              </button>
+              <button type="button" class="faq-copy-btn" data-faq-id="faq-material" aria-label="Salin tautan ke pertanyaan material" title="Salin tautan ke pertanyaan ini">
+                <svg class="faq-copy-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </svg>
+                <span class="faq-copy-text">Salin Link</span>
+              </button>
+            </div>
             <div class="faq-answer">
               <p>
                 Kami menggunakan profil kusen aluminium berstandar SNI berkualitas tinggi seperti merek <strong>Alexindo, Inkalum, Dacon, dan Forta</strong> dengan pilihan ketebalan dan dimensi 3 inch serta 4 inch. Pilihan warna mencakup <em>silver anodized, putih (powder coating), cokelat, serat kayu, dan black doff</em>.
@@ -644,13 +723,22 @@
           </div>
 
           <!-- FAQ Item 2: Waktu Instalasi -->
-          <div class="faq-item">
-            <button class="faq-question" type="button" aria-expanded="false">
-              <span>Berapa lama waktu pembuatan dan pemasangan kaca aluminium di Karawang?</span>
-              <span class="faq-chevron" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-              </span>
-            </button>
+          <div class="faq-item" id="faq-waktu">
+            <div class="faq-item-header">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Berapa lama waktu pembuatan dan pemasangan kaca aluminium di Karawang?</span>
+                <span class="faq-chevron" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+                </span>
+              </button>
+              <button type="button" class="faq-copy-btn" data-faq-id="faq-waktu" aria-label="Salin tautan ke pertanyaan waktu pemasangan" title="Salin tautan ke pertanyaan ini">
+                <svg class="faq-copy-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </svg>
+                <span class="faq-copy-text">Salin Link</span>
+              </button>
+            </div>
             <div class="faq-answer">
               <p>
                 Secara umum, proses fabrikasi hingga pemasangan memerlukan waktu <strong>2 hingga 5 hari kerja</strong> tergantung pada volume proyek dan spesifikasi pesanan:
@@ -667,13 +755,22 @@
           </div>
 
           <!-- FAQ Item 3: Harga & Biaya -->
-          <div class="faq-item">
-            <button class="faq-question" type="button" aria-expanded="false">
-              <span>Bagaimana sistem perhitungan estimasi harga jasa kaca dan aluminium?</span>
-              <span class="faq-chevron" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-              </span>
-            </button>
+          <div class="faq-item" id="faq-harga">
+            <div class="faq-item-header">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Bagaimana sistem perhitungan estimasi harga jasa kaca dan aluminium?</span>
+                <span class="faq-chevron" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+                </span>
+              </button>
+              <button type="button" class="faq-copy-btn" data-faq-id="faq-harga" aria-label="Salin tautan ke pertanyaan estimasi harga" title="Salin tautan ke pertanyaan ini">
+                <svg class="faq-copy-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </svg>
+                <span class="faq-copy-text">Salin Link</span>
+              </button>
+            </div>
             <div class="faq-answer">
               <p>
                 Penetapan harga dilakukan secara transparan dan fleksibel menyesuaikan anggaran Anda:
@@ -690,13 +787,22 @@
           </div>
 
           <!-- FAQ Item 4: Survey Lokasi Gratis -->
-          <div class="faq-item">
-            <button class="faq-question" type="button" aria-expanded="false">
-              <span>Apakah ada biaya untuk survey lokasi dan konsultasi di Karawang?</span>
-              <span class="faq-chevron" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-              </span>
-            </button>
+          <div class="faq-item" id="faq-survey">
+            <div class="faq-item-header">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Apakah ada biaya untuk survey lokasi dan konsultasi di Karawang?</span>
+                <span class="faq-chevron" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+                </span>
+              </button>
+              <button type="button" class="faq-copy-btn" data-faq-id="faq-survey" aria-label="Salin tautan ke pertanyaan survey lokasi" title="Salin tautan ke pertanyaan ini">
+                <svg class="faq-copy-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </svg>
+                <span class="faq-copy-text">Salin Link</span>
+              </button>
+            </div>
             <div class="faq-answer">
               <p>
                 Survey lokasi dan konsultasi teknis <strong>100% GRATIS (Tanpa Biaya)</strong> untuk seluruh wilayah Kabupaten Karawang. Tim kami siap datang langsung ke tempat Anda meliputi:
@@ -717,13 +823,22 @@
           </div>
 
           <!-- FAQ Item 5: Garansi Pemasangan -->
-          <div class="faq-item">
-            <button class="faq-question" type="button" aria-expanded="false">
-              <span>Apakah ada garansi untuk hasil pengerjaan dan aksesoris?</span>
-              <span class="faq-chevron" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-              </span>
-            </button>
+          <div class="faq-item" id="faq-garansi">
+            <div class="faq-item-header">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Apakah ada garansi untuk hasil pengerjaan dan aksesoris?</span>
+                <span class="faq-chevron" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+                </span>
+              </button>
+              <button type="button" class="faq-copy-btn" data-faq-id="faq-garansi" aria-label="Salin tautan ke pertanyaan garansi" title="Salin tautan ke pertanyaan ini">
+                <svg class="faq-copy-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </svg>
+                <span class="faq-copy-text">Salin Link</span>
+              </button>
+            </div>
             <div class="faq-answer">
               <p>
                 Tentu saja! Kepuasan dan kenyamanan pelanggan adalah prioritas utama kami. Sahabat Kaca Aluminium memberikan:

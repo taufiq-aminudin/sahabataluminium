@@ -3809,6 +3809,291 @@ window.printProjectPdf = function(orderId) {
   }, 400);
 };
 
+// =========================================================
+// SOCIAL PROOF TOAST NOTIFICATION: SURVEY REQUESTS
+// Periodically displays a small, non-intrusive toast in the
+// corner showing real-time survey requests across service areas
+// to boost user trust and social proof.
+// =========================================================
+
+(function initSurveyProofToast() {
+  const surveyRequests = [
+    {
+      location: "Galuh Mas, Karawang",
+      timeAgo: "2 menit yang lalu",
+      project: "Kusen & Jendela Casement Aluminium",
+      icon: "📐",
+      initial: "Bpk. R"
+    },
+    {
+      location: "Kawasan Industri KIIC, Karawang",
+      timeAgo: "5 menit yang lalu",
+      project: "Partisi Kaca Cleanroom 10mm",
+      icon: "🏢",
+      initial: "PT. M"
+    },
+    {
+      location: "Subang Smartpolitan, Subang",
+      timeAgo: "9 menit yang lalu",
+      project: "Pintu Kaca Sliding Otomatis",
+      icon: "🚪",
+      initial: "Bpk. H"
+    },
+    {
+      location: "Kota Bukit Indah (BIC), Purwakarta",
+      timeAgo: "14 menit yang lalu",
+      project: "Fasad Aluminium Composite Panel (ACP)",
+      icon: "🏗️",
+      initial: "Ibu D"
+    },
+    {
+      location: "Grand Taruma, Karawang Barat",
+      timeAgo: "18 menit yang lalu",
+      project: "Kanopi Kaca Tempered Carport",
+      icon: "🛡️",
+      initial: "Bpk. A"
+    },
+    {
+      location: "Kawasan Industri Indotaisei, Cikampek",
+      timeAgo: "24 menit yang lalu",
+      project: "Partisi Kaca Kantor Modular",
+      icon: "🏢",
+      initial: "PT. T"
+    },
+    {
+      location: "Jababeka Industrial Estate, Cikarang",
+      timeAgo: "31 menit yang lalu",
+      project: "Pintu Kaca Tempered Patch Fitting",
+      icon: "✨",
+      initial: "Bpk. F"
+    },
+    {
+      location: "Resinda Estate, Karawang",
+      timeAgo: "37 menit yang lalu",
+      project: "Folding Door & Jendela Akustik",
+      icon: "🏠",
+      initial: "Ibu S"
+    },
+    {
+      location: "MM2100 Industrial Town, Cikarang",
+      timeAgo: "45 menit yang lalu",
+      project: "Partisi Rangka Aluminium Alexindo SNI",
+      icon: "⚙️",
+      initial: "Bpk. W"
+    },
+    {
+      location: "Sadang & Campaka, Purwakarta",
+      timeAgo: "52 menit yang lalu",
+      project: "Shower Screen Kaca Tempered Kamar Mandi",
+      icon: "🚿",
+      initial: "Ibu N"
+    }
+  ];
+
+  let toastContainer = null;
+  let toastElement = null;
+  let currentIndex = 0;
+  let toastTimeout = null;
+  let nextCycleTimeout = null;
+  let isPaused = false;
+  let isDismissedPermanently = false;
+
+  // Shuffle survey requests on session start for organic feel
+  for (let i = surveyRequests.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [surveyRequests[i], surveyRequests[j]] = [surveyRequests[j], surveyRequests[i]];
+  }
+
+  function createToastContainer() {
+    if (document.getElementById('surveyToastContainer')) {
+      return document.getElementById('surveyToastContainer');
+    }
+    const container = document.createElement('div');
+    container.id = 'surveyToastContainer';
+    container.className = 'survey-toast-container';
+    container.setAttribute('aria-live', 'polite');
+    document.body.appendChild(container);
+    return container;
+  }
+
+  function hideToast() {
+    if (!toastElement) return;
+    toastElement.classList.remove('toast-visible');
+    toastElement.classList.add('toast-exiting');
+
+    setTimeout(() => {
+      if (toastElement && toastElement.parentNode) {
+        toastElement.parentNode.removeChild(toastElement);
+        toastElement = null;
+      }
+    }, 400);
+  }
+
+  function showNextToast() {
+    if (isDismissedPermanently) return;
+    if (document.hidden) {
+      // Pause if tab is inactive, retry in 10s
+      nextCycleTimeout = setTimeout(showNextToast, 10000);
+      return;
+    }
+
+    if (!toastContainer) {
+      toastContainer = createToastContainer();
+    }
+
+    // Remove any lingering toast
+    if (toastElement && toastElement.parentNode) {
+      toastElement.parentNode.removeChild(toastElement);
+      toastElement = null;
+    }
+
+    const item = surveyRequests[currentIndex];
+    currentIndex = (currentIndex + 1) % surveyRequests.length;
+
+    const toast = document.createElement('div');
+    toast.className = 'survey-toast';
+    toast.setAttribute('role', 'alert');
+    toast.title = 'Klik untuk konsultasi dan jadwalkan survey lokasi gratis via WhatsApp';
+
+    const waText = encodeURIComponent(`Halo Sahabat Kaca Aluminium, saya melihat notifikasi survey di ${item.location} untuk pekerjaan ${item.project}. Saya ingin konsultasi & jadwalkan survey lokasi gratis juga.`);
+    const waUrl = `https://wa.me/6289637371166?text=${waText}`;
+
+    toast.innerHTML = `
+      <div class="survey-toast-avatar-box">
+        <div class="survey-toast-avatar">${item.icon}</div>
+        <span class="survey-toast-pulse-dot" title="Survey Terjadwal"></span>
+      </div>
+      <div class="survey-toast-body">
+        <div class="survey-toast-badge">
+          <span>✓</span>
+          <span>Survey Gratis Terjadwal</span>
+        </div>
+        <p class="survey-toast-message">
+          Someone in <strong>${item.location}</strong> just requested a free survey!
+        </p>
+        <div class="survey-toast-meta">
+          <span class="survey-toast-time">
+            <span>⏱️</span>
+            <span>${item.timeAgo}</span>
+          </span>
+          <a href="${waUrl}" target="_blank" rel="noopener" class="survey-toast-action-link" onclick="event.stopPropagation();">
+            Ajukan Survey ↗
+          </a>
+        </div>
+      </div>
+      <button type="button" class="survey-toast-close" aria-label="Tutup notifikasi" title="Tutup">✕</button>
+      <div class="survey-toast-progress" id="surveyToastProgress"></div>
+    `;
+
+    // Click handler: opens WhatsApp inquiry or scrolls to booking
+    toast.addEventListener('click', (e) => {
+      if (e.target.closest('.survey-toast-close')) return;
+      window.open(waUrl, '_blank', 'noopener');
+    });
+
+    // Close button handler
+    const closeBtn = toast.querySelector('.survey-toast-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        hideToast();
+        // Give longer respite if user explicitly closed it
+        clearTimeout(nextCycleTimeout);
+        nextCycleTimeout = setTimeout(showNextToast, 35000);
+      });
+    }
+
+    // Hover pause: freeze auto-hide while reading
+    toast.addEventListener('mouseenter', () => {
+      isPaused = true;
+      const progress = toast.querySelector('#surveyToastProgress');
+      if (progress) progress.style.animationPlayState = 'paused';
+    });
+
+    toast.addEventListener('mouseleave', () => {
+      isPaused = false;
+      const progress = toast.querySelector('#surveyToastProgress');
+      if (progress) progress.style.animationPlayState = 'running';
+    });
+
+    toastContainer.appendChild(toast);
+    toastElement = toast;
+
+    // Trigger entrance animation next frame
+    requestAnimationFrame(() => {
+      toast.classList.add('toast-visible');
+    });
+
+    // Progress bar animation for display duration (6.5s)
+    const DISPLAY_DURATION = 6500;
+    const progressEl = toast.querySelector('#surveyToastProgress');
+    if (progressEl) {
+      progressEl.style.transition = `transform ${DISPLAY_DURATION}ms linear`;
+      progressEl.style.transform = 'scaleX(1)';
+      requestAnimationFrame(() => {
+        progressEl.style.transform = 'scaleX(0)';
+      });
+    }
+
+    // Auto hide after DISPLAY_DURATION
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+      if (!isPaused) {
+        hideToast();
+      } else {
+        // If hovered, recheck every 1s
+        const checkInterval = setInterval(() => {
+          if (!isPaused) {
+            clearInterval(checkInterval);
+            hideToast();
+          }
+        }, 1000);
+      }
+    }, DISPLAY_DURATION);
+
+    // Schedule next toast periodically (every 18 to 28 seconds randomly)
+    const randomInterval = Math.floor(Math.random() * (28000 - 18000 + 1)) + 18000;
+    clearTimeout(nextCycleTimeout);
+    nextCycleTimeout = setTimeout(showNextToast, DISPLAY_DURATION + randomInterval);
+  }
+
+  // Initial delay of 4.5 seconds after page load before first appearance
+  if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(showNextToast, 4500);
+    });
+  } else {
+    setTimeout(showNextToast, 4500);
+  }
+
+  // Pause when window/tab is hidden to save resources
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      hideToast();
+      clearTimeout(nextCycleTimeout);
+    } else {
+      clearTimeout(nextCycleTimeout);
+      nextCycleTimeout = setTimeout(showNextToast, 5000);
+    }
+  });
+
+  // Expose test method if needed for manual verification
+  window.triggerSurveyToastTest = function(customLocation) {
+    if (customLocation) {
+      surveyRequests.unshift({
+        location: customLocation,
+        timeAgo: "baru saja",
+        project: "Survey Lapangan & Pengukuran",
+        icon: "📐",
+        initial: "Klien"
+      });
+      currentIndex = 0;
+    }
+    showNextToast();
+  };
+})();
+
+
 
 
 

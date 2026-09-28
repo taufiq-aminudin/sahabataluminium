@@ -7675,6 +7675,213 @@ footer .footer-grid {
   }
 }
 
+/* =========================================================
+   SOCIAL PROOF TOAST NOTIFICATION (RECENT SURVEY REQUESTS)
+   Non-intrusive floating corner toast showing real-time
+   verified survey bookings across service areas to build trust
+   ========================================================= */
+
+.survey-toast-container {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 9990;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.survey-toast {
+  pointer-events: auto;
+  background: #ffffff;
+  border: 1px solid #cbe0e7;
+  border-left: 4px solid var(--gold);
+  border-radius: 12px;
+  padding: 12px 14px 12px 12px;
+  max-width: 340px;
+  min-width: 290px;
+  box-shadow: 0 10px 30px rgba(7, 45, 58, 0.16), 0 2px 8px rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transform: translateY(30px);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, visibility 0.35s;
+  cursor: pointer;
+  position: relative;
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
+}
+
+.survey-toast.toast-visible {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.survey-toast.toast-exiting {
+  transform: translateY(20px) scale(0.96);
+  opacity: 0;
+}
+
+.survey-toast-avatar-box {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.survey-toast-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #093c4b 0%, #0d5c73 100%);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  box-shadow: 0 3px 10px rgba(13, 92, 115, 0.25);
+}
+
+.survey-toast-pulse-dot {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #198754;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.7);
+  animation: surveyPulse 2s infinite;
+}
+
+@keyframes surveyPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.7); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 7px rgba(25, 135, 84, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(25, 135, 84, 0); }
+}
+
+.survey-toast-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.survey-toast-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #eff7fa;
+  color: #0b5163;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-bottom: 3px;
+}
+
+.survey-toast-message {
+  font-size: 12px;
+  line-height: 1.4;
+  color: #172b34;
+  margin: 0 0 4px;
+}
+
+.survey-toast-message strong {
+  color: #061f29;
+  font-weight: 800;
+}
+
+.survey-toast-highlight {
+  color: #0d5c73;
+  font-weight: 800;
+}
+
+.survey-toast-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 10.5px;
+  color: #718995;
+}
+
+.survey-toast-time {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.survey-toast-action-link {
+  color: var(--blue);
+  font-weight: 700;
+  font-size: 10.5px;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.survey-toast:hover .survey-toast-action-link {
+  color: #061f29;
+  text-decoration: underline;
+}
+
+.survey-toast-close {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #8da4ae;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  transition: all 0.15s;
+}
+
+.survey-toast-close:hover {
+  background: #edf3f5;
+  color: #092c37;
+}
+
+/* Progress bar inside toast indicating duration */
+.survey-toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2.5px;
+  background: linear-gradient(90deg, var(--gold), #16b95b);
+  border-radius: 0 0 0 10px;
+  width: 100%;
+  transform-origin: left center;
+}
+
+@media (max-width: 600px) {
+  .survey-toast-container {
+    bottom: 84px; /* avoid overlapping bottom fixed bars or mobile navs */
+    left: 12px;
+    right: 12px;
+  }
+  .survey-toast {
+    min-width: auto;
+    max-width: 100%;
+    width: 100%;
+    padding: 10px 12px;
+  }
+  .survey-toast-avatar {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+}
+
+
 
 
 

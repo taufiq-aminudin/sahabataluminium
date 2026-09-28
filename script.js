@@ -2107,6 +2107,9 @@ function renderProjectOrder(order) {
   );
   const waUrl = `https://wa.me/6289637371166?text=${waMessage}`;
 
+  // Cache current active order for PDF reports
+  window.currentProjectOrder = order;
+
   container.innerHTML = `
     <div class="dashboard-result-panel" id="orderResultPanel">
       
@@ -2201,6 +2204,10 @@ function renderProjectOrder(order) {
               <button type="button" class="btn-history-upload" id="btnToggleUpload_${order.id}" onclick="window.toggleOrderPhotoUploadCard('${order.id}')" title="Ambil foto dari kamera ponsel atau pilih file dari memori perangkat">
                 <span class="btn-upload-icon">📷</span>
                 <span>Unggah Foto Proyek</span>
+              </button>
+              <button type="button" class="btn-history-pdf" onclick="window.generateProjectPdfReport('${order.id}')" title="Unduh laporan riwayat lengkap format PDF">
+                <span class="btn-upload-icon">📄</span>
+                <span>Unduh Laporan PDF</span>
               </button>
               <div class="history-count-badge">
                 <span class="count-num">${activityLogs.length}</span>
@@ -2388,9 +2395,14 @@ function renderProjectOrder(order) {
             <span>💬</span>
             <span>Tanya Update Proyek Ini via WhatsApp</span>
           </a>
-          <button type="button" class="btn-order-print" onclick="window.print()">
+          <button type="button" class="btn-order-pdf" id="btnDownloadPdf_${order.id}" onclick="window.generateProjectPdfReport('${order.id}')" title="Unduh laporan lengkap status proyek dan riwayat pengerjaan dalam format PDF">
+            <span>📄</span>
+            <span>Download PDF Report</span>
+            <span class="pdf-icon-badge">PDF</span>
+          </button>
+          <button type="button" class="btn-order-print" onclick="window.printProjectPdf ? window.printProjectPdf('${order.id}') : window.print()" title="Cetak langsung ringkasan status proyek">
             <span>🖨️</span>
-            <span>Cetak / Simpan Status</span>
+            <span>Cetak Cepat</span>
           </button>
         </div>
 
@@ -3151,9 +3163,498 @@ if (typeof document !== 'undefined') {
     if (e.key === 'Escape') {
       window.closeOrderPhotoModal();
       window.closeEditPhotoModal();
+      window.closeProjectPdfModal();
     }
   });
 }
+
+// =========================================================
+// PROJECT PDF REPORT GENERATOR & EXPORT CONTROLLER
+// Generates official printable summary of current status
+// & full history log for user's documentation and records.
+// =========================================================
+
+window.activePdfOrder = null;
+
+// Generate printable HTML for the PDF Report
+window.buildProjectPdfReportHtml = function(order) {
+  if (!order) return '';
+
+  const stagesMap = {
+    Survey: { title: 'Survey & Pengukuran Lapangan', icon: '📐', pct: '25%' },
+    Fabrication: { title: 'Fabrikasi Workshop & Perakitan', icon: '⚙️', pct: '50%' },
+    Installation: { title: 'Pemasangan & Instalasi On-Site', icon: '🏗️', pct: '75%' },
+    Completed: { title: 'Selesai & Garansi Terverifikasi', icon: '🛡️', pct: '100%' }
+  };
+
+  const currentStage = order.currentStage || 'Survey';
+  const stageCfg = stagesMap[currentStage] || { title: currentStage, icon: '📌', pct: '' };
+  const percent = order.currentPercent || 25;
+  const now = new Date();
+  const printTimestamp = `${now.getDate()} ${['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'][now.getMonth()]} ${now.getFullYear()} - ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} WIB`;
+  const reportDocNum = `REP-SKA-${order.id}-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}`;
+
+  const stages = order.stages || {};
+  const stageKeys = ['Survey', 'Fabrication', 'Installation', 'Completed'];
+
+  const checkpointsRowsHtml = stageKeys.map((stKey, idx) => {
+    const stInfo = stagesMap[stKey];
+    const data = stages[stKey] || { status: 'pending', date: '-', notes: '-' };
+    const statusText = data.status === 'completed' ? 'SELESAI (VERIFIED)' : (data.status === 'in-progress' ? 'SEDANG BERJALAN' : 'MENUNGGU GILIRAN');
+    const pillClass = data.status === 'completed' ? 'completed' : (data.status === 'in-progress' ? 'in-progress' : 'pending');
+
+    return `
+      <tr>
+        <td style="font-weight: 700; width: 35px; text-align: center;">0${idx + 1}</td>
+        <td style="font-weight: 700;">${stInfo.icon} ${stInfo.title} (${stInfo.pct})</td>
+        <td style="width: 140px; text-align: center;"><span class="pdf-stage-pill ${pillClass}">${statusText}</span></td>
+        <td style="width: 110px; color: #557280;">${data.date || '-'}</td>
+        <td style="font-size: 10.5px; color: #3b525f;">${data.notes || '-'}</td>
+      </tr>
+    `;
+  }).join('');
+
+  // History log rows
+  const logs = Array.isArray(order.activityLog) ? order.activityLog : [];
+  const historyRowsHtml = logs.length === 0 
+    ? `<tr><td colspan="6" style="text-align: center; color: #7b94a0; padding: 16px;">Belum ada catatan aktivitas riwayat pada pesanan ini.</td></tr>`
+    : logs.map((log, index) => {
+        const hasPhoto = Boolean(log.photo);
+        const stageInfo = stagesMap[log.stage] || { title: log.stage || '-', icon: '📌' };
+
+        return `
+          <tr>
+            <td style="text-align: center; font-weight: 700; width: 30px;">${logs.length - index}</td>
+            <td style="width: 110px; font-family: monospace; font-size: 10px; color: #496470;">${log.timestamp || '-'}</td>
+            <td style="width: 105px; font-weight: 700; color: #0d5c73;">${stageInfo.icon} ${log.stage || '-'}</td>
+            <td style="font-weight: 700; color: #061f29;">
+              ${log.title || '-'}
+              ${log.editedAt ? `<span style="font-size: 9px; color: #718a96; font-style: italic; display: block; margin-top: 2px;">(Diedit: ${log.editedAt})</span>` : ''}
+            </td>
+            <td style="color: #3b525f; font-size: 10.5px;">
+              ${log.desc || '-'}
+              ${hasPhoto ? `
+                <div style="margin-top: 6px; padding: 4px; border: 1px solid #d4e5ea; border-radius: 4px; display: inline-block; background: #ffffff;">
+                  <img src="${log.photo}" alt="${log.title || 'Foto Proyek'}" class="pdf-table-photo-thumb" style="width: 70px; height: 70px; object-fit: cover; display: block; border-radius: 3px;">
+                  ${log.photoCaption ? `<div style="font-size: 9.5px; color: #557280; margin-top: 3px; max-width: 140px; font-style: italic;">"${log.photoCaption}"</div>` : ''}
+                </div>
+              ` : ''}
+            </td>
+            <td style="width: 100px; font-size: 10px; color: #5c7582;">${log.uploader || 'Sistem / Admin'}</td>
+          </tr>
+        `;
+      }).join('');
+
+  return `
+    <div class="pdf-sheet" id="printableProjectReportContent">
+      
+      <!-- Official Header -->
+      <div class="pdf-header">
+        <div class="pdf-brand-box">
+          <img src="assets/logo.png" alt="Sahabat Kaca Aluminium" class="pdf-logo-img" onerror="this.style.display='none'">
+          <div class="pdf-brand-meta">
+            <h2>SAHABAT KACA ALUMINIUM</h2>
+            <p><strong>Spesialis Fabrikasi & Pemasangan Kaca Aluminium Terpercaya Karawang</strong></p>
+            <p>Partisi Kaca Tempered · Kusen Aluminium SNI · Pintu/Jendela Kaca · Folding Door</p>
+            <p>Workshop Karawang, Jawa Barat | Telp/WA: 0896-3737-1166 | Web: sahabatkacaaluminium.com</p>
+          </div>
+        </div>
+
+        <div class="pdf-doc-meta">
+          <span class="pdf-doc-badge">DOKUMEN RESMI PELACAKAN PROYEK</span>
+          <div class="pdf-doc-num">No. Dok: ${reportDocNum}</div>
+          <div>Tanggal Cetak: <strong>${printTimestamp}</strong></div>
+          <div>Status: <strong style="color: #16b95b;">TERVERIFIKASI SISTEM</strong></div>
+        </div>
+      </div>
+
+      <!-- Title Banner -->
+      <div class="pdf-title-banner">
+        <h3>LAPORAN STATUS PROYEK & RIWAYAT PENGERJAAN LENGKAP</h3>
+        <p>Ringkasan resmi data teknis, progres milestone tahapan pengerjaan, dan catatan log audit lapangan untuk nomor pesanan <strong>#${order.id}</strong>.</p>
+      </div>
+
+      <!-- Project Information Grid -->
+      <div class="pdf-section-title">
+        <span>📋</span>
+        <span>Informasi & Spesifikasi Proyek</span>
+      </div>
+
+      <div class="pdf-info-grid">
+        <div class="pdf-info-item">
+          <span class="pdf-info-label">No. SPK / Order ID:</span>
+          <span class="pdf-info-value highlight">#${order.id}</span>
+        </div>
+        <div class="pdf-info-item">
+          <span class="pdf-info-label">Nama Klien / Instansi:</span>
+          <span class="pdf-info-value">${order.customerName || '-'}</span>
+        </div>
+        <div class="pdf-info-item">
+          <span class="pdf-info-label">Judul Pekerjaan:</span>
+          <span class="pdf-info-value">${order.projectTitle || '-'}</span>
+        </div>
+        <div class="pdf-info-item">
+          <span class="pdf-info-label">Tipe Pekerjaan:</span>
+          <span class="pdf-info-value">${order.projectType || 'Kaca & Aluminium'}</span>
+        </div>
+        <div class="pdf-info-item">
+          <span class="pdf-info-label">Lokasi Pemasangan:</span>
+          <span class="pdf-info-value">${order.location || 'Karawang, Jawa Barat'}</span>
+        </div>
+        <div class="pdf-info-item">
+          <span class="pdf-info-label">Kontak Klien:</span>
+          <span class="pdf-info-value">${order.contactPhone || '-'}</span>
+        </div>
+        <div class="pdf-info-item">
+          <span class="pdf-info-label">Tanggal Order (SPK):</span>
+          <span class="pdf-info-value">${order.orderDate || '-'}</span>
+        </div>
+        <div class="pdf-info-item">
+          <span class="pdf-info-label">Estimasi Serah Terima:</span>
+          <span class="pdf-info-value highlight">${order.estimatedCompletion || '-'}</span>
+        </div>
+        <div class="pdf-info-item">
+          <span class="pdf-info-label">Lead Engineer:</span>
+          <span class="pdf-info-value">${order.leadEngineer || 'Tim Fabrikasi Sahabat Aluminium'}</span>
+        </div>
+        <div class="pdf-info-item">
+          <span class="pdf-info-label">Pengawas Lapangan:</span>
+          <span class="pdf-info-value">${order.fieldSupervisor || 'Supervisor Proyek'}</span>
+        </div>
+        <div class="pdf-info-item full">
+          <span class="pdf-info-label">Spesifikasi Material:</span>
+          <span class="pdf-info-value">${order.materialSpec || 'Kusen Aluminium SNI & Kaca Tempered Berkualitas'}</span>
+        </div>
+      </div>
+
+      <!-- Current Progress Summary -->
+      <div class="pdf-section-title">
+        <span>📊</span>
+        <span>Status Pengerjaan Saat Ini (Progres: ${percent}%)</span>
+      </div>
+
+      <div style="background: #f4f8fa; border: 1px solid #d5e5eb; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <div style="font-size: 10px; color: #c8943d; font-weight: 800; text-transform: uppercase;">TAHAPAN SAAT INI</div>
+          <div style="font-size: 15px; font-weight: 800; color: #0d5c73; margin-top: 2px;">
+            ${stageCfg.icon} ${stageCfg.title}
+          </div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-size: 22px; font-weight: 800; color: #0d5c73; line-height: 1;">${percent}%</div>
+          <div style="font-size: 10px; color: #6a8592; font-weight: 700;">PROGRES FISIK</div>
+        </div>
+      </div>
+
+      <!-- Stage Milestones Table -->
+      <table class="pdf-table">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Milestone Tahapan Pengerjaan</th>
+            <th style="text-align: center;">Status Verifikasi</th>
+            <th>Tanggal Target / Selesai</th>
+            <th>Catatan Teknis Pengerjaan</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${checkpointsRowsHtml}
+        </tbody>
+      </table>
+
+      <!-- Full History Log & Audit Trail Table -->
+      <div class="pdf-section-title" style="margin-top: 22px;">
+        <span>⏱️</span>
+        <span>Riwayat Aktivitas & Log Pembaruan Lapangan (Full History Log)</span>
+      </div>
+
+      <table class="pdf-table">
+        <thead>
+          <tr>
+            <th style="text-align: center;">#</th>
+            <th>Waktu (WIB)</th>
+            <th>Tahap</th>
+            <th>Peristiwa / Pembaruan</th>
+            <th>Deskripsi Teknis & Dokumentasi</th>
+            <th>Petugas / PIC</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${historyRowsHtml}
+        </tbody>
+      </table>
+
+      <!-- Official Signatures Block -->
+      <div class="pdf-signature-section">
+        <div class="pdf-signature-box">
+          <div class="pdf-sig-title">Disetujui & Diterima Oleh Klien:</div>
+          <div class="pdf-sig-name">${order.customerName || 'Klien / Pemilik Bangunan'}</div>
+          <div class="pdf-sig-role">Pemesan / Penanggung Jawab Lapangan</div>
+        </div>
+
+        <div class="pdf-signature-box">
+          <div class="pdf-sig-title">Diterbitkan & Diverifikasi Oleh Pelaksana:</div>
+          <div class="pdf-sig-name">${order.leadEngineer || 'Hendra Gunawan, S.T.'}</div>
+          <div class="pdf-sig-role">Lead Engineer / Sahabat Kaca Aluminium</div>
+        </div>
+      </div>
+
+      <!-- Legal Footer -->
+      <div class="pdf-footer-note">
+        Dokumen ini diterbitkan secara otomatis oleh Sistem Pelacakan Real-Time Sahabat Kaca Aluminium Karawang sebagai ringkasan status fisik proyek dan riwayat pembaruan resmi. Garansi pengerjaan dan material berlaku sesuai dengan Surat Perjanjian Kerja (SPK) yang telah disepakati bersama.
+      </div>
+
+    </div>
+  `;
+};
+
+// Generate & Open the PDF Report Preview Modal
+window.generateProjectPdfReport = async function(orderId) {
+  let order = window.currentProjectOrder && window.currentProjectOrder.id === orderId
+    ? window.currentProjectOrder
+    : null;
+
+  if (!order) {
+    try {
+      const res = await fetch(`/api/orders/${encodeURIComponent(orderId)}`);
+      const data = await res.json();
+      if (res.ok && data && data.order) {
+        order = data.order;
+        window.currentProjectOrder = order;
+      }
+    } catch (err) {
+      console.error('Error fetching order for PDF:', err);
+    }
+  }
+
+  if (!order) {
+    alert('Gagal memuat data pesanan untuk laporan PDF.');
+    return;
+  }
+
+  window.activePdfOrder = order;
+
+  let modal = document.getElementById('projectPdfModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'projectPdfModal';
+    modal.className = 'project-pdf-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.innerHTML = `
+      <div class="project-pdf-modal-content">
+        <div class="project-pdf-modal-header">
+          <h5 class="project-pdf-modal-title">
+            <span>📄</span>
+            <span id="pdfModalTitleText">Laporan Status Proyek PDF</span>
+          </h5>
+          <div class="project-pdf-modal-actions">
+            <button type="button" class="btn-pdf-download-action" id="btnDownloadPdfFile" onclick="window.downloadPdfDirect()">
+              <span>📥</span>
+              <span>Unduh File PDF (.pdf)</span>
+            </button>
+            <button type="button" class="btn-pdf-print-action" id="btnPrintPdfDirect" onclick="window.printProjectPdf()">
+              <span>🖨️</span>
+              <span>Cetak / Print to PDF</span>
+            </button>
+            <button type="button" class="project-pdf-modal-close" onclick="window.closeProjectPdfModal()" aria-label="Tutup Pratinjau">✕</button>
+          </div>
+        </div>
+        <div class="project-pdf-preview-scroll">
+          <div id="pdfModalSheetContainer"></div>
+        </div>
+      </div>
+    `;
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) window.closeProjectPdfModal();
+    });
+    document.body.appendChild(modal);
+  }
+
+  const titleEl = document.getElementById('pdfModalTitleText');
+  const sheetContainer = document.getElementById('pdfModalSheetContainer');
+
+  if (titleEl) {
+    titleEl.textContent = `Laporan Status Proyek #${order.id} - ${order.customerName}`;
+  }
+
+  if (sheetContainer) {
+    sheetContainer.innerHTML = window.buildProjectPdfReportHtml(order);
+  }
+
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+};
+
+// Close PDF Preview Modal
+window.closeProjectPdfModal = function() {
+  const modal = document.getElementById('projectPdfModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+};
+
+// Direct Download as .pdf file using html2pdf.js
+window.downloadPdfDirect = function(orderId) {
+  const order = window.activePdfOrder || window.currentProjectOrder;
+  if (!order) return;
+
+  const targetEl = document.getElementById('printableProjectReportContent');
+  if (!targetEl) return;
+
+  const downloadBtn = document.getElementById('btnDownloadPdfFile');
+  if (downloadBtn) {
+    downloadBtn.disabled = true;
+    downloadBtn.innerHTML = `<span>⏳</span><span>Memproses PDF...</span>`;
+  }
+
+  const fileName = `Laporan_Status_Proyek_${order.id}.pdf`;
+
+  if (typeof html2pdf !== 'undefined') {
+    const opt = {
+      margin: [8, 8, 8, 8],
+      filename: fileName,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, letterRendering: true, scrollY: 0 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+
+    html2pdf().set(opt).from(targetEl).save()
+      .then(() => {
+        if (downloadBtn) {
+          downloadBtn.disabled = false;
+          downloadBtn.innerHTML = `<span>✓</span><span>Tersimpan! Unduh Lagi</span>`;
+          setTimeout(() => {
+            downloadBtn.innerHTML = `<span>📥</span><span>Unduh File PDF (.pdf)</span>`;
+          }, 3000);
+        }
+      })
+      .catch((err) => {
+        console.error('Error generating PDF via html2pdf:', err);
+        // Fallback to print
+        window.printProjectPdf();
+        if (downloadBtn) {
+          downloadBtn.disabled = false;
+          downloadBtn.innerHTML = `<span>📥</span><span>Unduh File PDF (.pdf)</span>`;
+        }
+      });
+  } else {
+    // Fallback: trigger print dialog (which allows saving as PDF)
+    window.printProjectPdf();
+    if (downloadBtn) {
+      downloadBtn.disabled = false;
+      downloadBtn.innerHTML = `<span>📥</span><span>Unduh File PDF (.pdf)</span>`;
+    }
+  }
+};
+
+// Print using high-fidelity isolated iframe
+window.printProjectPdf = function(orderId) {
+  let order = window.activePdfOrder || window.currentProjectOrder;
+  if (!order && orderId) {
+    window.generateProjectPdfReport(orderId).then(() => {
+      window.printProjectPdf();
+    });
+    return;
+  }
+  if (!order) return;
+
+  const reportHtml = window.buildProjectPdfReportHtml(order);
+
+  // Use isolated printable iframe
+  let printIframe = document.getElementById('pdfPrintIframe');
+  if (!printIframe) {
+    printIframe = document.createElement('iframe');
+    printIframe.id = 'pdfPrintIframe';
+    printIframe.style.position = 'fixed';
+    printIframe.style.right = '0';
+    printIframe.style.bottom = '0';
+    printIframe.style.width = '0';
+    printIframe.style.height = '0';
+    printIframe.style.border = '0';
+    printIframe.style.zIndex = '-9999';
+    document.body.appendChild(printIframe);
+  }
+
+  const iframeDoc = printIframe.contentDocument || printIframe.contentWindow.document;
+  iframeDoc.open();
+  iframeDoc.write(`
+    <!DOCTYPE html>
+    <html lang="id">
+    <head>
+      <meta charset="UTF-8">
+      <title>Laporan_Status_Proyek_${order.id}</title>
+      <style>
+        @page {
+          size: A4 portrait;
+          margin: 10mm 12mm;
+        }
+        * { box-sizing: border-box; }
+        body {
+          margin: 0;
+          padding: 0;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+          color: #1a2b32;
+          background: #ffffff;
+          font-size: 11px;
+          line-height: 1.45;
+        }
+        .pdf-sheet { width: 100%; max-width: 100%; padding: 0; }
+        .pdf-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #0d5c73; padding-bottom: 12px; margin-bottom: 16px; gap: 16px; }
+        .pdf-brand-box { display: flex; align-items: center; gap: 12px; }
+        .pdf-logo-img { width: 55px; height: 55px; object-fit: contain; }
+        .pdf-brand-meta h2 { font-size: 16px; font-weight: 800; color: #0d5c73; margin: 0 0 2px; }
+        .pdf-brand-meta p { font-size: 9.5px; color: #4b6673; margin: 0; line-height: 1.3; }
+        .pdf-doc-meta { text-align: right; font-size: 10px; color: #557280; line-height: 1.35; }
+        .pdf-doc-badge { display: inline-block; background: #0d5c73; color: #ffffff; font-weight: 800; font-size: 9px; padding: 2px 7px; border-radius: 4px; margin-bottom: 3px; }
+        .pdf-doc-num { font-family: monospace; font-weight: 700; color: #061f29; }
+        .pdf-title-banner { background: #f1f7f9; border-left: 4px solid #c8943d; padding: 9px 12px; margin-bottom: 14px; border-radius: 0 4px 4px 0; }
+        .pdf-title-banner h3 { font-size: 13px; font-weight: 800; color: #073746; margin: 0 0 2px; }
+        .pdf-title-banner p { font-size: 10.5px; color: #557280; margin: 0; }
+        .pdf-section-title { font-size: 11px; font-weight: 800; color: #0d5c73; border-bottom: 1.5px solid #dce8ec; padding-bottom: 3px; margin: 14px 0 8px; text-transform: uppercase; }
+        .pdf-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; background: #fafcfe; border: 1px solid #e1ecf0; border-radius: 6px; padding: 10px 12px; margin-bottom: 14px; }
+        .pdf-info-item { display: flex; font-size: 10.5px; }
+        .pdf-info-item.full { grid-column: 1 / -1; }
+        .pdf-info-label { width: 130px; flex-shrink: 0; color: #6a8592; font-weight: 600; }
+        .pdf-info-value { flex: 1; color: #0d2833; font-weight: 700; }
+        .pdf-info-value.highlight { color: #0d5c73; }
+        .pdf-table { width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 14px; }
+        .pdf-table th { background: #edf5f7; color: #0d5c73; font-weight: 800; text-align: left; padding: 6px 8px; border: 1px solid #d4e4e9; }
+        .pdf-table td { padding: 6px 8px; border: 1px solid #e1ecf0; vertical-align: top; color: #263e48; }
+        .pdf-table tr:nth-child(even) td { background: #fbfdfe; }
+        .pdf-stage-pill { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 9px; font-weight: 800; }
+        .pdf-stage-pill.completed { background: #d4edda; color: #155724; }
+        .pdf-stage-pill.in-progress { background: #cce5ff; color: #004085; }
+        .pdf-stage-pill.pending { background: #e2e3e5; color: #383d41; }
+        .pdf-table-photo-thumb { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid #c2dbe4; }
+        .pdf-signature-section { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 18px; page-break-inside: avoid; }
+        .pdf-signature-box { border: 1px solid #d5e5eb; border-radius: 5px; padding: 10px 12px; background: #fafcfe; text-align: center; }
+        .pdf-sig-title { font-size: 9.5px; font-weight: 700; color: #557280; margin-bottom: 40px; }
+        .pdf-sig-name { font-size: 11px; font-weight: 800; color: #061f29; border-top: 1px solid #061f29; display: inline-block; padding-top: 3px; min-width: 150px; }
+        .pdf-sig-role { font-size: 9px; color: #6a8592; margin-top: 2px; }
+        .pdf-footer-note { margin-top: 14px; padding-top: 8px; border-top: 1px dashed #d5e5eb; font-size: 8.5px; color: #7b94a0; text-align: center; }
+      </style>
+    </head>
+    <body>
+      ${reportHtml}
+    </body>
+    </html>
+  `);
+  iframeDoc.close();
+
+  setTimeout(() => {
+    try {
+      printIframe.contentWindow.focus();
+      printIframe.contentWindow.print();
+    } catch (e) {
+      console.error('Print iframe error:', e);
+      window.print();
+    }
+  }, 400);
+};
+
 
 
 

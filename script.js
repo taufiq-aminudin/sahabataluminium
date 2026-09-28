@@ -188,4 +188,64 @@ document.querySelectorAll('.faq-question').forEach((btn) => {
   });
 });
 
+/* =========================================================
+   FLOATING FAQ BUTTON: SCROLL & VISIBILITY TOGGLE (#faq)
+   ========================================================= */
+const faqFloatBtn = document.getElementById('faqFloatBtn');
+const faqSection = document.getElementById('faq');
+
+if (faqFloatBtn && faqSection) {
+  const faqFloatText = faqFloatBtn.querySelector('.faq-float-text');
+
+  faqFloatBtn.addEventListener('click', () => {
+    const isHidden = faqSection.classList.contains('faq-hidden');
+
+    if (isHidden) {
+      // If hidden, restore visibility and smooth scroll to it
+      faqSection.classList.remove('faq-hidden');
+      faqFloatBtn.setAttribute('aria-expanded', 'true');
+      if (faqFloatText) faqFloatText.textContent = 'Lihat FAQ';
+      
+      faqSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      faqSection.classList.add('faq-highlight');
+      setTimeout(() => faqSection.classList.remove('faq-highlight'), 1200);
+    } else {
+      // Check if #faq is currently in viewport
+      const rect = faqSection.getBoundingClientRect();
+      const inView = rect.top <= window.innerHeight * 0.7 && rect.bottom >= 100;
+
+      if (!inView) {
+        // Smoothly scroll to #faq
+        faqSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        faqSection.classList.add('faq-highlight');
+        setTimeout(() => faqSection.classList.remove('faq-highlight'), 1200);
+      } else {
+        // Toggle visibility (hide the #faq section)
+        faqSection.classList.add('faq-hidden');
+        faqFloatBtn.setAttribute('aria-expanded', 'false');
+        if (faqFloatText) faqFloatText.textContent = 'Buka FAQ';
+      }
+    }
+  });
+
+  // Dynamically reflect scroll position on button
+  window.addEventListener('scroll', () => {
+    if (faqSection.classList.contains('faq-hidden')) {
+      if (faqFloatText) faqFloatText.textContent = 'Buka FAQ';
+      faqFloatBtn.classList.remove('active');
+      return;
+    }
+    const rect = faqSection.getBoundingClientRect();
+    const inView = rect.top <= window.innerHeight * 0.6 && rect.bottom >= 150;
+    if (inView) {
+      faqFloatBtn.classList.add('active');
+      if (faqFloatText) faqFloatText.textContent = 'Tutup FAQ';
+    } else {
+      faqFloatBtn.classList.remove('active');
+      if (faqFloatText) faqFloatText.textContent = 'Lihat FAQ';
+    }
+  }, { passive: true });
+}
+
+
 

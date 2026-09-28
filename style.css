@@ -801,5 +801,91 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   .trust-metrics-strip{ grid-template-columns: 1fr; }
 }
 
+/* =========================================================
+   FLOATING FAQ BUTTON & #faq VISIBILITY TOGGLE
+   ========================================================= */
+.faq-float-btn {
+  position: fixed;
+  right: 22px;
+  bottom: 78px;
+  z-index: 40;
+  background: var(--deep);
+  color: #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  padding: 11px 18px;
+  border-radius: 100px;
+  font-weight: 800;
+  font-size: 13px;
+  font-family: inherit;
+  box-shadow: 0 8px 24px rgba(7, 55, 70, 0.28);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.faq-float-btn:hover {
+  background: var(--blue);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(13, 92, 115, 0.38);
+  border-color: var(--gold);
+}
+
+.faq-float-btn.active {
+  background: var(--blue);
+  border-color: var(--gold);
+}
+
+.faq-float-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+#faq {
+  transition: background-color 0.4s ease, opacity 0.3s ease;
+}
+
+#faq.faq-hidden {
+  display: none !important;
+}
+
+#faq.faq-highlight {
+  animation: faqPulse 1.2s ease;
+}
+
+@keyframes faqPulse {
+  0% {
+    background-color: var(--paper);
+  }
+  50% {
+    background-color: #dbeaf0;
+  }
+  100% {
+    background-color: var(--paper);
+  }
+}
+
+@media(max-width: 600px) {
+  .faq-float-btn {
+    right: 14px;
+    bottom: 72px;
+    padding: 9px 14px;
+    font-size: 12px;
+  }
+}
+
+
 
 

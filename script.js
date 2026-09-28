@@ -4093,6 +4093,802 @@ window.printProjectPdf = function(orderId) {
   };
 })();
 
+// =========================================================
+// FULL-SCREEN PROJECT PHOTO GALLERY VIEWER
+// Supports full-screen view, responsive navigation, zoom,
+// keyboard shortcuts, and fluid mobile swipe gestures.
+// =========================================================
+
+(function initFullscreenGalleryViewer() {
+  const defaultGalleryPhotos = [
+    {
+      src: "assets/gallery/partisi-aluminium.jpg",
+      title: "Partisi Kaca Aluminium Ruang Rapat & Kantor",
+      category: "Partisi Kantor • Industri",
+      location: "KIIC Karawang Barat",
+      desc: "Instalasi sekat kaca polos 8mm dengan kusen aluminium Alexindo 4 inch black doff kedap suara untuk fasilitas pabrik di kawasan KIIC."
+    },
+    {
+      src: "assets/gallery/pintu-kaca.jpg",
+      title: "Pintu Kaca Tempered Frameless Floor Hinge",
+      category: "Kaca Tempered • Komersial",
+      location: "Ruko Galuh Mas Karawang",
+      desc: "Pintu kaca tempered 12mm menggunakan patch fitting Dekson stainless steel 304 dan floor hinge tahan beban intensif untuk toko retail dan ruko."
+    },
+    {
+      src: "assets/gallery/pintu-sliding.jpg",
+      title: "Pintu Sliding Aluminium Kaca Akses Taman",
+      category: "Pintu Geser • Hunian",
+      location: "Grand Taruma Karawang",
+      desc: "Pintu geser aluminium 3 daun dengan rel triple track hemat ruang, menghubungkan ruang keluarga dengan taman belakang rumah minimalis."
+    },
+    {
+      src: "assets/gallery/pintu-aluminium.jpg",
+      title: "Pintu Aluminium Swing Modern Warna Hitam Doff",
+      category: "Pintu Aluminium • Modern",
+      location: "Cikarang Baru / Jababeka",
+      desc: "Pintu swing kokoh aluminium Inkalum warna black doff anti karat dan anti rayap dengan aksesoris kunci lever handle silinder keamanan tinggi."
+    },
+    {
+      src: "assets/gallery/jendela-aluminium.jpg",
+      title: "Jendela Aluminium Jungkit (Casement) Presisi",
+      category: "Jendela • Kedap Suara",
+      location: "Telukjambe Timur Karawang",
+      desc: "Sistem jendela casement kedap suara dan anti tampias air hujan dengan engsel friction stay stainless steel dan kaca rayban peredam panas."
+    },
+    {
+      src: "assets/gallery/shower-kaca.jpg",
+      title: "Shower Screen Kaca Frameless Kamar Mandi",
+      category: "Kamar Mandi • Kaca Tempered",
+      location: "Grand Wisata Bekasi",
+      desc: "Penyekat kaca tempered 10mm transparan pemisah area basah dan kering dengan glass clip stainless steel 304 anti karat untuk kamar mandi mewah."
+    },
+    {
+      src: "assets/gallery/pintu-kamar-mandi.jpg",
+      title: "Pintu Kaca Kamar Mandi Motif Sandblast",
+      category: "Kamar Mandi • Sandblast",
+      location: "Klari Karawang Timur",
+      desc: "Pintu kamar mandi kaca tempered dengan aksen buram sandblast untuk privasi maksimal serta kusen aluminium anti lapuk terkena cipratan air harian."
+    },
+    {
+      src: "assets/gallery/pintu-kaca-putih.jpg",
+      title: "Pintu Kaca Aluminium Frame Putih Powder Coating",
+      category: "Pintu Aluminium • Scandinavian",
+      location: "Harapan Indah Bekasi",
+      desc: "Pintu kaca minimalis bergaya Scandinavian dengan cat oven powder coating putih bersih dan kaca jernih untuk akses balkon dan area indoor."
+    },
+    {
+      src: "assets/gallery/jendela-kaca.jpg",
+      title: "Jendela Kaca Aluminium Fasad & Skylight",
+      category: "Jendela & Fasad • Industri",
+      location: "Suryacipta City of Industry",
+      desc: "Pemasangan bidang kaca fasad dengan profil aluminium Dacon/Alexindo tebal untuk pencahayaan alami optimal pada lobi kantor dan gudang logistik."
+    }
+  ];
+
+  let currentGalleryList = [...defaultGalleryPhotos];
+  let currentIndex = 0;
+  let viewerEl = null;
+  let mainImgEl = null;
+  let imgContainerEl = null;
+  let loaderEl = null;
+  let locBadgeEl = null;
+  let catBadgeEl = null;
+  let currIdxEl = null;
+  let totalCountEl = null;
+  let titleEl = null;
+  let descEl = null;
+  let waBtnEl = null;
+  let filmstripEl = null;
+  let gestureHintEl = null;
+  let fullscreenBtnEl = null;
+
+  // Zoom & Transform state
+  let currentZoom = 1;
+  let panX = 0;
+  let panY = 0;
+  let isMousePanning = false;
+  let mouseStartX = 0;
+  let mouseStartY = 0;
+
+  // Touch & Swipe state
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchMoveX = 0;
+  let touchMoveY = 0;
+  let touchStartTime = 0;
+  let isSwiping = false;
+  let isPinching = false;
+  let initialPinchDist = 0;
+  let lastTapTime = 0;
+  let hasShownHint = false;
+
+  function buildViewerDOM() {
+    if (document.getElementById('fullscreenGalleryViewer')) {
+      return document.getElementById('fullscreenGalleryViewer');
+    }
+
+    const wrapper = document.createElement('div');
+    wrapper.id = 'fullscreenGalleryViewer';
+    wrapper.className = 'fs-gallery-viewer';
+    wrapper.setAttribute('role', 'dialog');
+    wrapper.setAttribute('aria-modal', 'true');
+    wrapper.setAttribute('aria-label', 'Penampil Foto Portofolio Layar Penuh');
+
+    wrapper.innerHTML = `
+      <!-- Top Bar Toolbar -->
+      <header class="fs-gallery-topbar">
+        <div class="fs-topbar-meta">
+          <div class="fs-badge-group">
+            <span class="fs-location-badge" id="fsLocationBadge">KIIC Karawang</span>
+            <span class="fs-category-badge" id="fsCategoryBadge">Partisi Kantor</span>
+          </div>
+          <span class="fs-counter-pill">
+            <span id="fsCurrentIndex">1</span> / <span id="fsTotalCount">9</span>
+          </span>
+        </div>
+
+        <div class="fs-topbar-controls">
+          <button type="button" class="fs-ctrl-btn" id="fsZoomOutBtn" title="Perkecil (-)" aria-label="Perkecil">
+            <span>−</span>
+          </button>
+          <button type="button" class="fs-ctrl-btn" id="fsZoomResetBtn" title="Reset Ukuran (0)" aria-label="Reset Ukuran">
+            <span style="font-size: 11px; font-weight: 800;">1:1</span>
+          </button>
+          <button type="button" class="fs-ctrl-btn" id="fsZoomInBtn" title="Perbesar (+)" aria-label="Perbesar">
+            <span>+</span>
+          </button>
+          <button type="button" class="fs-ctrl-btn" id="fsFullscreenToggleBtn" title="Layar Penuh (F)" aria-label="Beralih Layar Penuh">
+            <span id="fsFsIcon">⛶</span>
+          </button>
+          <button type="button" class="fs-ctrl-btn fs-close-btn" id="fsCloseBtn" title="Tutup Viewer (Esc)" aria-label="Tutup">
+            <span>✕</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Stage -->
+      <div class="fs-stage">
+        <button type="button" class="fs-nav-btn fs-nav-prev" id="fsNavPrev" aria-label="Foto Sebelumnya" title="Foto Sebelumnya (Panah Kiri)">
+          ‹
+        </button>
+
+        <div class="fs-viewport" id="fsViewport">
+          <div class="fs-gesture-hint" id="fsGestureHint" style="display: none;">
+            <span>👈 Geser untuk ganti foto • Tarik ke bawah untuk menutup 👉</span>
+          </div>
+          <div class="fs-loader" id="fsLoader"></div>
+          <div class="fs-image-container" id="fsImageContainer">
+            <img src="" alt="Proyek Kaca Aluminium" class="fs-main-image" id="fsMainImage" draggable="false">
+          </div>
+        </div>
+
+        <button type="button" class="fs-nav-btn fs-nav-next" id="fsNavNext" aria-label="Foto Selanjutnya" title="Foto Selanjutnya (Panah Kanan)">
+          ›
+        </button>
+      </div>
+
+      <!-- Bottom Bar Info & Filmstrip -->
+      <footer class="fs-gallery-bottombar">
+        <div class="fs-info-row">
+          <div class="fs-info-main">
+            <h3 class="fs-image-title" id="fsImageTitle">Judul Proyek</h3>
+            <p class="fs-image-desc" id="fsImageDesc">Deskripsi teknis spesifikasi pekerjaan.</p>
+          </div>
+          <div class="fs-info-actions">
+            <a href="#" target="_blank" rel="noopener" class="fs-wa-consult-btn" id="fsWaConsultBtn">
+              <span>💬</span>
+              <span>Konsultasi Proyek Ini</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Thumbnails Strip -->
+        <div class="fs-filmstrip-wrap">
+          <div class="fs-filmstrip" id="fsFilmstrip"></div>
+        </div>
+      </footer>
+    `;
+
+    document.body.appendChild(wrapper);
+
+    // Cache elements
+    viewerEl = wrapper;
+    mainImgEl = wrapper.querySelector('#fsMainImage');
+    imgContainerEl = wrapper.querySelector('#fsImageContainer');
+    loaderEl = wrapper.querySelector('#fsLoader');
+    locBadgeEl = wrapper.querySelector('#fsLocationBadge');
+    catBadgeEl = wrapper.querySelector('#fsCategoryBadge');
+    currIdxEl = wrapper.querySelector('#fsCurrentIndex');
+    totalCountEl = wrapper.querySelector('#fsTotalCount');
+    titleEl = wrapper.querySelector('#fsImageTitle');
+    descEl = wrapper.querySelector('#fsImageDesc');
+    waBtnEl = wrapper.querySelector('#fsWaConsultBtn');
+    filmstripEl = wrapper.querySelector('#fsFilmstrip');
+    gestureHintEl = wrapper.querySelector('#fsGestureHint');
+    fullscreenBtnEl = wrapper.querySelector('#fsFullscreenToggleBtn');
+
+    bindViewerEvents();
+    return wrapper;
+  }
+
+  function renderFilmstrip() {
+    if (!filmstripEl) return;
+    filmstripEl.innerHTML = currentGalleryList.map((item, idx) => `
+      <button type="button" class="fs-thumb-item ${idx === currentIndex ? 'is-active' : ''}" data-idx="${idx}" aria-label="Lihat foto ${idx + 1}: ${item.title}" title="${item.title}">
+        <img src="${item.src}" alt="${item.title}" loading="lazy">
+      </button>
+    `).join('');
+
+    const thumbs = filmstripEl.querySelectorAll('.fs-thumb-item');
+    thumbs.forEach(t => {
+      t.addEventListener('click', () => {
+        const idx = parseInt(t.dataset.idx, 10);
+        if (!isNaN(idx)) goToPhoto(idx);
+      });
+    });
+  }
+
+  function updateActiveThumbnail() {
+    if (!filmstripEl) return;
+    const thumbs = filmstripEl.querySelectorAll('.fs-thumb-item');
+    thumbs.forEach((t, i) => {
+      if (i === currentIndex) {
+        t.classList.add('is-active');
+        t.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      } else {
+        t.classList.remove('is-active');
+      }
+    });
+  }
+
+  function resetZoom() {
+    currentZoom = 1;
+    panX = 0;
+    panY = 0;
+    applyTransform();
+    if (imgContainerEl) {
+      imgContainerEl.classList.remove('is-zoomed');
+    }
+    const viewport = document.getElementById('fsViewport');
+    if (viewport) viewport.classList.remove('is-zoomed');
+  }
+
+  function zoom(delta, clientX, clientY) {
+    const oldZoom = currentZoom;
+    currentZoom = Math.min(3.5, Math.max(1, currentZoom + delta));
+
+    if (currentZoom === 1) {
+      resetZoom();
+      return;
+    }
+
+    const viewport = document.getElementById('fsViewport');
+    if (viewport) viewport.classList.add('is-zoomed');
+
+    // Pan towards zoom focal point if provided
+    if (clientX !== undefined && clientY !== undefined && mainImgEl) {
+      const rect = mainImgEl.getBoundingClientRect();
+      const offsetX = clientX - (rect.left + rect.width / 2);
+      const offsetY = clientY - (rect.top + rect.height / 2);
+      panX -= offsetX * (currentZoom - oldZoom) * 0.4;
+      panY -= offsetY * (currentZoom - oldZoom) * 0.4;
+    }
+
+    applyTransform();
+  }
+
+  function applyTransform(extraTranslateX = 0, extraTranslateY = 0, rotationDeg = 0) {
+    if (!mainImgEl) return;
+    const finalX = panX + extraTranslateX;
+    const finalY = panY + extraTranslateY;
+    
+    if (currentZoom === 1 && (extraTranslateX !== 0 || extraTranslateY !== 0 || rotationDeg !== 0)) {
+      const scaleFactor = Math.max(0.7, 1 - Math.abs(extraTranslateX) / 2500 - Math.abs(extraTranslateY) / 1500);
+      mainImgEl.style.transform = `translate(${finalX}px, ${finalY}px) scale(${scaleFactor}) rotate(${rotationDeg}deg)`;
+    } else {
+      mainImgEl.style.transform = `translate(${finalX}px, ${finalY}px) scale(${currentZoom})`;
+    }
+  }
+
+  function displayPhoto(index, direction = 0) {
+    if (!viewerEl) buildViewerDOM();
+    if (index < 0) index = currentGalleryList.length - 1;
+    if (index >= currentGalleryList.length) index = 0;
+    currentIndex = index;
+
+    const item = currentGalleryList[currentIndex];
+    if (!item) return;
+
+    resetZoom();
+
+    // Fade transition
+    if (direction !== 0 && mainImgEl) {
+      mainImgEl.style.transition = 'transform 0.22s ease, opacity 0.2s ease';
+      mainImgEl.style.opacity = '0';
+      mainImgEl.style.transform = `translate(${direction * -40}px, 0) scale(0.95)`;
+    }
+
+    if (loaderEl) loaderEl.style.display = 'block';
+
+    const tempImg = new Image();
+    tempImg.onload = () => {
+      if (loaderEl) loaderEl.style.display = 'none';
+      if (mainImgEl) {
+        mainImgEl.src = item.src;
+        mainImgEl.alt = item.title;
+        mainImgEl.style.transition = 'transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease';
+        mainImgEl.style.opacity = '1';
+        mainImgEl.style.transform = 'translate(0, 0) scale(1)';
+      }
+    };
+    tempImg.onerror = () => {
+      if (loaderEl) loaderEl.style.display = 'none';
+      if (mainImgEl) {
+        mainImgEl.src = 'assets/logo.png';
+        mainImgEl.style.opacity = '1';
+      }
+    };
+    tempImg.src = item.src;
+
+    // Update metadata texts
+    if (locBadgeEl) locBadgeEl.textContent = item.location || 'Karawang & Sekitarnya';
+    if (catBadgeEl) catBadgeEl.textContent = item.category || 'Portofolio';
+    if (currIdxEl) currIdxEl.textContent = currentIndex + 1;
+    if (totalCountEl) totalCountEl.textContent = currentGalleryList.length;
+    if (titleEl) titleEl.textContent = item.title || 'Proyek Kaca Aluminium';
+    if (descEl) descEl.textContent = item.desc || '';
+
+    // Update WhatsApp Consultation link
+    if (waBtnEl) {
+      const waMsg = encodeURIComponent(`Halo Sahabat Kaca Aluminium, saya melihat foto portofolio "${item.title}" (${item.location}). Saya tertarik konsultasi spesifikasi bahan dan estimasi biaya untuk proyek serupa.`);
+      waBtnEl.href = `https://wa.me/6289637371166?text=${waMsg}`;
+    }
+
+    updateActiveThumbnail();
+
+    // Show mobile swipe hint briefly on first open
+    if (!hasShownHint && gestureHintEl && ('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
+      gestureHintEl.style.display = 'flex';
+      setTimeout(() => {
+        gestureHintEl.style.opacity = '0';
+        setTimeout(() => { gestureHintEl.style.display = 'none'; }, 600);
+      }, 3500);
+      hasShownHint = true;
+    }
+  }
+
+  function nextPhoto() {
+    displayPhoto(currentIndex + 1, 1);
+  }
+
+  function prevPhoto() {
+    displayPhoto(currentIndex - 1, -1);
+  }
+
+  function goToPhoto(index) {
+    const dir = index > currentIndex ? 1 : -1;
+    displayPhoto(index, dir);
+  }
+
+  function openGalleryViewer(startIndex = 0, customList = null) {
+    buildViewerDOM();
+
+    // Check if on galeri.html and sync with current category filter if available
+    const activeFilterBtn = document.querySelector('.portfolio-filter button.active');
+    const cards = Array.from(document.querySelectorAll('.portfolio-card-wrap'));
+
+    if (customList && Array.isArray(customList) && customList.length > 0) {
+      currentGalleryList = customList;
+    } else if (cards.length > 0) {
+      // Build list from actual DOM cards on page
+      const visibleCards = cards.filter(c => c.style.display !== 'none');
+      const targetCards = visibleCards.length > 0 ? visibleCards : cards;
+
+      currentGalleryList = targetCards.map(c => {
+        const img = c.querySelector('.portfolio-img-box img');
+        const loc = c.querySelector('.portfolio-loc-tag');
+        const cat = c.querySelector('.portfolio-card-cat');
+        const t = c.querySelector('.portfolio-card-title');
+        const d = c.querySelector('.portfolio-card-desc');
+        return {
+          src: img ? img.getAttribute('src') : '',
+          title: t ? t.textContent.trim() : 'Proyek Kaca Aluminium',
+          category: cat ? cat.textContent.trim() : 'Portofolio',
+          location: loc ? loc.textContent.trim() : 'Karawang',
+          desc: d ? d.textContent.trim() : ''
+        };
+      });
+    } else {
+      currentGalleryList = [...defaultGalleryPhotos];
+    }
+
+    renderFilmstrip();
+
+    if (startIndex < 0 || startIndex >= currentGalleryList.length) {
+      startIndex = 0;
+    }
+
+    viewerEl.style.display = 'flex';
+    requestAnimationFrame(() => {
+      viewerEl.classList.add('is-open');
+    });
+
+    document.body.style.overflow = 'hidden';
+    displayPhoto(startIndex);
+  }
+
+  function closeGalleryViewer() {
+    if (!viewerEl) return;
+    viewerEl.classList.remove('is-open');
+
+    // Exit fullscreen if active
+    if (document.fullscreenElement) {
+      try { document.exitFullscreen(); } catch (e) {}
+    }
+
+    setTimeout(() => {
+      viewerEl.style.display = 'none';
+      document.body.style.overflow = '';
+      resetZoom();
+    }, 250);
+  }
+
+  function toggleBrowserFullscreen() {
+    if (!viewerEl) return;
+    if (!document.fullscreenElement) {
+      if (viewerEl.requestFullscreen) {
+        viewerEl.requestFullscreen().catch(() => {});
+      } else if (viewerEl.webkitRequestFullscreen) {
+        viewerEl.webkitRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      }
+    }
+  }
+
+  function updateFullscreenIcon() {
+    const icon = document.getElementById('fsFsIcon');
+    if (icon) {
+      icon.textContent = document.fullscreenElement ? '🗗' : '⛶';
+    }
+  }
+
+  function bindViewerEvents() {
+    if (!viewerEl) return;
+
+    // Controls
+    const closeBtn = viewerEl.querySelector('#fsCloseBtn');
+    const navPrev = viewerEl.querySelector('#fsNavPrev');
+    const navNext = viewerEl.querySelector('#fsNavNext');
+    const zoomIn = viewerEl.querySelector('#fsZoomInBtn');
+    const zoomOut = viewerEl.querySelector('#fsZoomOutBtn');
+    const zoomReset = viewerEl.querySelector('#fsZoomResetBtn');
+    const fsToggle = viewerEl.querySelector('#fsFullscreenToggleBtn');
+    const viewport = viewerEl.querySelector('#fsViewport');
+
+    if (closeBtn) closeBtn.addEventListener('click', closeGalleryViewer);
+    if (navPrev) navPrev.addEventListener('click', prevPhoto);
+    if (navNext) navNext.addEventListener('click', nextPhoto);
+    if (zoomIn) zoomIn.addEventListener('click', () => zoom(0.4));
+    if (zoomOut) zoomOut.addEventListener('click', () => zoom(-0.4));
+    if (zoomReset) zoomReset.addEventListener('click', resetZoom);
+    if (fsToggle) fsToggle.addEventListener('click', toggleBrowserFullscreen);
+
+    document.addEventListener('fullscreenchange', updateFullscreenIcon);
+    document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (!viewerEl || !viewerEl.classList.contains('is-open')) return;
+
+      switch (e.key) {
+        case 'ArrowRight':
+          e.preventDefault();
+          nextPhoto();
+          break;
+        case 'ArrowLeft':
+          e.preventDefault();
+          prevPhoto();
+          break;
+        case 'Escape':
+          e.preventDefault();
+          closeGalleryViewer();
+          break;
+        case '+':
+        case '=':
+          e.preventDefault();
+          zoom(0.3);
+          break;
+        case '-':
+        case '_':
+          e.preventDefault();
+          zoom(-0.3);
+          break;
+        case '0':
+          e.preventDefault();
+          resetZoom();
+          break;
+        case 'f':
+        case 'F':
+          e.preventDefault();
+          toggleBrowserFullscreen();
+          break;
+      }
+    });
+
+    // =========================================================
+    // TOUCH & MOBILE SWIPE GESTURE CONTROLLER
+    // Real-time horizontal track dragging, pull-down to dismiss,
+    // double-tap to zoom, and pinch-to-zoom support.
+    // =========================================================
+
+    if (viewport) {
+      // Touch Start
+      viewport.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 2) {
+          // Pinch Zoom Start
+          isPinching = true;
+          isSwiping = false;
+          initialPinchDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          return;
+        }
+
+        if (e.touches.length === 1) {
+          const t = e.touches[0];
+          touchStartX = t.clientX;
+          touchStartY = t.clientY;
+          touchMoveX = t.clientX;
+          touchMoveY = t.clientY;
+          touchStartTime = Date.now();
+          isSwiping = true;
+          isPinching = false;
+
+          // Double Tap Check
+          const now = Date.now();
+          if (now - lastTapTime < 320) {
+            e.preventDefault();
+            if (currentZoom > 1) {
+              resetZoom();
+            } else {
+              zoom(1.5, t.clientX, t.clientY);
+            }
+            lastTapTime = 0;
+            return;
+          }
+          lastTapTime = now;
+
+          if (mainImgEl) {
+            mainImgEl.style.transition = 'none';
+          }
+        }
+      }, { passive: false });
+
+      // Touch Move
+      viewport.addEventListener('touchmove', (e) => {
+        if (isPinching && e.touches.length === 2) {
+          e.preventDefault();
+          const currentDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          const factor = (currentDist - initialPinchDist) * 0.008;
+          initialPinchDist = currentDist;
+          zoom(factor);
+          return;
+        }
+
+        if (!isSwiping || e.touches.length !== 1) return;
+
+        const t = e.touches[0];
+        touchMoveX = t.clientX;
+        touchMoveY = t.clientY;
+
+        const deltaX = touchMoveX - touchStartX;
+        const deltaY = touchMoveY - touchStartY;
+
+        // If zoomed in: allow smooth 2D panning
+        if (currentZoom > 1) {
+          e.preventDefault();
+          panX += (deltaX * 0.4);
+          panY += (deltaY * 0.4);
+          touchStartX = touchMoveX;
+          touchStartY = touchMoveY;
+          applyTransform();
+          return;
+        }
+
+        // Horizontal Swipe Dragging
+        if (Math.abs(deltaX) > Math.abs(deltaY) || Math.abs(deltaX) > 15) {
+          e.preventDefault();
+          const rotation = deltaX * 0.025;
+          applyTransform(deltaX, 0, rotation);
+        }
+        // Downward Drag (Pull to Dismiss)
+        else if (deltaY > 15 && Math.abs(deltaY) > Math.abs(deltaX)) {
+          e.preventDefault();
+          applyTransform(0, deltaY, 0);
+          const bgOpacity = Math.max(0.3, 0.97 - deltaY / 400);
+          if (viewerEl) viewerEl.style.backgroundColor = `rgba(3, 16, 22, ${bgOpacity})`;
+        }
+      }, { passive: false });
+
+      // Touch End
+      const onTouchEnd = (e) => {
+        if (isPinching) {
+          isPinching = false;
+          return;
+        }
+
+        if (!isSwiping) return;
+        isSwiping = false;
+
+        const deltaX = touchMoveX - touchStartX;
+        const deltaY = touchMoveY - touchStartY;
+        const duration = Date.now() - touchStartTime;
+
+        // Reset viewer background if modified during pull
+        if (viewerEl) viewerEl.style.backgroundColor = '';
+
+        if (currentZoom > 1) {
+          return;
+        }
+
+        if (mainImgEl) {
+          mainImgEl.style.transition = 'transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease';
+        }
+
+        // 1. Pull down to close threshold (> 80px downward)
+        if (deltaY > 80 && Math.abs(deltaY) > Math.abs(deltaX)) {
+          if (mainImgEl) {
+            mainImgEl.style.transform = `translate(0, 160px) scale(0.85)`;
+            mainImgEl.style.opacity = '0';
+          }
+          closeGalleryViewer();
+          return;
+        }
+
+        // 2. Horizontal Swipe thresholds (> 45px or quick flick < 250ms with > 25px)
+        const isQuickFlick = duration < 280 && Math.abs(deltaX) > 28;
+        const isLongSwipe = Math.abs(deltaX) > 55;
+
+        if ((isLongSwipe || isQuickFlick) && Math.abs(deltaX) > Math.abs(deltaY)) {
+          if (deltaX < 0) {
+            // Swiped Left -> Next Photo
+            nextPhoto();
+          } else {
+            // Swiped Right -> Previous Photo
+            prevPhoto();
+          }
+        } else {
+          // Snap back to center
+          if (mainImgEl) {
+            mainImgEl.style.transform = 'translate(0, 0) scale(1)';
+          }
+        }
+      };
+
+      viewport.addEventListener('touchend', onTouchEnd);
+      viewport.addEventListener('touchcancel', onTouchEnd);
+
+      // Desktop Mouse Pan & Drag when zoomed
+      viewport.addEventListener('mousedown', (e) => {
+        if (currentZoom > 1 && e.button === 0) {
+          isMousePanning = true;
+          mouseStartX = e.clientX;
+          mouseStartY = e.clientY;
+          viewport.classList.add('is-dragging');
+        }
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isMousePanning || currentZoom <= 1) return;
+        const dx = e.clientX - mouseStartX;
+        const dy = e.clientY - mouseStartY;
+        panX += dx;
+        panY += dy;
+        mouseStartX = e.clientX;
+        mouseStartY = e.clientY;
+        applyTransform();
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isMousePanning) {
+          isMousePanning = false;
+          if (viewport) viewport.classList.remove('is-dragging');
+        }
+      });
+    }
+  }
+
+  // Auto-bind click handlers on page elements
+  function bindPageTriggers() {
+    // 1. galeri.html cards (.portfolio-card-wrap)
+    const portfolioCards = document.querySelectorAll('.portfolio-card-wrap');
+    portfolioCards.forEach((card, idx) => {
+      const imgBox = card.querySelector('.portfolio-img-box');
+      if (imgBox) {
+        imgBox.addEventListener('click', (e) => {
+          e.preventDefault();
+          openGalleryViewer(idx);
+        });
+      }
+      const zoomBtn = card.querySelector('.btn-card-zoom');
+      if (zoomBtn) {
+        zoomBtn.onclick = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          openGalleryViewer(idx);
+        };
+      }
+    });
+
+    // 2. index.html featured portfolio (.featured-project-card)
+    const featuredCards = document.querySelectorAll('.featured-project-card');
+    featuredCards.forEach((card) => {
+      const thumb = card.querySelector('.featured-project-thumb');
+      if (thumb) {
+        thumb.addEventListener('click', (e) => {
+          e.preventDefault();
+          const img = thumb.querySelector('img');
+          const src = img ? img.getAttribute('src') : '';
+          window.openGalleryViewerBySrc(src);
+        });
+      }
+    });
+  }
+
+  // Global APIs
+  window.openGalleryViewer = function(startIndex = 0) {
+    openGalleryViewer(startIndex);
+  };
+
+  window.openGalleryViewerBySrc = function(src, customTitle) {
+    if (!src) {
+      openGalleryViewer(0);
+      return;
+    }
+    const cleanSrc = src.replace(/^https?:\/\/[^\/]+/, '');
+    const foundIdx = defaultGalleryPhotos.findIndex(p => p.src.includes(cleanSrc) || cleanSrc.includes(p.src));
+    if (foundIdx !== -1) {
+      openGalleryViewer(foundIdx);
+    } else {
+      // Create temporary item if src not in list
+      const tempItem = {
+        src: src,
+        title: customTitle || 'Dokumentasi Proyek Kaca Aluminium',
+        category: 'Portofolio',
+        location: 'Karawang & Sekitarnya',
+        desc: 'Dokumentasi hasil pengerjaan tim profesional Sahabat Kaca Aluminium.'
+      };
+      openGalleryViewer(0, [tempItem, ...defaultGalleryPhotos]);
+    }
+  };
+
+  window.openPortfolioLightbox = function(src, title) {
+    window.openGalleryViewerBySrc(src, title);
+  };
+
+  window.closeGalleryViewer = function() {
+    closeGalleryViewer();
+  };
+
+  // Bind on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindPageTriggers);
+  } else {
+    bindPageTriggers();
+  }
+})();
+
+
 
 
 

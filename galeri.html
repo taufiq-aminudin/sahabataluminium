@@ -564,8 +564,12 @@
   });
 })();
 
-// Lightbox Handlers
+// Lightbox Handlers (Delegated to Fullscreen Gallery Viewer)
 function openPortfolioLightbox(imgSrc, title) {
+  if (typeof window.openGalleryViewerBySrc === 'function') {
+    window.openGalleryViewerBySrc(imgSrc, title);
+    return;
+  }
   const lb = document.getElementById('lightbox');
   const lbImg = document.getElementById('lightboxImage');
   const lbTitle = document.getElementById('lightboxTitle');
@@ -578,6 +582,9 @@ function openPortfolioLightbox(imgSrc, title) {
 }
 
 function closePortfolioLightbox() {
+  if (typeof window.closeGalleryViewer === 'function') {
+    window.closeGalleryViewer();
+  }
   const lb = document.getElementById('lightbox');
   if (lb) {
     lb.classList.remove('show');

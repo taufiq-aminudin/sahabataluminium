@@ -1,91 +1,27 @@
 {
-  "adminAds": [
-    {
-      "id": "ad-top-01",
-      "name": "Promo Kusen Aluminium Karawang & Survey Gratis On-Site",
-      "position": "top",
-      "type": "admin",
-      "image": "/assets/gallery/pintu-aluminium.jpg",
-      "title": "Promo Kusen Aluminium SNI & Survey Lokasi Gratis",
-      "subtitle": "Melayani Karawang, Cikarang & Bekasi • Garansi Pemasangan",
-      "ctaText": "Konsultasi Gratis WhatsApp",
-      "link": "https://wa.me/6289637371166?text=Halo%20Sahabat%20Kaca%20Aluminium%2C%20saya%20tertarik%20dengan%20promo%20pemasangan%20kusen%20dan%20pintu.",
-      "size": "banner-top",
-      "active": true
-    },
-    {
-      "id": "ad-left-01",
-      "name": "Promo Pintu Sliding & Jendela Aluminium Minimalis",
-      "position": "left",
-      "type": "admin",
-      "image": "/assets/gallery/pintu-sliding.jpg",
-      "title": "Pintu Sliding & Jendela",
-      "subtitle": "Kusen Alexindo / Inkalum / Dacon SNI",
-      "badge": "PROMO TERBAIK",
-      "ctaText": "Chat WhatsApp →",
-      "link": "https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20ingin%20tanya%20harga%20pintu%20sliding%20dan%20jendela%20aluminium.",
-      "size": "sidebar-vertical",
-      "active": true
-    },
-    {
-      "id": "ad-right-01",
-      "name": "Spesialis Partisi Kaca Kantor & Kanopi Tempered",
-      "position": "right",
-      "type": "admin",
-      "image": "/assets/gallery/partisi-aluminium.jpg",
-      "title": "Partisi Kaca & Kanopi",
-      "subtitle": "Kaca Tempered 8-12mm Standar Pabrik",
-      "badge": "SURVEY GRATIS",
-      "ctaText": "Hubungi Kami →",
-      "link": "https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20ingin%20survey%20lokasi%20partisi%20kaca%20kantor%20atau%20kanopi.",
-      "size": "sidebar-vertical",
-      "active": true
-    },
-    {
-      "id": "ad-bottom-01",
-      "name": "Solusi Fasad Gedung ACP Seven & Curtain Wall Komersial",
-      "position": "bottom",
-      "type": "admin",
-      "image": "/assets/gallery/jendela-aluminium.jpg",
-      "title": "Pemasangan Fasad ACP & Curtain Wall Gedung",
-      "subtitle": "Dikerjakan Teknisi Spesialis Bersertifikat • Penawaran RAB Resmi",
-      "ctaText": "Minta Penawaran RAB",
-      "link": "https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20ingin%20minta%20penawaran%20RAB%20pekerjaan%20fasad%20ACP%20atau%20gedung.",
-      "size": "banner-bottom",
-      "active": true
-    }
-  ],
+  "adminAds": [],
   "adsense": {
     "enabled": true,
     "publisherId": "pub-2437971183769682",
-    "autoAds": false,
+    "autoAds": true,
     "adsTxtVerified": true,
     "slots": {
       "top": {
         "enabled": true,
         "slotId": "8912345671",
-        "format": "horizontal",
-        "mode": "hybrid"
+        "format": "auto"
+      },
+      "in_article": {
+        "enabled": true,
+        "slotId": "8912345672",
+        "format": "auto"
       },
       "bottom": {
         "enabled": true,
-        "slotId": "8912345672",
-        "format": "horizontal",
-        "mode": "hybrid"
-      },
-      "left": {
-        "enabled": true,
-        "slotId": "8912345674",
-        "format": "vertical",
-        "mode": "hybrid"
-      },
-      "right": {
-        "enabled": true,
-        "slotId": "8912345675",
-        "format": "vertical",
-        "mode": "hybrid"
+        "slotId": "8912345673",
+        "format": "auto"
       }
     }
   },
-  "updatedAt": "2026-09-28T07:45:00.000Z"
+  "updatedAt": "2026-09-28T10:05:00.000Z"
 }

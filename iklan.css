@@ -1,398 +1,56 @@
 /* =========================================================
-   SISTEM IKLAN WEBSITE: SIDEBAR MANUAL & GOOGLE ADSENSE
+   GOOGLE ADSENSE EXCLUSIVE SPACES
    Sahabat Kaca Aluminium - Karawang, Cikarang & Bekasi
+   Publisher ID: ca-pub-2437971183769682
    ========================================================= */
 
-/* Base Ad Slot */
-.ad-slot {
+/* AdSense Container & Wrapper */
+.adsense-wrapper,
+.adsense-slot {
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  position: relative;
-  overflow: hidden;
-  margin: 12px auto;
-  background: #ffffff;
-  border: 1px solid rgba(13, 92, 115, 0.14);
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(7, 55, 70, 0.05);
-  transition: all 0.3s ease;
-}
-
-/* Horizontal Banners (Top & Bottom) */
-.ad-slot.ad-top {
   max-width: 1200px;
-  min-height: 80px;
-  margin-top: 14px;
-  margin-bottom: 20px;
-  padding: 8px 14px;
-}
-
-.ad-slot.ad-bottom {
-  max-width: 1200px;
-  min-height: 90px;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  padding: 10px 16px;
-}
-
-/* =========================================================
-   FIXED FLOATING SIDEBAR ADS (LEFT & RIGHT)
-   ========================================================= */
-.ad-slot.ad-side,
-.ad-slot.ad-left,
-.ad-slot.ad-right {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 154px;
-  min-height: 340px;
-  margin: 0;
+  margin: 20px auto;
   padding: 0;
-  z-index: 95;
-  background: #ffffff;
-  border: 1.5px solid rgba(13, 92, 115, 0.16);
-  border-radius: 14px;
-  box-shadow: 0 12px 32px rgba(7, 55, 70, 0.14), 0 3px 10px rgba(7, 55, 70, 0.06);
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-start;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, box-shadow 0.2s ease;
-}
-
-.ad-slot.ad-left {
-  left: 14px;
-}
-
-.ad-slot.ad-right {
-  right: 14px;
-}
-
-.ad-slot.ad-side:hover {
-  box-shadow: 0 16px 40px rgba(7, 55, 70, 0.18), 0 4px 14px rgba(7, 55, 70, 0.08);
-}
-
-/* Dismiss / Close Animation */
-.ad-slot.ad-left.is-dismissed {
-  transform: translateY(-50%) translateX(-140%);
-  opacity: 0;
-  pointer-events: none;
-}
-
-.ad-slot.ad-right.is-dismissed {
-  transform: translateY(-50%) translateX(140%);
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Sidebar Header Bar (Badge + Close Button) */
-.ad-sidebar-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 8px;
-  background: #f1f6f8;
-  border-bottom: 1px solid rgba(13, 92, 115, 0.1);
-  border-radius: 12px 12px 0 0;
+  text-align: center;
   box-sizing: border-box;
-}
-
-.ad-sidebar-label {
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #073746;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.ad-sidebar-label.adsense-label {
-  color: #1a73e8;
-}
-
-.ad-close-btn {
+  clear: both;
   background: transparent;
   border: none;
-  color: #64748b;
-  cursor: pointer;
-  padding: 2px 4px;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ad-close-btn:hover {
-  background: #e2e8f0;
-  color: #dc2626;
-}
-
-/* Sidebar Inner Content */
-.ad-sidebar-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 8px;
-  box-sizing: border-box;
-  text-align: center;
-}
-
-/* =========================================================
-   MANUAL AD CARD CONTENT STYLES
-   ========================================================= */
-.ad-card-link {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  text-decoration: none;
-  color: inherit;
-}
-
-.ad-card-thumb {
-  position: relative;
-  width: 100%;
-  height: 120px;
+  box-shadow: none;
   overflow: hidden;
-  border-radius: 8px;
-  background: #e2edf1;
-  margin-bottom: 8px;
 }
 
-.ad-card-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-  display: block;
+/* Completely collapse when empty or unfilled by AdSense */
+.adsense-wrapper:empty,
+.adsense-slot:empty,
+.adsense-wrapper[data-ad-status="unfilled"],
+.adsense-slot[data-ad-status="unfilled"],
+ins.adsbygoogle[data-ad-status="unfilled"] {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  border: none !important;
 }
 
-.ad-card-link:hover .ad-card-thumb img {
-  transform: scale(1.06);
-}
-
-.ad-card-badge {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  background: #0d5c73;
-  color: #ffffff;
-  font-size: 8.5px;
-  font-weight: 800;
-  padding: 2px 6px;
-  border-radius: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-
-.ad-card-title {
-  font-size: 12.5px;
-  font-weight: 800;
-  color: #073746;
-  line-height: 1.3;
-  margin: 0 0 4px;
-}
-
-.ad-card-desc {
-  font-size: 10.5px;
-  font-weight: 500;
-  color: #475569;
-  line-height: 1.35;
-  margin: 0 0 10px;
-}
-
-.ad-card-btn {
-  margin-top: auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  background: #15803d;
-  color: #ffffff;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 7px 10px;
-  border-radius: 8px;
-  text-decoration: none;
-  box-shadow: 0 3px 8px rgba(21, 128, 61, 0.25);
-  transition: all 0.2s ease;
-}
-
-.ad-card-link:hover .ad-card-btn {
-  background: #16a34a;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(21, 128, 61, 0.35);
-}
-
-/* Horizontal Banner (Top/Bottom) Inner Content */
-.ad-banner-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  gap: 16px;
-  text-decoration: none;
-  color: inherit;
-}
-
-.ad-banner-media {
-  width: 80px;
-  height: 60px;
-  border-radius: 8px;
-  overflow: hidden;
-  flex-shrink: 0;
-  background: #e2edf1;
-}
-
-.ad-banner-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.ad-banner-text {
-  flex: 1;
-  text-align: left;
-}
-
-.ad-banner-title {
-  font-size: 14px;
-  font-weight: 800;
-  color: #073746;
-  margin: 0 0 3px;
-  line-height: 1.25;
-}
-
-.ad-banner-desc {
-  font-size: 12px;
-  color: #475569;
-  margin: 0;
-  line-height: 1.3;
-}
-
-.ad-banner-cta {
-  flex-shrink: 0;
-  background: #15803d;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 9px 16px;
-  border-radius: 8px;
-  white-space: nowrap;
-  box-shadow: 0 3px 10px rgba(21, 128, 61, 0.25);
-  transition: all 0.2s ease;
-}
-
-.ad-banner-inner:hover .ad-banner-cta {
-  background: #16a34a;
-  transform: translateY(-1px);
-}
-
-/* =========================================================
-   GOOGLE ADSENSE CONTAINER
-   ========================================================= */
+/* Official Google AdSense ins tag */
 .adsbygoogle {
   display: block !important;
   margin: 0 auto;
   max-width: 100%;
+  background: transparent;
 }
 
-.ad-slot.is-adsense-slot {
-  background: #ffffff;
-  padding: 6px;
+/* Article In-Content AdSense */
+.article-content .adsense-slot {
+  margin: 28px auto;
 }
 
-.ad-slot.is-adsense-slot .adsbygoogle {
-  width: 100%;
-  min-height: 250px;
-}
-
-.ad-type-badge {
-  position: absolute;
-  top: 4px;
-  right: 8px;
-  font-size: 9px;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 4px;
-  z-index: 5;
-  letter-spacing: 0.3px;
-  pointer-events: none;
-  opacity: 0.85;
-}
-
-.ad-type-badge.admin-badge {
-  background: rgba(7, 55, 70, 0.85);
-  color: #ffffff;
-}
-
-.ad-type-badge.adsense-badge {
-  background: rgba(66, 133, 244, 0.9);
-  color: #ffffff;
-}
-
-/* =========================================================
-   RESPONSIVE MEDIA QUERIES
-   ========================================================= */
-/* Hide floating sidebars on screens below 1200px so content is unhindered */
-@media (max-width: 1199px) {
-  .ad-slot.ad-side,
-  .ad-slot.ad-left,
-  .ad-slot.ad-right {
-    display: none !important;
-  }
-}
-
-/* Screen width 1200px - 1380px: slightly narrower sidebars to avoid overlap */
-@media (min-width: 1200px) and (max-width: 1380px) {
-  .ad-slot.ad-side,
-  .ad-slot.ad-left,
-  .ad-slot.ad-right {
-    width: 135px;
-  }
-  .ad-slot.ad-left { left: 6px; }
-  .ad-slot.ad-right { right: 6px; }
-  .ad-card-thumb { height: 100px; }
-  .ad-card-title { font-size: 11.5px; }
-  .ad-card-desc { font-size: 9.5px; }
-}
-
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .ad-slot.ad-top {
-    min-height: 60px;
-    padding: 8px 10px;
-    margin-top: 8px;
-    margin-bottom: 12px;
-  }
-  .ad-banner-media {
-    width: 60px;
-    height: 48px;
-  }
-  .ad-banner-title {
-    font-size: 12px;
-  }
-  .ad-banner-desc {
-    font-size: 10.5px;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .ad-banner-cta {
-    font-size: 10.5px;
-    padding: 6px 10px;
-  }
-  .ad-slot.ad-bottom {
-    min-height: 70px;
-    padding: 8px 10px;
+  .adsense-wrapper,
+  .adsense-slot {
+    margin: 14px auto;
   }
 }

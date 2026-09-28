@@ -420,15 +420,19 @@ app.post('/api/ads-config', (req, res) => {
     const filePath = path.join(__dirname, 'ads-config.json');
     const { adminAds, adsense } = req.body || {};
     
-    // Ensure both adminAds and adsense exist and are cleanly separated
+    // Strictly AdSense only
     const newConfig = {
-      adminAds: Array.isArray(adminAds) ? adminAds : [],
+      adminAds: [],
       adsense: adsense || {
         enabled: true,
         publisherId: "pub-2437971183769682",
-        autoAds: false,
+        autoAds: true,
         adsTxtVerified: true,
-        slots: {}
+        slots: {
+          top: { enabled: true, slotId: "8912345671", format: "auto" },
+          in_article: { enabled: true, slotId: "8912345672", format: "auto" },
+          bottom: { enabled: true, slotId: "8912345673", format: "auto" }
+        }
       },
       updatedAt: new Date().toISOString()
     };

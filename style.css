@@ -57,12 +57,19 @@ footer{background:#061f29;color:#a9bec5;padding:55px 0 22px}.footer-grid{display
 
 .adsense-slot {
   width: 100%;
-  min-height: 120px;
-  margin: 40px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin: 24px auto;
+  text-align: center;
   overflow: hidden;
+  clear: both;
+}
+
+.adsense-slot:empty,
+.adsense-slot[data-ad-status="unfilled"],
+.adsense-slot ins.adsbygoogle[data-ad-status="unfilled"] {
+  display: none !important;
+  margin: 0 !important;
+  height: 0 !important;
+  min-height: 0 !important;
 }
 
 .article-cta {

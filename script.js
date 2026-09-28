@@ -1860,6 +1860,400 @@ if (homePortfolioFilter) {
   });
 }
 
+/* =========================================================
+   PROJECT STATUS DASHBOARD (REAL-TIME ORDER TRACKING)
+   ========================================================= */
+const STAGE_CONFIG = {
+  'Survey': {
+    order: 1,
+    percent: 25,
+    title: 'Survey & Pengukuran',
+    kicker: 'Tahap 1 dari 4',
+    badgeText: 'Survey Lokasi',
+    icon: '📐',
+    desc: 'Pengukuran laser dimensi bukaan, analisis struktur dinding/lantai, dan approval shop drawing.'
+  },
+  'Fabrication': {
+    order: 2,
+    percent: 50,
+    title: 'Fabrikasi Workshop',
+    kicker: 'Tahap 2 dari 4',
+    badgeText: 'Fabrikasi & Perakitan',
+    icon: '⚙️',
+    desc: 'Pemotongan profil kusen aluminium presisi sudut 45°, perakitan rangka, dan proses oven tempered kaca.'
+  },
+  'Installation': {
+    order: 3,
+    percent: 75,
+    title: 'Instalasi On-Site',
+    kicker: 'Tahap 3 dari 4',
+    badgeText: 'Pemasangan di Lokasi',
+    icon: '🏗️',
+    desc: 'Pengiriman armada khusus, perakitan on-site, dynabolt pengikat, dan aplikasi sealant waterproofing anti bocor.'
+  },
+  'Completed': {
+    order: 4,
+    percent: 100,
+    title: 'Selesai & Bergaransi',
+    kicker: 'Tahap Selesai (100%)',
+    badgeText: 'Selesai & Serah Terima',
+    icon: '🛡️',
+    desc: 'Quality check akhir, uji kekedapan air & kelancaran aksesoris, serta penyerahan sertifikat garansi resmi.'
+  }
+};
+
+window.trackProjectOrder = async function(customId) {
+  const inputEl = document.getElementById('orderIdInput');
+  const btnEl = document.getElementById('btnTrackOrder');
+  const btnText = document.getElementById('btnTrackText');
+  const container = document.getElementById('orderResultContainer');
+
+  const orderId = (customId || (inputEl ? inputEl.value : '')).trim();
+  if (!orderId) {
+    if (inputEl) inputEl.focus();
+    return;
+  }
+
+  if (inputEl) inputEl.value = orderId;
+
+  // Update preset chip active state
+  document.querySelectorAll('.preset-chip-btn').forEach(btn => {
+    if (btn.getAttribute('data-id').toLowerCase() === orderId.toLowerCase()) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  if (btnEl) btnEl.disabled = true;
+  if (btnText) btnText.textContent = 'Memuat Status...';
+  if (container) {
+    container.classList.add('loading');
+  }
+
+  try {
+    const res = await fetch(`/api/orders/${encodeURIComponent(orderId)}`);
+    const data = await res.json();
+
+    if (container) container.classList.remove('loading');
+    if (btnEl) btnEl.disabled = false;
+    if (btnText) btnText.textContent = 'Lacak Status Proyek ↗';
+
+    if (data.success && data.order) {
+      renderProjectOrder(data.order);
+    } else {
+      renderProjectOrderError(data.error || 'Pesanan tidak ditemukan', data.availableIds || []);
+    }
+  } catch (err) {
+    console.error('Error fetching order status:', err);
+    if (container) container.classList.remove('loading');
+    if (btnEl) btnEl.disabled = false;
+    if (btnText) btnText.textContent = 'Lacak Status Proyek ↗';
+    renderProjectOrderError('Terjadi gangguan jaringan saat memuat data pesanan. Silakan periksa koneksi Anda dan coba lagi.');
+  }
+};
+
+function renderProjectOrder(order) {
+  const container = document.getElementById('orderResultContainer');
+  if (!container) return;
+
+  const currentStage = order.currentStage || 'Survey';
+  const stageCfg = STAGE_CONFIG[currentStage] || STAGE_CONFIG['Survey'];
+  const percent = order.progressPercent || stageCfg.percent;
+
+  const stagesList = ['Survey', 'Fabrication', 'Installation', 'Completed'];
+  const currentStageIndex = stagesList.indexOf(currentStage);
+
+  // Stepper HTML
+  const stepperHtml = stagesList.map((stgKey, idx) => {
+    const cfg = STAGE_CONFIG[stgKey];
+    const stageData = (order.stages && order.stages[stgKey]) || {};
+    let nodeStateClass = 'pending';
+    let iconContent = idx + 1;
+
+    if (idx < currentStageIndex || (currentStage === 'Completed' && idx === 3)) {
+      nodeStateClass = 'completed';
+      iconContent = '✓';
+    } else if (idx === currentStageIndex) {
+      nodeStateClass = 'current';
+      iconContent = cfg.icon;
+    }
+
+    const stageDate = stageData.date || (nodeStateClass === 'completed' ? 'Selesai' : 'Pending');
+
+    return `
+      <div class="stepper-node ${nodeStateClass}">
+        <div class="stepper-node-circle" title="${cfg.title}">
+          ${iconContent}
+        </div>
+        <div class="stepper-node-label">${cfg.title}</div>
+        <div class="stepper-node-date">${stageDate}</div>
+      </div>
+    `;
+  }).join('');
+
+  // Current stage note / callout
+  const activeStageInfo = (order.stages && order.stages[currentStage]) || {};
+  const activeNote = activeStageInfo.notes || stageCfg.desc;
+  const activeDate = activeStageInfo.date ? `Tanggal: ${activeStageInfo.date}` : '';
+
+  // Activity Logs HTML
+  const activityLogs = Array.isArray(order.activityLog) ? order.activityLog : [];
+  const activityLogsHtml = activityLogs.length > 0
+    ? activityLogs.map(log => `
+        <div class="timeline-entry">
+          <div class="timeline-dot"></div>
+          <div class="timeline-time">${log.timestamp} · ${log.stage || ''}</div>
+          <div class="timeline-title">${log.title}</div>
+          <p class="timeline-desc">${log.desc}</p>
+        </div>
+      `).join('')
+    : `<p style="color:var(--muted);font-size:13px;">Belum ada log aktivitas tercatat.</p>`;
+
+  // WhatsApp Pre-filled URL
+  const waMessage = encodeURIComponent(
+    `Halo Admin Sahabat Kaca Aluminium, saya ingin konsultasi update untuk Order ID #${order.id} (${order.projectTitle}) atas nama ${order.customerName}. Status saat ini: ${stageCfg.title} (${percent}%).`
+  );
+  const waUrl = `https://wa.me/6289637371166?text=${waMessage}`;
+
+  container.innerHTML = `
+    <div class="dashboard-result-panel" id="orderResultPanel">
+      
+      <!-- Project Hero Header -->
+      <div class="order-summary-header">
+        <div>
+          <div class="order-meta-breadcrumbs">
+            <span class="order-id-badge">ORDER ID: ${order.id}</span>
+            <span>·</span>
+            <span>${order.projectType || 'Kaca & Aluminium'}</span>
+            <span>·</span>
+            <span>📍 ${order.location || 'Karawang'}</span>
+          </div>
+          <h3 class="order-project-heading">${order.projectTitle}</h3>
+          <div class="order-customer-sub">
+            <span>Pemesan: <strong>${order.customerName}</strong></span>
+            <span>·</span>
+            <span>Kontak: ${order.contactPhone || '-'}</span>
+          </div>
+        </div>
+
+        <div class="order-stage-status-box">
+          <div class="status-kicker">${stageCfg.kicker}</div>
+          <div class="status-current-title">
+            <span>${stageCfg.icon}</span>
+            <span>${stageCfg.title}</span>
+          </div>
+          <div class="status-percent">Progres Pengerjaan: <strong>${percent}%</strong></div>
+        </div>
+      </div>
+
+      <!-- Stepper Progress Pipeline -->
+      <div class="order-stepper-wrap">
+        <div class="stepper-progress-track-bg">
+          <div class="stepper-progress-fill" style="width: ${percent}%;"></div>
+          <div class="stepper-nodes-row">
+            ${stepperHtml}
+          </div>
+        </div>
+
+        <!-- Current Stage Callout -->
+        <div class="current-stage-callout">
+          <div class="current-stage-callout-icon">${stageCfg.icon}</div>
+          <div class="current-stage-callout-text">
+            <b>Status Terkini: ${stageCfg.title} ${activeDate ? `· ${activeDate}` : ''}</b>
+            <p>${activeNote}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Specifications & Activity Grid -->
+      <div class="order-details-grid">
+        
+        <!-- Left Column: Technical Specifications -->
+        <div class="details-column">
+          <h3>
+            <span>📋</span>
+            <span>Spesifikasi & Informasi Proyek</span>
+          </h3>
+
+          <div class="spec-list">
+            <div class="spec-item">
+              <span class="spec-label">ID Pesanan (SPK)</span>
+              <span class="spec-val highlight">${order.id}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Nama Klien / Instansi</span>
+              <span class="spec-val">${order.customerName}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Lokasi Pemasangan</span>
+              <span class="spec-val">${order.location || '-'}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Tanggal Order</span>
+              <span class="spec-val">${order.orderDate || '-'}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Estimasi Serah Terima</span>
+              <span class="spec-val highlight">${order.estimatedCompletion || '-'}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Lead Engineer</span>
+              <span class="spec-val">${order.leadEngineer || 'Tim Fabrikasi Sahabat Aluminium'}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Pengawas Lapangan</span>
+              <span class="spec-val">${order.fieldSupervisor || 'Supervisor K3'}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Material Terpasang</span>
+              <span class="spec-val">${order.materialSpec || 'Kusen Aluminium SNI & Kaca Tempered Berkualitas'}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Workshop & Jobsite Activity Log -->
+        <div class="details-column">
+          <h3>
+            <span>⏱️</span>
+            <span>Log Aktivitas & Riwayat Pengerjaan</span>
+          </h3>
+
+          <div class="activity-timeline">
+            ${activityLogsHtml}
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action Footer -->
+      <div class="order-action-footer">
+        <div class="order-actions-left">
+          <a href="${waUrl}" target="_blank" rel="noopener" class="btn-order-wa">
+            <span>💬</span>
+            <span>Tanya Update Proyek Ini via WhatsApp</span>
+          </a>
+          <button type="button" class="btn-order-print" onclick="window.print()">
+            <span>🖨️</span>
+            <span>Cetak / Simpan Status</span>
+          </button>
+        </div>
+
+        <!-- Simulation Controls for Testing Real-Time Stages -->
+        <div class="order-simulator-controls">
+          <span>Simulasi Tahap:</span>
+          <select id="stageSimulatorSelect" class="simulator-select" aria-label="Pilih tahap simulasi">
+            <option value="Survey" ${currentStage === 'Survey' ? 'selected' : ''}>1. Survey & Pengukuran</option>
+            <option value="Fabrication" ${currentStage === 'Fabrication' ? 'selected' : ''}>2. Fabrikasi Workshop</option>
+            <option value="Installation" ${currentStage === 'Installation' ? 'selected' : ''}>3. Instalasi On-Site</option>
+            <option value="Completed" ${currentStage === 'Completed' ? 'selected' : ''}>4. Selesai & Garansi</option>
+          </select>
+          <button type="button" class="btn-simulate-apply" onclick="window.simulateStageTransition('${order.id}')">
+            Ubah Status Real-Time ↗
+          </button>
+        </div>
+      </div>
+
+    </div>
+  `;
+}
+
+function renderProjectOrderError(errorMsg, availableIds = []) {
+  const container = document.getElementById('orderResultContainer');
+  if (!container) return;
+
+  const suggestionsHtml = availableIds.length > 0
+    ? `
+      <div style="margin-top:16px;">
+        <span style="font-size:13px;color:var(--muted);">Order ID yang tersedia untuk dicoba:</span>
+        <div style="display:flex;gap:8px;justify-content:center;margin-top:8px;flex-wrap:wrap;">
+          ${availableIds.map(id => `
+            <button type="button" class="preset-chip-btn" onclick="window.trackProjectOrder('${id}')">
+              ${id}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `
+    : '';
+
+  container.innerHTML = `
+    <div class="order-error-state">
+      <div class="order-error-icon">🔍</div>
+      <div class="order-error-title">Pesanan Tidak Ditemukan</div>
+      <p class="order-error-msg">${errorMsg}</p>
+      ${suggestionsHtml}
+      <div style="margin-top:20px;">
+        <a href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20ingin%20menanyakan%20nomor%20SPK%20atau%20status%20pesanan%20saya." target="_blank" rel="noopener" class="btn-order-wa" style="display:inline-flex;">
+          <span>💬</span>
+          <span>Hubungi Admin untuk Cek Nomor SPK</span>
+        </a>
+      </div>
+    </div>
+  `;
+}
+
+window.simulateStageTransition = async function(orderId) {
+  const selectEl = document.getElementById('stageSimulatorSelect');
+  if (!selectEl) return;
+  const targetStage = selectEl.value;
+
+  const btn = document.querySelector('.btn-simulate-apply');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Memperbarui...';
+  }
+
+  try {
+    const res = await fetch(`/api/orders/${encodeURIComponent(orderId)}/status`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        stage: targetStage,
+        notes: `Simulasi update real-time: Proyek berhasil dipindahkan ke tahap ${targetStage} dengan standar kualitas ISO/SNI.`
+      })
+    });
+    const data = await res.json();
+    if (data.success && data.order) {
+      renderProjectOrder(data.order);
+    } else {
+      alert(data.error || 'Gagal mengubah status');
+    }
+  } catch (err) {
+    console.error('Error simulating stage:', err);
+    alert('Gagal menghubungi server');
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = 'Ubah Status Real-Time ↗';
+    }
+  }
+};
+
+// Initialize Project Tracker on Load
+document.addEventListener('DOMContentLoaded', () => {
+  const trackerSection = document.getElementById('status-proyek');
+  if (!trackerSection) return;
+
+  // Preset button click listener
+  document.querySelectorAll('.preset-chip-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const orderId = btn.getAttribute('data-id');
+      if (orderId) {
+        window.trackProjectOrder(orderId);
+      }
+    });
+  });
+
+  // URL query parameter check (?order=SKA-2026-003 or #status-proyek)
+  const urlParams = new URLSearchParams(window.location.search);
+  const initialOrderId = urlParams.get('order') || urlParams.get('order_id') || 'SKA-2026-002';
+
+  // Automatically load initial order
+  window.trackProjectOrder(initialOrderId);
+});
+
+
 
 
 

@@ -315,6 +315,10 @@
         Layanan
       </a>
 
+      <a href="#status-proyek" style="color:var(--gold);font-weight:800;">
+        📍 Status Proyek
+      </a>
+
       <a href="#portofolio-proyek">
         Portofolio Proyek
       </a>
@@ -561,6 +565,77 @@
 
   </section>
 
+  <!-- ===================================================
+       STATUS DASHBOARD (REAL-TIME PROJECT TRACKING)
+  ==================================================== -->
+  <section class="status-dashboard-section" id="status-proyek">
+    <div class="container status-dashboard-container">
+      
+      <div class="dashboard-header-block">
+        <div class="eyebrow">
+          <span></span>
+          LIVE PROJECT TRACKING & ORDER STATUS
+        </div>
+        <h2>Dashboard Status Proyek Kaca & Aluminium</h2>
+        <p>
+          Pantau tahapan pengerjaan proyek Anda secara real-time dari Survey & Pengukuran, Fabrikasi Workshop, Instalasi On-Site, hingga Selesai & Serah Terima Garansi Resmi.
+        </p>
+      </div>
+
+      <!-- Search Card -->
+      <div class="order-search-card">
+        <form class="order-search-form" id="orderSearchForm" onsubmit="event.preventDefault(); if (window.trackProjectOrder) window.trackProjectOrder();">
+          <div class="order-search-input-wrap">
+            <span class="order-search-icon" aria-hidden="true">🔍</span>
+            <input 
+              type="text" 
+              id="orderIdInput" 
+              class="order-search-input" 
+              placeholder="Masukkan ID Pesanan (Contoh: SKA-2026-001, SKA-2026-002)..." 
+              value="SKA-2026-002" 
+              autocomplete="off"
+              spellcheck="false"
+              required
+            >
+          </div>
+          <button type="submit" class="btn-track-submit" id="btnTrackOrder">
+            <span id="btnTrackText">Lacak Status Proyek ↗</span>
+          </button>
+        </form>
+
+        <!-- Quick Test Presets -->
+        <div class="order-quick-presets">
+          <span class="order-quick-label">Pilih Contoh Order:</span>
+          <button type="button" class="preset-chip-btn" data-id="SKA-2026-001">
+            <span>SKA-2026-001</span>
+            <span class="preset-chip-stage">(1. Survey)</span>
+          </button>
+          <button type="button" class="preset-chip-btn active" data-id="SKA-2026-002">
+            <span>SKA-2026-002</span>
+            <span class="preset-chip-stage">(2. Fabrikasi)</span>
+          </button>
+          <button type="button" class="preset-chip-btn" data-id="SKA-2026-003">
+            <span>SKA-2026-003</span>
+            <span class="preset-chip-stage">(3. Instalasi)</span>
+          </button>
+          <button type="button" class="preset-chip-btn" data-id="SKA-2026-004">
+            <span>SKA-2026-004</span>
+            <span class="preset-chip-stage">(4. Selesai)</span>
+          </button>
+          <button type="button" class="preset-chip-btn" data-id="SKA-2026-005">
+            <span>SKA-2026-005</span>
+            <span class="preset-chip-stage">(Instalasi Kanopi)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Result Display Panel -->
+      <div id="orderResultContainer">
+        <!-- Rendered dynamically by script.js -->
+      </div>
+
+    </div>
+  </section>
 
   <!-- ===================================================
        REKOMENDASI KONTRAKTOR PROYEK (KARAWANG, CIKARANG, BEKASI)

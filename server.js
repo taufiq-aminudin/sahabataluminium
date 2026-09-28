@@ -231,6 +231,174 @@ app.delete('/api/articles/:id', (req, res) => {
   }
 });
 
+// API: Get Orders (with optional search query)
+app.get('/api/orders', (req, res) => {
+  try {
+    const filePath = path.join(__dirname, 'orders.json');
+    if (fs.existsSync(filePath)) {
+      let orders = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+      const q = (req.query.q || '').trim().toLowerCase();
+      if (q) {
+        orders = orders.filter(o => 
+          o.id.toLowerCase().includes(q) ||
+          (o.customerName && o.customerName.toLowerCase().includes(q)) ||
+          (o.projectTitle && o.projectTitle.toLowerCase().includes(q)) ||
+          (o.location && o.location.toLowerCase().includes(q))
+        );
+      }
+      return res.json({ success: true, orders });
+    }
+    return res.json({ success: true, orders: [] });
+  } catch (err) {
+    console.error('Error reading orders:', err);
+    return res.status(500).json({ success: false, error: 'Gagal memuat data order' });
+  }
+});
+
+// API: Get Order by ID
+app.get('/api/orders/:id', (req, res) => {
+  try {
+    const orderId = (req.params.id || '').trim().toLowerCase();
+    const filePath = path.join(__dirname, 'orders.json');
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ success: false, error: 'Database order belum dibuat' });
+    }
+    const orders = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    const order = orders.find(o => o.id.toLowerCase() === orderId);
+
+    if (order) {
+      return res.json({ success: true, order });
+    }
+
+    const availableIds = orders.map(o => o.id);
+    return res.status(404).json({
+      success: false,
+      error: `Order ID "${req.params.id}" tidak ditemukan. Pastikan format nomor pesanan sesuai (contoh: SKA-2026-001).`,
+      availableIds
+    });
+  } catch (err) {
+    console.error('Error getting order by id:', err);
+    return res.status(500).json({ success: false, error: 'Gagal mencari order' });
+  }
+});
+
+// API: Update Order Status (Advance or set stage)
+app.patch('/api/orders/:id/status', (req, res) => {
+  try {
+    const orderId = (req.params.id || '').trim().toLowerCase();
+    const { stage, notes } = req.body || {};
+    const validStages = ['Survey', 'Fabrication', 'Installation', 'Completed'];
+
+    if (!validStages.includes(stage)) {
+      return res.status(400).json({
+        success: false,
+        error: `Tahap tidak valid. Pilihan: ${validStages.join(', ')}`
+      });
+    }
+
+    const filePath = path.join(__dirname, 'orders.json');
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ success: false, error: 'Database order tidak ditemukan' });
+    }
+
+    let orders = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    const idx = orders.findIndex(o => o.id.toLowerCase() === orderId);
+    if (idx === -1) {
+      return res.status(404).json({ success: false, error: 'Order tidak ditemukan' });
+    }
+
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+    const timeStr = `${now.toISOString().slice(0, 10)} ${now.toTimeString().slice(0, 5)}`;
+
+    const targetOrder = { ...orders[idx] };
+    targetOrder.currentStage = stage;
+
+    // Progress percentage mapping
+    const progressMap = {
+      'Survey': 25,
+      'Fabrication': 50,
+      'Installation': 75,
+      'Completed': 100
+    };
+    targetOrder.progressPercent = progressMap[stage] || 25;
+
+    // Update stages object
+    const stageIndex = validStages.indexOf(stage);
+    validStages.forEach((s, i) => {
+      if (!targetOrder.stages[s]) {
+        targetOrder.stages[s] = { status: 'pending', date: '-', notes: '' };
+      }
+      if (i < stageIndex) {
+        targetOrder.stages[s].status = 'completed';
+      } else if (i === stageIndex) {
+        targetOrder.stages[s].status = stage === 'Completed' ? 'completed' : 'in_progress';
+        targetOrder.stages[s].date = dateStr;
+        if (notes) {
+          targetOrder.stages[s].notes = notes;
+        }
+      } else {
+        targetOrder.stages[s].status = 'pending';
+      }
+    });
+
+    // Add to activity log
+    const stageTitleMap = {
+      'Survey': 'Tahap Survey & Pengukuran Dimensi Selesai/Diperbarui',
+      'Fabrication': 'Tahap Fabrikasi Rangka Aluminium di Workshop Berjalan',
+      'Installation': 'Tahap Instalasi On-Site Berlangsung di Lokasi',
+      'Completed': 'Proyek Selesai 100% & Diserahterimakan dengan Garansi'
+    };
+
+    if (!Array.isArray(targetOrder.activityLog)) {
+      targetOrder.activityLog = [];
+    }
+    targetOrder.activityLog.unshift({
+      timestamp: timeStr,
+      stage,
+      title: stageTitleMap[stage] || `Status Diperbarui ke ${stage}`,
+      desc: notes || `Status proyek berhasil diperbarui ke tahap ${stage} oleh tim operasional Sahabat Kaca Aluminium.`
+    });
+
+    orders[idx] = targetOrder;
+    fs.writeFileSync(filePath, JSON.stringify(orders, null, 2), 'utf-8');
+
+    return res.json({ success: true, message: `Status proyek berhasil diubah ke ${stage}`, order: targetOrder });
+  } catch (err) {
+    console.error('Error updating order status:', err);
+    return res.status(500).json({ success: false, error: 'Gagal memperbarui status order' });
+  }
+});
+
+// API: Save or Create Order
+app.post('/api/orders', (req, res) => {
+  try {
+    const filePath = path.join(__dirname, 'orders.json');
+    let orders = [];
+    if (fs.existsSync(filePath)) {
+      orders = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    }
+
+    const item = req.body || {};
+    if (!item.id || !item.customerName || !item.projectTitle) {
+      return res.status(400).json({ success: false, error: 'ID pesanan, nama pemesan, dan judul proyek wajib diisi' });
+    }
+
+    const idx = orders.findIndex(o => o.id.toLowerCase() === item.id.toLowerCase());
+    if (idx !== -1) {
+      orders[idx] = { ...orders[idx], ...item };
+    } else {
+      orders.unshift(item);
+    }
+
+    fs.writeFileSync(filePath, JSON.stringify(orders, null, 2), 'utf-8');
+    return res.json({ success: true, message: 'Pesanan berhasil disimpan', order: item });
+  } catch (err) {
+    console.error('Error saving order:', err);
+    return res.status(500).json({ success: false, error: 'Gagal menyimpan pesanan' });
+  }
+});
+
 // API: Get Ads Configuration (Admin Ads + AdSense Separated)
 app.get('/api/ads-config', (req, res) => {
   try {

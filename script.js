@@ -1003,11 +1003,75 @@ function setupWhatsAppForm(formId, previewId, tagsContainerId) {
 document.addEventListener('DOMContentLoaded', () => {
   setupWhatsAppForm('waContactForm', 'waPreviewText', 'waServiceTags');
   setupWhatsAppForm('waContactFormHome', 'waHomePreviewText', 'waHomeServiceTags');
+  setupFaqAskForm();
 });
 if (document.readyState !== 'loading') {
   setupWhatsAppForm('waContactForm', 'waPreviewText', 'waServiceTags');
   setupWhatsAppForm('waContactFormHome', 'waHomePreviewText', 'waHomeServiceTags');
+  setupFaqAskForm();
 }
+
+/* =========================================================
+   FAQ ASK A QUESTION FORM HANDLER (WHATSAPP DISPATCH)
+   ========================================================= */
+function setupFaqAskForm() {
+  const form = document.getElementById('faqAskForm');
+  if (!form) return;
+
+  const nameInput = document.getElementById('faqAskName');
+  const questionInput = document.getElementById('faqAskQuestion');
+  const submitBtn = document.getElementById('faqAskSubmitBtn');
+  const chips = document.querySelectorAll('.faq-ask-chip');
+
+  // Handle prompt chips click
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const promptText = chip.getAttribute('data-prompt');
+      if (promptText && questionInput) {
+        questionInput.value = promptText;
+        questionInput.focus();
+        // Visual feedback on chip
+        chips.forEach(c => c.style.borderColor = '');
+        chip.style.borderColor = 'var(--blue)';
+      }
+    });
+  });
+
+  // Handle form submission
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const question = (questionInput?.value || '').trim();
+    const name = (nameInput?.value || '').trim() || 'Pengunjung Website';
+
+    if (!question) {
+      alert('Silakan tuliskan pertanyaan Anda terlebih dahulu.');
+      if (questionInput) questionInput.focus();
+      return;
+    }
+
+    let text = `Halo Admin Sahabat Kaca Aluminium, saya ingin mengajukan pertanyaan seputar proyek / FAQ:\n\n`;
+    text += `*Pertanyaan:*\n"${question}"\n\n`;
+    text += `*Dari:* ${name}\n`;
+    text += `\nMohon info dan penjelasannya. Terima kasih!`;
+
+    const waNumber = '6289637371166';
+    const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(text)}`;
+
+    if (submitBtn) {
+      const originalContent = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<span>Membuka WhatsApp Admin...</span>`;
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalContent;
+      }, 3000);
+    }
+
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
+  });
+}
+
 
 
 

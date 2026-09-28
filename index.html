@@ -1026,19 +1026,42 @@
 
       <div class="faq-container">
 
-        <!-- FAQ Search Bar -->
+        <!-- FAQ Search Bar & Sort Dropdown -->
         <div class="faq-search-box">
-          <div class="faq-search-input-wrap">
-            <span class="faq-search-icon" aria-hidden="true">🔍</span>
-            <input 
-              type="text" 
-              id="faqSearchInput" 
-              class="faq-search-input" 
-              placeholder="Cari topik atau pertanyaan (misal: harga, garansi, material, survey, waktu)..." 
-              aria-label="Cari pertanyaan umum"
-              autocomplete="off"
-            >
-            <button type="button" id="faqSearchClear" class="faq-search-clear hidden" aria-label="Hapus kata kunci pencarian">✕</button>
+          <div class="faq-search-bar-row">
+            <div class="faq-search-input-wrap">
+              <span class="faq-search-icon" aria-hidden="true">🔍</span>
+              <input 
+                type="text" 
+                id="faqSearchInput" 
+                class="faq-search-input" 
+                placeholder="Cari topik atau pertanyaan (misal: harga, garansi, material, survey, waktu)..." 
+                aria-label="Cari pertanyaan umum"
+                autocomplete="off"
+              >
+              <button type="button" id="faqSearchClear" class="faq-search-clear hidden" aria-label="Hapus kata kunci pencarian">✕</button>
+            </div>
+
+            <!-- Sort Dropdown Menu -->
+            <div class="faq-sort-wrap">
+              <label for="faqSortSelect" class="faq-sort-label">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M3 6h18M6 12h12M10 18h4"/>
+                </svg>
+                <span>Urutkan:</span>
+              </label>
+              <div class="faq-sort-select-box">
+                <select id="faqSortSelect" class="faq-sort-select" aria-label="Urutkan pertanyaan FAQ">
+                  <option value="popular">Most Popular</option>
+                  <option value="newest">Newest</option>
+                </select>
+                <span class="faq-sort-arrow" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </span>
+              </div>
+            </div>
           </div>
           <div class="faq-search-meta">
             <span id="faqSearchCount" class="faq-search-count">Menampilkan 5 pertanyaan</span>
@@ -1066,7 +1089,7 @@
         <div class="faq-list">
 
           <!-- FAQ Item 1: Material -->
-          <div class="faq-item active" id="faq-material">
+          <div class="faq-item active" id="faq-material" data-popularity="88" data-date="2026-09-18">
             <div class="faq-item-header">
               <button class="faq-question" type="button" aria-expanded="true">
                 <span class="faq-q-icon" aria-hidden="true" title="Topik Material Kusen & Kaca">
@@ -1148,7 +1171,7 @@
           </div>
 
           <!-- FAQ Item 2: Waktu Instalasi -->
-          <div class="faq-item" id="faq-waktu">
+          <div class="faq-item" id="faq-waktu" data-popularity="75" data-date="2026-09-22">
             <div class="faq-item-header">
               <button class="faq-question" type="button" aria-expanded="false">
                 <span class="faq-q-icon" aria-hidden="true" title="Topik Estimasi Waktu Fabrikasi & Pemasangan">
@@ -1229,7 +1252,7 @@
           </div>
 
           <!-- FAQ Item 3: Harga & Biaya -->
-          <div class="faq-item" id="faq-harga">
+          <div class="faq-item" id="faq-harga" data-popularity="98" data-date="2026-09-24">
             <div class="faq-item-header">
               <button class="faq-question" type="button" aria-expanded="false">
                 <span class="faq-q-icon" aria-hidden="true" title="Topik Perhitungan Biaya & RAB">
@@ -1310,7 +1333,7 @@
           </div>
 
           <!-- FAQ Item 4: Survey Lokasi Gratis -->
-          <div class="faq-item" id="faq-survey">
+          <div class="faq-item" id="faq-survey" data-popularity="95" data-date="2026-09-28">
             <div class="faq-item-header">
               <button class="faq-question" type="button" aria-expanded="false">
                 <span class="faq-q-icon" aria-hidden="true" title="Topik Survey Lokasi Gratis">
@@ -1391,7 +1414,7 @@
           </div>
 
           <!-- FAQ Item 5: Garansi Pemasangan -->
-          <div class="faq-item" id="faq-garansi">
+          <div class="faq-item" id="faq-garansi" data-popularity="82" data-date="2026-09-26">
             <div class="faq-item-header">
               <button class="faq-question" type="button" aria-expanded="false">
                 <span class="faq-q-icon" aria-hidden="true" title="Topik Garansi & Aksesoris">

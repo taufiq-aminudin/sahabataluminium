@@ -861,10 +861,94 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   margin-bottom: 24px;
   box-shadow: 0 4px 16px rgba(7, 55, 70, 0.04);
 }
+.faq-search-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 .faq-search-input-wrap {
   position: relative;
   display: flex;
   align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+/* FAQ Sort Dropdown Wrap */
+.faq-sort-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.faq-sort-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--deep);
+  white-space: nowrap;
+}
+.faq-sort-label svg {
+  color: var(--blue);
+  flex-shrink: 0;
+}
+.faq-sort-select-box {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.faq-sort-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: #f5f8fa;
+  border: 1.5px solid #d5e5eb;
+  border-radius: 12px;
+  padding: 13px 34px 13px 14px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--deep);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+  line-height: 1.25;
+}
+.faq-sort-select:hover {
+  background: #ffffff;
+  border-color: var(--blue);
+}
+.faq-sort-select:focus {
+  background: #ffffff;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(13, 92, 115, 0.12);
+}
+.faq-sort-arrow {
+  position: absolute;
+  right: 12px;
+  pointer-events: none;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+.faq-sort-select:focus + .faq-sort-arrow {
+  transform: rotate(180deg);
+  color: var(--blue);
+}
+.faq-item-sorted {
+  animation: faqSortSlide 0.3s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
+}
+@keyframes faqSortSlide {
+  0% {
+    opacity: 0.65;
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .faq-search-icon {
   position: absolute;
@@ -1337,6 +1421,19 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   }
   .faq-copy-tooltip::after {
     right: 20px;
+  }
+  .faq-search-bar-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .faq-sort-wrap {
+    justify-content: flex-end;
+    width: 100%;
+  }
+  .faq-sort-select {
+    padding: 10px 32px 10px 12px;
+    font-size: 13px;
   }
 }
 

@@ -717,6 +717,73 @@ function initFaqCopyCounters() {
 
 initFaqCopyCounters();
 
+/* =========================================================
+   FAQ SORTING: 'Most Popular' OR 'Newest'
+   Enhances navigation efficiency by organizing questions
+   ========================================================= */
+const faqSortSelect = document.getElementById('faqSortSelect');
+const faqListContainer = document.querySelector('.faq-list');
+
+function sortFaqItems(sortType) {
+  if (!faqListContainer) return;
+  const items = Array.from(faqListContainer.querySelectorAll('.faq-item'));
+  const copyCounts = getFaqCopyCounts();
+
+  items.sort((a, b) => {
+    if (sortType === 'popular') {
+      const aBasePop = parseInt(a.getAttribute('data-popularity'), 10) || 0;
+      const bBasePop = parseInt(b.getAttribute('data-popularity'), 10) || 0;
+      const aCopies = (typeof copyCounts[a.id] === 'number') ? copyCounts[a.id] : 0;
+      const bCopies = (typeof copyCounts[b.id] === 'number') ? copyCounts[b.id] : 0;
+      const aScore = aBasePop + (aCopies * 15);
+      const bScore = bBasePop + (bCopies * 15);
+      return bScore - aScore; // Descending (highest score first)
+    } else if (sortType === 'newest') {
+      const aDateStr = a.getAttribute('data-date') || '2026-09-01';
+      const bDateStr = b.getAttribute('data-date') || '2026-09-01';
+      const aTime = new Date(aDateStr).getTime();
+      const bTime = new Date(bDateStr).getTime();
+      return bTime - aTime; // Descending (newest date first)
+    }
+    return 0;
+  });
+
+  // Re-append items in sorted order with gentle transition animation
+  items.forEach((item) => {
+    faqListContainer.appendChild(item);
+    item.classList.remove('faq-item-sorted');
+    void item.offsetWidth; // trigger reflow
+    item.classList.add('faq-item-sorted');
+    setTimeout(() => item.classList.remove('faq-item-sorted'), 350);
+  });
+
+  // Re-apply search filtering if query exists
+  if (faqSearchInput && faqSearchInput.value.trim().length > 0) {
+    filterFaq(faqSearchInput.value);
+  }
+}
+
+if (faqSortSelect) {
+  faqSortSelect.addEventListener('change', (e) => {
+    const selectedSort = e.target.value;
+    try {
+      localStorage.setItem('sahabat_faq_sort_pref', selectedSort);
+    } catch (err) {}
+    sortFaqItems(selectedSort);
+  });
+
+  // Load user saved preference if exists
+  try {
+    const savedSort = localStorage.getItem('sahabat_faq_sort_pref');
+    if (savedSort && (savedSort === 'popular' || savedSort === 'newest')) {
+      faqSortSelect.value = savedSort;
+    }
+  } catch (err) {}
+
+  // Initial sort execution
+  sortFaqItems(faqSortSelect.value);
+}
+
 const faqCopyButtons = document.querySelectorAll('.faq-copy-btn');
 
 faqCopyButtons.forEach((btn) => {

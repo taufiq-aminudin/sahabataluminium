@@ -1602,12 +1602,45 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 }
 
 /* =========================================================
+   SUBTLE FULL-WIDTH GRADIENT DIVIDER (FAQ to Testimonials)
+   ========================================================= */
+.faq-testimoni-divider {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    rgba(13, 92, 115, 0) 0%, 
+    rgba(13, 92, 115, 0.15) 15%, 
+    rgba(13, 92, 115, 0.45) 35%, 
+    rgba(200, 148, 61, 0.65) 50%, 
+    rgba(13, 92, 115, 0.45) 65%, 
+    rgba(13, 92, 115, 0.15) 85%, 
+    rgba(13, 92, 115, 0) 100%
+  );
+  position: relative;
+  display: block;
+  z-index: 2;
+}
+
+.faq-testimoni-divider::after {
+  content: '';
+  position: absolute;
+  top: -1.5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  height: 5px;
+  background: radial-gradient(ellipse at center, rgba(200, 148, 61, 0.35) 0%, rgba(13, 92, 115, 0.15) 45%, rgba(13, 92, 115, 0) 75%);
+  filter: blur(1.5px);
+  pointer-events: none;
+}
+
+/* =========================================================
    TESTIMONI PELANGGAN (TESTIMONIALS) SECTION
    ========================================================= */
 .testimonials-section{
   padding: 85px 0;
   background: linear-gradient(180deg, #f4f8fa 0%, #ffffff 100%);
-  border-top: 1px solid var(--line);
+  border-top: none;
   position: relative;
 }
 .testimonials-head{

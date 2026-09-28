@@ -2029,11 +2029,15 @@ function renderProjectOrder(order) {
         const stInfo = stageLabels[stKey] || { name: stKey, pct: '', icon: '📌' };
         const isLatest = index === 0;
         const formattedTime = formatLogTimestamp(log.timestamp);
+        const hasPhoto = Boolean(log.photo);
+
+        const safeTitle = (log.title || '').replace(/"/g, '&quot;').replace(/'/g, "\\'");
+        const safeCaption = (log.photoCaption || log.desc || '').replace(/"/g, '&quot;').replace(/'/g, "\\'");
 
         return `
-          <div class="history-log-item ${isLatest ? 'is-latest' : ''}">
+          <div class="history-log-item ${isLatest ? 'is-latest' : ''} ${hasPhoto ? 'has-photo' : ''}">
             <div class="history-log-item-dot">
-              ${isLatest ? '★' : '✓'}
+              ${hasPhoto ? '📷' : (isLatest ? '★' : '✓')}
             </div>
             <div class="history-log-item-content">
               <div class="history-log-item-header">
@@ -2045,9 +2049,22 @@ function renderProjectOrder(order) {
                   ${stInfo.icon} ${stInfo.name} ${stInfo.pct ? `(${stInfo.pct})` : ''}
                 </span>
                 ${isLatest ? '<span class="history-latest-pill">Status Terkini / Live</span>' : ''}
+                ${hasPhoto ? '<span class="history-photo-pill">📸 Dokumentasi Foto</span>' : ''}
               </div>
               <div class="history-event-title">${log.title}</div>
               <p class="history-event-desc">${log.desc}</p>
+              ${hasPhoto ? `
+                <div class="history-photo-attachment">
+                  <div class="history-photo-card" onclick="window.openOrderPhotoModal('${log.photo}', '${safeTitle}', '${safeCaption}', '${formattedTime}')" title="Klik untuk memperbesar foto">
+                    <div class="history-photo-img-wrap">
+                      <img src="${log.photo}" alt="${log.title}" class="history-photo-img" loading="lazy">
+                      <span class="history-photo-zoom-tag">🔍 Perbesar Foto</span>
+                    </div>
+                    ${log.photoCaption ? `<div class="history-photo-caption">"${log.photoCaption}"</div>` : ''}
+                  </div>
+                  ${log.uploader ? `<div class="history-photo-author"><span>👤</span> Diunggah oleh: <b>${log.uploader}</b></div>` : ''}
+                </div>
+              ` : ''}
             </div>
           </div>
         `;
@@ -2172,9 +2189,102 @@ function renderProjectOrder(order) {
                 <p class="history-log-subtitle">Riwayat pembaruan status resmi untuk Order ID <strong>#${order.id}</strong></p>
               </div>
             </div>
-            <div class="history-count-badge">
-              <span class="count-num">${activityLogs.length}</span>
-              <span class="count-text">Pembaruan Tercatat</span>
+            <div class="history-top-actions">
+              <button type="button" class="btn-history-upload" id="btnToggleUpload_${order.id}" onclick="window.toggleOrderPhotoUploadCard('${order.id}')" title="Ambil foto dari kamera ponsel atau pilih file dari memori perangkat">
+                <span class="btn-upload-icon">📷</span>
+                <span>Unggah Foto Proyek</span>
+              </button>
+              <div class="history-count-badge">
+                <span class="count-num">${activityLogs.length}</span>
+                <span class="count-text">Pembaruan Tercatat</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Photo Upload Form Container (Camera / Device Storage) -->
+          <div class="order-photo-upload-container" id="orderPhotoUploadCard_${order.id}" style="display: none;">
+            <div class="upload-card-header">
+              <h6 class="upload-card-title">
+                <span>📷</span>
+                <span>Unggah Dokumentasi Foto Proyek #${order.id}</span>
+              </h6>
+              <button type="button" class="upload-card-close-btn" onclick="window.toggleOrderPhotoUploadCard('${order.id}')" title="Tutup Formulir">✕</button>
+            </div>
+
+            <!-- Hidden File Inputs: Camera & Storage -->
+            <input type="file" id="orderPhotoCameraInput_${order.id}" accept="image/*" capture="environment" style="display:none;" onchange="window.handleOrderPhotoSelected(event, '${order.id}')">
+            <input type="file" id="orderPhotoStorageInput_${order.id}" accept="image/*" style="display:none;" onchange="window.handleOrderPhotoSelected(event, '${order.id}')">
+
+            <!-- Source Selection: Mobile Camera vs Device Storage -->
+            <div class="upload-source-row">
+              <button type="button" class="btn-source-option" onclick="document.getElementById('orderPhotoCameraInput_${order.id}').click()">
+                <span class="btn-source-icon">📸</span>
+                <span>Buka Kamera Ponsel</span>
+              </button>
+              <button type="button" class="btn-source-option" onclick="document.getElementById('orderPhotoStorageInput_${order.id}').click()">
+                <span class="btn-source-icon">📁</span>
+                <span>Pilih File / Galeri Perangkat</span>
+              </button>
+            </div>
+
+            <!-- Dropzone Area -->
+            <div class="upload-dropzone" id="uploadDropzone_${order.id}" onclick="document.getElementById('orderPhotoStorageInput_${order.id}').click()">
+              <span class="dropzone-icon">🖼️</span>
+              <div class="dropzone-label">Ketuk di sini atau seret foto ke dalam area ini</div>
+              <div class="dropzone-sublabel">Format foto didukung: JPG, PNG, WEBP (otomatis dioptimalkan)</div>
+            </div>
+
+            <!-- Image Preview Box -->
+            <div class="upload-preview-card" id="uploadPreviewCard_${order.id}" style="display: none;">
+              <img id="uploadPreviewImg_${order.id}" class="upload-preview-thumb" src="" alt="Pratinjau Foto">
+              <div class="upload-preview-meta">
+                <div class="upload-preview-name" id="uploadPreviewName_${order.id}">foto-proyek.jpg</div>
+                <div class="upload-preview-size" id="uploadPreviewSize_${order.id}">0 KB</div>
+                <div class="upload-preview-actions">
+                  <button type="button" class="btn-preview-action" onclick="document.getElementById('orderPhotoStorageInput_${order.id}').click()">Ganti Foto</button>
+                  <button type="button" class="btn-preview-action delete" onclick="window.clearOrderPhotoSelected('${order.id}')">Hapus Foto</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Details Grid -->
+            <div class="upload-form-grid">
+              <div class="upload-form-group">
+                <label class="upload-label" for="uploadStageSelect_${order.id}">Tahap Dokumentasi</label>
+                <select id="uploadStageSelect_${order.id}" class="upload-select">
+                  <option value="Survey" ${order.currentStage === 'Survey' ? 'selected' : ''}>📐 1. Survey & Pengukuran</option>
+                  <option value="Fabrication" ${order.currentStage === 'Fabrication' ? 'selected' : ''}>⚙️ 2. Fabrikasi Workshop</option>
+                  <option value="Installation" ${order.currentStage === 'Installation' ? 'selected' : ''}>🏗️ 3. Instalasi On-Site</option>
+                  <option value="Completed" ${order.currentStage === 'Completed' ? 'selected' : ''}>🛡️ 4. Selesai & Garansi</option>
+                </select>
+              </div>
+
+              <div class="upload-form-group">
+                <label class="upload-label" for="uploadUploaderInput_${order.id}">Pengunggah / Peran</label>
+                <input type="text" id="uploadUploaderInput_${order.id}" class="upload-input" placeholder="Contoh: Klien / Teknisi Lapangan" value="Klien / Pengawas">
+              </div>
+
+              <div class="upload-form-group full-width">
+                <label class="upload-label" for="uploadTitleInput_${order.id}">Judul Dokumentasi</label>
+                <input type="text" id="uploadTitleInput_${order.id}" class="upload-input" placeholder="Contoh: Foto Pemasangan Kusen Alexindo 4 Inch" value="Dokumentasi Foto Lapangan (${order.currentStage || 'Survey'})">
+              </div>
+
+              <div class="upload-form-group full-width">
+                <label class="upload-label" for="uploadCaptionInput_${order.id}">Catatan / Keterangan Foto Lapangan</label>
+                <textarea id="uploadCaptionInput_${order.id}" class="upload-textarea" placeholder="Tambahkan rincian progres, seperti kondisi bukaan kusen, posisi kaca, atau catatan khusus..."></textarea>
+              </div>
+            </div>
+
+            <!-- Feedback Message Container -->
+            <div class="upload-feedback-msg" id="uploadFeedbackMsg_${order.id}"></div>
+
+            <!-- Actions Bar -->
+            <div class="upload-actions-bar">
+              <button type="button" class="btn-upload-cancel" onclick="window.toggleOrderPhotoUploadCard('${order.id}')">Batal</button>
+              <button type="button" class="btn-upload-submit" id="btnSubmitPhoto_${order.id}" onclick="window.submitOrderPhoto('${order.id}')">
+                <span>Simpan ke History Log</span>
+                <span>↗</span>
+              </button>
             </div>
           </div>
 
@@ -2427,6 +2537,404 @@ document.addEventListener('DOMContentLoaded', () => {
   // Automatically load initial order
   window.trackProjectOrder(initialOrderId);
 });
+
+// =========================================================
+// FOOTER NEWSLETTER SUBSCRIPTION CONTROLLER
+// Simple client validation + API call + accessible feedback
+// =========================================================
+function initFooterNewsletter() {
+  const forms = document.querySelectorAll('.newsletter-form');
+  if (!forms.length) return;
+
+  forms.forEach(form => {
+    const input = form.querySelector('.newsletter-input');
+    const btn = form.querySelector('.newsletter-btn');
+    const inputGroup = form.querySelector('.newsletter-input-group');
+
+    if (!input || !btn) return;
+
+    // Reset error on typing
+    input.addEventListener('input', () => {
+      if (inputGroup) inputGroup.classList.remove('input-error');
+      const feedback = form.querySelector('.newsletter-feedback');
+      if (feedback && feedback.classList.contains('is-error')) {
+        feedback.style.display = 'none';
+        feedback.className = 'newsletter-feedback';
+        feedback.innerHTML = '';
+      }
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const rawVal = input.value || '';
+      const email = rawVal.trim();
+
+      // Simple Validation
+      if (!email) {
+        showFeedback(form, 'error', '⚠️ Harap masukkan alamat email Anda.');
+        if (inputGroup) inputGroup.classList.add('input-error');
+        input.focus();
+        return;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showFeedback(form, 'error', '⚠️ Format email tidak valid (contoh: nama@perusahaan.com).');
+        if (inputGroup) inputGroup.classList.add('input-error');
+        input.focus();
+        return;
+      }
+
+      // Loading state
+      btn.disabled = true;
+      const originalBtnHtml = btn.innerHTML;
+      btn.innerHTML = '<span>Mendaftarkan...</span>';
+
+      try {
+        const response = await fetch('/api/newsletter/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, source: window.location.pathname })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          showFeedback(form, 'success', `✓ ${data.message || 'Berhasil berlangganan update proyek!'}`);
+          input.value = '';
+          if (inputGroup) inputGroup.classList.remove('input-error');
+
+          // Store local flag
+          try {
+            localStorage.setItem('subscribed_newsletter', 'true');
+          } catch (_) {}
+        } else {
+          showFeedback(form, 'error', `⚠️ ${data.error || 'Gagal mendaftar. Silakan coba lagi.'}`);
+          if (inputGroup) inputGroup.classList.add('input-error');
+        }
+      } catch (err) {
+        console.error('Newsletter submission error:', err);
+        showFeedback(form, 'error', '⚠️ Terjadi gangguan koneksi internet. Silakan coba lagi.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalBtnHtml;
+      }
+    });
+  });
+
+  function showFeedback(form, type, message) {
+    const feedback = form.querySelector('.newsletter-feedback');
+    if (!feedback) return;
+
+    feedback.className = `newsletter-feedback is-${type}`;
+    feedback.innerHTML = message;
+    feedback.style.display = 'flex';
+  }
+}
+
+// Attach newsletter listener
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFooterNewsletter);
+  } else {
+    initFooterNewsletter();
+  }
+}
+
+// =========================================================
+// PROJECT PHOTO UPLOAD & HISTORY LOG CONTROLLER
+// Mobile camera capture & device storage photo uploads
+// =========================================================
+
+// Pending photo selection store mapped by orderId
+window.orderPendingPhotos = window.orderPendingPhotos || {};
+
+// Toggle visibility of the upload card
+window.toggleOrderPhotoUploadCard = function(orderId) {
+  const card = document.getElementById(`orderPhotoUploadCard_${orderId}`);
+  const btn = document.getElementById(`btnToggleUpload_${orderId}`);
+  if (!card) return;
+
+  const isHidden = card.style.display === 'none' || !card.style.display;
+  if (isHidden) {
+    card.style.display = 'block';
+    if (btn) btn.classList.add('active');
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  } else {
+    card.style.display = 'none';
+    if (btn) btn.classList.remove('active');
+  }
+};
+
+// Handle photo selected from camera or file picker
+window.handleOrderPhotoSelected = async function(event, orderId) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  // Validate that it's an image
+  if (!file.type.startsWith('image/')) {
+    window.showOrderPhotoFeedback(orderId, 'error', '⚠️ File yang dipilih harus berformat gambar (JPG, PNG, atau WEBP).');
+    return;
+  }
+
+  // Show dropzone loading
+  const dropzone = document.getElementById(`uploadDropzone_${orderId}`);
+  if (dropzone) {
+    dropzone.innerHTML = `<span class="dropzone-icon">⏳</span><div class="dropzone-label">Mengoptimalkan foto...</div>`;
+  }
+
+  try {
+    // Compress image to ensure fast uploads even on mobile networks
+    const compressedDataUrl = await window.compressProjectImage(file, 1600, 0.85);
+
+    // Store in pending memory
+    window.orderPendingPhotos[orderId] = {
+      dataUrl: compressedDataUrl,
+      fileName: file.name || 'foto-lapangan.jpg',
+      fileSize: Math.round(compressedDataUrl.length * 0.75 / 1024) + ' KB'
+    };
+
+    // Update Preview UI
+    const previewCard = document.getElementById(`uploadPreviewCard_${orderId}`);
+    const previewImg = document.getElementById(`uploadPreviewImg_${orderId}`);
+    const previewName = document.getElementById(`uploadPreviewName_${orderId}`);
+    const previewSize = document.getElementById(`uploadPreviewSize_${orderId}`);
+
+    if (previewCard && previewImg) {
+      previewImg.src = compressedDataUrl;
+      if (previewName) previewName.textContent = file.name || 'foto-lapangan.jpg';
+      if (previewSize) previewSize.textContent = window.orderPendingPhotos[orderId].fileSize;
+
+      previewCard.style.display = 'flex';
+      if (dropzone) dropzone.style.display = 'none';
+    }
+
+    // Clear any previous error feedback
+    window.showOrderPhotoFeedback(orderId, 'clear', '');
+  } catch (err) {
+    console.error('Error processing photo:', err);
+    window.showOrderPhotoFeedback(orderId, 'error', '⚠️ Gagal membaca foto. Silakan coba kembali.');
+    if (dropzone) {
+      dropzone.innerHTML = `
+        <span class="dropzone-icon">🖼️</span>
+        <div class="dropzone-label">Ketuk di sini atau seret foto ke dalam area ini</div>
+        <div class="dropzone-sublabel">Format foto didukung: JPG, PNG, WEBP</div>
+      `;
+    }
+  }
+};
+
+// Clear currently selected photo
+window.clearOrderPhotoSelected = function(orderId) {
+  delete window.orderPendingPhotos[orderId];
+
+  const previewCard = document.getElementById(`uploadPreviewCard_${orderId}`);
+  const dropzone = document.getElementById(`uploadDropzone_${orderId}`);
+  const camInput = document.getElementById(`orderPhotoCameraInput_${orderId}`);
+  const storageInput = document.getElementById(`orderPhotoStorageInput_${orderId}`);
+
+  if (previewCard) previewCard.style.display = 'none';
+  if (dropzone) {
+    dropzone.style.display = 'block';
+    dropzone.innerHTML = `
+      <span class="dropzone-icon">🖼️</span>
+      <div class="dropzone-label">Ketuk di sini atau seret foto ke dalam area ini</div>
+      <div class="dropzone-sublabel">Format foto didukung: JPG, PNG, WEBP (otomatis dioptimalkan)</div>
+    `;
+  }
+  if (camInput) camInput.value = '';
+  if (storageInput) storageInput.value = '';
+  window.showOrderPhotoFeedback(orderId, 'clear', '');
+};
+
+// Compress image via off-screen canvas
+window.compressProjectImage = function(file, maxWidth = 1600, quality = 0.85) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onerror = reject;
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+
+        if (width > maxWidth || height > maxWidth) {
+          if (width > height) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          } else {
+            width = Math.round((width * maxWidth) / height);
+            height = maxWidth;
+          }
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL('image/jpeg', quality);
+        resolve(dataUrl);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+};
+
+// Submit uploaded photo to backend API
+window.submitOrderPhoto = async function(orderId) {
+  const pending = window.orderPendingPhotos[orderId];
+  if (!pending || !pending.dataUrl) {
+    window.showOrderPhotoFeedback(orderId, 'error', '⚠️ Harap ambil foto dari kamera atau pilih file foto terlebih dahulu.');
+    return;
+  }
+
+  const stageSelect = document.getElementById(`uploadStageSelect_${orderId}`);
+  const titleInput = document.getElementById(`uploadTitleInput_${orderId}`);
+  const captionInput = document.getElementById(`uploadCaptionInput_${orderId}`);
+  const uploaderInput = document.getElementById(`uploadUploaderInput_${orderId}`);
+  const submitBtn = document.getElementById(`btnSubmitPhoto_${orderId}`);
+
+  const stage = stageSelect ? stageSelect.value : 'Survey';
+  const title = titleInput ? titleInput.value.trim() : '';
+  const caption = captionInput ? captionInput.value.trim() : '';
+  const uploader = uploaderInput ? uploaderInput.value.trim() : '';
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `<span>⏳ Mengunggah foto...</span>`;
+  }
+
+  try {
+    const res = await fetch(`/api/orders/${encodeURIComponent(orderId)}/upload-photo`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        photo: pending.dataUrl,
+        stage,
+        title: title || `Dokumentasi Foto Lapangan (${stage})`,
+        caption,
+        uploader: uploader || 'Pengguna / Pengawas Lapangan'
+      })
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.success && data.order) {
+      window.showOrderPhotoFeedback(orderId, 'success', `✓ ${data.message || 'Foto progres berhasil disimpan ke history log!'}`);
+      delete window.orderPendingPhotos[orderId];
+
+      setTimeout(() => {
+        renderProjectOrder(data.order);
+        const timelineList = document.querySelector('.history-timeline-list');
+        if (timelineList) {
+          timelineList.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }, 700);
+    } else {
+      window.showOrderPhotoFeedback(orderId, 'error', `⚠️ ${data.error || 'Gagal mengunggah foto. Silakan coba kembali.'}`);
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<span>Simpan ke History Log</span><span>↗</span>`;
+      }
+    }
+  } catch (err) {
+    console.error('Error submitting order photo:', err);
+    window.showOrderPhotoFeedback(orderId, 'error', '⚠️ Terjadi gangguan koneksi saat mengunggah foto. Periksa jaringan Anda dan coba lagi.');
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = `<span>Simpan ke History Log</span><span>↗</span>`;
+    }
+  }
+};
+
+// Display error/success feedback
+window.showOrderPhotoFeedback = function(orderId, type, message) {
+  const fb = document.getElementById(`uploadFeedbackMsg_${orderId}`);
+  if (!fb) return;
+
+  if (type === 'clear') {
+    fb.style.display = 'none';
+    fb.className = 'upload-feedback-msg';
+    fb.textContent = '';
+    return;
+  }
+
+  fb.className = `upload-feedback-msg ${type}`;
+  fb.textContent = message;
+  fb.style.display = 'block';
+};
+
+// Order Photo Full-Screen Lightbox Modal
+window.openOrderPhotoModal = function(photoUrl, title, caption, time) {
+  let modal = document.getElementById('orderPhotoModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'orderPhotoModal';
+    modal.className = 'order-photo-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.innerHTML = `
+      <div class="order-photo-modal-content">
+        <div class="order-photo-modal-header">
+          <h5 class="order-photo-modal-title" id="orderPhotoModalTitle">Dokumentasi Foto Proyek</h5>
+          <button type="button" class="order-photo-modal-close" onclick="window.closeOrderPhotoModal()" aria-label="Tutup Pratinjau">✕</button>
+        </div>
+        <div class="order-photo-modal-body">
+          <img id="orderPhotoModalImg" class="order-photo-modal-img" src="" alt="Pratinjau Dokumentasi">
+        </div>
+        <div class="order-photo-modal-footer">
+          <p id="orderPhotoModalCaption" class="order-photo-modal-caption"></p>
+          <div class="order-photo-modal-meta">
+            <span id="orderPhotoModalTime"></span>
+          </div>
+        </div>
+      </div>
+    `;
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) window.closeOrderPhotoModal();
+    });
+    document.body.appendChild(modal);
+  }
+
+  const imgEl = document.getElementById('orderPhotoModalImg');
+  const titleEl = document.getElementById('orderPhotoModalTitle');
+  const captionEl = document.getElementById('orderPhotoModalCaption');
+  const timeEl = document.getElementById('orderPhotoModalTime');
+
+  if (imgEl) imgEl.src = photoUrl;
+  if (titleEl) titleEl.textContent = title || 'Dokumentasi Foto Proyek';
+  if (captionEl) {
+    captionEl.textContent = caption || '';
+    captionEl.style.display = caption ? 'block' : 'none';
+  }
+  if (timeEl) timeEl.textContent = time ? `Waktu: ${time}` : '';
+
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeOrderPhotoModal = function() {
+  const modal = document.getElementById('orderPhotoModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+};
+
+// Keyboard escape listener for photo modal
+if (typeof document !== 'undefined') {
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      window.closeOrderPhotoModal();
+    }
+  });
+}
+
+
 
 
 

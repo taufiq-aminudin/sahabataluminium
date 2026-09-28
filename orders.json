@@ -91,7 +91,7 @@
       "Fabrication": {
         "status": "in_progress",
         "date": "28 September 2026",
-        "notes": "Perakitan modul rangka profil aluminium di workshop pusat Karawang Barat."
+        "notes": "Profil aluminium Alexindo 4 inch telah dipotong presisi sudut 45 derajat di workshop."
       },
       "Installation": {
         "status": "pending",
@@ -105,6 +105,15 @@
       }
     },
     "activityLog": [
+      {
+        "timestamp": "2026-09-28 11:18",
+        "stage": "Fabrication",
+        "title": "Uji Dokumentasi Perakitan Rangka Kusen Pabrik",
+        "desc": "Profil aluminium Alexindo 4 inch telah dipotong presisi sudut 45 derajat di workshop.",
+        "photo": "/assets/uploads/orders/order-SKA-2026-002-1790594296377.png",
+        "photoCaption": "Profil aluminium Alexindo 4 inch telah dipotong presisi sudut 45 derajat di workshop.",
+        "uploader": "Bpk. Bambang Setiadi (Fabrikator Kepala)"
+      },
       {
         "timestamp": "2026-09-28 09:52",
         "stage": "Fabrication",

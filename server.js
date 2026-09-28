@@ -11,7 +11,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const HOST = '0.0.0.0';
 
-app.use(express.json());
+app.use(express.json({ limit: '25mb' }));
+app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 
 // API: Search Aluminium Karawang Locations & Information with Google Maps Grounding
 app.post('/api/search-locations', async (req, res) => {
@@ -370,6 +371,109 @@ app.patch('/api/orders/:id/status', (req, res) => {
   }
 });
 
+// API: Upload Project Photo for an Order
+app.post('/api/orders/:id/upload-photo', (req, res) => {
+  try {
+    const rawOrderId = (req.params.id || '').trim();
+    const orderId = rawOrderId.toLowerCase();
+    const { photo, caption, stage, title, uploader } = req.body || {};
+
+    if (!photo || typeof photo !== 'string') {
+      return res.status(400).json({ success: false, error: 'File foto proyek wajib dipilih atau diambil dari kamera' });
+    }
+
+    const filePath = path.join(__dirname, 'orders.json');
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ success: false, error: 'Database order tidak ditemukan' });
+    }
+
+    let orders = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    const idx = orders.findIndex(o => o.id.toLowerCase() === orderId);
+    if (idx === -1) {
+      return res.status(404).json({ success: false, error: `Pesanan dengan ID ${rawOrderId} tidak ditemukan` });
+    }
+
+    let photoUrl = '';
+
+    // Handle Base64 Data URL
+    if (photo.startsWith('data:image/')) {
+      const matches = photo.match(/^data:image\/([a-zA-Z0-9+]+);base64,(.+)$/);
+      if (!matches || matches.length !== 3) {
+        return res.status(400).json({ success: false, error: 'Format data gambar tidak valid' });
+      }
+
+      let ext = matches[1].toLowerCase();
+      if (ext === 'jpeg') ext = 'jpg';
+      if (ext === 'svg+xml') ext = 'svg';
+
+      const base64Data = matches[2];
+      const buffer = Buffer.from(base64Data, 'base64');
+
+      const uploadsDir = path.join(__dirname, 'assets', 'uploads', 'orders');
+      if (!fs.existsSync(uploadsDir)) {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+      }
+
+      const safeId = rawOrderId.replace(/[^a-zA-Z0-9_-]/g, '_');
+      const fileName = `order-${safeId}-${Date.now()}.${ext}`;
+      const fullPath = path.join(uploadsDir, fileName);
+
+      fs.writeFileSync(fullPath, buffer);
+      photoUrl = `/assets/uploads/orders/${fileName}`;
+    } else if (photo.startsWith('/assets/') || photo.startsWith('http://') || photo.startsWith('https://')) {
+      photoUrl = photo;
+    } else {
+      return res.status(400).json({ success: false, error: 'Format foto tidak didukung' });
+    }
+
+    const now = new Date();
+    const timeStr = `${now.toISOString().slice(0, 10)} ${now.toTimeString().slice(0, 5)}`;
+    const currentOrder = { ...orders[idx] };
+    const validStages = ['Survey', 'Fabrication', 'Installation', 'Completed'];
+    const selectedStage = validStages.includes(stage) ? stage : (currentOrder.currentStage || 'Survey');
+
+    const defaultTitle = `Foto Progres Lapangan (${selectedStage})`;
+    const defaultDesc = caption && caption.trim() 
+      ? caption.trim() 
+      : `Foto dokumentasi fisik diunggah pada tahap ${selectedStage} untuk nomor pesanan #${currentOrder.id}.`;
+
+    const newLogItem = {
+      timestamp: timeStr,
+      stage: selectedStage,
+      title: title && title.trim() ? title.trim() : defaultTitle,
+      desc: defaultDesc,
+      photo: photoUrl,
+      photoCaption: caption && caption.trim() ? caption.trim() : '',
+      uploader: uploader && uploader.trim() ? uploader.trim() : 'Pengguna / Pengawas Lapangan'
+    };
+
+    if (!Array.isArray(currentOrder.activityLog)) {
+      currentOrder.activityLog = [];
+    }
+
+    // Prepend photo log as latest event in history log
+    currentOrder.activityLog.unshift(newLogItem);
+
+    // Also update order stage notes if provided
+    if (caption && caption.trim() && currentOrder.stages && currentOrder.stages[selectedStage]) {
+      currentOrder.stages[selectedStage].notes = caption.trim();
+    }
+
+    orders[idx] = currentOrder;
+    fs.writeFileSync(filePath, JSON.stringify(orders, null, 2), 'utf-8');
+
+    return res.json({
+      success: true,
+      message: 'Foto progres proyek berhasil diunggah dan ditambahkan ke History Log!',
+      order: currentOrder,
+      logItem: newLogItem
+    });
+  } catch (err) {
+    console.error('Error uploading order photo:', err);
+    return res.status(500).json({ success: false, error: 'Terjadi kesalahan sistem saat menyimpan foto proyek' });
+  }
+});
+
 // API: Save or Create Order
 app.post('/api/orders', (req, res) => {
   try {
@@ -442,6 +546,60 @@ app.post('/api/ads-config', (req, res) => {
   } catch (err) {
     console.error('Error saving ads-config:', err);
     return res.status(500).json({ success: false, error: 'Gagal menyimpan konfigurasi iklan' });
+  }
+});
+
+// API: Newsletter Subscription
+app.post('/api/newsletter/subscribe', (req, res) => {
+  try {
+    const { email } = req.body || {};
+    if (!email || typeof email !== 'string') {
+      return res.status(400).json({ success: false, error: 'Harap masukkan alamat email Anda.' });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(cleanEmail) || cleanEmail.length > 120) {
+      return res.status(400).json({ success: false, error: 'Format email tidak valid (contoh: nama@perusahaan.com).' });
+    }
+
+    const filePath = path.join(__dirname, 'newsletter-subscribers.json');
+    let subscribers = [];
+    if (fs.existsSync(filePath)) {
+      try {
+        subscribers = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+        if (!Array.isArray(subscribers)) subscribers = [];
+      } catch (e) {
+        subscribers = [];
+      }
+    }
+
+    const existingIndex = subscribers.findIndex(s => (s.email || '').toLowerCase() === cleanEmail);
+    if (existingIndex !== -1) {
+      return res.json({
+        success: true,
+        alreadySubscribed: true,
+        message: 'Email Anda sudah terdaftar dalam newsletter kami! Anda akan selalu menerima update proyek terbaru.'
+      });
+    }
+
+    const newSubscriber = {
+      id: 'sub-' + Date.now(),
+      email: cleanEmail,
+      subscribedAt: new Date().toISOString(),
+      source: 'footer-newsletter'
+    };
+
+    subscribers.push(newSubscriber);
+    fs.writeFileSync(filePath, JSON.stringify(subscribers, null, 2), 'utf-8');
+
+    return res.json({
+      success: true,
+      message: 'Selamat! Anda berhasil berlangganan update proyek dan promo khusus dari Sahabat Kaca Aluminium.'
+    });
+  } catch (err) {
+    console.error('Error handling newsletter subscription:', err);
+    return res.status(500).json({ success: false, error: 'Terjadi gangguan teknis pada server. Silakan coba lagi.' });
   }
 });
 

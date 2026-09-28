@@ -687,6 +687,127 @@ if (recentArticlesGrid && recentArticlesSkeleton) {
   }
 }
 
+/* =========================================================
+   WHATSAPP LEAD CONVERSION CONTACT FORM HANDLER
+   ========================================================= */
+function setupWhatsAppForm(formId, previewId, tagsContainerId) {
+  const form = document.getElementById(formId);
+  if (!form) return;
+
+  const preview = document.getElementById(previewId);
+  const nameInput = form.querySelector('[name="name"]');
+  const phoneInput = form.querySelector('[name="phone"]');
+  const locationSelect = form.querySelector('[name="location"]');
+  const serviceSelect = form.querySelector('[name="service"]');
+  const messageInput = form.querySelector('[name="message"]');
+  const tagsContainer = document.getElementById(tagsContainerId);
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  // Handle Quick Service Tags
+  if (tagsContainer && serviceSelect) {
+    const tags = tagsContainer.querySelectorAll('.service-tag');
+    tags.forEach(tag => {
+      tag.addEventListener('click', () => {
+        const val = tag.getAttribute('data-val');
+        if (val) {
+          serviceSelect.value = val;
+          tags.forEach(t => t.classList.remove('active'));
+          tag.classList.add('active');
+          updatePreview();
+        }
+      });
+    });
+
+    serviceSelect.addEventListener('change', () => {
+      const currentVal = serviceSelect.value;
+      tags.forEach(t => {
+        t.classList.toggle('active', t.getAttribute('data-val') === currentVal);
+      });
+      updatePreview();
+    });
+  }
+
+  // Update Live Preview Message
+  function buildMessage() {
+    const name = (nameInput?.value || '').trim() || '[Nama Anda]';
+    const phone = (phoneInput?.value || '').trim() || '[Nomor WhatsApp]';
+    const location = (locationSelect?.value || '').trim() || '[Wilayah Proyek]';
+    const service = (serviceSelect?.value || '').trim() || '[Kebutuhan Layanan]';
+    const note = (messageInput?.value || '').trim();
+
+    let text = `Halo Admin Sahabat Kaca Aluminium, saya ingin konsultasi proyek:\n\n`;
+    text += `*Nama:* ${name}\n`;
+    text += `*No. WhatsApp:* ${phone}\n`;
+    text += `*Lokasi Proyek:* ${location}\n`;
+    text += `*Kebutuhan:* ${service}\n`;
+    if (note) {
+      text += `*Keterangan / Ukuran:* ${note}\n`;
+    }
+    text += `\nMohon info estimasi biaya (RAB) dan jadwal survey lokasi gratis. Terima kasih!`;
+    return text;
+  }
+
+  function updatePreview() {
+    if (!preview) return;
+    preview.textContent = buildMessage();
+  }
+
+  // Bind input listeners for live preview
+  [nameInput, phoneInput, locationSelect, serviceSelect, messageInput].forEach(elem => {
+    if (elem) {
+      elem.addEventListener('input', updatePreview);
+      elem.addEventListener('change', updatePreview);
+    }
+  });
+
+  // Initial preview update
+  updatePreview();
+
+  // Form submission: open direct WhatsApp API URL
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const name = (nameInput?.value || '').trim();
+    const phone = (phoneInput?.value || '').trim();
+    const location = (locationSelect?.value || '').trim();
+    const service = (serviceSelect?.value || '').trim();
+
+    if (!name || !phone || !location || !service) {
+      alert('Mohon lengkapi Nama, No. WhatsApp, Lokasi Proyek, dan Kebutuhan Layanan.');
+      return;
+    }
+
+    const message = buildMessage();
+    const waNumber = '6289637371166';
+    const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
+
+    // Feedback on button
+    if (submitBtn) {
+      const originalHtml = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<span>Menghubungkan ke WhatsApp...</span>`;
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalHtml;
+      }, 3000);
+    }
+
+    // Open WhatsApp directly
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
+  });
+}
+
+// Initialize on both possible forms
+document.addEventListener('DOMContentLoaded', () => {
+  setupWhatsAppForm('waContactForm', 'waPreviewText', 'waServiceTags');
+  setupWhatsAppForm('waContactFormHome', 'waHomePreviewText', 'waHomeServiceTags');
+});
+if (document.readyState !== 'loading') {
+  setupWhatsAppForm('waContactForm', 'waPreviewText', 'waServiceTags');
+  setupWhatsAppForm('waContactFormHome', 'waHomePreviewText', 'waHomeServiceTags');
+}
+
+
 
 
 

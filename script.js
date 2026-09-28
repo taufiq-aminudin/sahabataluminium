@@ -358,7 +358,7 @@ if (faqFloatBtn && faqSection) {
       faqFloatBtn.setAttribute('aria-expanded', 'true');
       if (faqFloatText) faqFloatText.textContent = 'Lihat FAQ';
       
-      faqSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      window.scrollTo({ top: document.querySelector('#faq').offsetTop, behavior: 'smooth' });
       faqSection.classList.add('faq-highlight');
       setTimeout(() => faqSection.classList.remove('faq-highlight'), 1200);
     } else {
@@ -368,7 +368,7 @@ if (faqFloatBtn && faqSection) {
 
       if (!inView) {
         // Smoothly scroll to #faq
-        faqSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        window.scrollTo({ top: document.querySelector('#faq').offsetTop, behavior: 'smooth' });
         faqSection.classList.add('faq-highlight');
         setTimeout(() => faqSection.classList.remove('faq-highlight'), 1200);
       } else {

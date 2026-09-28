@@ -201,11 +201,196 @@ async function executeMapsSearch() {
 }
 
 /* =========================================================
-   FAQ ACCORDION TOGGLE WITH SMOOTH HEIGHT TRANSITION
+   FAQ ACCORDION & MOBILE DRAWER (BOTTOM-SHEET) OPTIMIZATION
    ========================================================= */
 const faqItems = document.querySelectorAll('.faq-item');
+const faqMobileDrawer = document.getElementById('faqMobileDrawer');
+const faqDrawerOverlay = document.getElementById('faqDrawerOverlay');
+const faqDrawerSheet = document.getElementById('faqDrawerSheet');
+const faqDrawerClose = document.getElementById('faqDrawerClose');
+const faqDrawerBadge = document.getElementById('faqDrawerBadge');
+const faqDrawerId = document.getElementById('faqDrawerId');
+const faqDrawerTitle = document.getElementById('faqDrawerTitle');
+const faqDrawerBody = document.getElementById('faqDrawerBody');
+const faqDrawerCopyBtn = document.getElementById('faqDrawerCopyBtn');
+const faqDrawerCopyText = document.getElementById('faqDrawerCopyText');
+const faqDrawerWaBtn = document.getElementById('faqDrawerWaBtn');
+const faqDrawerHandle = document.getElementById('faqDrawerHandle');
+
+function isMobileView() {
+  return window.innerWidth <= 768;
+}
+
+// Drawer: Open on Mobile
+let currentDrawerFaqId = null;
+
+function getFaqCategoryBadge(id, title) {
+  if (id === 'faq-material' || /material/i.test(title)) return 'Pilihan Material';
+  if (id === 'faq-waktu' || /waktu|lama/i.test(title)) return 'Waktu Pengerjaan';
+  if (id === 'faq-harga' || /harga|biaya/i.test(title)) return 'Estimasi Biaya & RAB';
+  if (id === 'faq-survey' || /survey/i.test(title)) return 'Survey Gratis On-Site';
+  if (id === 'faq-garansi' || /garansi/i.test(title)) return 'Garansi Pemasangan';
+  return 'Tanya Jawab';
+}
+
+function openFaqDrawer(item) {
+  if (!faqMobileDrawer) return;
+
+  const titleElem = item.querySelector('.faq-question span');
+  const answerElem = item.querySelector('.faq-answer');
+  if (!titleElem || !answerElem) return;
+
+  const questionTitle = titleElem.textContent.trim();
+  const answerHtml = answerElem.innerHTML;
+  const faqId = item.id || 'faq';
+  currentDrawerFaqId = faqId;
+
+  // Set Content
+  if (faqDrawerTitle) faqDrawerTitle.textContent = questionTitle;
+  if (faqDrawerBody) {
+    faqDrawerBody.innerHTML = answerHtml;
+    faqDrawerBody.scrollTop = 0;
+  }
+  if (faqDrawerBadge) {
+    faqDrawerBadge.textContent = getFaqCategoryBadge(faqId, questionTitle);
+  }
+  if (faqDrawerId) {
+    faqDrawerId.textContent = `#${faqId}`;
+  }
+
+  // Set WhatsApp button link
+  if (faqDrawerWaBtn) {
+    const waText = `Halo Admin Sahabat Kaca Aluminium, saya ingin konsultasi terkait pertanyaan FAQ: "${questionTitle}"`;
+    faqDrawerWaBtn.href = `https://wa.me/6289637371166?text=${encodeURIComponent(waText)}`;
+  }
+
+  // Reset copy button text
+  if (faqDrawerCopyBtn && faqDrawerCopyText) {
+    faqDrawerCopyBtn.classList.remove('copied');
+    faqDrawerCopyText.textContent = 'Salin Link';
+  }
+
+  // Highlight item in list
+  faqItems.forEach(other => other.classList.remove('active'));
+  item.classList.add('active');
+
+  // Open Drawer UI
+  faqMobileDrawer.classList.add('open');
+  faqMobileDrawer.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('faq-drawer-open');
+}
+
+function closeFaqDrawer() {
+  if (!faqMobileDrawer) return;
+  faqMobileDrawer.classList.remove('open');
+  faqMobileDrawer.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('faq-drawer-open');
+  if (faqDrawerSheet) {
+    faqDrawerSheet.style.transform = '';
+  }
+  currentDrawerFaqId = null;
+}
+
+// Drawer Event Listeners
+if (faqMobileDrawer) {
+  if (faqDrawerClose) {
+    faqDrawerClose.addEventListener('click', closeFaqDrawer);
+  }
+  if (faqDrawerOverlay) {
+    faqDrawerOverlay.addEventListener('click', closeFaqDrawer);
+  }
+
+  // Keyboard escape
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && faqMobileDrawer.classList.contains('open')) {
+      closeFaqDrawer();
+    }
+  });
+
+  // Drawer Copy Button
+  if (faqDrawerCopyBtn) {
+    faqDrawerCopyBtn.addEventListener('click', async () => {
+      if (!currentDrawerFaqId) return;
+      const shareUrl = `${window.location.origin}${window.location.pathname}#${currentDrawerFaqId}`;
+      let copied = false;
+      if (navigator.clipboard && window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(shareUrl);
+          copied = true;
+        } catch (e) {}
+      }
+      if (!copied) {
+        try {
+          const inp = document.createElement('input');
+          inp.value = shareUrl;
+          inp.style.position = 'fixed';
+          inp.style.opacity = '0';
+          document.body.appendChild(inp);
+          inp.select();
+          copied = document.execCommand('copy');
+          document.body.removeChild(inp);
+        } catch (e) {}
+      }
+      faqDrawerCopyBtn.classList.add('copied');
+      if (faqDrawerCopyText) faqDrawerCopyText.textContent = 'Tersalin!';
+      setTimeout(() => {
+        faqDrawerCopyBtn.classList.remove('copied');
+        if (faqDrawerCopyText) faqDrawerCopyText.textContent = 'Salin Link';
+      }, 2000);
+    });
+  }
+
+  // Touch Swipe Down to Dismiss Drawer
+  let touchStartY = 0;
+  let currentTouchY = 0;
+  let isDragging = false;
+
+  const dragTarget = faqDrawerHandle || faqDrawerSheet;
+  if (dragTarget && faqDrawerSheet) {
+    dragTarget.addEventListener('touchstart', (e) => {
+      touchStartY = e.touches[0].clientY;
+      isDragging = true;
+      faqDrawerSheet.style.transition = 'none';
+    }, { passive: true });
+
+    dragTarget.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      currentTouchY = e.touches[0].clientY;
+      const diffY = currentTouchY - touchStartY;
+      if (diffY > 0) {
+        faqDrawerSheet.style.transform = `translateY(${diffY}px)`;
+      }
+    }, { passive: true });
+
+    dragTarget.addEventListener('touchend', () => {
+      if (!isDragging) return;
+      isDragging = false;
+      faqDrawerSheet.style.transition = '';
+      const diffY = currentTouchY - touchStartY;
+      if (diffY > 70) {
+        closeFaqDrawer();
+      } else {
+        faqDrawerSheet.style.transform = '';
+      }
+      touchStartY = 0;
+      currentTouchY = 0;
+    });
+  }
+
+  // Handle Resize: if resized to desktop, close drawer and let desktop accordion take over
+  window.addEventListener('resize', () => {
+    if (!isMobileView() && faqMobileDrawer.classList.contains('open')) {
+      closeFaqDrawer();
+    }
+  });
+}
 
 function openFaq(item) {
+  if (isMobileView() && faqMobileDrawer) {
+    openFaqDrawer(item);
+    return;
+  }
+
   const answer = item.querySelector('.faq-answer');
   const btn = item.querySelector('.faq-question');
   if (!answer) return;
@@ -249,13 +434,19 @@ faqItems.forEach((item) => {
   const btn = item.querySelector('.faq-question');
   const answer = item.querySelector('.faq-answer');
 
-  if (item.classList.contains('active') && answer) {
+  // Initial desktop state (open first if active on desktop)
+  if (!isMobileView() && item.classList.contains('active') && answer) {
     answer.style.height = 'auto';
     if (btn) btn.setAttribute('aria-expanded', 'true');
   }
 
   if (btn) {
     btn.addEventListener('click', () => {
+      if (isMobileView() && faqMobileDrawer) {
+        openFaqDrawer(item);
+        return;
+      }
+
       const isActive = item.classList.contains('active');
 
       faqItems.forEach((other) => {
@@ -305,12 +496,14 @@ function filterFaq(query) {
       item.classList.remove('faq-filtered-out');
       matchedCount++;
 
-      // When searching with at least 2 characters, expand the matched item smoothly
+      // When searching with at least 2 characters, expand the matched item smoothly on desktop
       if (q.length >= 2) {
-        openFaq(item);
+        if (!isMobileView()) {
+          openFaq(item);
+        }
       } else if (!q) {
-        // Reset state: first item open, others closed
-        if (index === 0) {
+        // Reset state: first item open, others closed on desktop
+        if (index === 0 && !isMobileView()) {
           openFaq(item);
         } else {
           closeFaq(item);
@@ -505,12 +698,21 @@ function checkFaqAnchorTarget() {
   const targetId = hash.substring(1);
   const targetItem = document.getElementById(targetId);
   if (targetItem && targetItem.classList.contains('faq-item')) {
-    openFaq(targetItem);
-    setTimeout(() => {
-      targetItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      targetItem.classList.add('faq-target-highlight');
-      setTimeout(() => targetItem.classList.remove('faq-target-highlight'), 1800);
-    }, 300);
+    if (isMobileView() && faqMobileDrawer) {
+      openFaqDrawer(targetItem);
+      setTimeout(() => {
+        targetItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        targetItem.classList.add('faq-target-highlight');
+        setTimeout(() => targetItem.classList.remove('faq-target-highlight'), 1800);
+      }, 300);
+    } else {
+      openFaq(targetItem);
+      setTimeout(() => {
+        targetItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        targetItem.classList.add('faq-target-highlight');
+        setTimeout(() => targetItem.classList.remove('faq-target-highlight'), 1800);
+      }, 300);
+    }
   }
 }
 

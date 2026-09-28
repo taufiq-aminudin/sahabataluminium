@@ -4888,6 +4888,315 @@ window.printProjectPdf = function(orderId) {
   }
 })();
 
+// =========================================================
+// LOCATION-BASED SITE SWITCHER (SUBANG, PURWAKARTA, CIKAMPEK, CIKARANG, KARAWANG)
+// Dynamically personalizes header, hero copy, benefits,
+// WhatsApp CTA inquiries, and tailored local SEO metadata.
+// =========================================================
+
+(function initLocationSiteSwitcher() {
+  const cityData = {
+    all: {
+      name: "Semua Wilayah",
+      shortName: "Regional Jabar",
+      brandLocation: "Subang • Purwakarta • Cikampek • Cikarang",
+      eyebrow: "PORTOFOLIO 180+ PROYEK • SUBANG • PURWAKARTA • CIKAMPEK • CIKARANG • KARAWANG",
+      heading: "Kontraktor Aluminium & Partisi Kaca Proyek",
+      subtitle: "Subang, Purwakarta, Cikampek & Cikarang",
+      description: "Rekomendasi aplikator spesialis kaca dan aluminium untuk proyek ruko komersial, gedung perkantoran, perumahan, hingga pabrik kawasan industri di Subang (Smartpolitan & Patimban), Purwakarta (Kota Bukit Indah BIC), Cikampek (Indotaisei & KIKC), Cikarang (Jababeka, EJIP, MM2100), dan Karawang. Material SNI bergaransi, sertifikasi K3, dan survey lokasi gratis.",
+      waMsg: "Halo Admin Sahabat Kaca Aluminium, saya ingin konsultasi proyek kaca dan aluminium.",
+      benefits: [
+        "Material<br>Berkualitas SNI",
+        "Pengerjaan<br>Rapi & Presisi",
+        "Tepat<br>Waktu & Garansi",
+        "Layanan<br>Profesional K3"
+      ],
+      photoCaptionTitle: "PROYEK KACA & ALUMINIUM",
+      photoCaptionDesc: "Hasil rapi untuk kebutuhan bangunan Anda",
+      photoAlt: "Proyek partisi kaca dan aluminium Sahabat Kaca Aluminium Karawang Subang Purwakarta Cikampek Cikarang",
+      surveyNotice: "Teknisi Siaga Free Survey Hari Ini",
+      seoTitle: "Kontraktor Aluminium & Partisi Kaca Proyek Subang, Purwakarta, Cikampek, Cikarang",
+      seoDesc: "Kontraktor spesialis aluminium dan partisi kaca proyek pabrik industri, kantor & ruko di Subang, Purwakarta, Cikampek, Cikarang, Karawang. Free survey & RAB!"
+    },
+    subang: {
+      name: "Subang",
+      shortName: "Kota & Kab. Subang",
+      brandLocation: "Area Subang Smartpolitan & Patimban",
+      eyebrow: "SPESIALIS KACA & ALUMINIUM KABUPATEN SUBANG • AREA SUBANG SMARTPOLITAN & PELABUHAN PATIMBAN",
+      heading: "Kontraktor Aluminium & Partisi Kaca Proyek Subang",
+      subtitle: "Spesialis Subang Smartpolitan, Pelabuhan Patimban, Kalijati & Subang Kota",
+      description: "Layanan kontraktor aplikator kaca dan aluminium terpercaya di Subang. Melayani proyek partisi kantor, sekat pabrik industri, pintu sliding, jendela casement kedap debu, kusen aluminium Alexindo SNI, dan fasad ACP untuk kawasan industri Subang Smartpolitan, area logistik Pelabuhan Patimban, perkantoran, ruko, dan residensial di Subang Kota, Pagaden, dan Kalijati. Tim teknisi siap survey lokasi dan hitung RAB gratis ke Subang dalam 1x24 jam.",
+      waMsg: "Halo Admin Sahabat Kaca Aluminium, saya ingin konsultasi proyek partisi kaca dan kusen aluminium untuk wilayah Subang (Smartpolitan / Patimban / Subang Kota).",
+      benefits: [
+        "Survey Cepat<br>Subang 1x24 Jam",
+        "Fokus Industri<br>Smartpolitan & Patimban",
+        "Bebas Biaya<br>Transportasi Survey",
+        "Garansi Resmi<br>Material SNI"
+      ],
+      photoCaptionTitle: "PROYEK KACA & ALUMINIUM SUBANG",
+      photoCaptionDesc: "Partisi kantor & pabrik industri Subang Smartpolitan",
+      photoAlt: "Proyek partisi kaca aluminium pabrik kawasan industri Subang Smartpolitan dan Pelabuhan Patimban",
+      surveyNotice: "Tim Teknisi Siaga Survey ke Subang Hari Ini",
+      seoTitle: "Kontraktor Aluminium & Partisi Kaca Subang | Smartpolitan & Patimban",
+      seoDesc: "Aplikator partisi kaca kantor industri, pintu tempered, kanopi & kusen aluminium di Subang. Layanan cepat kawasan Smartpolitan & Patimban. Free survey & RAB!"
+    },
+    purwakarta: {
+      name: "Purwakarta",
+      shortName: "Kab. Purwakarta",
+      brandLocation: "Kawasan Industri BIC & Sadang",
+      eyebrow: "KONTRAKTOR KACA & ALUMINIUM PURWAKARTA • KAWASAN INDUSTRI KOTA BUKIT INDAH (BIC) & SADANG",
+      heading: "Kontraktor Aluminium & Partisi Kaca Proyek Purwakarta",
+      subtitle: "Aplikator Kusen SNI, Partisi Kaca & ACP Kawasan BIC Purwakarta, Sadang & Jatiluhur",
+      description: "Spesialis pemasangan partisi kaca kantor industri, pintu otomatis ruko, kanopi kaca tempered carport, jendela aluminium kedap suara, dan curtain wall ACP di seluruh Kabupaten Purwakarta. Berpengalaman menangani proyek manufaktur di Kawasan Industri Kota Bukit Indah (BIC), Sadang, Campaka, dan area komersial Purwakarta dengan standar safety K3 lengkap.",
+      waMsg: "Halo Admin Sahabat Kaca Aluminium, saya ingin konsultasi proyek partisi kaca dan aluminium untuk wilayah Purwakarta (Kota Bukit Indah BIC / Sadang).",
+      benefits: [
+        "Survey Lokasi<br>Cepat ke BIC & Sadang",
+        "Standar Pabrik<br>Sertifikasi Safety K3",
+        "RAB Transparan<br>Tanpa Biaya Tersembunyi",
+        "Garansi Resmi<br>10 Tahun Profil SNI"
+      ],
+      photoCaptionTitle: "PROYEK KACA & ALUMINIUM PURWAKARTA",
+      photoCaptionDesc: "Instalasi partisi kaca Kawasan Industri BIC Purwakarta",
+      photoAlt: "Proyek partisi kaca aluminium pabrik manufaktur Kawasan Industri Kota Bukit Indah BIC Purwakarta",
+      surveyNotice: "Tim Teknisi Siaga Survey ke Purwakarta (BIC) Hari Ini",
+      seoTitle: "Kontraktor Aluminium & Partisi Kaca Purwakarta | Kawasan Industri BIC",
+      seoDesc: "Spesialis aplikator kusen aluminium, partisi kaca pabrik dan pintu tempered toko di Purwakarta dan Kota Bukit Indah (BIC). Garansi resmi, survey lokasi gratis!"
+    },
+    cikampek: {
+      name: "Cikampek",
+      shortName: "Area Cikampek",
+      brandLocation: "Kawasan Industri Indotaisei & Dawuan",
+      eyebrow: "KONTRAKTOR KACA & ALUMINIUM CIKAMPEK • KAWASAN INDUSTRI INDOTAISEI, KIKC & DAWUAN",
+      heading: "Kontraktor Aluminium & Partisi Kaca Proyek Cikampek",
+      subtitle: "Spesialis Partisi Pabrik, Kusen Aluminium & Fasad Kawasan Indotaisei, Dawuan & Kotabaru",
+      description: "Penyedia solusi aplikator kaca dan aluminium terlengkap di Cikampek. Siap melayani kebutuhan partisi ruangan pabrik, sekat gudang logistik, pintu sliding double glass, pintu swing aluminium heavy-duty, dan kaca tempered untuk pabrik manufaktur di Kawasan Industri Indotaisei, KIKC, Mandala Pratama Dawuan, hingga ruko bisnis di Kotabaru Cikampek. Pengiriman material cepat dan survey gratis.",
+      waMsg: "Halo Admin Sahabat Kaca Aluminium, saya ingin konsultasi proyek partisi kaca / aluminium untuk wilayah Cikampek (Indotaisei / Dawuan / Kotabaru).",
+      benefits: [
+        "Akses Dekat<br>Kirim Cepat ke Indotaisei",
+        "Workshop Siaga<br>Fabrikasi Cepat 2-4 Hari",
+        "Survey On-Site<br>Gratis Wilayah Cikampek",
+        "Material Terbaik<br>Alexindo, Inkalum, Dacon"
+      ],
+      photoCaptionTitle: "PROYEK KACA & ALUMINIUM CIKAMPEK",
+      photoCaptionDesc: "Fabrikasi sekat partisi pabrik Indotaisei Cikampek",
+      photoAlt: "Proyek partisi kaca aluminium industri Indotaisei Dawuan Kotabaru Cikampek",
+      surveyNotice: "Tim Teknisi Siaga Survey ke Cikampek & Indotaisei Hari Ini",
+      seoTitle: "Kontraktor Aluminium & Partisi Kaca Cikampek | Indotaisei & KIKC",
+      seoDesc: "Aplikator aluminium dan partisi kaca pabrik di Cikampek, Indotaisei, KIKC, dan Dawuan. Pengerjaan rapi, material SNI, survey & RAB gratis!"
+    },
+    cikarang: {
+      name: "Cikarang",
+      shortName: "Kawasan Cikarang",
+      brandLocation: "Jababeka • EJIP • MM2100 • Delta Silicon",
+      eyebrow: "SPESIALIS KACA & ALUMINIUM CIKARANG • KAWASAN INDUSTRI JABABEKA, EJIP, MM2100 & DELTA SILICON",
+      heading: "Kontraktor Aluminium & Partisi Kaca Proyek Cikarang",
+      subtitle: "Pemasangan Partisi Kantor Industri, Pintu Tempered & Kusen Aluminium Jababeka, MM2100 & Lippo Cikarang",
+      description: "Kontraktor aplikator partisi kaca dan kusen aluminium terpercaya untuk kawasan mega industri Cikarang (Jababeka I-VI, EJIP Cikarang Selatan, MM2100 Cibitung-Cikarang Barat, Delta Silicon, GIIC, serta ruko komersial Lippo Cikarang). Berpengalaman mengerjakan sekat cleanroom, partisi ruang meeting kedap suara, pintu floor hinge frameless, dan kanopi kaca tempered dengan standar industri tinggi.",
+      waMsg: "Halo Admin Sahabat Kaca Aluminium, saya ingin konsultasi pekerjaan partisi kaca / aluminium di Cikarang (Jababeka / EJIP / MM2100 / Lippo Cikarang).",
+      benefits: [
+        "Fasilitas Industri<br>Cleanroom & Meeting Room",
+        "K3 Compliant<br>Izin Masuk Kawasan Siap",
+        "Survey Prioritas<br>Cikarang Hari Ini Siaga",
+        "Garansi Resmi<br>Dukungan Purna Jual"
+      ],
+      photoCaptionTitle: "PROYEK KACA & ALUMINIUM CIKARANG",
+      photoCaptionDesc: "Instalasi partisi kaca frameless kantor Jababeka Cikarang",
+      photoAlt: "Proyek partisi kaca kantor pabrik industri Jababeka MM2100 Delta Silicon Cikarang",
+      surveyNotice: "Tim Teknisi Siaga Survey ke Cikarang & Jababeka Hari Ini",
+      seoTitle: "Kontraktor Aluminium & Partisi Kaca Cikarang | Jababeka & MM2100",
+      seoDesc: "Spesialis kontraktor partisi kaca kantor, pintu tempered ruko & kusen aluminium di Cikarang: Jababeka, EJIP, MM2100, Lippo Cikarang. Free survey & estimasi RAB!"
+    },
+    karawang: {
+      name: "Karawang",
+      shortName: "Karawang Pusat",
+      brandLocation: "Pusat Workshop • KIIC & Suryacipta",
+      eyebrow: "PUSAT BENGKEL & KONTRAKTOR KACA ALUMINIUM KARAWANG • KIIC, SURYACIPTA & GALUH MAS",
+      heading: "Kontraktor Aluminium & Partisi Kaca Proyek Karawang",
+      subtitle: "Workshop Pusat & Aplikator Resmi Kusen SNI, Partisi Kaca & Kanopi Tempered di Seluruh Karawang",
+      description: "Pusat fabrikasi dan jasa aplikator kusen aluminium SNI, pintu kaca tempered, jendela minimalis, shower screen, dan partisi kantor langsung dari workshop kami di Karawang. Melayani area KIIC Karawang Barat, Suryacipta Karawang Timur, KIM, ruko Galuh Mas, hunian Grand Taruma, Resinda, Telukjambe, dan Klari dengan harga bersaing langsung dari aplikator tangan pertama.",
+      waMsg: "Halo Admin Sahabat Kaca Aluminium, saya ingin konsultasi proyek kaca dan aluminium untuk wilayah Karawang (KIIC / Suryacipta / Galuh Mas / Resinda).",
+      benefits: [
+        "Workshop Lokal<br>Aplikator Tangan Pertama",
+        "Survey Cepat<br>Kunjungan Hari yang Sama",
+        "Koleksi Lengkap<br>Sampel Profil & Kaca",
+        "Garansi Pabrik<br>Sertifikasi SNI & K3"
+      ],
+      photoCaptionTitle: "PROYEK KACA & ALUMINIUM KARAWANG",
+      photoCaptionDesc: "Partisi kaca sekat pabrik kawasan KIIC Karawang Barat",
+      photoAlt: "Proyek partisi kaca aluminium bengkel workshop Karawang KIIC Suryacipta",
+      surveyNotice: "Workshop Karawang Siap Kirim Surveyor Hari Ini",
+      seoTitle: "Kontraktor Aluminium & Partisi Kaca Karawang | KIIC & Suryacipta",
+      seoDesc: "Bengkel dan kontraktor spesialis partisi kaca kantor, kusen aluminium & pintu tempered di Karawang Barat, KIIC, Suryacipta, Galuh Mas. Survey lokasi & RAB gratis!"
+    }
+  };
+
+  let activeCity = 'all';
+
+  function updateMetaTag(selector, attr, val) {
+    let el = document.querySelector(selector);
+    if (!el) {
+      el = document.createElement('meta');
+      const parts = selector.replace(/[\[\]"]/g, '').split('=');
+      if (parts.length === 2) {
+        el.setAttribute(parts[0], parts[1]);
+        document.head.appendChild(el);
+      }
+    }
+    el.setAttribute(attr, val);
+  }
+
+  function switchServiceCity(cityKey, clickedBtn) {
+    const data = cityData[cityKey] || cityData.all;
+    activeCity = cityKey in cityData ? cityKey : 'all';
+
+    // 1. Update Active Buttons in Top Bar & In-Hero Switcher
+    const allChips = document.querySelectorAll('.loc-chip, .hero-loc-btn');
+    allChips.forEach(chip => {
+      if (chip.getAttribute('data-city') === activeCity) {
+        chip.classList.add('active');
+        chip.setAttribute('aria-selected', 'true');
+        chip.setAttribute('aria-pressed', 'true');
+      } else {
+        chip.classList.remove('active');
+        chip.setAttribute('aria-selected', 'false');
+        chip.setAttribute('aria-pressed', 'false');
+      }
+    });
+
+    // 2. Update Top Bar Indicators
+    const locBarCurrentCity = document.getElementById('locBarCurrentCity');
+    if (locBarCurrentCity) locBarCurrentCity.textContent = data.shortName;
+
+    const locBarSurveyText = document.getElementById('locBarSurveyText');
+    if (locBarSurveyText) locBarSurveyText.textContent = data.surveyNotice;
+
+    // 3. Update Header Brand Location Tag & Contact Links
+    const brandLocTag = document.getElementById('brandLocationTag');
+    if (brandLocTag) brandLocTag.textContent = data.brandLocation;
+
+    const headerContact = document.getElementById('headerContactBtn');
+    if (headerContact) {
+      const waUrl = `https://wa.me/6289637371166?text=${encodeURIComponent(data.waMsg)}`;
+      headerContact.href = waUrl;
+    }
+
+    // 4. Update Hero Content with Smooth Fade
+    const heroCopy = document.getElementById('heroCopyContainer');
+    if (heroCopy) {
+      heroCopy.classList.remove('hero-content-switching');
+      void heroCopy.offsetWidth; // Trigger reflow
+      heroCopy.classList.add('hero-content-switching');
+    }
+
+    const heroEyebrow = document.getElementById('heroEyebrow');
+    if (heroEyebrow) {
+      heroEyebrow.innerHTML = `<span></span>${data.eyebrow}`;
+    }
+
+    const heroHeading = document.getElementById('heroHeading');
+    const heroSubtitle = document.getElementById('heroSubtitle');
+    if (heroHeading && heroSubtitle) {
+      heroHeading.childNodes[0].nodeValue = data.heading + " ";
+      heroSubtitle.textContent = data.subtitle;
+    }
+
+    const heroDesc = document.getElementById('heroDescription');
+    if (heroDesc) heroDesc.textContent = data.description;
+
+    const heroWaBtn = document.getElementById('heroWaBtn');
+    if (heroWaBtn) {
+      heroWaBtn.href = `https://wa.me/6289637371166?text=${encodeURIComponent(data.waMsg)}`;
+    }
+
+    // 5. Update Hero Benefits
+    if (Array.isArray(data.benefits) && data.benefits.length >= 4) {
+      const b1 = document.getElementById('heroBenefit1Text');
+      const b2 = document.getElementById('heroBenefit2Text');
+      const b3 = document.getElementById('heroBenefit3Text');
+      const b4 = document.getElementById('heroBenefit4Text');
+      if (b1) b1.innerHTML = data.benefits[0];
+      if (b2) b2.innerHTML = data.benefits[1];
+      if (b3) b3.innerHTML = data.benefits[2];
+      if (b4) b4.innerHTML = data.benefits[3];
+    }
+
+    // 6. Update Hero Photo Caption & Alt
+    const photoCaptionTitle = document.getElementById('heroPhotoCaptionTitle');
+    if (photoCaptionTitle) photoCaptionTitle.textContent = data.photoCaptionTitle;
+
+    const photoCaptionDesc = document.getElementById('heroPhotoCaptionDesc');
+    if (photoCaptionDesc) photoCaptionDesc.textContent = data.photoCaptionDesc;
+
+    const heroPhotoImg = document.getElementById('heroPhotoImg');
+    if (heroPhotoImg) heroPhotoImg.alt = data.photoAlt;
+
+    // 7. Update Tailored SEO Tags
+    document.title = data.seoTitle;
+    updateMetaTag('meta[name="description"]', 'content', data.seoDesc);
+    updateMetaTag('meta[property="og:title"]', 'content', data.seoTitle);
+    updateMetaTag('meta[property="og:description"]', 'content', data.seoDesc);
+    updateMetaTag('meta[name="twitter:title"]', 'content', data.seoTitle);
+    updateMetaTag('meta[name="twitter:description"]', 'content', data.seoDesc);
+
+    // 8. Sync URL Query Parameter and LocalStorage
+    try {
+      if (window.history && window.history.replaceState) {
+        const url = new URL(window.location.href);
+        if (activeCity === 'all') {
+          url.searchParams.delete('kota');
+          url.searchParams.delete('city');
+        } else {
+          url.searchParams.set('kota', activeCity);
+        }
+        window.history.replaceState({ city: activeCity }, '', url.toString());
+      }
+      localStorage.setItem('selectedServiceCity', activeCity);
+    } catch (e) {
+      // Local storage or URL param error suppression
+    }
+  }
+
+  // Hydrate initial city from URL param (?kota=...) or LocalStorage
+  function hydrateInitialCity() {
+    let initialCity = 'all';
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const urlCity = (params.get('kota') || params.get('city') || '').toLowerCase().trim();
+      if (urlCity && urlCity in cityData) {
+        initialCity = urlCity;
+      } else {
+        const hashCity = window.location.hash.replace('#', '').toLowerCase().trim();
+        if (hashCity && hashCity in cityData) {
+          initialCity = hashCity;
+        } else {
+          const storedCity = localStorage.getItem('selectedServiceCity');
+          if (storedCity && storedCity in cityData) {
+            initialCity = storedCity;
+          }
+        }
+      }
+    } catch (e) {}
+
+    switchServiceCity(initialCity);
+  }
+
+  // Global APIs
+  window.switchServiceCity = function(cityKey, clickedBtn) {
+    switchServiceCity(cityKey, clickedBtn);
+  };
+
+  window.getServiceCity = function() {
+    return activeCity;
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', hydrateInitialCity);
+  } else {
+    hydrateInitialCity();
+  }
+})();
+
+
 
 
 

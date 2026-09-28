@@ -8378,6 +8378,259 @@ footer .footer-grid {
   transform: translateY(0);
 }
 
+/* =========================================================
+   LOCATION-BASED SITE SWITCHER & CITY-SPECIFIC HERO THEME
+   Tailored local SEO & service info for Subang, Purwakarta,
+   Cikampek, Cikarang, and Karawang.
+   ========================================================= */
+
+.site-location-bar {
+  background: #031720;
+  border-bottom: 1px solid rgba(200, 148, 61, 0.22);
+  color: #c5d8df;
+  font-family: "Manrope", sans-serif;
+  font-size: 11.5px;
+  position: relative;
+  z-index: 50;
+  padding: 6px 0;
+}
+
+.site-location-bar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.site-location-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.location-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #16b95b;
+  box-shadow: 0 0 0 0 rgba(22, 185, 91, 0.7);
+  animation: locPulse 2s infinite;
+  flex-shrink: 0;
+}
+
+@keyframes locPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(22, 185, 91, 0.7); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(22, 185, 91, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(22, 185, 91, 0); }
+}
+
+.location-bar-label {
+  color: #9cb5be;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.location-bar-label strong {
+  color: #ffffff;
+}
+
+.location-chips-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding: 2px 0;
+}
+
+.location-chips-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.loc-chip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #d1e2e8;
+  border-radius: 4px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  line-height: 1.35;
+}
+
+.loc-chip:hover {
+  background: rgba(200, 148, 61, 0.2);
+  border-color: rgba(200, 148, 61, 0.5);
+  color: #ffffff;
+}
+
+.loc-chip.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #04141c;
+  box-shadow: 0 2px 6px rgba(200, 148, 61, 0.35);
+}
+
+.site-location-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.location-survey-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #9fc6d4;
+}
+
+.location-active-badge {
+  background: rgba(200, 148, 61, 0.18);
+  border: 1px solid rgba(200, 148, 61, 0.4);
+  color: #fce2a6;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+/* In-Hero City Switcher */
+.hero-location-switcher {
+  background: rgba(7, 46, 59, 0.05);
+  border: 1px solid #d3e2e7;
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-bottom: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+.hero-loc-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--deep);
+  white-space: nowrap;
+}
+
+.hero-loc-chips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.hero-loc-btn {
+  background: #ffffff;
+  border: 1px solid #c2d7df;
+  color: #213c47;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: "Manrope", sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.hero-loc-btn:hover {
+  background: #eff6f8;
+  border-color: #0b5163;
+  color: #041b23;
+  transform: translateY(-1px);
+}
+
+.hero-loc-btn.active {
+  background: #072e3b;
+  border-color: #072e3b;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(7, 46, 59, 0.18);
+}
+
+/* Header brand dynamic location tag */
+.brand-location-tag {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+
+/* Smooth fade animation on hero content switch */
+.hero-content-switching {
+  animation: heroFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes heroFadeIn {
+  from {
+    opacity: 0.4;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .site-location-bar-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .site-location-right {
+    width: 100%;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  .site-location-bar {
+    font-size: 11px;
+    padding: 5px 0;
+  }
+  .location-chips-wrapper {
+    width: 100%;
+  }
+  .hero-location-switcher {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 8px 10px;
+  }
+  .hero-loc-chips {
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 2px;
+  }
+}
+
+
 
 
 

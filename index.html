@@ -249,6 +249,34 @@
 
 <body>
 
+<!-- =====================================================
+     TOP LOCATION SERVICE SWITCHER BAR
+===================================================== -->
+<div class="site-location-bar" id="siteLocationBar">
+  <div class="container site-location-bar-container">
+    <div class="site-location-left">
+      <span class="location-pulse-dot" aria-hidden="true"></span>
+      <span class="location-bar-label">
+        <strong>Wilayah Layanan:</strong>
+      </span>
+      <div class="location-chips-wrapper" role="tablist" aria-label="Pilih Kota Layanan Proyek">
+        <button type="button" class="loc-chip active" data-city="all" aria-selected="true" onclick="window.switchServiceCity('all', this)">🌐 Semua Wilayah</button>
+        <button type="button" class="loc-chip" data-city="subang" aria-selected="false" onclick="window.switchServiceCity('subang', this)">📍 Subang</button>
+        <button type="button" class="loc-chip" data-city="purwakarta" aria-selected="false" onclick="window.switchServiceCity('purwakarta', this)">📍 Purwakarta</button>
+        <button type="button" class="loc-chip" data-city="cikampek" aria-selected="false" onclick="window.switchServiceCity('cikampek', this)">📍 Cikampek</button>
+        <button type="button" class="loc-chip" data-city="cikarang" aria-selected="false" onclick="window.switchServiceCity('cikarang', this)">📍 Cikarang</button>
+        <button type="button" class="loc-chip" data-city="karawang" aria-selected="false" onclick="window.switchServiceCity('karawang', this)">📍 Karawang</button>
+      </div>
+    </div>
+    <div class="site-location-right">
+      <span class="location-survey-tag">
+        <span>⚡</span>
+        <span id="locBarSurveyText">Teknisi Siaga Free Survey Hari Ini</span>
+      </span>
+      <span class="location-active-badge" id="locBarCurrentCity">Regional Jabar</span>
+    </div>
+  </div>
+</div>
 
 <!-- =====================================================
      MASTER HEADER
@@ -278,6 +306,7 @@
 
       <span class="brand-name">
         Sahabat <b>Kaca Aluminium</b>
+        <span class="brand-location-tag" id="brandLocationTag">Subang • Purwakarta • Cikampek • Cikarang</span>
       </span>
 
     </a>
@@ -349,6 +378,7 @@
 
     <a
       class="header-contact"
+      id="headerContactBtn"
       href="https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20ingin%20konsultasi%20kaca%20dan%20aluminium."
       target="_blank"
       rel="noopener"
@@ -363,10 +393,6 @@
         <small>
           Admin
         </small>
-
-        <b>
-          0896-3737-1166
-        </b>
 
         <b>
           0896-3737-1166
@@ -405,21 +431,36 @@
 
       <!-- HERO COPY -->
 
-      <div class="hero-copy">
+      <div class="hero-copy" id="heroCopyContainer">
 
+        <!-- IN-HERO CITY SWITCHER -->
+        <div class="hero-location-switcher" id="heroLocationSwitcher">
+          <span class="hero-loc-title">
+            <span>📍</span>
+            <span>Lokasi Proyek:</span>
+          </span>
+          <div class="hero-loc-chips">
+            <button type="button" class="hero-loc-btn active" data-city="all" onclick="window.switchServiceCity('all', this)">Semua Kota</button>
+            <button type="button" class="hero-loc-btn" data-city="subang" onclick="window.switchServiceCity('subang', this)">Subang (Smartpolitan)</button>
+            <button type="button" class="hero-loc-btn" data-city="purwakarta" onclick="window.switchServiceCity('purwakarta', this)">Purwakarta (BIC)</button>
+            <button type="button" class="hero-loc-btn" data-city="cikampek" onclick="window.switchServiceCity('cikampek', this)">Cikampek (Indotaisei)</button>
+            <button type="button" class="hero-loc-btn" data-city="cikarang" onclick="window.switchServiceCity('cikarang', this)">Cikarang (Jababeka)</button>
+            <button type="button" class="hero-loc-btn" data-city="karawang" onclick="window.switchServiceCity('karawang', this)">Karawang (KIIC)</button>
+          </div>
+        </div>
 
-        <div class="eyebrow">
+        <div class="eyebrow" id="heroEyebrow">
           <span></span>
           PORTOFOLIO 180+ PROYEK • SUBANG • PURWAKARTA • CIKAMPEK • CIKARANG • KARAWANG
         </div>
 
-        <h1>
+        <h1 id="heroHeading">
           Kontraktor Aluminium & Partisi Kaca Proyek
           <br>
-          <em>Subang, Purwakarta, Cikampek & Cikarang</em>
+          <em id="heroSubtitle">Subang, Purwakarta, Cikampek & Cikarang</em>
         </h1>
 
-        <p>
+        <p id="heroDescription">
           Rekomendasi aplikator spesialis kaca dan aluminium untuk proyek ruko komersial, gedung perkantoran, perumahan, hingga pabrik kawasan industri di Subang (Smartpolitan & Patimban), Purwakarta (Kota Bukit Indah BIC), Cikampek (Indotaisei & KIKC), Cikarang (Jababeka, EJIP, MM2100), dan Karawang. Material SNI bergaransi, sertifikasi K3, dan survey lokasi gratis.
         </p>
 
@@ -431,6 +472,7 @@
 
           <a
             class="btn primary"
+            id="heroWaBtn"
             href="https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20ingin%20konsultasi%20proyek."
             target="_blank"
             rel="noopener"
@@ -465,7 +507,7 @@
               ✓
             </span>
 
-            <b>
+            <b id="heroBenefit1Text">
               Material
               <br>
               Berkualitas
@@ -480,7 +522,7 @@
               ⚒
             </span>
 
-            <b>
+            <b id="heroBenefit2Text">
               Pengerjaan
               <br>
               Rapi
@@ -495,7 +537,7 @@
               ◷
             </span>
 
-            <b>
+            <b id="heroBenefit3Text">
               Tepat
               <br>
               Waktu
@@ -510,7 +552,7 @@
               ♙
             </span>
 
-            <b>
+            <b id="heroBenefit4Text">
               Layanan
               <br>
               Profesional
@@ -530,17 +572,18 @@
       <div class="hero-photo">
 
         <img
+          id="heroPhotoImg"
           src="assets/gallery/partisi-aluminium.jpg"
           alt="Proyek partisi kaca dan aluminium Sahabat Kaca Aluminium Karawang"
         >
 
         <div class="photo-caption">
 
-          <b>
+          <b id="heroPhotoCaptionTitle">
             PROYEK KACA & ALUMINIUM
           </b>
 
-          <span>
+          <span id="heroPhotoCaptionDesc">
             Hasil rapi untuk kebutuhan bangunan Anda
           </span>
 

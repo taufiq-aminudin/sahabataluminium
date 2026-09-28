@@ -340,6 +340,22 @@
 </div>
 
 <script>
+  // Iframe-safe non-blocking alert notification
+  function showAlert(msg) {
+    let t = document.getElementById("adminToast");
+    if (!t) {
+      t = document.createElement("div");
+      t.id = "adminToast";
+      t.style.cssText = "position:fixed;bottom:24px;right:24px;background:#073746;color:#fff;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,0.25);z-index:999999;transition:opacity 0.3s;max-width:360px;";
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.style.opacity = "1";
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => { t.style.opacity = "0"; }, 3000);
+  }
+  window.alert = showAlert;
+
   const STORAGE_KEY = "sahabat_kaca_aluminium_ads_v1";
 
   const initialAds = [

@@ -1,0 +1,7 @@
+{
+  "name": "Sahabat Kaca Aluminium Karawang",
+  "description": "Sahabat Kaca Aluminium Karawang menyediakan jasa kaca dan aluminium untuk rumah, toko, kantor, interior, pintu, jendela, partisi, etalase, kanopi dan proyek custom.",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

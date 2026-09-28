@@ -1109,6 +1109,48 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 .faq-item.active .faq-question{
   color: var(--blue);
 }
+
+/* Unique Icon Next to Each Question */
+.faq-q-icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #edf5f8;
+  color: var(--blue);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d2e4eb;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(7, 55, 70, 0.04);
+}
+.faq-q-icon svg {
+  display: block;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+.faq-question:hover .faq-q-icon {
+  background: #e0f0f5;
+  color: var(--deep);
+  border-color: #b5d8e4;
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 3px 8px rgba(7, 55, 70, 0.08);
+}
+.faq-item.active .faq-q-icon {
+  background: var(--blue);
+  color: #ffffff;
+  border-color: var(--blue);
+  box-shadow: 0 4px 12px rgba(13, 92, 115, 0.25);
+}
+.faq-item.active .faq-q-icon svg {
+  transform: scale(1.05);
+}
+.faq-question-text {
+  flex: 1;
+  text-align: left;
+  line-height: 1.45;
+}
 .faq-chevron{
   flex-shrink: 0;
   width: 28px;
@@ -2379,6 +2421,17 @@ body.faq-drawer-open {
     padding: 16px 14px;
     font-size: 14.5px;
     line-height: 1.45;
+    gap: 12px;
+  }
+
+  .faq-section .faq-q-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+  }
+  .faq-section .faq-q-icon svg {
+    width: 15px;
+    height: 15px;
   }
 
   .faq-section .faq-chevron {

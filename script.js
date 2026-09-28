@@ -236,7 +236,7 @@ function getFaqCategoryBadge(id, title) {
 function openFaqDrawer(item) {
   if (!faqMobileDrawer) return;
 
-  const titleElem = item.querySelector('.faq-question span');
+  const titleElem = item.querySelector('.faq-question-text') || item.querySelector('.faq-question span:not(.faq-q-icon):not(.faq-chevron)') || item.querySelector('.faq-question span');
   const answerElem = item.querySelector('.faq-answer');
   if (!titleElem || !answerElem) return;
 

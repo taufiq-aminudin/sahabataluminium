@@ -2,9 +2,27 @@ User-agent: Googlebot
 Allow: /
 Allow: /assets/
 Allow: /artikel/
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.webp$
+
+User-agent: Google-InspectionTool
+Allow: /
 
 User-agent: Googlebot-Image
 Allow: /assets/
+
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: Bingbot
+Allow: /
 
 User-agent: *
 Allow: /

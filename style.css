@@ -2125,6 +2125,243 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 }
 
 /* =========================================================
+   FAQ IMAGE GALLERY & CAROUSEL COMPONENT
+   Visual examples of materials, profiles, glass, & finished works
+   ========================================================= */
+.faq-gallery-carousel {
+  margin: 18px 0 20px;
+  background: #ffffff;
+  border: 1px solid #dce8ec;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 4px 16px rgba(7, 55, 70, 0.04);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.faq-carousel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 10px;
+}
+
+.faq-carousel-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--deep);
+  letter-spacing: -0.01em;
+}
+
+.faq-carousel-icon {
+  color: var(--blue);
+  flex-shrink: 0;
+}
+
+.faq-carousel-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.faq-carousel-counter {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 3px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+}
+
+.faq-carousel-btns {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.faq-carousel-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.faq-carousel-btn:hover:not(:disabled) {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.faq-carousel-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Viewport & Track */
+.faq-carousel-viewport {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.faq-carousel-track {
+  display: flex;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* Individual Slide */
+.faq-carousel-slide {
+  flex: 0 0 100%;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+.faq-slide-media {
+  position: relative;
+  width: 100%;
+  height: 210px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #e2e8f0;
+  cursor: pointer;
+}
+
+.faq-slide-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.faq-slide-media:hover img {
+  transform: scale(1.04);
+}
+
+.faq-slide-zoom-hint {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(7, 55, 70, 0.75);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transform: scale(0.85);
+  transition: all 0.25s ease;
+  pointer-events: none;
+}
+
+.faq-slide-media:hover .faq-slide-zoom-hint {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.faq-slide-tag {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: rgba(7, 55, 70, 0.85);
+  color: #ffffff;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+  letter-spacing: 0.3px;
+}
+
+.faq-slide-caption {
+  padding: 10px 4px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.faq-slide-caption-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--deep);
+  line-height: 1.35;
+}
+
+.faq-slide-caption-desc {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+/* Dots */
+.faq-carousel-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.faq-carousel-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #cbd5e1;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.faq-carousel-dot:hover {
+  background: #94a3b8;
+}
+
+.faq-carousel-dot.active {
+  width: 22px;
+  background: var(--blue);
+}
+
+@media (max-width: 600px) {
+  .faq-gallery-carousel {
+    padding: 12px;
+  }
+  .faq-slide-media {
+    height: 175px;
+  }
+  .faq-slide-caption-title {
+    font-size: 12.5px;
+  }
+  .faq-slide-caption-desc {
+    font-size: 11.5px;
+  }
+}
+
+/* =========================================================
    FAQ HELPFULNESS FEEDBACK (WAS THIS HELPFUL? UPVOTE/DOWNVOTE)
    ========================================================= */
 .faq-feedback {

@@ -279,6 +279,11 @@ function openFaqDrawer(item) {
     updateFaqFeedbackDisplay(faqId);
   }
 
+  // Initialize interactive carousels inside mobile drawer body
+  if (typeof initFaqCarousels === 'function' && faqDrawerBody) {
+    initFaqCarousels(faqDrawerBody);
+  }
+
   // Open Drawer UI
   faqMobileDrawer.classList.add('open');
   faqMobileDrawer.setAttribute('aria-hidden', 'false');
@@ -1115,8 +1120,195 @@ document.addEventListener('click', (e) => {
   }
 });
 
+// Keyboard accessibility support for visual timeline step cards (Enter or Space)
+document.addEventListener('keydown', (e) => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target && e.target.classList && e.target.classList.contains('faq-timeline-step')) {
+    e.preventDefault();
+    e.target.click();
+  }
+});
+
+/* =========================================================
+   FAQ IMAGE GALLERY / CAROUSEL SYSTEM (#faq)
+   Supports: Next/Prev navigation, slide counter, active dots,
+   touch swipe (mobile), keyboard arrows, and Lightbox inspection
+   ========================================================= */
+function openFaqLightbox(imageUrl, title) {
+  if (!lightbox || !imageUrl) return;
+  if (lightboxImage) {
+    lightboxImage.src = imageUrl;
+    lightboxImage.alt = title || 'Foto Visual FAQ Sahabat Kaca';
+  }
+  if (lightboxTitle) {
+    lightboxTitle.textContent = title || '';
+  }
+  lightbox.classList.add('open');
+  lightbox.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function initFaqCarousels(scope = document) {
+  const carousels = scope.querySelectorAll('.faq-gallery-carousel');
+  carousels.forEach((carousel) => {
+    // Avoid double initialization
+    if (carousel._carouselInitialized) return;
+    carousel._carouselInitialized = true;
+
+    const track = carousel.querySelector('.faq-carousel-track');
+    const slides = carousel.querySelectorAll('.faq-carousel-slide');
+    const prevBtn = carousel.querySelector('.faq-carousel-prev');
+    const nextBtn = carousel.querySelector('.faq-carousel-next');
+    const counter = carousel.querySelector('.faq-carousel-counter');
+    const dots = carousel.querySelectorAll('.faq-carousel-dot');
+
+    if (!track || slides.length === 0) return;
+
+    let currentIndex = 0;
+
+    function updateCarousel(newIndex, animate = true) {
+      if (newIndex < 0) newIndex = 0;
+      if (newIndex >= slides.length) newIndex = slides.length - 1;
+      currentIndex = newIndex;
+
+      // Update slide track position
+      if (!animate) {
+        track.style.transition = 'none';
+      } else {
+        track.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+      }
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+      // Update active class on slides
+      slides.forEach((slide, idx) => {
+        const isActive = (idx === currentIndex);
+        slide.classList.toggle('active', isActive);
+      });
+
+      // Update counter text
+      if (counter) {
+        counter.textContent = `${currentIndex + 1} / ${slides.length}`;
+      }
+
+      // Update navigation button states
+      if (prevBtn) {
+        prevBtn.disabled = (currentIndex === 0);
+        prevBtn.setAttribute('aria-disabled', currentIndex === 0 ? 'true' : 'false');
+      }
+      if (nextBtn) {
+        nextBtn.disabled = (currentIndex === slides.length - 1);
+        nextBtn.setAttribute('aria-disabled', (currentIndex === slides.length - 1) ? 'true' : 'false');
+      }
+
+      // Update dot indicators
+      dots.forEach((dot, idx) => {
+        const isDotActive = (idx === currentIndex);
+        dot.classList.toggle('active', isDotActive);
+        dot.setAttribute('aria-selected', isDotActive ? 'true' : 'false');
+      });
+    }
+
+    // Previous Button Click
+    if (prevBtn) {
+      prevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (currentIndex > 0) {
+          updateCarousel(currentIndex - 1);
+        }
+      });
+    }
+
+    // Next Button Click
+    if (nextBtn) {
+      nextBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (currentIndex < slides.length - 1) {
+          updateCarousel(currentIndex + 1);
+        }
+      });
+    }
+
+    // Dots Click
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        updateCarousel(idx);
+      });
+    });
+
+    // Touch Swipe Gesture on Viewport
+    const viewport = carousel.querySelector('.faq-carousel-viewport') || carousel;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isSwiping = false;
+
+    viewport.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        isSwiping = true;
+      }
+    }, { passive: true });
+
+    viewport.addEventListener('touchend', (e) => {
+      if (!isSwiping) return;
+      isSwiping = false;
+      if (!e.changedTouches || e.changedTouches.length === 0) return;
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+      const diffX = touchEndX - touchStartX;
+      const diffY = touchEndY - touchStartY;
+
+      // Only respond if horizontal movement is dominant and > 35px
+      if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY) * 1.3) {
+        if (diffX < 0 && currentIndex < slides.length - 1) {
+          updateCarousel(currentIndex + 1);
+        } else if (diffX > 0 && currentIndex > 0) {
+          updateCarousel(currentIndex - 1);
+        }
+      }
+    }, { passive: true });
+
+    // Keyboard Arrow navigation when carousel is focused
+    carousel.setAttribute('tabindex', '0');
+    carousel.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+        if (currentIndex < slides.length - 1) {
+          e.preventDefault();
+          updateCarousel(currentIndex + 1);
+        }
+      } else if (e.key === 'ArrowLeft') {
+        if (currentIndex > 0) {
+          e.preventDefault();
+          updateCarousel(currentIndex - 1);
+        }
+      }
+    });
+
+    // Lightbox inspection on slide image or zoom hint click
+    slides.forEach((slide) => {
+      const media = slide.querySelector('.faq-slide-media');
+      if (media) {
+        media.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const imgUrl = slide.getAttribute('data-image') || media.querySelector('img')?.src;
+          const imgTitle = slide.getAttribute('data-title') || slide.querySelector('.faq-slide-caption-title')?.textContent || 'Contoh Kaca & Aluminium';
+          openFaqLightbox(imgUrl, imgTitle);
+        });
+      }
+    });
+
+    // Initialize initial state without animation
+    updateCarousel(0, false);
+  });
+}
+
 // Initialize on page ready
 initAllFaqFeedback();
+initFaqCarousels();
 
 /* =========================================================
    FAQ SORTING: 'Most Popular', 'Most Helpful', OR 'Newest'

@@ -291,6 +291,14 @@ function openFaqDrawer(item) {
   faqMobileDrawer.classList.add('open');
   faqMobileDrawer.setAttribute('aria-hidden', 'false');
   document.body.classList.add('faq-drawer-open');
+
+  // Synchronize matching search highlights if active search query exists
+  if (typeof highlightFaqText === 'function' && faqSearchInput) {
+    const activeQuery = faqSearchInput.value.trim();
+    if (activeQuery.length >= 2 && faqDrawerBody) {
+      highlightFaqText(faqDrawerBody, activeQuery);
+    }
+  }
 }
 
 function closeFaqDrawer() {
@@ -701,11 +709,126 @@ const faqTagFilters = document.querySelectorAll('.faq-tag-filter');
 
 let currentFaqCategory = 'all';
 
+/* =========================================================
+   FAQ SEARCH KEYWORD HIGHLIGHTING ENGINE
+   Safely wraps matching text nodes in <mark class="faq-search-highlight">
+   without corrupting interactive components, carousels, or SVGs.
+   ========================================================= */
+function removeFaqHighlights(container) {
+  if (!container) return;
+  const marks = Array.from(container.querySelectorAll('mark.faq-search-highlight'));
+  marks.forEach((mark) => {
+    const parent = mark.parentNode;
+    if (parent) {
+      const textNode = document.createTextNode(mark.textContent);
+      parent.replaceChild(textNode, mark);
+      parent.normalize();
+    }
+  });
+}
+
+function escapeRegexForFaq(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function highlightFaqText(container, rawQuery) {
+  if (!container || !rawQuery) return;
+  removeFaqHighlights(container);
+
+  const cleanQuery = rawQuery.trim();
+  if (cleanQuery.length < 2) return;
+
+  // Extract individual search terms (length >= 2) and full query
+  const words = cleanQuery.split(/\s+/).filter(w => w.length >= 2);
+  const terms = Array.from(new Set([cleanQuery, ...words]));
+  // Sort longest terms first so multi-word phrases match before individual tokens
+  terms.sort((a, b) => b.length - a.length);
+
+  const pattern = '(' + terms.map(escapeRegexForFaq).join('|') + ')';
+  const regex = new RegExp(pattern, 'gi');
+
+  // Walk text nodes, skipping interactive elements like carousel, buttons, svg
+  const walker = document.createTreeWalker(
+    container,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode(node) {
+        if (!node.nodeValue || !node.nodeValue.trim()) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        const parent = node.parentElement;
+        if (!parent) return NodeFilter.FILTER_REJECT;
+
+        // Skip non-prose and interactive elements
+        if (
+          parent.tagName === 'SCRIPT' ||
+          parent.tagName === 'STYLE' ||
+          parent.tagName === 'MARK' ||
+          parent.closest('.faq-gallery-carousel') ||
+          parent.closest('.faq-feedback-container') ||
+          parent.closest('.faq-copy-wrap') ||
+          parent.closest('.faq-wa-share-btn') ||
+          parent.closest('button') ||
+          parent.closest('svg')
+        ) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    }
+  );
+
+  const nodesToHighlight = [];
+  while (walker.nextNode()) {
+    regex.lastIndex = 0;
+    if (regex.test(walker.currentNode.nodeValue)) {
+      nodesToHighlight.push(walker.currentNode);
+    }
+  }
+
+  nodesToHighlight.forEach((textNode) => {
+    const text = textNode.nodeValue;
+    const parent = textNode.parentNode;
+    if (!parent) return;
+
+    const fragment = document.createDocumentFragment();
+    let lastIndex = 0;
+    regex.lastIndex = 0;
+
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+      const matchStart = match.index;
+      const matchEnd = regex.lastIndex;
+
+      // Text before matched substring
+      if (matchStart > lastIndex) {
+        fragment.appendChild(document.createTextNode(text.substring(lastIndex, matchStart)));
+      }
+
+      // Highlight element
+      const mark = document.createElement('mark');
+      mark.className = 'faq-search-highlight';
+      mark.textContent = match[0];
+      fragment.appendChild(mark);
+
+      lastIndex = matchEnd;
+    }
+
+    // Remaining text after last match
+    if (lastIndex < text.length) {
+      fragment.appendChild(document.createTextNode(text.substring(lastIndex)));
+    }
+
+    parent.replaceChild(fragment, textNode);
+  });
+}
+
 function filterFaq(query, category) {
   if (category !== undefined) {
     currentFaqCategory = category;
   }
-  const q = (query !== undefined ? query : (faqSearchInput ? faqSearchInput.value : '')).trim().toLowerCase();
+  const rawQ = query !== undefined ? query : (faqSearchInput ? faqSearchInput.value : '');
+  const q = rawQ.trim().toLowerCase();
   let matchedCount = 0;
   const total = faqItems.length;
 
@@ -721,7 +844,8 @@ function filterFaq(query, category) {
 
   faqItems.forEach((item) => {
     const questionText = item.querySelector('.faq-question')?.textContent.toLowerCase() || '';
-    const answerText = item.querySelector('.faq-answer')?.textContent.toLowerCase() || '';
+    const answerElem = item.querySelector('.faq-answer');
+    const answerText = answerElem?.textContent.toLowerCase() || '';
     const itemTags = (item.getAttribute('data-tags') || item.getAttribute('data-category') || '').toLowerCase();
 
     // Check category filter
@@ -734,11 +858,32 @@ function filterFaq(query, category) {
       item.classList.remove('faq-filtered-out');
       matchedCount++;
       if (!firstMatch) firstMatch = item;
+
+      // Highlight matching keywords within FAQ answers
+      if (answerElem) {
+        if (q.length >= 2) {
+          highlightFaqText(answerElem, rawQ);
+        } else {
+          removeFaqHighlights(answerElem);
+        }
+      }
     } else {
       item.classList.add('faq-filtered-out');
+      if (answerElem) {
+        removeFaqHighlights(answerElem);
+      }
       closeFaq(item);
     }
   });
+
+  // Also synchronize keyword highlights in mobile drawer body if open
+  if (faqDrawerBody && faqMobileDrawer && faqMobileDrawer.classList.contains('open')) {
+    if (q.length >= 2) {
+      highlightFaqText(faqDrawerBody, rawQ);
+    } else {
+      removeFaqHighlights(faqDrawerBody);
+    }
+  }
 
   // When searching with at least 2 characters, expand the first matched item on desktop
   if (q.length >= 2 && firstMatch && !isMobileView()) {

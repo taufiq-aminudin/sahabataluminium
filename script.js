@@ -19,6 +19,9 @@ const closeLightbox = () => {
   lightbox.classList.remove('open');
   lightbox.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
+  document.querySelectorAll('.faq-gallery-carousel').forEach((c) => {
+    if (c._autoRotate && c._autoRotate.resume) c._autoRotate.resume();
+  });
 };
 
 if (lightbox) {
@@ -292,6 +295,11 @@ function openFaqDrawer(item) {
 
 function closeFaqDrawer() {
   if (!faqMobileDrawer) return;
+  if (faqDrawerBody) {
+    faqDrawerBody.querySelectorAll('.faq-gallery-carousel').forEach((c) => {
+      if (c._autoRotate && c._autoRotate.stop) c._autoRotate.stop();
+    });
+  }
   faqMobileDrawer.classList.remove('open');
   faqMobileDrawer.setAttribute('aria-hidden', 'true');
   document.body.classList.remove('faq-drawer-open');
@@ -563,6 +571,11 @@ function openFaq(item) {
   item.classList.add('active');
   if (btn) btn.setAttribute('aria-expanded', 'true');
 
+  const carousel = item.querySelector('.faq-gallery-carousel');
+  if (carousel && carousel._autoRotate && carousel._autoRotate.restart) {
+    carousel._autoRotate.restart();
+  }
+
   answer.style.height = '0px';
   void answer.offsetHeight; // Force reflow
   const targetHeight = answer.scrollHeight;
@@ -585,6 +598,11 @@ function closeFaq(item) {
   if (!answer) return;
 
   if (btn) btn.setAttribute('aria-expanded', 'false');
+
+  const carousel = item.querySelector('.faq-gallery-carousel');
+  if (carousel && carousel._autoRotate && carousel._autoRotate.stop) {
+    carousel._autoRotate.stop();
+  }
 
   answer.style.height = answer.scrollHeight + 'px';
   void answer.offsetHeight; // Force reflow
@@ -1145,6 +1163,10 @@ function openFaqLightbox(imageUrl, title) {
   lightbox.classList.add('open');
   lightbox.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
+  // Pause any running FAQ carousels during lightbox inspection
+  document.querySelectorAll('.faq-gallery-carousel').forEach((c) => {
+    if (c._autoRotate && c._autoRotate.pause) c._autoRotate.pause();
+  });
 }
 
 function initFaqCarousels(scope = document) {
@@ -1164,17 +1186,112 @@ function initFaqCarousels(scope = document) {
     if (!track || slides.length === 0) return;
 
     let currentIndex = 0;
+    const AUTO_ROTATE_INTERVAL = 3800; // Auto-rotate every 3.8 seconds
+    let autoRotateTimer = null;
+    let isPaused = false;
+    let resumeTimeout = null;
+
+    function isCarouselEligible() {
+      if (slides.length <= 1) return false;
+      // Respect user motion preference
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return false;
+      }
+      // If lightbox is currently opened, pause
+      if (lightbox && lightbox.classList.contains('open')) {
+        return false;
+      }
+      // If document tab is hidden
+      if (document.hidden) {
+        return false;
+      }
+      // If inside mobile drawer:
+      const drawer = carousel.closest('#faqMobileDrawer');
+      if (drawer) {
+        return drawer.classList.contains('open');
+      }
+      // If inside desktop FAQ item:
+      const parentItem = carousel.closest('.faq-item');
+      if (parentItem) {
+        return parentItem.classList.contains('active');
+      }
+      // General visibility
+      return carousel.offsetParent !== null;
+    }
+
+    function advanceSlide() {
+      if (!isPaused && isCarouselEligible()) {
+        const nextIndex = (currentIndex + 1) % slides.length;
+        updateCarousel(nextIndex);
+      }
+    }
+
+    function startAutoRotate() {
+      stopAutoRotate();
+      if (slides.length <= 1) return;
+      autoRotateTimer = setInterval(advanceSlide, AUTO_ROTATE_INTERVAL);
+    }
+
+    function stopAutoRotate() {
+      if (autoRotateTimer) {
+        clearInterval(autoRotateTimer);
+        autoRotateTimer = null;
+      }
+      if (resumeTimeout) {
+        clearTimeout(resumeTimeout);
+        resumeTimeout = null;
+      }
+    }
+
+    function pauseAutoRotate() {
+      isPaused = true;
+    }
+
+    function resumeAutoRotate(delay = 0) {
+      if (resumeTimeout) {
+        clearTimeout(resumeTimeout);
+        resumeTimeout = null;
+      }
+      if (delay > 0) {
+        resumeTimeout = setTimeout(() => {
+          isPaused = false;
+        }, delay);
+      } else {
+        isPaused = false;
+      }
+    }
+
+    function restartAutoRotate() {
+      startAutoRotate();
+      isPaused = false;
+    }
+
+    // Attach controller to element
+    carousel._autoRotate = {
+      start: startAutoRotate,
+      stop: stopAutoRotate,
+      pause: pauseAutoRotate,
+      resume: resumeAutoRotate,
+      restart: restartAutoRotate,
+      next: () => updateCarousel((currentIndex + 1) % slides.length),
+      prev: () => updateCarousel(currentIndex > 0 ? currentIndex - 1 : slides.length - 1)
+    };
 
     function updateCarousel(newIndex, animate = true) {
-      if (newIndex < 0) newIndex = 0;
-      if (newIndex >= slides.length) newIndex = slides.length - 1;
+      if (slides.length === 0) return;
+      // Cyclical wrap-around for smooth continuous viewing
+      if (newIndex < 0) {
+        newIndex = slides.length - 1;
+      } else if (newIndex >= slides.length) {
+        newIndex = 0;
+      }
       currentIndex = newIndex;
 
       // Update slide track position
       if (!animate) {
         track.style.transition = 'none';
       } else {
-        track.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+        track.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
       }
       track.style.transform = `translateX(-${currentIndex * 100}%)`;
 
@@ -1189,14 +1306,14 @@ function initFaqCarousels(scope = document) {
         counter.textContent = `${currentIndex + 1} / ${slides.length}`;
       }
 
-      // Update navigation button states
+      // Update navigation button states - both enabled for cyclical wrap-around
       if (prevBtn) {
-        prevBtn.disabled = (currentIndex === 0);
-        prevBtn.setAttribute('aria-disabled', currentIndex === 0 ? 'true' : 'false');
+        prevBtn.disabled = slides.length <= 1;
+        prevBtn.setAttribute('aria-disabled', slides.length <= 1 ? 'true' : 'false');
       }
       if (nextBtn) {
-        nextBtn.disabled = (currentIndex === slides.length - 1);
-        nextBtn.setAttribute('aria-disabled', (currentIndex === slides.length - 1) ? 'true' : 'false');
+        nextBtn.disabled = slides.length <= 1;
+        nextBtn.setAttribute('aria-disabled', slides.length <= 1 ? 'true' : 'false');
       }
 
       // Update dot indicators
@@ -1212,9 +1329,9 @@ function initFaqCarousels(scope = document) {
       prevBtn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        if (currentIndex > 0) {
-          updateCarousel(currentIndex - 1);
-        }
+        const prevIndex = currentIndex > 0 ? currentIndex - 1 : slides.length - 1;
+        updateCarousel(prevIndex);
+        restartAutoRotate();
       });
     }
 
@@ -1223,9 +1340,9 @@ function initFaqCarousels(scope = document) {
       nextBtn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        if (currentIndex < slides.length - 1) {
-          updateCarousel(currentIndex + 1);
-        }
+        const nextIndex = (currentIndex + 1) % slides.length;
+        updateCarousel(nextIndex);
+        restartAutoRotate();
       });
     }
 
@@ -1235,8 +1352,15 @@ function initFaqCarousels(scope = document) {
         e.preventDefault();
         e.stopPropagation();
         updateCarousel(idx);
+        restartAutoRotate();
       });
     });
+
+    // Pause on Hover & Focus
+    carousel.addEventListener('mouseenter', () => pauseAutoRotate());
+    carousel.addEventListener('mouseleave', () => resumeAutoRotate(600));
+    carousel.addEventListener('focusin', () => pauseAutoRotate());
+    carousel.addEventListener('focusout', () => resumeAutoRotate(600));
 
     // Touch Swipe Gesture on Viewport
     const viewport = carousel.querySelector('.faq-carousel-viewport') || carousel;
@@ -1245,6 +1369,7 @@ function initFaqCarousels(scope = document) {
     let isSwiping = false;
 
     viewport.addEventListener('touchstart', (e) => {
+      pauseAutoRotate();
       if (e.touches && e.touches.length === 1) {
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
@@ -1263,29 +1388,43 @@ function initFaqCarousels(scope = document) {
 
       // Only respond if horizontal movement is dominant and > 35px
       if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY) * 1.3) {
-        if (diffX < 0 && currentIndex < slides.length - 1) {
-          updateCarousel(currentIndex + 1);
-        } else if (diffX > 0 && currentIndex > 0) {
-          updateCarousel(currentIndex - 1);
+        if (diffX < 0) {
+          updateCarousel((currentIndex + 1) % slides.length);
+        } else if (diffX > 0) {
+          updateCarousel(currentIndex > 0 ? currentIndex - 1 : slides.length - 1);
         }
       }
+      // Resume auto-rotation after 2.5s grace period following user swipe
+      resumeAutoRotate(2500);
     }, { passive: true });
 
     // Keyboard Arrow navigation when carousel is focused
     carousel.setAttribute('tabindex', '0');
     carousel.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight') {
-        if (currentIndex < slides.length - 1) {
-          e.preventDefault();
-          updateCarousel(currentIndex + 1);
-        }
+        e.preventDefault();
+        updateCarousel((currentIndex + 1) % slides.length);
+        restartAutoRotate();
       } else if (e.key === 'ArrowLeft') {
-        if (currentIndex > 0) {
-          e.preventDefault();
-          updateCarousel(currentIndex - 1);
-        }
+        e.preventDefault();
+        updateCarousel(currentIndex > 0 ? currentIndex - 1 : slides.length - 1);
+        restartAutoRotate();
       }
     });
+
+    // Pause when out of viewport via IntersectionObserver
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            resumeAutoRotate();
+          } else {
+            pauseAutoRotate();
+          }
+        });
+      }, { threshold: 0.1 });
+      observer.observe(carousel);
+    }
 
     // Lightbox inspection on slide image or zoom hint click
     slides.forEach((slide) => {
@@ -1301,8 +1440,9 @@ function initFaqCarousels(scope = document) {
       }
     });
 
-    // Initialize initial state without animation
+    // Initialize initial state without animation and launch auto-rotation
     updateCarousel(0, false);
+    startAutoRotate();
   });
 }
 

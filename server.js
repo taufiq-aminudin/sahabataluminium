@@ -890,6 +890,114 @@ app.post('/api/feedbacks', (req, res) => {
   }
 });
 
+// ========================================================
+// API: Site Survey Scheduling & WhatsApp Dispatch
+// ========================================================
+const SURVEYS_FILE = path.join(__dirname, 'surveys.json');
+
+function readSurveys() {
+  try {
+    if (!fs.existsSync(SURVEYS_FILE)) {
+      fs.writeFileSync(SURVEYS_FILE, '[]', 'utf-8');
+      return [];
+    }
+    return JSON.parse(fs.readFileSync(SURVEYS_FILE, 'utf-8'));
+  } catch (err) {
+    console.error('Error reading surveys.json:', err);
+    return [];
+  }
+}
+
+function writeSurveys(surveys) {
+  try {
+    fs.writeFileSync(SURVEYS_FILE, JSON.stringify(surveys, null, 2), 'utf-8');
+    return true;
+  } catch (err) {
+    console.error('Error writing surveys.json:', err);
+    return false;
+  }
+}
+
+app.get('/api/surveys', (req, res) => {
+  try {
+    const surveys = readSurveys();
+    return res.json({ success: true, count: surveys.length, surveys });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: 'Gagal memuat jadwal survey' });
+  }
+});
+
+app.post('/api/surveys', (req, res) => {
+  try {
+    const { name, phone, date, timeSlot, location, address, projectType, notes, bringSamples } = req.body || {};
+
+    if (!name || name.trim().length < 2) {
+      return res.status(400).json({ success: false, error: 'Nama pemesan wajib diisi (minimal 2 karakter).' });
+    }
+    if (!phone || phone.trim().length < 8) {
+      return res.status(400).json({ success: false, error: 'Nomor WhatsApp wajib diisi dengan benar.' });
+    }
+    if (!date) {
+      return res.status(400).json({ success: false, error: 'Silakan pilih tanggal survey lokasi.' });
+    }
+    if (!timeSlot) {
+      return res.status(400).json({ success: false, error: 'Silakan pilih sesi waktu survey.' });
+    }
+
+    const surveys = readSurveys();
+    const bookingCode = `SRV-${new Date().toISOString().slice(2, 10).replace(/-/g, '')}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+    const newBooking = {
+      id: bookingCode,
+      name: name.trim(),
+      phone: phone.trim(),
+      date,
+      timeSlot,
+      location: location || 'Karawang / Sekitarnya',
+      address: address ? address.trim() : '',
+      projectType: projectType || 'Kusen & Kaca Aluminium',
+      notes: notes ? notes.trim() : '',
+      bringSamples: !!bringSamples,
+      status: 'pending_confirmation',
+      createdAt: new Date().toISOString()
+    };
+
+    surveys.unshift(newBooking);
+    writeSurveys(surveys);
+
+    // Build the formatted WhatsApp confirmation message
+    const waText = 
+`*KONFIRMASI JADWAL SURVEY LOKASI GRATIS*
+---------------------------------------
+Halo Tim Sahabat Kaca Aluminium Karawang, saya telah mengisi formulir pemesanan survey lokasi gratis:
+
+🔖 *Kode Booking*: #${bookingCode}
+👤 *Nama*: ${newBooking.name}
+📱 *WhatsApp*: ${newBooking.phone}
+📅 *Tanggal Survey*: ${newBooking.date}
+⏰ *Sesi Waktu*: ${newBooking.timeSlot}
+📍 *Wilayah*: ${newBooking.location}
+🏠 *Alamat Lengkap*: ${newBooking.address || '-'}
+🛠️ *Kategori Sistem*: ${newBooking.projectType}
+🧰 *Bawa Sampel Profil*: ${newBooking.bringSamples ? 'Ya (Dacon/Alexindo/Moru)' : 'Tidak'}
+📝 *Catatan Khusus*: ${newBooking.notes || '-'}
+
+Mohon konfirmasi ketersediaan tim teknisi lapangan untuk jadwal ini. Terima kasih!`;
+
+    const waUrl = `https://wa.me/6289637371166?text=${encodeURIComponent(waText)}`;
+
+    return res.json({
+      success: true,
+      message: 'Jadwal survey berhasil dicatat. Melanjutkan ke WhatsApp untuk konfirmasi tim teknis...',
+      booking: newBooking,
+      waUrl
+    });
+  } catch (err) {
+    console.error('Error saving survey schedule:', err);
+    return res.status(500).json({ success: false, error: 'Terjadi kesalahan sistem saat menjadwalkan survey.' });
+  }
+});
+
 // Serve static assets with html extension support
 app.use(express.static(__dirname, {
   extensions: ['html', 'htm'],

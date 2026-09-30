@@ -646,6 +646,10 @@
         Testimoni
       </a>
 
+      <a href="#jadwal-survey" class="nav-highlight-survey" onclick="window.activateSurveyTab(event)">
+        📅 Jadwal Survey Gratis
+      </a>
+
       <a href="kontak.html">
         Hubungi Kami
       </a>
@@ -748,6 +752,13 @@
 
         <div class="hero-actions">
 
+          <a
+            class="btn survey-btn"
+            href="#jadwal-survey"
+            onclick="window.activateSurveyTab(event)"
+          >
+            📅 Jadwal Survey Gratis
+          </a>
 
           <a
             class="btn primary"
@@ -3972,142 +3983,342 @@
           </div>
         </div>
 
-        <!-- Right Column: The WhatsApp Lead Conversion Form -->
+        <!-- Right Column: The WhatsApp Lead Conversion & Site Survey Scheduling Card -->
         <div class="contact-form-col">
-          <div class="contact-form-card">
-            <div class="form-card-head">
-              <div class="form-card-title-wrap">
-                <span class="form-wa-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-                  </svg>
-                </span>
-                <div>
-                  <h3>Form Konsultasi & Penawaran</h3>
-                  <p>Kirim langsung ke WhatsApp Admin (Otomatis)</p>
-                </div>
-              </div>
-              <div class="form-badge-live">Online</div>
+          <div class="contact-form-card" id="jadwal-survey">
+
+            <!-- Tabs: Schedule Survey vs Quick Chat -->
+            <div class="form-tabs-bar" role="tablist">
+              <button type="button" class="form-tab-btn active" id="tabBtnSurvey" onclick="window.switchContactTab('survey')">
+                <span class="tab-icon">📅</span>
+                <span>Jadwal Survey Gratis</span>
+                <span class="tab-pill">Bebas Biaya</span>
+              </button>
+              <button type="button" class="form-tab-btn" id="tabBtnConsult" onclick="window.switchContactTab('consult')">
+                <span class="tab-icon">💬</span>
+                <span>Konsultasi Cepat</span>
+              </button>
             </div>
 
-            <form id="waContactFormHome" class="contact-form-body">
-              <!-- Row 1: Nama & No WhatsApp -->
-              <div class="form-grid-2">
+            <!-- TAB 1: FREE SITE SURVEY SCHEDULER FORM -->
+            <div id="surveyFormContainer">
+              <div class="form-card-head">
+                <div class="form-card-title-wrap">
+                  <span class="form-wa-icon" style="background: linear-gradient(135deg, #0d9488 0%, #10b981 100%);" aria-hidden="true">
+                    📅
+                  </span>
+                  <div>
+                    <h3>Pilih Jadwal Survey Lokasi Gratis</h3>
+                    <p>Teknisi datang ke lokasi Anda, ukur laser, & bawa sampel material</p>
+                  </div>
+                </div>
+                <div class="form-badge-live" style="background:#f0fdfa; color:#0f766e; border-color:#99f6e4;">100% Free</div>
+              </div>
+
+              <form id="siteSurveyScheduleForm" class="contact-form-body">
+                <!-- Row 1: Date Selection & Quick Chips -->
                 <div class="form-group">
-                  <label for="waHomeName">Nama Anda <span class="required">*</span></label>
+                  <label for="surveyDateInput">Pilih Tanggal Survey On-Site <span class="required">*</span></label>
                   <input 
-                    type="text" 
-                    id="waHomeName" 
-                    name="name" 
+                    type="date" 
+                    id="surveyDateInput" 
+                    name="date" 
                     class="form-control" 
-                    placeholder="Contoh: Bpk. Hendra / Ibu Maya" 
                     required
-                    autocomplete="name"
                   >
+                  <div class="quick-date-row">
+                    <button type="button" class="quick-date-chip active" onclick="window.setQuickDate(1, this)">Besok</button>
+                    <button type="button" class="quick-date-chip" onclick="window.setQuickDate(2, this)">Lusa</button>
+                    <button type="button" class="quick-date-chip" onclick="window.setQuickDate('saturday', this)">Sabtu Ini</button>
+                    <button type="button" class="quick-date-chip" onclick="window.setQuickDate('monday', this)">Senin Depan</button>
+                  </div>
                 </div>
+
+                <!-- Row 2: Time Slot Selection -->
                 <div class="form-group">
-                  <label for="waHomePhone">Nomor WhatsApp / HP <span class="required">*</span></label>
-                  <input 
-                    type="tel" 
-                    id="waHomePhone" 
-                    name="phone" 
-                    class="form-control" 
-                    placeholder="Contoh: 081234567890" 
+                  <label>Pilih Sesi Waktu Kunjungan Teknisi <span class="required">*</span></label>
+                  <input type="hidden" id="surveyTimeSlotInput" name="timeSlot" value="09:00 - 11:00 WIB (Pagi)">
+                  <div class="survey-time-slots" id="surveyTimeSlotGroup">
+                    <button type="button" class="survey-slot-btn active" onclick="window.selectSurveyTimeSlot('09:00 - 11:00 WIB (Pagi)', this)">
+                      <span class="survey-slot-time">🌅 09:00 - 11:00 WIB</span>
+                      <span class="survey-slot-label">Sesi Pagi (Ideal untuk Proyek Rumah)</span>
+                    </button>
+                    <button type="button" class="survey-slot-btn" onclick="window.selectSurveyTimeSlot('11:00 - 13:00 WIB (Siang)', this)">
+                      <span class="survey-slot-time">☀️ 11:00 - 13:00 WIB</span>
+                      <span class="survey-slot-label">Sesi Siang (Sebelum Istirahat)</span>
+                    </button>
+                    <button type="button" class="survey-slot-btn" onclick="window.selectSurveyTimeSlot('13:30 - 15:30 WIB (Siang/Sore)', this)">
+                      <span class="survey-slot-time">🌤️ 13:30 - 15:30 WIB</span>
+                      <span class="survey-slot-label">Sesi Siang Menjelang Sore</span>
+                    </button>
+                    <button type="button" class="survey-slot-btn" onclick="window.selectSurveyTimeSlot('15:30 - 17:30 WIB (Sore)', this)">
+                      <span class="survey-slot-time">🌇 15:30 - 17:30 WIB</span>
+                      <span class="survey-slot-label">Sesi Sore (Sepulang Jam Kantor)</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Row 3: Nama & WhatsApp -->
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label for="surveyNameInput">Nama Lengkap Anda <span class="required">*</span></label>
+                    <input 
+                      type="text" 
+                      id="surveyNameInput" 
+                      name="name" 
+                      class="form-control" 
+                      placeholder="Contoh: Bpk. Gunawan / Ibu Rina" 
+                      required
+                      autocomplete="name"
+                    >
+                  </div>
+                  <div class="form-group">
+                    <label for="surveyPhoneInput">Nomor WhatsApp Aktif <span class="required">*</span></label>
+                    <input 
+                      type="tel" 
+                      id="surveyPhoneInput" 
+                      name="phone" 
+                      class="form-control" 
+                      placeholder="Contoh: 0812-3456-7890" 
+                      required
+                      autocomplete="tel"
+                    >
+                  </div>
+                </div>
+
+                <!-- Row 4: Wilayah & Kategori Sistem -->
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label for="surveyLocationSelect">Wilayah Survey <span class="required">*</span></label>
+                    <select id="surveyLocationSelect" name="location" class="form-control" required>
+                      <option value="" disabled selected>Pilih Wilayah...</option>
+                      <optgroup label="Area Karawang">
+                        <option value="Karawang Barat (Galuh Mas, Johar, Alun-alun)">Karawang Barat (Galuh Mas, Johar)</option>
+                        <option value="Karawang Timur, Klari, Kosambi">Karawang Timur & Klari</option>
+                        <option value="Telukjambe Timur & Barat">Telukjambe Timur & Barat</option>
+                        <option value="Cikampek & Kotabaru">Cikampek & Kotabaru</option>
+                        <option value="Kawasan Industri KIIC / Suryacipta / KIM">Kawasan Industri KIIC / Suryacipta</option>
+                      </optgroup>
+                      <optgroup label="Area Cikarang & Bekasi">
+                        <option value="Cikarang (Jababeka / Delta Silicon / Deltamas)">Cikarang (Jababeka / Deltamas)</option>
+                        <option value="Kawasan Industri MM2100 Cibitung">MM2100 Cibitung</option>
+                        <option value="Bekasi Kota / Tambun / Grand Wisata">Bekasi & Grand Wisata</option>
+                      </optgroup>
+                      <optgroup label="Area Purwakarta & Subang">
+                        <option value="Purwakarta (BIC, Sadang, Campaka)">Purwakarta (Kota Bukit Indah / Sadang)</option>
+                        <option value="Subang (Smartpolitan, Kalijati, Patimban)">Subang Smartpolitan / Patimban</option>
+                      </optgroup>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="surveySystemSelect">Sistem yang Ingin Disurvey <span class="required">*</span></label>
+                    <select id="surveySystemSelect" name="projectType" class="form-control" required>
+                      <option value="Bifold Door System (Pintu Lipat Aluminium)">Pintu Lipat Bifold System</option>
+                      <option value="Kusen & Jendela Aluminium Minimalis">Kusen & Jendela Aluminium</option>
+                      <option value="Partisi Kaca Tempered Frameless Kantor">Partisi Kaca Kantor Frameless</option>
+                      <option value="Sekat Dapur Fluted Moru Glass Slim-Frame">Sekat Dapur Moru Glass</option>
+                      <option value="Railing Kaca Frameless Balkon & Tangga">Railing Kaca Balkon / Tangga</option>
+                      <option value="Curtain Wall & Fasad Gedung / Ruko">Fasad Curtain Wall / ACP</option>
+                      <option value="Shower Screen Kaca Kamar Mandi">Shower Screen Kaca Tempered</option>
+                      <option value="Kanopi Kaca Tempered / Laminated">Kanopi Kaca Tempered</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Row 5: Alamat Lengkap & Patokan -->
+                <div class="form-group">
+                  <label for="surveyAddressInput">Alamat Lengkap Lokasi Proyek / Patokan <span class="required">*</span></label>
+                  <textarea 
+                    id="surveyAddressInput" 
+                    name="address" 
+                    class="form-control form-textarea" 
+                    rows="2" 
+                    placeholder="Contoh: Perum Grand Taruma Blok B3 No. 12, Karawang Barat (Dekat Bundaran Utama)" 
                     required
-                    autocomplete="tel"
-                  >
+                  ></textarea>
                 </div>
+
+                <!-- Option: Bring Samples -->
+                <label class="survey-checkbox-wrap">
+                  <input type="checkbox" id="surveyBringSamples" name="bringSamples" checked>
+                  <span class="chk-label">
+                    <strong>Bawa Sampel Fisik Material Saat Survey</strong> (Potongan profil aluminium Alexindo/Dacon/Inkalum, sampel kaca Moru, dan tempered).
+                  </span>
+                </label>
+
+                <!-- Live Booking Confirmation Summary -->
+                <div class="survey-summary-box" id="surveySummaryBox">
+                  <div class="survey-summary-title">
+                    <span>Ringkasan Jadwal Survey Gratis:</span>
+                    <span class="survey-free-tag">BIAYA: RP 0 (GRATIS)</span>
+                  </div>
+                  <div class="survey-summary-row">
+                    <span>📅</span>
+                    <div>Waktu: <strong id="summaryDateDisplay">-</strong> • Sesi <strong id="summarySlotDisplay">09:00 - 11:00 WIB</strong></div>
+                  </div>
+                  <div class="survey-summary-row">
+                    <span>📍</span>
+                    <div>Area: <strong id="summaryLocDisplay">Karawang / Sekitarnya</strong></div>
+                  </div>
+                  <div class="survey-summary-row">
+                    <span>🛠️</span>
+                    <div>Layanan: <strong id="summarySystemDisplay">Pintu Lipat Bifold System</strong></div>
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-wa-submit btn-submit-wa survey-submit" id="surveySubmitBtn">
+                  <span class="btn-wa-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                    </svg>
+                  </span>
+                  <span>Konfirmasi Jadwal Survey via WhatsApp &rarr;</span>
+                </button>
+                <div class="form-secure-note">
+                  🛡️ 100% Survey Gratis • Bebas Biaya Transportasi • Dilengkapi Pengukuran Laser Presisi Digital
+                </div>
+              </form>
+            </div>
+
+            <!-- TAB 2: QUICK CHAT / CONSULTATION FORM (Existing) -->
+            <div id="consultFormContainer" style="display: none;">
+              <div class="form-card-head">
+                <div class="form-card-title-wrap">
+                  <span class="form-wa-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                    </svg>
+                  </span>
+                  <div>
+                    <h3>Form Konsultasi & Penawaran</h3>
+                    <p>Kirim langsung ke WhatsApp Admin (Otomatis)</p>
+                  </div>
+                </div>
+                <div class="form-badge-live">Online</div>
               </div>
 
-              <!-- Row 2: Lokasi & Kategori Proyek -->
-              <div class="form-grid-2">
+              <form id="waContactFormHome" class="contact-form-body">
+                <!-- Row 1: Nama & No WhatsApp -->
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label for="waHomeName">Nama Anda <span class="required">*</span></label>
+                    <input 
+                      type="text" 
+                      id="waHomeName" 
+                      name="name" 
+                      class="form-control" 
+                      placeholder="Contoh: Bpk. Hendra / Ibu Maya" 
+                      required
+                      autocomplete="name"
+                    >
+                  </div>
+                  <div class="form-group">
+                    <label for="waHomePhone">Nomor WhatsApp / HP <span class="required">*</span></label>
+                    <input 
+                      type="tel" 
+                      id="waHomePhone" 
+                      name="phone" 
+                      class="form-control" 
+                      placeholder="Contoh: 081234567890" 
+                      required
+                      autocomplete="tel"
+                    >
+                  </div>
+                </div>
+
+                <!-- Row 2: Lokasi & Kategori Proyek -->
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label for="waHomeLocation">Lokasi Proyek <span class="required">*</span></label>
+                    <select id="waHomeLocation" name="location" class="form-control" required>
+                      <option value="" disabled selected>Pilih Wilayah...</option>
+                      <optgroup label="Wilayah Karawang">
+                        <option value="Karawang Barat (Galuh Mas, Johar, Alun-alun)">Karawang Barat</option>
+                        <option value="Karawang Timur & Klari">Karawang Timur & Klari</option>
+                        <option value="Telukjambe Timur & Barat">Telukjambe</option>
+                        <option value="Cikampek & Kotabaru">Cikampek</option>
+                        <option value="Kawasan Industri KIIC / Suryacipta / KIM">Kawasan Industri Karawang (KIIC/Suryacipta)</option>
+                      </optgroup>
+                      <optgroup label="Wilayah Cikarang & Bekasi">
+                        <option value="Cikarang (Jababeka / Delta Silicon / Deltamas)">Cikarang (Jababeka / Deltamas)</option>
+                        <option value="Kawasan Industri MM2100 Cibitung">MM2100 Cibitung</option>
+                        <option value="Bekasi Kota / Tambun / Grand Wisata">Bekasi & Sekitarnya</option>
+                      </optgroup>
+                      <option value="Wilayah Lainnya di Jawa Barat / Jabodetabek">Wilayah Lainnya</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="waHomeService">Kebutuhan Utama <span class="required">*</span></label>
+                    <select id="waHomeService" name="service" class="form-control" required>
+                      <option value="" disabled selected>Pilih Layanan...</option>
+                      <option value="Kusen & Jendela Aluminium SNI">Kusen & Jendela Aluminium</option>
+                      <option value="Pintu Aluminium (Swing / Sliding / Lipat)">Pintu Aluminium (Swing/Sliding/Lipat)</option>
+                      <option value="Partisi Kaca Kantor / Sekat Ruangan">Partisi Kaca Kantor / Ruangan</option>
+                      <option value="Pintu Kaca Tempered Frameless / Floor Hinge">Pintu Kaca Tempered Frameless</option>
+                      <option value="Kanopi Kaca Tempered & Laminated">Kanopi Kaca Tempered</option>
+                      <option value="Shower Screen Kaca Kamar Mandi">Shower Screen Kaca</option>
+                      <option value="Aluminium Composite Panel (ACP) Fasad">Aluminium Composite Panel (ACP)</option>
+                      <option value="Etalase & Lemari Kaca Custom">Etalase Toko & Display Custom</option>
+                      <option value="Renovasi & Perbaikan Kaca Aluminium">Renovasi / Service Kaca Aluminium</option>
+                      <option value="Proyek Gedung / Pabrik Industri (Tender)">Proyek Gedung / Industri (Tender)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Quick Service Pills -->
                 <div class="form-group">
-                  <label for="waHomeLocation">Lokasi Proyek <span class="required">*</span></label>
-                  <select id="waHomeLocation" name="location" class="form-control" required>
-                    <option value="" disabled selected>Pilih Wilayah...</option>
-                    <optgroup label="Wilayah Karawang">
-                      <option value="Karawang Barat (Galuh Mas, Johar, Alun-alun)">Karawang Barat</option>
-                      <option value="Karawang Timur & Klari">Karawang Timur & Klari</option>
-                      <option value="Telukjambe Timur & Barat">Telukjambe</option>
-                      <option value="Cikampek & Kotabaru">Cikampek</option>
-                      <option value="Kawasan Industri KIIC / Suryacipta / KIM">Kawasan Industri Karawang (KIIC/Suryacipta)</option>
-                    </optgroup>
-                    <optgroup label="Wilayah Cikarang & Bekasi">
-                      <option value="Cikarang (Jababeka / Delta Silicon / Deltamas)">Cikarang (Jababeka / Deltamas)</option>
-                      <option value="Kawasan Industri MM2100 Cibitung">MM2100 Cibitung</option>
-                      <option value="Bekasi Kota / Tambun / Grand Wisata">Bekasi & Sekitarnya</option>
-                    </optgroup>
-                    <option value="Wilayah Lainnya di Jawa Barat / Jabodetabek">Wilayah Lainnya</option>
-                  </select>
+                  <span class="form-sublabel">Pilihan Cepat Layanan:</span>
+                  <div class="service-quick-tags" id="waHomeServiceTags">
+                    <button type="button" class="service-tag" data-val="Kusen & Jendela Aluminium SNI">Kusen & Jendela</button>
+                    <button type="button" class="service-tag" data-val="Pintu Aluminium (Swing / Sliding / Lipat)">Pintu Sliding/Swing</button>
+                    <button type="button" class="service-tag" data-val="Partisi Kaca Kantor / Sekat Ruangan">Partisi Kaca</button>
+                    <button type="button" class="service-tag" data-val="Kanopi Kaca Tempered & Laminated">Kanopi Kaca</button>
+                    <button type="button" class="service-tag" data-val="Shower Screen Kaca Kamar Mandi">Shower Glass</button>
+                    <button type="button" class="service-tag" data-val="Aluminium Composite Panel (ACP) Fasad">Fasad ACP</button>
+                  </div>
                 </div>
 
+                <!-- Pesan / Detail Ukuran -->
                 <div class="form-group">
-                  <label for="waHomeService">Kebutuhan Utama <span class="required">*</span></label>
-                  <select id="waHomeService" name="service" class="form-control" required>
-                    <option value="" disabled selected>Pilih Layanan...</option>
-                    <option value="Kusen & Jendela Aluminium SNI">Kusen & Jendela Aluminium</option>
-                    <option value="Pintu Aluminium (Swing / Sliding / Lipat)">Pintu Aluminium (Swing/Sliding/Lipat)</option>
-                    <option value="Partisi Kaca Kantor / Sekat Ruangan">Partisi Kaca Kantor / Ruangan</option>
-                    <option value="Pintu Kaca Tempered Frameless / Floor Hinge">Pintu Kaca Tempered Frameless</option>
-                    <option value="Kanopi Kaca Tempered & Laminated">Kanopi Kaca Tempered</option>
-                    <option value="Shower Screen Kaca Kamar Mandi">Shower Screen Kaca</option>
-                    <option value="Aluminium Composite Panel (ACP) Fasad">Aluminium Composite Panel (ACP)</option>
-                    <option value="Etalase & Lemari Kaca Custom">Etalase Toko & Display Custom</option>
-                    <option value="Renovasi & Perbaikan Kaca Aluminium">Renovasi / Service Kaca Aluminium</option>
-                    <option value="Proyek Gedung / Pabrik Industri (Tender)">Proyek Gedung / Industri (Tender)</option>
-                  </select>
+                  <label for="waHomeMessage">Keterangan / Estimasi Ukuran Proyek <span class="optional">(Opsional)</span></label>
+                  <textarea 
+                    id="waHomeMessage" 
+                    name="message" 
+                    class="form-control form-textarea" 
+                    rows="3" 
+                    placeholder="Contoh: Butuh partisi kaca kantor ukuran 4x3 meter, 2 unit pintu swing tempered, dan survey lokasi minggu ini..."
+                  ></textarea>
                 </div>
-              </div>
 
-              <!-- Quick Service Pills -->
-              <div class="form-group">
-                <span class="form-sublabel">Pilihan Cepat Layanan:</span>
-                <div class="service-quick-tags" id="waHomeServiceTags">
-                  <button type="button" class="service-tag" data-val="Kusen & Jendela Aluminium SNI">Kusen & Jendela</button>
-                  <button type="button" class="service-tag" data-val="Pintu Aluminium (Swing / Sliding / Lipat)">Pintu Sliding/Swing</button>
-                  <button type="button" class="service-tag" data-val="Partisi Kaca Kantor / Sekat Ruangan">Partisi Kaca</button>
-                  <button type="button" class="service-tag" data-val="Kanopi Kaca Tempered & Laminated">Kanopi Kaca</button>
-                  <button type="button" class="service-tag" data-val="Shower Screen Kaca Kamar Mandi">Shower Glass</button>
-                  <button type="button" class="service-tag" data-val="Aluminium Composite Panel (ACP) Fasad">Fasad ACP</button>
+                <!-- Live Message Preview Box -->
+                <div class="form-preview-box">
+                  <div class="form-preview-header">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                    </svg>
+                    <span>Format Pesan yang Akan Terkirim ke WhatsApp:</span>
+                  </div>
+                  <div id="waHomePreviewText" class="form-preview-content">Halo Admin Sahabat Kaca Aluminium, saya ingin konsultasi proyek...</div>
                 </div>
-              </div>
 
-              <!-- Pesan / Detail Ukuran -->
-              <div class="form-group">
-                <label for="waHomeMessage">Keterangan / Estimasi Ukuran Proyek <span class="optional">(Opsional)</span></label>
-                <textarea 
-                  id="waHomeMessage" 
-                  name="message" 
-                  class="form-control form-textarea" 
-                  rows="3" 
-                  placeholder="Contoh: Butuh partisi kaca kantor ukuran 4x3 meter, 2 unit pintu swing tempered, dan survey lokasi minggu ini..."
-                ></textarea>
-              </div>
-
-              <!-- Live Message Preview Box -->
-              <div class="form-preview-box">
-                <div class="form-preview-header">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
-                  </svg>
-                  <span>Format Pesan yang Akan Terkirim ke WhatsApp:</span>
+                <!-- Submit Button -->
+                <button type="submit" class="btn-wa-submit" id="waHomeSubmitBtn">
+                  <span class="btn-wa-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                    </svg>
+                  </span>
+                  <span>Kirim Konsultasi ke WhatsApp &rarr;</span>
+                </button>
+                <div class="form-secure-note">
+                  🔒 Data Anda aman & langsung terhubung ke WhatsApp resmi Admin Sahabat Kaca Aluminium.
                 </div>
-                <div id="waHomePreviewText" class="form-preview-content">Halo Admin Sahabat Kaca Aluminium, saya ingin konsultasi proyek...</div>
-              </div>
+              </form>
+            </div>
 
-              <!-- Submit Button -->
-              <button type="submit" class="btn-wa-submit" id="waHomeSubmitBtn">
-                <span class="btn-wa-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-                  </svg>
-                </span>
-                <span>Kirim Konsultasi ke WhatsApp &rarr;</span>
-              </button>
-              <div class="form-secure-note">
-                🔒 Data Anda aman & langsung terhubung ke WhatsApp resmi Admin Sahabat Kaca Aluminium.
-              </div>
-            </form>
           </div>
         </div>
 
@@ -4861,6 +5072,204 @@ document.addEventListener('keydown', function(e) {
     });
   }
 });
+
+// ========================================================
+// SITE SURVEY SCHEDULING & WHATSAPP CONFIRMATION CONTROLLER
+// ========================================================
+window.switchContactTab = function(tabName) {
+  const surveyContainer = document.getElementById('surveyFormContainer');
+  const consultContainer = document.getElementById('consultFormContainer');
+  const tabSurvey = document.getElementById('tabBtnSurvey');
+  const tabConsult = document.getElementById('tabBtnConsult');
+
+  if (tabName === 'survey') {
+    if (surveyContainer) surveyContainer.style.display = 'block';
+    if (consultContainer) consultContainer.style.display = 'none';
+    if (tabSurvey) tabSurvey.classList.add('active');
+    if (tabConsult) tabConsult.classList.remove('active');
+  } else {
+    if (surveyContainer) surveyContainer.style.display = 'none';
+    if (consultContainer) consultContainer.style.display = 'block';
+    if (tabConsult) tabConsult.classList.add('active');
+    if (tabSurvey) tabSurvey.classList.remove('active');
+  }
+};
+
+window.activateSurveyTab = function(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  window.switchContactTab('survey');
+  const target = document.getElementById('jadwal-survey');
+  if (target) {
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    target.style.transition = 'box-shadow 0.4s ease';
+    target.style.boxShadow = '0 0 0 4px #0d9488, 0 16px 40px rgba(13, 148, 136, 0.25)';
+    setTimeout(() => {
+      target.style.boxShadow = '';
+    }, 1800);
+  }
+};
+
+window.selectSurveyTimeSlot = function(slotText, btn) {
+  const input = document.getElementById('surveyTimeSlotInput');
+  if (input) input.value = slotText;
+
+  document.querySelectorAll('#surveyTimeSlotGroup .survey-slot-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  const summarySlot = document.getElementById('summarySlotDisplay');
+  if (summarySlot) summarySlot.textContent = slotText.split('(')[0].replace(/[^0-9:\s-]/g, '').trim();
+};
+
+window.setQuickDate = function(val, btn) {
+  const dateInput = document.getElementById('surveyDateInput');
+  if (!dateInput) return;
+
+  const now = new Date();
+  let target = new Date();
+
+  if (typeof val === 'number') {
+    target.setDate(now.getDate() + val);
+  } else if (val === 'saturday') {
+    const day = now.getDay();
+    const diff = (6 - day + 7) % 7 || 7;
+    target.setDate(now.getDate() + diff);
+  } else if (val === 'monday') {
+    const day = now.getDay();
+    const diff = (1 - day + 7) % 7 || 7;
+    target.setDate(now.getDate() + diff);
+  }
+
+  const yyyy = target.getFullYear();
+  const mm = String(target.getMonth() + 1).padStart(2, '0');
+  const dd = String(target.getDate()).padStart(2, '0');
+  dateInput.value = `${yyyy}-${mm}-${dd}`;
+
+  document.querySelectorAll('.quick-date-chip').forEach(c => c.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  updateSurveySummary();
+};
+
+function formatIndoDate(dateStr) {
+  if (!dateStr) return '-';
+  const parts = dateStr.split('-');
+  if (parts.length !== 3) return dateStr;
+  const d = new Date(parts[0], parts[1] - 1, parts[2]);
+  const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+  return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function updateSurveySummary() {
+  const dateInput = document.getElementById('surveyDateInput');
+  const summaryDate = document.getElementById('summaryDateDisplay');
+  if (dateInput && summaryDate) {
+    summaryDate.textContent = formatIndoDate(dateInput.value);
+  }
+
+  const locSelect = document.getElementById('surveyLocationSelect');
+  const summaryLoc = document.getElementById('summaryLocDisplay');
+  if (locSelect && summaryLoc && locSelect.value) {
+    summaryLoc.textContent = locSelect.options[locSelect.selectedIndex]?.text || locSelect.value;
+  }
+
+  const sysSelect = document.getElementById('surveySystemSelect');
+  const summarySys = document.getElementById('summarySystemDisplay');
+  if (sysSelect && summarySys && sysSelect.value) {
+    summarySys.textContent = sysSelect.value;
+  }
+}
+
+// Initialize Survey Scheduler on DOM ready
+(function initSurveyScheduler() {
+  const dateInput = document.getElementById('surveyDateInput');
+  if (dateInput) {
+    // Min date = tomorrow
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const yyyy = tomorrow.getFullYear();
+    const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+    const dd = String(tomorrow.getDate()).padStart(2, '0');
+    const minDateStr = `${yyyy}-${mm}-${dd}`;
+    dateInput.min = minDateStr;
+    if (!dateInput.value) dateInput.value = minDateStr;
+
+    dateInput.addEventListener('change', updateSurveySummary);
+  }
+
+  const locSelect = document.getElementById('surveyLocationSelect');
+  if (locSelect) locSelect.addEventListener('change', updateSurveySummary);
+
+  const sysSelect = document.getElementById('surveySystemSelect');
+  if (sysSelect) sysSelect.addEventListener('change', updateSurveySummary);
+
+  updateSurveySummary();
+
+  const form = document.getElementById('siteSurveyScheduleForm');
+  if (form) {
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById('surveySubmitBtn');
+      const originalText = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>⏳ Memproses & Menghubungkan ke WhatsApp...</span>';
+      }
+
+      const payload = {
+        name: document.getElementById('surveyNameInput')?.value || '',
+        phone: document.getElementById('surveyPhoneInput')?.value || '',
+        date: document.getElementById('surveyDateInput')?.value || '',
+        timeSlot: document.getElementById('surveyTimeSlotInput')?.value || '09:00 - 11:00 WIB (Pagi)',
+        location: document.getElementById('surveyLocationSelect')?.value || '',
+        address: document.getElementById('surveyAddressInput')?.value || '',
+        projectType: document.getElementById('surveySystemSelect')?.value || '',
+        bringSamples: !!document.getElementById('surveyBringSamples')?.checked
+      };
+
+      try {
+        const res = await fetch('/api/surveys', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (data && data.success && data.waUrl) {
+          // Open WhatsApp in new tab or redirect
+          window.open(data.waUrl, '_blank') || (window.location.href = data.waUrl);
+
+          // Show confirmation message on page
+          const summaryBox = document.getElementById('surveySummaryBox');
+          if (summaryBox) {
+            summaryBox.style.background = '#ecfdf5';
+            summaryBox.style.borderColor = '#10b981';
+            summaryBox.innerHTML = `
+              <div style="font-size: 14px; font-weight: 800; color: #065f46; display:flex; align-items:center; gap:6px;">
+                <span>✅</span> JADWAL SURVEY BERHASIL DICATAT (#${data.booking?.id})
+              </div>
+              <div style="font-size: 12.5px; color: #047857; margin-top: 4px; line-height: 1.5;">
+                Pesan konfirmasi telah dikirimkan ke WhatsApp tim teknisi kami. Tim Sahabat Kaca Aluminium akan segera menghubungi nomor <strong>${payload.phone}</strong> untuk validasi rute kedatangan.
+              </div>
+            `;
+          }
+        } else {
+          alert(data?.error || 'Gagal menyimpan jadwal survey, silakan coba lagi.');
+        }
+      } catch (err) {
+        console.error('Survey booking error:', err);
+        // Fallback directly to WhatsApp
+        const fallbackText = `Halo Admin Sahabat Kaca Aluminium, saya ingin konfirmasi jadwal survey gratis pada ${payload.date} jam ${payload.timeSlot} untuk ${payload.projectType} di ${payload.address}. Nama: ${payload.name} (${payload.phone}).`;
+        window.location.href = `https://wa.me/6289637371166?text=${encodeURIComponent(fallbackText)}`;
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        }
+      }
+    });
+  }
+})();
 </script>
 
 </body>

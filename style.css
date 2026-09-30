@@ -9424,19 +9424,40 @@ footer .footer-grid {
 }
 
 /* Dynamic Project Counter Strip */
+.masonry-eyebrow-pill {
+  background: rgba(13, 148, 136, 0.12);
+  color: #0d9488;
+  border: 1px solid rgba(13, 148, 136, 0.28);
+  padding: 2px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 800;
+  margin-left: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  vertical-align: middle;
+}
+
 .masonry-counter-strip {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 28px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 18px 32px;
-  margin: 22px auto 32px;
-  box-shadow: 0 4px 16px rgba(7, 46, 59, 0.05);
-  max-width: 720px;
+  gap: 32px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border: 1.5px solid #ccfbf1;
+  border-radius: 20px;
+  padding: 20px 36px;
+  margin: 24px auto 34px;
+  box-shadow: 0 10px 30px -8px rgba(13, 148, 136, 0.12), 0 2px 8px rgba(7, 46, 59, 0.04);
+  max-width: 740px;
   width: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.masonry-counter-strip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px -8px rgba(13, 148, 136, 0.18), 0 4px 12px rgba(7, 46, 59, 0.06);
 }
 
 .masonry-counter-box {
@@ -9447,6 +9468,10 @@ footer .footer-grid {
   flex: 1;
 }
 
+.masonry-counter-box.primary-counter {
+  flex: 1.15;
+}
+
 .masonry-counter-number-wrap {
   display: flex;
   align-items: baseline;
@@ -9455,7 +9480,7 @@ footer .footer-grid {
 
 .masonry-counter-number {
   font-family: Manrope, sans-serif;
-  font-size: clamp(32px, 3.5vw, 44px);
+  font-size: clamp(34px, 4vw, 48px);
   font-weight: 800;
   color: #0d9488;
   line-height: 1;
@@ -9464,22 +9489,28 @@ footer .footer-grid {
   display: inline-block;
 }
 
+.masonry-counter-box.primary-counter .masonry-counter-number {
+  font-size: clamp(38px, 4.5vw, 54px);
+  color: #0f766e;
+  text-shadow: 0 2px 10px rgba(13, 148, 136, 0.2);
+}
+
 .masonry-counter-suffix {
-  font-size: 14px;
+  font-size: 14.5px;
   font-weight: 800;
   color: #072e3b;
 }
 
 .masonry-counter-caption {
   font-size: 12px;
-  color: #64748b;
+  color: #475569;
   font-weight: 600;
   margin-top: 4px;
 }
 
 .masonry-counter-sep {
   width: 1px;
-  height: 42px;
+  height: 48px;
   background: #e2e8f0;
 }
 

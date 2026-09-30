@@ -1255,6 +1255,9 @@
         <div class="masonry-eyebrow">
           <span>🔍</span>
           DOKUMENTASI DETAIL KONSTRUKSI & ARSITEKTUR
+          <span class="masonry-eyebrow-pill">
+            <span id="masonryEyebrowCount">0</span> Proyek Detail
+          </span>
         </div>
         <h2 class="masonry-title">Galeri Detail Sistem Kaca & Aluminium Presisi</h2>
         <p class="masonry-subtitle">
@@ -1263,10 +1266,10 @@
 
         <!-- Dynamic Project Counter Strip -->
         <div class="masonry-counter-strip" id="masonryCounterStrip">
-          <div class="masonry-counter-box">
+          <div class="masonry-counter-box primary-counter">
             <div class="masonry-counter-number-wrap">
               <span class="masonry-counter-number" id="masonryProjectCounter">0</span>
-              <span class="masonry-counter-suffix">Sistem Detail</span>
+              <span class="masonry-counter-suffix">Proyek Detail</span>
             </div>
             <span class="masonry-counter-caption">Terdokumentasi Lengkap di Galeri</span>
           </div>
@@ -4415,8 +4418,12 @@ window.filterMasonryGrid = function(category, btn) {
   });
 
   const counterEl = document.getElementById('masonryProjectCounter');
+  const eyebrowEl = document.getElementById('masonryEyebrowCount');
   if (counterEl) {
     animateMasonryCounter(counterEl, visibleIndex, 600);
+  }
+  if (eyebrowEl) {
+    animateMasonryCounter(eyebrowEl, visibleIndex, 600);
   }
 };
 
@@ -4445,20 +4452,21 @@ function animateMasonryCounter(el, target, duration = 1400) {
 (function initMasonryDynamicCounter() {
   const section = document.getElementById('detail-proyek-masonry');
   const counterEl = document.getElementById('masonryProjectCounter');
+  const eyebrowEl = document.getElementById('masonryEyebrowCount');
   const verifiedEl = document.getElementById('masonryVerifiedCount');
   const catalogEl = document.getElementById('masonryFullCatalogCount');
+  const strip = document.getElementById('masonryCounterStrip') || section;
   if (!section || !counterEl) return;
 
   const cards = document.querySelectorAll('#masonryGrid .masonry-card');
   const totalProjects = cards.length || 8;
 
-  let hasCounted = false;
+  let isInView = false;
   const runCounterAnimation = () => {
-    if (hasCounted) return;
-    hasCounted = true;
-    animateMasonryCounter(counterEl, totalProjects, 1500);
-    if (verifiedEl) animateMasonryCounter(verifiedEl, 100, 1600);
-    if (catalogEl) animateMasonryCounter(catalogEl, 26, 1700);
+    animateMasonryCounter(counterEl, totalProjects, 1400);
+    if (eyebrowEl) animateMasonryCounter(eyebrowEl, totalProjects, 1400);
+    if (verifiedEl) animateMasonryCounter(verifiedEl, 100, 1500);
+    if (catalogEl) animateMasonryCounter(catalogEl, 26, 1600);
   };
 
   if (!('IntersectionObserver' in window)) {
@@ -4466,19 +4474,29 @@ function animateMasonryCounter(el, target, duration = 1400) {
     return;
   }
 
-  const counterObserver = new IntersectionObserver((entries, obs) => {
+  const counterObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        runCounterAnimation();
-        obs.unobserve(entry.target);
+        if (!isInView) {
+          isInView = true;
+          runCounterAnimation();
+        }
+      } else {
+        // Reset to 0 when user leaves section so it re-animates from 0 upon re-entry
+        isInView = false;
+        counterEl.textContent = '0';
+        if (eyebrowEl) eyebrowEl.textContent = '0';
+        if (verifiedEl) verifiedEl.textContent = '0';
+        if (catalogEl) catalogEl.textContent = '0';
       }
     });
   }, {
     root: null,
-    rootMargin: '0px 0px -40px 0px',
-    threshold: 0.12
+    rootMargin: '0px 0px 50px 0px',
+    threshold: 0.05
   });
 
+  counterObserver.observe(strip);
   counterObserver.observe(section);
 })();
 

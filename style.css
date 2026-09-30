@@ -630,29 +630,45 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 
 /* Project Card Expander & Hidden Description Details */
 .project-card-details {
+  display: grid;
+  grid-template-rows: 0fr;
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-              opacity 0.35s ease, 
-              margin-top 0.3s ease;
+  visibility: hidden;
   margin-top: 0;
   width: 100%;
+  transition: grid-template-rows 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              margin-top 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.4s ease;
+  will-change: grid-template-rows, max-height, opacity;
 }
 
 .project-card.is-expanded .project-card-details {
-  max-height: 550px;
+  grid-template-rows: 1fr;
+  max-height: 650px;
   opacity: 1;
+  visibility: visible;
   margin-top: 18px;
 }
 
 .project-card-details-inner {
+  min-height: 0;
+  overflow: hidden;
   background: #ffffff;
   border: 1.5px solid #dbeafe;
   border-radius: 12px;
   padding: 14px 16px;
   box-shadow: 0 4px 14px rgba(7, 55, 70, 0.04);
   text-align: left;
+  transform: translateY(-8px);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-card.is-expanded .project-card-details-inner {
+  transform: translateY(0);
 }
 
 .project-spec-badge {

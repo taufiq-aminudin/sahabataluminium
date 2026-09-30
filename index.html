@@ -4194,15 +4194,58 @@ window.filterMasonryGrid = function(category, btn) {
   if (btn) btn.classList.add('active');
 
   const items = document.querySelectorAll('#masonryGrid .masonry-card');
+  let visibleIndex = 0;
   items.forEach(item => {
     const itemCat = item.getAttribute('data-category') || '';
     if (category === 'all' || itemCat.split(' ').includes(category)) {
       item.style.display = '';
+      item.classList.remove('in-view');
+      const delay = (visibleIndex % 3) * 80;
+      visibleIndex++;
+      setTimeout(() => {
+        item.classList.add('in-view');
+      }, delay);
     } else {
       item.style.display = 'none';
+      item.classList.remove('in-view');
     }
   });
 };
+
+// Intersection Observer Animation for Masonry Cards
+(function initMasonryIntersectionObserver() {
+  const cards = document.querySelectorAll('#masonryGrid .masonry-card');
+  if (!cards.length) return;
+
+  if (!('IntersectionObserver' in window)) {
+    cards.forEach(c => c.classList.add('in-view'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const card = entry.target;
+        const allVisible = Array.from(cards).filter(c => c.style.display !== 'none');
+        const index = allVisible.indexOf(card);
+        const delay = index >= 0 ? (index % 3) * 110 : 0;
+
+        setTimeout(() => {
+          card.classList.add('in-view');
+        }, delay);
+
+        obs.unobserve(card);
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.1
+  });
+
+  cards.forEach(card => observer.observe(card));
+  window._masonryObserver = observer;
+})();
 
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {

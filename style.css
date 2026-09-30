@@ -9427,7 +9427,7 @@ footer .footer-grid {
   }
 }
 
-/* Masonry Card */
+/* Masonry Card with Intersection Observer Animation */
 .masonry-card {
   break-inside: avoid;
   margin-bottom: 24px;
@@ -9436,15 +9436,34 @@ footer .footer-grid {
   border-radius: 18px;
   overflow: hidden;
   box-shadow: 0 4px 18px rgba(7, 46, 59, 0.06);
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
   display: flex;
   flex-direction: column;
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.28s ease, 
+              border-color 0.28s ease;
+  will-change: opacity, transform;
 }
 
-.masonry-card:hover {
+.masonry-card.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.masonry-card.in-view:hover {
   transform: translateY(-6px);
   box-shadow: 0 16px 36px rgba(7, 46, 59, 0.14);
   border-color: #99f6e4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .masonry-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 /* Media Box */

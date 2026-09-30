@@ -9320,6 +9320,336 @@ footer .footer-grid {
   }
 }
 
+/* =========================================================
+   PROJECT DETAILS MASONRY GALLERY SECTION
+   ========================================================= */
+.masonry-gallery-section {
+  padding: 85px 0 75px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  position: relative;
+}
+
+.masonry-head-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto 36px;
+}
+
+.masonry-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ccfbf1;
+  color: #0f766e;
+  border: 1px solid #99f6e4;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.masonry-title {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  color: #072e3b;
+  margin: 0 0 14px;
+  line-height: 1.18;
+}
+
+.masonry-subtitle {
+  font-size: 15.5px;
+  color: #475569;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Filter Controls */
+.masonry-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 35px;
+}
+
+.masonry-filter-btn {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  color: #475569;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.masonry-filter-btn:hover {
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+}
+
+.masonry-filter-btn.active {
+  background: #0d9488;
+  color: #ffffff;
+  border-color: #0d9488;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.28);
+}
+
+/* Masonry Columns */
+.masonry-grid-container {
+  column-count: 3;
+  column-gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .masonry-grid-container {
+    column-count: 2;
+    column-gap: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .masonry-grid-container {
+    column-count: 1;
+    column-gap: 0;
+  }
+}
+
+/* Masonry Card */
+.masonry-card {
+  break-inside: avoid;
+  margin-bottom: 24px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(7, 46, 59, 0.06);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.masonry-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(7, 46, 59, 0.14);
+  border-color: #99f6e4;
+}
+
+/* Media Box */
+.masonry-media-box {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #0f172a;
+}
+
+.masonry-media-box img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.masonry-card:hover .masonry-media-box img {
+  transform: scale(1.06);
+}
+
+/* Overlay badges */
+.masonry-system-tag {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(7, 46, 59, 0.92);
+  backdrop-filter: blur(6px);
+  color: #5eead4;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 5px 11px;
+  border-radius: 8px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.masonry-zoom-trigger {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(4px);
+  color: #0f172a;
+  border: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  opacity: 0.92;
+}
+
+.masonry-card:hover .masonry-zoom-trigger {
+  opacity: 1;
+  background: #0d9488;
+  color: #ffffff;
+}
+
+/* Caption Body */
+.masonry-caption {
+  padding: 20px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.masonry-caption-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.masonry-loc-pill {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #0d9488;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.masonry-status-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #15803d;
+  background: #dcfce7;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.masonry-detail-title {
+  font-size: 17.5px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 10px;
+  line-height: 1.35;
+}
+
+.masonry-detail-desc {
+  font-size: 13.5px;
+  color: #475569;
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
+/* Specs Pills inside Caption */
+.masonry-specs-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.masonry-spec-tag {
+  background: #f1f5f9;
+  color: #334155;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+/* Card Action Footer */
+.masonry-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 14px;
+  margin-top: auto;
+}
+
+.masonry-btn-detail {
+  background: #0f172a;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.masonry-btn-detail:hover {
+  background: #0d9488;
+}
+
+.masonry-btn-wa {
+  background: #25d366;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.2s ease;
+}
+
+.masonry-btn-wa:hover {
+  background: #1eb956;
+}
+
+/* Bottom banner for masonry */
+.masonry-footer-cta {
+  margin-top: 45px;
+  background: linear-gradient(135deg, #072e3b, #0f4c5c);
+  border-radius: 20px;
+  padding: 32px 28px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  box-shadow: 0 14px 34px rgba(7, 46, 59, 0.2);
+}
+
+@media (max-width: 768px) {
+  .masonry-footer-cta {
+    flex-direction: column;
+    text-align: center;
+    padding: 26px 20px;
+  }
+}
+
 
 
 

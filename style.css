@@ -733,7 +733,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   line-height: 1.4;
 }
 
-/* Card Actions & Direct Inquiry Button */
+/* Card Footer Actions & Direct Inquiry Button */
+.project-card-footer,
 .project-card-actions {
   display: flex;
   align-items: center;
@@ -814,10 +815,13 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 }
 
 @media (max-width: 520px) {
+  .project-card-footer,
   .project-card-actions {
     flex-direction: column;
     gap: 8px;
   }
+  .project-card-footer .project-card-expand-btn,
+  .project-card-footer .project-card-inquiry-btn,
   .project-card-actions .project-card-expand-btn,
   .project-card-actions .project-card-inquiry-btn {
     width: 100%;

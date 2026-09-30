@@ -729,15 +729,24 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   line-height: 1.4;
 }
 
+/* Card Actions & Direct Inquiry Button */
+.project-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 16px;
+}
+
 /* Read More Expander Button */
 .project-card-expand-btn {
+  flex: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: 100%;
-  margin-top: 16px;
-  padding: 9px 14px;
+  margin-top: 0;
+  padding: 10px 12px;
   background: #f1f5f9;
   border: 1.5px solid #cbd5e1;
   border-radius: 10px;
@@ -747,6 +756,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   font-weight: 700;
   cursor: pointer;
   transition: all 0.25s ease;
+  white-space: nowrap;
 }
 
 .project-card-expand-btn:hover {
@@ -765,6 +775,49 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 .project-card.is-expanded .project-card-expand-btn:hover {
   background: #e2e8f0;
   color: #0f172a;
+}
+
+.project-card-inquiry-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 12px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: 1.5px solid #34d399;
+  border-radius: 10px;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.22);
+  white-space: nowrap;
+}
+
+.project-card-inquiry-btn:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+}
+
+.project-card-inquiry-btn .inquiry-icon {
+  font-size: 14px;
+}
+
+@media (max-width: 520px) {
+  .project-card-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .project-card-actions .project-card-expand-btn,
+  .project-card-actions .project-card-inquiry-btn {
+    width: 100%;
+  }
 }
 
 .expand-btn-icon {

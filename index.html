@@ -1026,11 +1026,23 @@
             </div>
           </div>
 
-          <!-- Read More Expander Button -->
-          <button type="button" class="project-card-expand-btn" aria-expanded="false" onclick="window.toggleProjectCardExpand(this)">
-            <span class="expand-btn-text">Read More Detail Spesifikasi</span>
-            <span class="expand-btn-icon" aria-hidden="true">▾</span>
-          </button>
+          <!-- Card Action Buttons: Read More & Direct Inquiry -->
+          <div class="project-card-actions">
+            <button type="button" class="project-card-expand-btn" aria-expanded="false" onclick="window.toggleProjectCardExpand(this)">
+              <span class="expand-btn-text">Read More Detail</span>
+              <span class="expand-btn-icon" aria-hidden="true">▾</span>
+            </button>
+            <a 
+              href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20tertarik%20untuk%20Direct%20Inquiry%20terkait%20layanan%20*Proyek%20Industri%20Subang%20%26%20Purwakarta*.%20Mohon%20info%20spesifikasi%20teknis%2C%20estimasi%20RAB%2C%20dan%20jadwal%20survey%20lokasi." 
+              class="project-card-inquiry-btn" 
+              target="_blank" 
+              rel="noopener"
+              aria-label="Direct Inquiry via WhatsApp untuk Proyek Industri Subang & Purwakarta"
+            >
+              <span class="inquiry-icon" aria-hidden="true">💬</span>
+              <span>Direct Inquiry</span>
+            </a>
+          </div>
         </article>
 
         <!-- Card 2: Kawasan Industri Cikampek & Cikarang -->
@@ -1082,11 +1094,23 @@
             </div>
           </div>
 
-          <!-- Read More Expander Button -->
-          <button type="button" class="project-card-expand-btn" aria-expanded="false" onclick="window.toggleProjectCardExpand(this)">
-            <span class="expand-btn-text">Read More Detail Spesifikasi</span>
-            <span class="expand-btn-icon" aria-hidden="true">▾</span>
-          </button>
+          <!-- Card Action Buttons: Read More & Direct Inquiry -->
+          <div class="project-card-actions">
+            <button type="button" class="project-card-expand-btn" aria-expanded="false" onclick="window.toggleProjectCardExpand(this)">
+              <span class="expand-btn-text">Read More Detail</span>
+              <span class="expand-btn-icon" aria-hidden="true">▾</span>
+            </button>
+            <a 
+              href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20tertarik%20untuk%20Direct%20Inquiry%20terkait%20layanan%20*Proyek%20Industri%20Cikampek%20%26%20Cikarang*.%20Mohon%20info%20spesifikasi%20teknis%2C%20estimasi%20RAB%2C%20dan%20jadwal%20survey%20lokasi." 
+              class="project-card-inquiry-btn" 
+              target="_blank" 
+              rel="noopener"
+              aria-label="Direct Inquiry via WhatsApp untuk Proyek Industri Cikampek & Cikarang"
+            >
+              <span class="inquiry-icon" aria-hidden="true">💬</span>
+              <span>Direct Inquiry</span>
+            </a>
+          </div>
         </article>
 
         <!-- Card 3: Gedung Komersial, Kantor & Residensial -->
@@ -1138,11 +1162,23 @@
             </div>
           </div>
 
-          <!-- Read More Expander Button -->
-          <button type="button" class="project-card-expand-btn" aria-expanded="false" onclick="window.toggleProjectCardExpand(this)">
-            <span class="expand-btn-text">Read More Detail Spesifikasi</span>
-            <span class="expand-btn-icon" aria-hidden="true">▾</span>
-          </button>
+          <!-- Card Action Buttons: Read More & Direct Inquiry -->
+          <div class="project-card-actions">
+            <button type="button" class="project-card-expand-btn" aria-expanded="false" onclick="window.toggleProjectCardExpand(this)">
+              <span class="expand-btn-text">Read More Detail</span>
+              <span class="expand-btn-icon" aria-hidden="true">▾</span>
+            </button>
+            <a 
+              href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20tertarik%20untuk%20Direct%20Inquiry%20terkait%20layanan%20*Proyek%20Komersial%2C%20Kantor%20%26%20Ruko*.%20Mohon%20info%20spesifikasi%20teknis%2C%20estimasi%20RAB%2C%20dan%20jadwal%20survey%20lokasi." 
+              class="project-card-inquiry-btn" 
+              target="_blank" 
+              rel="noopener"
+              aria-label="Direct Inquiry via WhatsApp untuk Proyek Komersial, Kantor & Ruko"
+            >
+              <span class="inquiry-icon" aria-hidden="true">💬</span>
+              <span>Direct Inquiry</span>
+            </a>
+          </div>
         </article>
 
       </div>
@@ -5383,7 +5419,7 @@ window.toggleProjectCardExpand = function(btn) {
 
   const textEl = btn.querySelector('.expand-btn-text');
   if (textEl) {
-    textEl.textContent = isExpanded ? 'Tutup Detail Spesifikasi' : 'Read More Detail Spesifikasi';
+    textEl.textContent = isExpanded ? 'Tutup Detail' : 'Read More Detail';
   }
 
   const detailsEl = card.querySelector('.project-card-details');

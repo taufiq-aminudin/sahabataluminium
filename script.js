@@ -2326,8 +2326,9 @@ if (homePortfolioFilter) {
       const cat = btn.getAttribute('data-cat');
 
       projectCards.forEach(card => {
-        const cardCat = card.getAttribute('data-cat');
-        if (cat === 'all' || cardCat === cat) {
+        const cardCat = card.getAttribute('data-cat') || '';
+        const cats = cardCat.split(' ');
+        if (cat === 'all' || cats.includes(cat)) {
           card.style.display = '';
         } else {
           card.style.display = 'none';

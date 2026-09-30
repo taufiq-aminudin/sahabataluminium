@@ -5549,6 +5549,7 @@ window.toggleProjectCardExpand = function(btn) {
 
   const isExpanded = card.classList.toggle('is-expanded');
   btn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+  card.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
 
   const textEl = btn.querySelector('.expand-btn-text');
   if (textEl) {
@@ -5560,6 +5561,17 @@ window.toggleProjectCardExpand = function(btn) {
     detailsEl.setAttribute('aria-hidden', isExpanded ? 'false' : 'true');
   }
 };
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.project-card .project-card-expand-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      // In case inline onclick was stripped or disabled
+      if (!btn.hasAttribute('onclick')) {
+        window.toggleProjectCardExpand(btn);
+      }
+    });
+  });
+});
 
 // ========================================================
 // PROJECT CARDS CATEGORY FILTER CONTROLLER

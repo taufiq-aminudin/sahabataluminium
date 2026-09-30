@@ -752,7 +752,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   will-change: grid-template-rows, max-height, opacity;
 }
 
-.project-card.is-expanded .project-card-details {
+.project-card.is-expanded .project-card-details,
+.project-card[aria-expanded="true"] .project-card-details {
   grid-template-rows: 1fr;
   max-height: 650px;
   opacity: 1;
@@ -773,7 +774,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.project-card.is-expanded .project-card-details-inner {
+.project-card.is-expanded .project-card-details-inner,
+.project-card[aria-expanded="true"] .project-card-details-inner {
   transform: translateY(0);
 }
 
@@ -981,7 +983,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   display: inline-block;
 }
 
-.project-card.is-expanded .expand-btn-icon {
+.project-card.is-expanded .expand-btn-icon,
+.project-card[aria-expanded="true"] .expand-btn-icon {
   transform: rotate(180deg);
 }
 

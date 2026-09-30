@@ -514,7 +514,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   align-items: center;
   gap: 8px;
   padding: 9px 18px;
-  background: #ffffff;
+  background-color: #ffffff;
   border: 1.5px solid #cbd5e1;
   border-radius: 9999px;
   font-family: inherit;
@@ -522,11 +522,16 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   font-weight: 700;
   color: #334155;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background-color 0.3s ease,
+              border-color 0.3s ease,
+              color 0.25s ease,
+              box-shadow 0.3s ease;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  will-change: transform, background-color;
 }
 
-.project-filter-btn:hover {
+.project-filter-btn:not(.is-active):hover {
   border-color: var(--teal);
   color: var(--teal);
   transform: translateY(-2px);
@@ -534,10 +539,29 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 }
 
 .project-filter-btn.is-active {
-  background: var(--deep);
+  background-color: var(--deep);
   border-color: var(--deep);
   color: #ffffff;
-  box-shadow: 0 4px 14px rgba(7, 55, 70, 0.25);
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(7, 55, 70, 0.28);
+  animation: filterBtnScaleUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.project-filter-btn.is-active:hover {
+  transform: scale(1.07);
+  box-shadow: 0 8px 22px rgba(7, 55, 70, 0.32);
+}
+
+@keyframes filterBtnScaleUp {
+  0% {
+    transform: scale(0.96);
+  }
+  60% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1.05);
+  }
 }
 
 .project-filter-btn .filter-count {
@@ -922,7 +946,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   .project-card-icon,
   .project-card-areas,
   .project-card-list li,
-  .project-card-list li::before {
+  .project-card-list li::before,
+  .project-filter-btn,
+  .project-filter-btn.is-active {
     transform: none !important;
     transition: none !important;
     animation: none !important;

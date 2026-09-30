@@ -126,6 +126,139 @@ app.post('/api/search-locations', async (req, res) => {
   }
 });
 
+// ========================================================
+// API: Veo Integration for Project Installation Timelapse
+// ========================================================
+app.post('/api/veo/timelapse', async (req, res) => {
+  try {
+    const { projectId, systemType, title, aspectRatio = '16:9' } = req.body || {};
+    const apiKey = process.env.GEMINI_API_KEY;
+
+    const projectTitle = title || systemType || 'Konstruksi Kaca & Aluminium';
+    const promptText = `High-speed cinematic construction timelapse of installing architectural ${systemType || 'aluminium and tempered glass system'}: professional technicians with laser levels, precision aluminium frame miter joint assembly, heavy-duty track mounting, sliding tempered glass installation, silicone weathersealing, and final smooth movement testing. Architectural photography, photorealistic, 4k sharp details, daytime natural sunlight.`;
+
+    if (!apiKey) {
+      return res.json({
+        success: true,
+        mode: 'simulated',
+        message: 'API Key not configured, using high-speed procedural timelapse simulation',
+        projectId,
+        title: projectTitle,
+        systemType
+      });
+    }
+
+    const ai = new GoogleGenAI({
+      apiKey,
+      httpOptions: {
+        headers: {
+          'User-Agent': 'aistudio-build',
+        }
+      }
+    });
+
+    try {
+      // Use veo-3.1-lite-generate-preview for general video generation
+      const operation = await ai.models.generateVideos({
+        model: 'veo-3.1-lite-generate-preview',
+        prompt: promptText,
+        config: {
+          numberOfVideos: 1,
+          resolution: '720p',
+          aspectRatio: aspectRatio === '9:16' ? '9:16' : '16:9'
+        }
+      });
+
+      return res.json({
+        success: true,
+        mode: 'veo',
+        operationName: operation.name,
+        projectId,
+        title: projectTitle
+      });
+    } catch (veoErr) {
+      console.warn('Veo API note:', veoErr.message || veoErr);
+      return res.json({
+        success: true,
+        mode: 'simulated',
+        note: veoErr.status === 429 ? 'Quota exceeded, fallback to high-speed installation timelapse player' : veoErr.message,
+        projectId,
+        title: projectTitle,
+        systemType
+      });
+    }
+  } catch (err) {
+    console.error('Error in /api/veo/timelapse:', err);
+    return res.status(500).json({ success: false, error: err.message || 'Internal Server Error' });
+  }
+});
+
+// Polling status for Veo video generation
+app.post('/api/veo/status', async (req, res) => {
+  try {
+    const { operationName } = req.body || {};
+    if (!operationName) {
+      return res.json({ done: true, simulated: true });
+    }
+
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return res.json({ done: true, simulated: true });
+    }
+
+    const ai = new GoogleGenAI({
+      apiKey,
+      httpOptions: { headers: { 'User-Agent': 'aistudio-build' } }
+    });
+
+    const op = { name: operationName };
+    const updated = await ai.operations.getVideosOperation({ operation: op });
+    return res.json({
+      done: updated.done || false,
+      hasVideo: !!updated.response?.generatedVideos?.[0]?.video?.uri
+    });
+  } catch (err) {
+    return res.json({ done: true, error: err.message });
+  }
+});
+
+// Download & stream video from completed Veo operation
+app.post('/api/veo/download', async (req, res) => {
+  try {
+    const { operationName } = req.body || {};
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!operationName || !apiKey) {
+      return res.status(400).send('Invalid request or missing API key');
+    }
+
+    const ai = new GoogleGenAI({
+      apiKey,
+      httpOptions: { headers: { 'User-Agent': 'aistudio-build' } }
+    });
+
+    const op = { name: operationName };
+    const updated = await ai.operations.getVideosOperation({ operation: op });
+    const uri = updated.response?.generatedVideos?.[0]?.video?.uri;
+    if (!uri) {
+      return res.status(404).send('Video URI not found');
+    }
+
+    const videoRes = await fetch(uri, {
+      headers: { 'x-goog-api-key': apiKey }
+    });
+
+    res.setHeader('Content-Type', 'video/mp4');
+    videoRes.body.pipeTo(
+      new WritableStream({
+        write(chunk) { res.write(chunk); },
+        close() { res.end(); }
+      })
+    );
+  } catch (err) {
+    return res.status(500).send(err.message || 'Video stream error');
+  }
+});
+
 // API: Get Articles (Supports ?all=true or ?admin=true for all articles, otherwise published only)
 app.get('/api/articles', (req, res) => {
   try {

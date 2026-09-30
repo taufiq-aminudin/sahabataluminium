@@ -835,31 +835,33 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   line-height: 1.4;
 }
 
-/* Card Footer Actions & Direct Inquiry Button */
+/* Card Footer Actions & Action Buttons */
 .project-card-footer,
 .project-card-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
   width: 100%;
   margin-top: 16px;
 }
 
 /* Read More Expander Button */
 .project-card-expand-btn {
-  flex: 1;
+  flex: 1 1 calc(33.333% - 6px);
+  min-width: 100px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   margin-top: 0;
-  padding: 10px 12px;
+  padding: 10px 10px;
   background: #f1f5f9;
   border: 1.5px solid #cbd5e1;
   border-radius: 10px;
   color: #0f172a;
   font-family: inherit;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.25s ease;
@@ -884,19 +886,59 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   color: #0f172a;
 }
 
-.project-card-inquiry-btn {
-  flex: 1;
+/* View Photos Gallery Button */
+.project-card-gallery-btn {
+  flex: 1 1 calc(33.333% - 6px);
+  min-width: 100px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 10px 12px;
+  padding: 10px 10px;
+  background: #f0fdfa;
+  border: 1.5px solid #99f6e4;
+  border-radius: 10px;
+  color: #0f766e;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 6px rgba(13, 148, 136, 0.08);
+  white-space: nowrap;
+}
+
+.project-card-gallery-btn:hover {
+  background: #0d9488;
+  color: #ffffff;
+  border-color: #0d9488;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.25);
+}
+
+.project-card-gallery-btn:active {
+  transform: translateY(0);
+}
+
+.project-card-gallery-btn .gallery-btn-icon {
+  font-size: 13px;
+}
+
+.project-card-inquiry-btn {
+  flex: 1 1 calc(33.333% - 6px);
+  min-width: 100px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 10px;
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   border: 1.5px solid #34d399;
   border-radius: 10px;
   color: #ffffff;
   font-family: inherit;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 700;
   text-decoration: none;
   cursor: pointer;
@@ -923,10 +965,13 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     gap: 8px;
   }
   .project-card-footer .project-card-expand-btn,
+  .project-card-footer .project-card-gallery-btn,
   .project-card-footer .project-card-inquiry-btn,
   .project-card-actions .project-card-expand-btn,
+  .project-card-actions .project-card-gallery-btn,
   .project-card-actions .project-card-inquiry-btn {
     width: 100%;
+    min-width: 100%;
   }
 }
 

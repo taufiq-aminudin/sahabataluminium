@@ -1050,12 +1050,22 @@
             </div>
           </div>
 
-          <!-- Project Card Footer: Read More & Direct Inquiry -->
+          <!-- Project Card Footer: Read More, View Photos & Direct Inquiry -->
           <footer class="project-card-footer project-card-actions">
             <button type="button" class="project-card-expand-btn" aria-expanded="false" onclick="window.toggleProjectCardExpand(this)">
               <span class="expand-btn-text">Read More</span>
               <span class="expand-btn-icon" aria-hidden="true">▾</span>
             </button>
+            <a 
+              href="#galeri" 
+              class="project-card-gallery-btn" 
+              data-gallery-cat="partisi" 
+              onclick="window.goToGalleryCategory('partisi', event)"
+              aria-label="Lihat Foto Dokumentasi Proyek Industri Subang & Purwakarta di Galeri"
+            >
+              <span class="gallery-btn-icon" aria-hidden="true">📸</span>
+              <span class="gallery-btn-text">View Photos</span>
+            </a>
             <a 
               href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20tertarik%20untuk%20Direct%20Inquiry%20terkait%20layanan%20*Proyek%20Industri%20Subang%20%26%20Purwakarta*.%20Mohon%20info%20spesifikasi%20teknis%2C%20estimasi%20RAB%2C%20dan%20jadwal%20survey%20lokasi." 
               class="project-card-inquiry-btn" 
@@ -1118,12 +1128,22 @@
             </div>
           </div>
 
-          <!-- Project Card Footer: Read More & Direct Inquiry -->
+          <!-- Project Card Footer: Read More, View Photos & Direct Inquiry -->
           <footer class="project-card-footer project-card-actions">
             <button type="button" class="project-card-expand-btn" aria-expanded="false" onclick="window.toggleProjectCardExpand(this)">
               <span class="expand-btn-text">Read More</span>
               <span class="expand-btn-icon" aria-hidden="true">▾</span>
             </button>
+            <a 
+              href="#galeri" 
+              class="project-card-gallery-btn" 
+              data-gallery-cat="partisi" 
+              onclick="window.goToGalleryCategory('partisi', event)"
+              aria-label="Lihat Foto Dokumentasi Proyek Industri Cikampek & Cikarang di Galeri"
+            >
+              <span class="gallery-btn-icon" aria-hidden="true">📸</span>
+              <span class="gallery-btn-text">View Photos</span>
+            </a>
             <a 
               href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20tertarik%20untuk%20Direct%20Inquiry%20terkait%20layanan%20*Proyek%20Industri%20Cikampek%20%26%20Cikarang*.%20Mohon%20info%20spesifikasi%20teknis%2C%20estimasi%20RAB%2C%20dan%20jadwal%20survey%20lokasi." 
               class="project-card-inquiry-btn" 
@@ -1186,12 +1206,22 @@
             </div>
           </div>
 
-          <!-- Project Card Footer: Read More & Direct Inquiry -->
+          <!-- Project Card Footer: Read More, View Photos & Direct Inquiry -->
           <footer class="project-card-footer project-card-actions">
             <button type="button" class="project-card-expand-btn" aria-expanded="false" onclick="window.toggleProjectCardExpand(this)">
               <span class="expand-btn-text">Read More</span>
               <span class="expand-btn-icon" aria-hidden="true">▾</span>
             </button>
+            <a 
+              href="#galeri" 
+              class="project-card-gallery-btn" 
+              data-gallery-cat="tempered" 
+              onclick="window.goToGalleryCategory('tempered', event)"
+              aria-label="Lihat Foto Dokumentasi Proyek Komersial di Galeri"
+            >
+              <span class="gallery-btn-icon" aria-hidden="true">📸</span>
+              <span class="gallery-btn-text">View Photos</span>
+            </a>
             <a 
               href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20tertarik%20untuk%20Direct%20Inquiry%20terkait%20layanan%20*Proyek%20Komersial%20%26%20Kantor%20Bisnis*.%20Mohon%20info%20spesifikasi%20teknis%2C%20estimasi%20RAB%2C%20dan%20jadwal%20survey%20lokasi." 
               class="project-card-inquiry-btn" 
@@ -1254,12 +1284,22 @@
             </div>
           </div>
 
-          <!-- Project Card Footer: Read More & Direct Inquiry -->
+          <!-- Project Card Footer: Read More, View Photos & Direct Inquiry -->
           <footer class="project-card-footer project-card-actions">
             <button type="button" class="project-card-expand-btn" aria-expanded="false" onclick="window.toggleProjectCardExpand(this)">
               <span class="expand-btn-text">Read More</span>
               <span class="expand-btn-icon" aria-hidden="true">▾</span>
             </button>
+            <a 
+              href="#galeri" 
+              class="project-card-gallery-btn" 
+              data-gallery-cat="desain-rumah" 
+              onclick="window.goToGalleryCategory('desain-rumah', event)"
+              aria-label="Lihat Foto Dokumentasi Proyek Residensial & Hunian Modern di Galeri"
+            >
+              <span class="gallery-btn-icon" aria-hidden="true">📸</span>
+              <span class="gallery-btn-text">View Photos</span>
+            </a>
             <a 
               href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20tertarik%20untuk%20Direct%20Inquiry%20terkait%20layanan%20*Proyek%20Residensial%20%26%20Hunian%20Modern*.%20Mohon%20info%20spesifikasi%20teknis%2C%20estimasi%20RAB%2C%20dan%20jadwal%20survey%20lokasi." 
               class="project-card-inquiry-btn" 
@@ -1311,6 +1351,7 @@
        PORTOFOLIO PROYEK PILIHAN (FEATURED PORTFOLIO) SECTION
   ==================================================== -->
   <section class="featured-portfolio-section" id="portofolio-proyek">
+    <span id="galeri" style="display:block; position:relative; top:-90px; visibility:hidden;"></span>
     <div class="container">
       <div class="featured-portfolio-head">
         <div class="featured-portfolio-head-text">
@@ -5547,6 +5588,46 @@ window.filterProjectCategory = function(category, clickedBtn) {
       card.style.animation = 'none';
     }
   });
+};
+
+// ========================================================
+// PROJECT CARD 'VIEW PHOTOS' TO SPECIFIC GALLERY CATEGORY
+// ========================================================
+window.goToGalleryCategory = function(category, event) {
+  if (event) {
+    event.preventDefault();
+  }
+
+  // 1. Activate matching category tab in featuredPortfolioFilter
+  const portfolioFilter = document.getElementById('featuredPortfolioFilter');
+  if (portfolioFilter) {
+    const filterBtns = portfolioFilter.querySelectorAll('button');
+    let matchedBtn = null;
+    filterBtns.forEach(btn => {
+      const btnCat = (btn.getAttribute('data-cat') || '').toLowerCase();
+      if (btnCat.includes(category.toLowerCase())) {
+        matchedBtn = btn;
+      }
+    });
+
+    if (matchedBtn) {
+      matchedBtn.click();
+    } else {
+      const allBtn = portfolioFilter.querySelector('button[data-cat="all"]');
+      if (allBtn) allBtn.click();
+    }
+  }
+
+  // 2. Smoothly scroll to gallery section with navbar offset
+  const targetEl = document.getElementById('galeri') || document.getElementById('portofolio-proyek');
+  if (targetEl) {
+    const navbarHeight = 85;
+    const targetY = targetEl.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+    window.scrollTo({
+      top: Math.max(0, targetY),
+      behavior: 'smooth'
+    });
+  }
 };
 </script>
 

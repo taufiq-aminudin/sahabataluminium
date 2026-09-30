@@ -9423,6 +9423,78 @@ footer .footer-grid {
   margin: 0;
 }
 
+/* Dynamic Project Counter Strip */
+.masonry-counter-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 18px 32px;
+  margin: 22px auto 32px;
+  box-shadow: 0 4px 16px rgba(7, 46, 59, 0.05);
+  max-width: 720px;
+  width: 100%;
+}
+
+.masonry-counter-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+
+.masonry-counter-number-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.masonry-counter-number {
+  font-family: Manrope, sans-serif;
+  font-size: clamp(32px, 3.5vw, 44px);
+  font-weight: 800;
+  color: #0d9488;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  min-width: 1.2ch;
+  display: inline-block;
+}
+
+.masonry-counter-suffix {
+  font-size: 14px;
+  font-weight: 800;
+  color: #072e3b;
+}
+
+.masonry-counter-caption {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.masonry-counter-sep {
+  width: 1px;
+  height: 42px;
+  background: #e2e8f0;
+}
+
+@media (max-width: 640px) {
+  .masonry-counter-strip {
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px 18px;
+  }
+  .masonry-counter-sep {
+    width: 60%;
+    height: 1px;
+  }
+}
+
 /* Filter Controls */
 .masonry-filter-bar {
   display: flex;

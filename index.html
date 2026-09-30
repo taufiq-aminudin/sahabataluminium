@@ -1260,6 +1260,33 @@
         <p class="masonry-subtitle">
           Dokumentasi jarak dekat pengerjaan sistem arsitektural pilihan: dari mekanisme <em>Bifold Door Systems</em> rel tanam, partisi <em>Frameless Tempered Glass</em>, sekat dapur <em>Fluted Moru Glass</em>, hingga sistem <em>Curtain Wall</em> gedung komersial.
         </p>
+
+        <!-- Dynamic Project Counter Strip -->
+        <div class="masonry-counter-strip" id="masonryCounterStrip">
+          <div class="masonry-counter-box">
+            <div class="masonry-counter-number-wrap">
+              <span class="masonry-counter-number" id="masonryProjectCounter">0</span>
+              <span class="masonry-counter-suffix">Sistem Detail</span>
+            </div>
+            <span class="masonry-counter-caption">Terdokumentasi Lengkap di Galeri</span>
+          </div>
+          <div class="masonry-counter-sep"></div>
+          <div class="masonry-counter-box">
+            <div class="masonry-counter-number-wrap">
+              <span class="masonry-counter-number" id="masonryVerifiedCount">0</span>
+              <span class="masonry-counter-suffix">%</span>
+            </div>
+            <span class="masonry-counter-caption">Akurasi Presisi Teruji On-Site</span>
+          </div>
+          <div class="masonry-counter-sep"></div>
+          <div class="masonry-counter-box">
+            <div class="masonry-counter-number-wrap">
+              <span class="masonry-counter-number" id="masonryFullCatalogCount">0</span>
+              <span class="masonry-counter-suffix">+ Proyek</span>
+            </div>
+            <span class="masonry-counter-caption">Koleksi Portofolio Komprehensif</span>
+          </div>
+        </div>
       </div>
 
       <!-- Category Filter Tabs for Masonry Gallery -->
@@ -4210,7 +4237,74 @@ window.filterMasonryGrid = function(category, btn) {
       item.classList.remove('in-view');
     }
   });
+
+  const counterEl = document.getElementById('masonryProjectCounter');
+  if (counterEl) {
+    animateMasonryCounter(counterEl, visibleIndex, 600);
+  }
 };
+
+// Helper for Counter Animation with Ease-Out
+function animateMasonryCounter(el, target, duration = 1400) {
+  if (!el) return;
+  const startVal = parseInt(el.textContent, 10) || 0;
+  if (startVal === target) return;
+  let startTimestamp = null;
+  const step = (timestamp) => {
+    if (!startTimestamp) startTimestamp = timestamp;
+    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+    const easeProgress = 1 - Math.pow(1 - progress, 3);
+    const current = Math.floor(easeProgress * (target - startVal) + startVal);
+    el.textContent = current;
+    if (progress < 1) {
+      window.requestAnimationFrame(step);
+    } else {
+      el.textContent = target;
+    }
+  };
+  window.requestAnimationFrame(step);
+}
+
+// Dynamic Project Counter Observer
+(function initMasonryDynamicCounter() {
+  const section = document.getElementById('detail-proyek-masonry');
+  const counterEl = document.getElementById('masonryProjectCounter');
+  const verifiedEl = document.getElementById('masonryVerifiedCount');
+  const catalogEl = document.getElementById('masonryFullCatalogCount');
+  if (!section || !counterEl) return;
+
+  const cards = document.querySelectorAll('#masonryGrid .masonry-card');
+  const totalProjects = cards.length || 8;
+
+  let hasCounted = false;
+  const runCounterAnimation = () => {
+    if (hasCounted) return;
+    hasCounted = true;
+    animateMasonryCounter(counterEl, totalProjects, 1500);
+    if (verifiedEl) animateMasonryCounter(verifiedEl, 100, 1600);
+    if (catalogEl) animateMasonryCounter(catalogEl, 26, 1700);
+  };
+
+  if (!('IntersectionObserver' in window)) {
+    runCounterAnimation();
+    return;
+  }
+
+  const counterObserver = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        runCounterAnimation();
+        obs.unobserve(entry.target);
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: '0px 0px -40px 0px',
+    threshold: 0.12
+  });
+
+  counterObserver.observe(section);
+})();
 
 // Intersection Observer Animation for Masonry Cards
 (function initMasonryIntersectionObserver() {

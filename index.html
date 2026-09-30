@@ -974,11 +974,35 @@
         </p>
       </div>
 
+      <!-- Category Filter Bar for Project Cards Grid -->
+      <div class="project-filter-bar" role="tablist" aria-label="Filter Kategori Proyek">
+        <button type="button" class="project-filter-btn is-active" data-filter="all" role="tab" aria-selected="true" onclick="window.filterProjectCategory('all', this)">
+          <span class="filter-btn-icon" aria-hidden="true">🌐</span>
+          <span>Semua</span>
+          <span class="filter-count">4</span>
+        </button>
+        <button type="button" class="project-filter-btn" data-filter="industri" role="tab" aria-selected="false" onclick="window.filterProjectCategory('industri', this)">
+          <span class="filter-btn-icon" aria-hidden="true">🏭</span>
+          <span>Industri</span>
+          <span class="filter-count">2</span>
+        </button>
+        <button type="button" class="project-filter-btn" data-filter="komersial" role="tab" aria-selected="false" onclick="window.filterProjectCategory('komersial', this)">
+          <span class="filter-btn-icon" aria-hidden="true">🏢</span>
+          <span>Komersial</span>
+          <span class="filter-count">1</span>
+        </button>
+        <button type="button" class="project-filter-btn" data-filter="residensial" role="tab" aria-selected="false" onclick="window.filterProjectCategory('residensial', this)">
+          <span class="filter-btn-icon" aria-hidden="true">🏡</span>
+          <span>Residensial</span>
+          <span class="filter-count">1</span>
+        </button>
+      </div>
+
       <!-- 4 Project Pillars Grid -->
       <div class="project-cards-grid">
 
         <!-- Card 1: Kawasan Industri & Pabrik Subang & Purwakarta -->
-        <article class="project-card">
+        <article class="project-card" data-category="industri">
           <div class="project-card-header">
             <div class="project-card-icon" aria-hidden="true">🏭</div>
             <div>
@@ -1046,7 +1070,7 @@
         </article>
 
         <!-- Card 2: Kawasan Industri Cikampek & Cikarang -->
-        <article class="project-card">
+        <article class="project-card" data-category="industri">
           <div class="project-card-header">
             <div class="project-card-icon" aria-hidden="true">🏗️</div>
             <div>
@@ -1113,26 +1137,26 @@
           </footer>
         </article>
 
-        <!-- Card 3: Gedung Komersial, Kantor & Residensial -->
-        <article class="project-card">
+        <!-- Card 3: Gedung Komersial, Kantor & Ruko -->
+        <article class="project-card" data-category="komersial">
           <div class="project-card-header">
             <div class="project-card-icon" aria-hidden="true">🏢</div>
             <div>
-              <div class="project-card-title">Proyek Komersial, Kantor & Ruko</div>
+              <div class="project-card-title">Proyek Komersial & Kantor Bisnis</div>
             </div>
           </div>
           <p class="project-card-desc">
-            Desain arsitektural modern untuk meningkatkan estetika dan fungsionalitas showroom, ruko bisnis, perbankan, dan cluster hunian.
+            Desain arsitektural modern untuk meningkatkan estetika dan fungsionalitas showroom, ruko bisnis, perbankan, dan gedung perkantoran komersial.
           </p>
           <div class="project-card-areas">
-            <b>Cakupan Koridor Bisnis:</b>
+            <b>Cakupan Koridor Komersial:</b>
             Subang Kota, Purwakarta Kota, Cikampek Sentral, Lippo Cikarang, Grand Taruma, Galuh Mas Karawang, Summarecon, dan Bekasi.
           </div>
           <ul class="project-card-list">
             <li>Partisi Kaca Ruang Meeting Kedap Suara & Stiker Sanblast</li>
             <li>Pintu Lipat (Bifold) Aluminium untuk Kafe & Resto Modern</li>
             <li>Jendela Casement Kedap Suara & Air Hujan Sealant Rapi</li>
-            <li>Shower Screen Kaca Tempered Kamar Mandi Hotel & Residensial</li>
+            <li>Showroom Display Kaca Tempered Frameless Toko & Ruko</li>
           </ul>
 
           <!-- Expandable Complex Project Description Details -->
@@ -1140,10 +1164,10 @@
             <div class="project-card-details-inner">
               <div class="project-spec-badge">
                 <span class="spec-dot"></span>
-                <span>Spesifikasi Arsitektur & Finishing Premium</span>
+                <span>Spesifikasi Arsitektur Komersial & Finishing</span>
               </div>
               <p class="project-spec-lead">
-                Kombinasi estetika arsitektur minimalis modern dengan efisiensi tata ruang komersial di ruko, perbankan, kafe, dan hunian residensial premium.
+                Kombinasi estetika arsitektur minimalis modern dengan efisiensi tata ruang komersial di ruko, perbankan, kafe, dan kantor bisnis.
               </p>
               <div class="project-spec-table">
                 <div class="spec-row">
@@ -1169,11 +1193,79 @@
               <span class="expand-btn-icon" aria-hidden="true">▾</span>
             </button>
             <a 
-              href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20tertarik%20untuk%20Direct%20Inquiry%20terkait%20layanan%20*Proyek%20Komersial%2C%20Kantor%20%26%20Ruko*.%20Mohon%20info%20spesifikasi%20teknis%2C%20estimasi%20RAB%2C%20dan%20jadwal%20survey%20lokasi." 
+              href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20tertarik%20untuk%20Direct%20Inquiry%20terkait%20layanan%20*Proyek%20Komersial%20%26%20Kantor%20Bisnis*.%20Mohon%20info%20spesifikasi%20teknis%2C%20estimasi%20RAB%2C%20dan%20jadwal%20survey%20lokasi." 
               class="project-card-inquiry-btn" 
               target="_blank" 
               rel="noopener"
-              aria-label="Direct Inquiry via WhatsApp untuk Proyek Komersial, Kantor & Ruko"
+              aria-label="Direct Inquiry via WhatsApp untuk Proyek Komersial & Kantor Bisnis"
+            >
+              <span class="inquiry-icon" aria-hidden="true">💬</span>
+              <span>Direct Inquiry</span>
+            </a>
+          </footer>
+        </article>
+
+        <!-- Card 4: Residensial & Hunian Modern -->
+        <article class="project-card" data-category="residensial">
+          <div class="project-card-header">
+            <div class="project-card-icon" aria-hidden="true">🏡</div>
+            <div>
+              <div class="project-card-title">Proyek Residensial & Hunian Modern</div>
+            </div>
+          </div>
+          <p class="project-card-desc">
+            Instalasi kusen aluminium kedap suara, pintu sliding kaca tempered taman, jendela casement, dan railing kaca balkon untuk rumah tinggal & cluster.
+          </p>
+          <div class="project-card-areas">
+            <b>Cakupan Koridor Residensial:</b>
+            Perumahan & Cluster Hunian Subang Kota, Purwakarta Kota, Karawang Barat/Timur, Galuh Mas, Grand Taruma, Lippo Cikarang, Deltamas & Bekasi.
+          </div>
+          <ul class="project-card-list">
+            <li>Kusen Aluminium Alexindo / Inkalum Finish Wood Grain & Black Anodize</li>
+            <li>Pintu Sliding & Bifold Kaca Tempered Akses Kolam/Taman Belakang</li>
+            <li>Jendela Casement Sistem Multi-Point Lock Anti Bocor & Kedap Suara</li>
+            <li>Railing Kaca Tempered Balkon Minimalis & Shower Screen Kamar Mandi</li>
+          </ul>
+
+          <!-- Expandable Complex Project Description Details -->
+          <div class="project-card-details" aria-hidden="true">
+            <div class="project-card-details-inner">
+              <div class="project-spec-badge">
+                <span class="spec-dot"></span>
+                <span>Spesifikasi Hunian & Kenyamanan Akustik</span>
+              </div>
+              <p class="project-spec-lead">
+                Didesain mengutamakan estetika hunian modern, ketahanan cuaca jangka panjang, serta isolasi kebisingan jalan raya untuk kenyamanan keluarga.
+              </p>
+              <div class="project-spec-table">
+                <div class="spec-row">
+                  <span class="spec-key">Isolasi Kebisingan:</span>
+                  <span class="spec-val">EPDM double gasket seal STC 34 dB peredam bising jalan raya & kedap air hujan badai</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-key">Keamanan Maksimal:</span>
+                  <span class="spec-val">Tempered glass 8mm-10mm safety & multi-point locking system anti-congkel</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-key">Garansi & Finishing:</span>
+                  <span class="spec-val">Garansi aksesoris 3 tahun, powder coating tahan pudar 10 tahun, dan free maintenance 6 bulan</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card Footer: Read More & Direct Inquiry -->
+          <footer class="project-card-footer project-card-actions">
+            <button type="button" class="project-card-expand-btn" aria-expanded="false" onclick="window.toggleProjectCardExpand(this)">
+              <span class="expand-btn-text">Read More</span>
+              <span class="expand-btn-icon" aria-hidden="true">▾</span>
+            </button>
+            <a 
+              href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20tertarik%20untuk%20Direct%20Inquiry%20terkait%20layanan%20*Proyek%20Residensial%20%26%20Hunian%20Modern*.%20Mohon%20info%20spesifikasi%20teknis%2C%20estimasi%20RAB%2C%20dan%20jadwal%20survey%20lokasi." 
+              class="project-card-inquiry-btn" 
+              target="_blank" 
+              rel="noopener"
+              aria-label="Direct Inquiry via WhatsApp untuk Proyek Residensial & Hunian Modern"
             >
               <span class="inquiry-icon" aria-hidden="true">💬</span>
               <span>Direct Inquiry</span>
@@ -5426,6 +5518,35 @@ window.toggleProjectCardExpand = function(btn) {
   if (detailsEl) {
     detailsEl.setAttribute('aria-hidden', isExpanded ? 'false' : 'true');
   }
+};
+
+// ========================================================
+// PROJECT CARDS CATEGORY FILTER CONTROLLER
+// ========================================================
+window.filterProjectCategory = function(category, clickedBtn) {
+  if (!clickedBtn) return;
+  const filterBtns = document.querySelectorAll('.project-filter-btn');
+  filterBtns.forEach(btn => {
+    const isActive = btn === clickedBtn;
+    btn.classList.toggle('is-active', isActive);
+    btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
+
+  const cards = document.querySelectorAll('.project-cards-grid .project-card');
+  cards.forEach(card => {
+    const cardCat = (card.getAttribute('data-category') || '').toLowerCase();
+    const match = category === 'all' || cardCat.split(/\s+/).includes(category.toLowerCase());
+    
+    if (match) {
+      card.classList.remove('is-hidden');
+      card.style.display = 'flex';
+      card.style.animation = 'projectCardFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+    } else {
+      card.classList.add('is-hidden');
+      card.style.display = 'none';
+      card.style.animation = 'none';
+    }
+  });
 };
 </script>
 

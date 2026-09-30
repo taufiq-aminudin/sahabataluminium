@@ -1029,7 +1029,7 @@
           <!-- Card Action Buttons: Read More & Direct Inquiry -->
           <div class="project-card-actions">
             <button type="button" class="project-card-expand-btn" aria-expanded="false" onclick="window.toggleProjectCardExpand(this)">
-              <span class="expand-btn-text">Read More Detail</span>
+              <span class="expand-btn-text">Read More</span>
               <span class="expand-btn-icon" aria-hidden="true">▾</span>
             </button>
             <a 
@@ -1097,7 +1097,7 @@
           <!-- Card Action Buttons: Read More & Direct Inquiry -->
           <div class="project-card-actions">
             <button type="button" class="project-card-expand-btn" aria-expanded="false" onclick="window.toggleProjectCardExpand(this)">
-              <span class="expand-btn-text">Read More Detail</span>
+              <span class="expand-btn-text">Read More</span>
               <span class="expand-btn-icon" aria-hidden="true">▾</span>
             </button>
             <a 
@@ -1165,7 +1165,7 @@
           <!-- Card Action Buttons: Read More & Direct Inquiry -->
           <div class="project-card-actions">
             <button type="button" class="project-card-expand-btn" aria-expanded="false" onclick="window.toggleProjectCardExpand(this)">
-              <span class="expand-btn-text">Read More Detail</span>
+              <span class="expand-btn-text">Read More</span>
               <span class="expand-btn-icon" aria-hidden="true">▾</span>
             </button>
             <a 
@@ -5419,7 +5419,7 @@ window.toggleProjectCardExpand = function(btn) {
 
   const textEl = btn.querySelector('.expand-btn-text');
   if (textEl) {
-    textEl.textContent = isExpanded ? 'Tutup Detail' : 'Read More Detail';
+    textEl.textContent = isExpanded ? 'Read Less' : 'Read More';
   }
 
   const detailsEl = card.querySelector('.project-card-details');

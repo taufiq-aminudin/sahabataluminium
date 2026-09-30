@@ -9838,6 +9838,32 @@ footer .footer-grid {
   transition: width 0.1s linear;
 }
 
+@media (max-width: 640px) {
+  .timelapse-step-pill {
+    font-size: 10px;
+    padding: 4px 6px;
+    bottom: 42px;
+    left: 8px;
+    right: 8px;
+  }
+  .timelapse-controls {
+    padding: 6px 8px;
+    gap: 6px;
+  }
+  .timelapse-btn-play,
+  .timelapse-btn-speed,
+  .timelapse-btn-close {
+    padding: 3px 6px;
+    font-size: 10px;
+  }
+  .masonry-video-toggle-btn {
+    padding: 5px 10px;
+    font-size: 10.5px;
+    bottom: 10px;
+    right: 10px;
+  }
+}
+
 /* Caption Body */
 .masonry-caption {
   padding: 20px 22px 22px;

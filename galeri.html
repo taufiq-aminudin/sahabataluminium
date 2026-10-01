@@ -1886,12 +1886,90 @@ const projectsData = {
       btn.classList.add('active');
       currentFilter = btn.dataset.filter;
       applyPortfolioFilterAndSearch();
+      
+      const banner = document.getElementById('galleryContextBanner');
+      if (banner && currentFilter === 'all') {
+        banner.remove();
+      }
     });
   });
 
   if (searchInput) {
     searchInput.addEventListener('input', applyPortfolioFilterAndSearch);
   }
+
+  // Handle URL query parameters or hash on page load for context-aware filtering from /layanan
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    let filterParam = urlParams.get('filter') || urlParams.get('cat');
+    const searchParam = urlParams.get('search') || urlParams.get('q');
+    
+    // Check hash fallback e.g. #pintu or #partisi
+    if (!filterParam && window.location.hash) {
+      const hashVal = window.location.hash.replace('#', '').trim();
+      if (['pintu', 'partisi', 'kaca-tempered', 'fasad-kanopi', 'jendela', 'kamar-mandi', 'railing', 'komersial', 'desain-rumah'].includes(hashVal)) {
+        filterParam = hashVal;
+      }
+    }
+
+    if (searchParam && searchInput) {
+      searchInput.value = searchParam;
+    }
+
+    if (filterParam) {
+      const targetBtn = Array.from(filterBtns).find(b => b.dataset.filter === filterParam);
+      if (targetBtn) {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        targetBtn.classList.add('active');
+        currentFilter = filterParam;
+
+        const filterParent = document.querySelector('.portfolio-filter');
+        if (filterParent && filterParent.parentNode) {
+          const banner = document.createElement('div');
+          banner.id = 'galleryContextBanner';
+          banner.style.cssText = 'background:#f0fdf4;border:1.5px solid #86efac;color:#166534;padding:14px 20px;border-radius:12px;margin:0 auto 24px;max-width:850px;display:flex;justify-content:space-between;align-items:center;font-size:14px;box-shadow:0 4px 14px rgba(22,101,52,0.08);flex-wrap:wrap;gap:10px;';
+          banner.innerHTML = `
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="font-size:18px;">🔍</span>
+              <div>
+                <strong>Menampilkan Portofolio Terkait Layanan:</strong>
+                <span style="color:#0f172a;font-weight:700;margin-left:4px;">${targetBtn.textContent.trim()}</span>
+              </div>
+            </div>
+            <button type="button" style="background:#166534;color:#fff;border:none;padding:6px 14px;border-radius:8px;font-size:12.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;" onclick="window.resetGalleryFilter()">
+              <span>Tampilkan Semua Portofolio</span> <span>✕</span>
+            </button>
+          `;
+          filterParent.parentNode.insertBefore(banner, filterParent);
+        }
+
+        // Smooth scroll to gallery
+        setTimeout(() => {
+          const targetSection = document.getElementById('galleryContextBanner') || document.querySelector('.portfolio-filter');
+          if (targetSection) {
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 150);
+      }
+    }
+
+    applyPortfolioFilterAndSearch();
+  } catch (err) {
+    console.warn('Gallery URL filter initialization note:', err);
+  }
+
+  window.resetGalleryFilter = function() {
+    const allBtn = Array.from(filterBtns).find(b => b.dataset.filter === 'all');
+    if (allBtn) {
+      allBtn.click();
+    }
+    if (searchInput) {
+      searchInput.value = '';
+      applyPortfolioFilterAndSearch();
+    }
+    const banner = document.getElementById('galleryContextBanner');
+    if (banner) banner.remove();
+  };
 })();
 
 // Project Detail Modal Handlers

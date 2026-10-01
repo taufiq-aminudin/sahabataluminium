@@ -1209,6 +1209,16 @@ app.get(['/kontak', '/kontak/'], (req, res) => {
   res.sendFile(path.join(__dirname, 'kontak.html'));
 });
 
+// Explicit route for articles to support clean URLs (/artikel/pintu-aluminium)
+app.get('/artikel/:slug', (req, res, next) => {
+  const cleanSlug = req.params.slug.replace(/\.html$/, '');
+  const filePath = path.join(__dirname, 'artikel', `${cleanSlug}.html`);
+  if (fs.existsSync(filePath)) {
+    return res.sendFile(filePath);
+  }
+  next();
+});
+
 // Serve static assets with html extension support
 app.use(express.static(__dirname, {
   extensions: ['html', 'htm'],

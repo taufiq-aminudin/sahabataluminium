@@ -10162,17 +10162,16 @@ footer .footer-grid {
   box-shadow: 0 4px 12px rgba(13, 148, 136, 0.28);
 }
 
-/* Masonry Grid Container */
+/* Masonry Grid Container with Flexbox */
 .masonry-grid-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  display: flex;
+  flex-wrap: wrap;
   align-items: stretch;
+  gap: 24px;
 }
 
 @media (max-width: 1024px) {
   .masonry-grid-container {
-    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     align-items: stretch;
   }
@@ -10180,7 +10179,6 @@ footer .footer-grid {
 
 @media (max-width: 640px) {
   .masonry-grid-container {
-    grid-template-columns: 1fr;
     gap: 18px;
     align-items: stretch;
   }
@@ -10191,13 +10189,14 @@ footer .footer-grid {
   display: flex;
   flex-direction: column;
   height: 100%;
+  flex: 0 0 calc((100% - 48px) / 3);
+  width: calc((100% - 48px) / 3);
   margin-bottom: 0;
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 18px;
   overflow: hidden;
   box-shadow: 0 4px 18px rgba(7, 46, 59, 0.06);
-  width: 100%;
   box-sizing: border-box;
   opacity: 0;
   transform: translateY(36px);
@@ -10219,6 +10218,24 @@ footer .footer-grid {
   border-color: #99f6e4;
 }
 
+@media (max-width: 1024px) {
+  .masonry-card {
+    flex: 0 0 calc((100% - 20px) / 2);
+    width: calc((100% - 20px) / 2);
+    margin-bottom: 0;
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .masonry-card {
+    flex: 0 0 100%;
+    width: 100%;
+    margin-bottom: 0;
+    border-radius: 14px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .masonry-card {
     opacity: 1 !important;
@@ -10235,7 +10252,7 @@ footer .footer-grid {
   }
 }
 
-/* Media Box */
+/* Media Box with Fixed Aspect Ratio to Prevent Layout Shifts */
 .masonry-media-box {
   position: relative;
   width: 100%;
@@ -10244,12 +10261,28 @@ footer .footer-grid {
   background: #0f172a;
 }
 
+/* Fallback for older browsers without native aspect-ratio */
+@supports not (aspect-ratio: 16 / 10) {
+  .masonry-media-box {
+    padding-top: 62.5%;
+  }
+  .masonry-media-box img,
+  .masonry-card .masonry-main-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
 .masonry-media-box img,
-.masonry-card .masonry-main-img {
+.masonry-card .masonry-main-img,
+.masonry-card img.masonry-main-img {
   width: 100%;
   height: 100%;
+  aspect-ratio: 16 / 10;
   display: block;
   object-fit: cover;
+  object-position: center;
   transform: scale(1);
   transform-origin: center center;
   transition: transform 0.4s ease-in-out,
@@ -10607,7 +10640,10 @@ footer .footer-grid {
 }
 
 /* Card Action Footer */
-.masonry-card-actions {
+.masonry-card-actions,
+.masonry-card .masonry-card-actions,
+.masonry-card-btn-area,
+.masonry-card .masonry-card-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;

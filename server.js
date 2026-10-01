@@ -1062,6 +1062,19 @@ app.get('/api/seo/audit', (req, res) => {
       robotsTxtValid: true,
       sitemapXmlValid: true,
       totalSitemapUrls: sitemapUrls.length,
+      nap: {
+        name: 'Sahabat Kaca Aluminium',
+        address: 'Jl. Raden Rubaya, Nagasari, Kec. Karawang Bar., Karawang, Jawa Barat 41315',
+        phone: '0896-3737-1166',
+        hours: 'Buka · Tutup pukul 18.00 (08:00 - 18:00 WIB Setiap Hari)',
+        province: 'Jawa Barat',
+        postalCode: '41315',
+        googleMapsShareUrl: 'https://share.google/kTjSPv83HTt47VQWb',
+        serviceAreas: [
+          'Karawang Barat', 'Karawang Timur', 'Klari', 'Telukjambe',
+          'Cikampek', 'Purwasari', 'Rengasdengklok', 'Cikarang', 'Bekasi'
+        ]
+      },
       inspectedUrls: inspected,
       searchConsoleDirectLinks: {
         inspectUrl: 'https://search.google.com/search-console/inspect?resource_id=https%3A%2F%2Fwww.sahabat-aluminium.my.id%2F',

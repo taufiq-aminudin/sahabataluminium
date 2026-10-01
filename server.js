@@ -291,7 +291,7 @@ app.get('/api/articles', (req, res) => {
     const filePath = path.join(__dirname, 'articles.json');
     if (fs.existsSync(filePath)) {
       const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-      const showAll = req.query.all === 'true' || req.query.admin === 'true';
+      const showAll = req.query.all === 'true';
       const articles = showAll
         ? data.sort((a, b) => new Date(b.updatedAt || b.publishedAt || b.createdAt || 0) - new Date(a.updatedAt || a.publishedAt || a.createdAt || 0))
         : data
@@ -737,51 +737,6 @@ app.post('/api/orders', (req, res) => {
   }
 });
 
-// API: Get Ads Configuration (Admin Ads + AdSense Separated)
-app.get('/api/ads-config', (req, res) => {
-  try {
-    const filePath = path.join(__dirname, 'ads-config.json');
-    if (fs.existsSync(filePath)) {
-      const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-      return res.json({ success: true, config: data });
-    }
-    return res.json({ success: false, error: 'Konfigurasi iklan belum ada' });
-  } catch (err) {
-    console.error('Error reading ads-config:', err);
-    return res.status(500).json({ success: false, error: 'Gagal memuat konfigurasi iklan' });
-  }
-});
-
-// API: Save Ads Configuration
-app.post('/api/ads-config', (req, res) => {
-  try {
-    const filePath = path.join(__dirname, 'ads-config.json');
-    const { adminAds, adsense } = req.body || {};
-    
-    // Strictly AdSense only
-    const newConfig = {
-      adminAds: [],
-      adsense: adsense || {
-        enabled: true,
-        publisherId: "pub-2437971183769682",
-        autoAds: true,
-        adsTxtVerified: true,
-        slots: {
-          top: { enabled: true, slotId: "8912345671", format: "auto" },
-          in_article: { enabled: true, slotId: "8912345672", format: "auto" },
-          bottom: { enabled: true, slotId: "8912345673", format: "auto" }
-        }
-      },
-      updatedAt: new Date().toISOString()
-    };
-
-    fs.writeFileSync(filePath, JSON.stringify(newConfig, null, 2), 'utf-8');
-    return res.json({ success: true, message: 'Konfigurasi iklan berhasil disimpan', config: newConfig });
-  } catch (err) {
-    console.error('Error saving ads-config:', err);
-    return res.status(500).json({ success: false, error: 'Gagal menyimpan konfigurasi iklan' });
-  }
-});
 
 // API: Newsletter Subscription
 app.post('/api/newsletter/subscribe', (req, res) => {
@@ -1249,9 +1204,14 @@ app.use(express.static(__dirname, {
   index: 'index.html'
 }));
 
+// Explicit 404 handler for admin routes (ensures /admin always returns 404 and never redirects)
+app.all(['/admin', '/admin/*', '/admin.html'], (req, res) => {
+  res.status(404).sendFile(path.join(__dirname, '404.html'));
+});
+
 // Route fallback
 app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, 'index.html'));
+  res.status(404).sendFile(path.join(__dirname, '404.html'));
 });
 
 app.listen(PORT, HOST, () => {

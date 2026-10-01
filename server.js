@@ -1188,8 +1188,24 @@ landingPages.forEach(slug => {
   });
 });
 
-// Explicit route for contact page
-app.get('/kontak', (req, res) => {
+// Explicit routes for core pages to support clean URLs
+app.get(['/layanan', '/layanan/'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'layanan.html'));
+});
+
+app.get(['/galeri', '/galeri/'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'galeri.html'));
+});
+
+app.get(['/artikel', '/artikel/'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'artikel.html'));
+});
+
+app.get(['/tentang', '/tentang/'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'tentang.html'));
+});
+
+app.get(['/kontak', '/kontak/'], (req, res) => {
   res.sendFile(path.join(__dirname, 'kontak.html'));
 });
 

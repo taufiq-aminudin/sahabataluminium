@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Core Website & Hub Pages -->
+  <!-- 1. Halaman Utama (Homepage) & Halaman Hub -->
   <url>
     <loc>https://sahabat-aluminium.my.id/</loc>
     <lastmod>2026-10-01</lastmod>
@@ -8,37 +8,37 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/galeri.html</loc>
+    <loc>https://sahabat-aluminium.my.id/layanan</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel.html</loc>
+    <loc>https://sahabat-aluminium.my.id/galeri</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/layanan.html</loc>
+    <loc>https://sahabat-aluminium.my.id/tentang</loc>
     <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/tentang.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/kontak.html</loc>
+    <loc>https://sahabat-aluminium.my.id/kontak</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 8 Halaman Khusus Layanan Karawang (High Conversion Landing Pages) -->
+  <!-- 2. Halaman Khusus Layanan Detail Karawang -->
   <url>
     <loc>https://sahabat-aluminium.my.id/jasa-kusen-aluminium-karawang</loc>
     <lastmod>2026-10-01</lastmod>
@@ -88,239 +88,239 @@
     <priority>0.95</priority>
   </url>
 
-  <!-- 39 Blog & Artikel Hub Pages -->
+  <!-- 3. Halaman Artikel & Edukasi Teknis Detail -->
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/desain-fasad-rumah-minimalis-kusen-aluminium.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.88</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/desain-pintu-lipat-bifold-aluminium-taman-belakang.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.88</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/desain-sekat-partisi-kaca-dapur-minimalis.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.88</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/desain-skylight-kaca-tempered-atap-rumah.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.88</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/desain-railing-balkon-tangga-kaca-frameless.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.88</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/desain-kamar-mandi-partisi-kaca-walk-in-shower.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.88</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/kontraktor-aluminium-partisi-kaca-proyek-subang-purwakarta-cikampek-cikarang.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/tren-kanopi-kaca-tempered-minimalis-2026.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/perbandingan-kusen-alexindo-vs-inkalum-vs-dacon.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/partisi-kaca-kantor-cleanroom-pabrik-industri.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/keunggulan-pintu-sliding-aluminium-rumah-minimalis.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/biaya-pasang-acp-seven-marks-fasad-karawang.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/tips-memilih-kaca-tempered-dan-laminated-aman.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/jasa-kaca-aluminium-karawang.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/aluminium-composite-panel-fasad</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/pintu-aluminium.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/biaya-pasang-acp-seven-marks-fasad-karawang</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/jendela-aluminium.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/curtain-wall-aluminium-bangunan-komersial</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/partisi-kaca-aluminium.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/dampak-suku-bunga-terhadap-sektor-properti</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/pintu-kaca.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/desain-fasad-rumah-minimalis-kusen-aluminium</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/kanopi-kaca-aluminium.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/desain-kamar-mandi-partisi-kaca-walk-in-shower</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/shower-screen-kaca-frameless.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/desain-pintu-lipat-bifold-aluminium-taman-belakang</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/aluminium-composite-panel-fasad.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/desain-railing-balkon-tangga-kaca-frameless</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/pilihan-warna-aluminium-kusen.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/kaca-kamar-mandi.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/etalase-kaca.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/tips-merawat-aluminium.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/memilih-kaca.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/harga-jasa-kaca-aluminium-karawang.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/desain-sekat-partisi-kaca-dapur-minimalis</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/jenis-kaca-tempered-laminated.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/desain-skylight-kaca-tempered-atap-rumah</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/curtain-wall-aluminium-bangunan-komersial.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/kaca-one-way-reflective.html</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/tips-memilih-kontraktor-kaca-aluminium.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/etalase-kaca</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/standar-ketebalan-kaca.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/harga-jasa-kaca-aluminium-karawang</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.75</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/mengatasi-kusen-aluminium-macet.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/jasa-kaca-aluminium-karawang</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.75</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/tren-desain-interior-rumah-minimalis.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/jendela-aluminium</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.75</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/strategi-menyusun-anggaran-renovasi-rumah.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/jenis-kaca-tempered-laminated</loc>
     <lastmod>2026-10-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/tips-memulai-usaha-jasa-konstruksi.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/kaca-kamar-mandi</loc>
     <lastmod>2026-10-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/dampak-suku-bunga-terhadap-sektor-properti.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/kaca-one-way-reflective</loc>
     <lastmod>2026-10-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/manfaat-digitalisasi-bagi-usaha-kecil.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/kanopi-kaca-aluminium</loc>
     <lastmod>2026-10-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sahabat-aluminium.my.id/artikel/peran-teknologi-dalam-industri-manufaktur-aluminium.html</loc>
+    <loc>https://sahabat-aluminium.my.id/artikel/keunggulan-pintu-sliding-aluminium-rumah-minimalis</loc>
     <lastmod>2026-10-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/kontraktor-aluminium-partisi-kaca-proyek-subang-purwakarta-cikampek-cikarang</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/manfaat-digitalisasi-bagi-usaha-kecil</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/memilih-kaca</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/mengatasi-kusen-aluminium-macet</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/partisi-kaca-aluminium</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/partisi-kaca-kantor-cleanroom-pabrik-industri</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/peran-teknologi-dalam-industri-manufaktur-aluminium</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/perbandingan-kusen-alexindo-vs-inkalum-vs-dacon</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/pilihan-warna-aluminium-kusen</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/pintu-aluminium</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/pintu-kaca</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/shower-screen-kaca-frameless</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/standar-ketebalan-kaca</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/strategi-menyusun-anggaran-renovasi-rumah</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/tips-memilih-kaca-tempered-dan-laminated-aman</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/tips-memilih-kontraktor-kaca-aluminium</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/tips-memulai-usaha-jasa-konstruksi</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/tips-merawat-aluminium</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/tren-desain-interior-rumah-minimalis</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sahabat-aluminium.my.id/artikel/tren-kanopi-kaca-tempered-minimalis-2026</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>

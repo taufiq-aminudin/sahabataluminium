@@ -1006,43 +1006,19 @@ app.get('/robots.txt', (req, res) => {
   if (fs.existsSync(filePath)) {
     return res.sendFile(filePath);
   }
-  return res.send(`User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: https://sahabat-aluminium.my.id/sitemap.xml\nSitemap: https://www.sahabat-aluminium.my.id/sitemap.xml\n`);
+  return res.send(`User-agent: *\nAllow: /\n\nSitemap: https://sahabat-aluminium.my.id/sitemap.xml\n`);
 });
 
-// Explicit route for sitemap.xml with host adaptation (supporting both apex domain and www)
-app.get('/sitemap.xml', (req, res) => {
+// Explicit route for sitemap.xml with host adaptation
+app.get(['/sitemap.xml', '/sitemap-nonwww.xml'], (req, res) => {
   res.type('application/xml; charset=UTF-8');
   res.set('Cache-Control', 'public, max-age=3600');
-  res.set('X-Robots-Tag', 'noindex, follow');
 
-  const host = (req.headers.host || '').toLowerCase();
-  const isNonWww = host.startsWith('sahabat-aluminium.my.id') || req.query.domain === 'non-www';
-  const filePath = path.join(__dirname, isNonWww ? 'sitemap-nonwww.xml' : 'sitemap.xml');
-
+  const filePath = path.join(__dirname, 'sitemap.xml');
   if (fs.existsSync(filePath)) {
     return res.sendFile(filePath);
   }
-
-  // Fallback: read sitemap.xml and adapt
-  let xml = fs.readFileSync(path.join(__dirname, 'sitemap.xml'), 'utf8');
-  if (isNonWww) {
-    xml = xml.replace(/https:\/\/www\.sahabat-aluminium\.my\.id/g, 'https://sahabat-aluminium.my.id');
-  }
-  return res.send(xml);
-});
-
-// Explicit route for apex non-www sitemap
-app.get('/sitemap-nonwww.xml', (req, res) => {
-  res.type('application/xml; charset=UTF-8');
-  res.set('Cache-Control', 'public, max-age=3600');
-  res.set('X-Robots-Tag', 'noindex, follow');
-  const filePath = path.join(__dirname, 'sitemap-nonwww.xml');
-  if (fs.existsSync(filePath)) {
-    return res.sendFile(filePath);
-  }
-  let xml = fs.readFileSync(path.join(__dirname, 'sitemap.xml'), 'utf8');
-  xml = xml.replace(/https:\/\/www\.sahabat-aluminium\.my\.id/g, 'https://sahabat-aluminium.my.id');
-  return res.send(xml);
+  return res.status(404).send('<!-- Sitemap not found -->');
 });
 
 // SEO Inspection & Sitemap Submission API
@@ -1124,9 +1100,9 @@ app.get('/api/seo/audit', (req, res) => {
       },
       inspectedUrls: inspected,
       searchConsoleDirectLinks: {
-        inspectUrl: 'https://search.google.com/search-console/inspect?resource_id=https%3A%2F%2Fwww.sahabat-aluminium.my.id%2F',
-        sitemapsPage: 'https://search.google.com/search-console/sitemaps?resource_id=https%3A%2F%2Fwww.sahabat-aluminium.my.id%2F',
-        sitemapUrl: 'https://www.sahabat-aluminium.my.id/sitemap.xml'
+        inspectUrl: 'https://search.google.com/search-console/inspect?resource_id=https%3A%2F%2Fsahabat-aluminium.my.id%2F',
+        sitemapsPage: 'https://search.google.com/search-console/sitemaps?resource_id=https%3A%2F%2Fsahabat-aluminium.my.id%2F',
+        sitemapUrl: 'https://sahabat-aluminium.my.id/sitemap.xml'
       }
     });
   } catch (err) {
@@ -1137,7 +1113,7 @@ app.get('/api/seo/audit', (req, res) => {
 
 // Sitemap Ping & Submission trigger
 app.post('/api/seo/submit-sitemap', async (req, res) => {
-  const sitemapUrl = 'https://www.sahabat-aluminium.my.id/sitemap.xml';
+  const sitemapUrl = 'https://sahabat-aluminium.my.id/sitemap.xml';
   const pingUrls = [
     { service: 'Google Ping Service', url: `https://www.google.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}` },
     { service: 'Bing Ping Service', url: `https://www.bing.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}` }
@@ -1150,7 +1126,7 @@ app.post('/api/seo/submit-sitemap', async (req, res) => {
     submissionPings: pingUrls,
     instructions: [
       'Buka Google Search Console (https://search.google.com/search-console)',
-      'Pilih properti https://www.sahabat-aluminium.my.id/',
+      'Pilih properti https://sahabat-aluminium.my.id/',
       'Buka menu Peta Situs (Sitemaps) di bilah navigasi kiri',
       'Ketik "sitemap.xml" di kolom "Tambahkan peta situs baru" lalu klik Kirim (Submit)',
       'Gunakan menu "Pemeriksaan URL" (URL Inspection) untuk meminta pengindeksan instan (Request Indexing) untuk Homepage dan 5 URL Layanan Karawang'
@@ -1207,6 +1183,28 @@ app.get(['/tentang', '/tentang/'], (req, res) => {
 
 app.get(['/kontak', '/kontak/'], (req, res) => {
   res.sendFile(path.join(__dirname, 'kontak.html'));
+});
+
+// 301 Permanent Redirects for legacy .html URLs to canonical clean URLs
+app.get('/index.html', (req, res) => {
+  return res.redirect(301, '/');
+});
+
+app.get('/artikel/:slug.html', (req, res) => {
+  const cleanSlug = req.params.slug.replace(/\.html$/, '');
+  return res.redirect(301, `/artikel/${cleanSlug}`);
+});
+
+app.get('/:page.html', (req, res, next) => {
+  const page = req.params.page;
+  const validPages = [
+    'layanan', 'galeri', 'artikel', 'tentang', 'kontak',
+    ...landingPages
+  ];
+  if (validPages.includes(page)) {
+    return res.redirect(301, `/${page}`);
+  }
+  next();
 });
 
 // Explicit route for articles to support clean URLs (/artikel/pintu-aluminium)

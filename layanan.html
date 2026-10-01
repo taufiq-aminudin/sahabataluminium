@@ -202,13 +202,13 @@
         
         <!-- Layanan 01: Kusen Aluminium -->
         <article id="kusen-aluminium" style="background:#fff;border:1.5px solid #dce5e9;border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(7,55,70,0.06);display:flex;flex-direction:column;transition:transform 0.25s ease, box-shadow 0.25s ease;">
-          <div style="position:relative;height:210px;overflow:hidden;background:#0f172a;">
-            <img src="assets/gallery/jendela-aluminium.jpg" alt="Foto Proyek Kusen Aluminium Karawang" style="width:100%;height:100%;object-fit:cover;">
+          <div onclick="openServiceDetailModal('kusen-aluminium')" style="position:relative;height:210px;overflow:hidden;background:#0f172a;cursor:pointer;" title="Klik untuk melihat Detail, Foto Proyek, Material & Ukuran Kusen Aluminium">
+            <img src="assets/gallery/jendela-aluminium.jpg" alt="Foto Proyek Kusen Aluminium Karawang" style="width:100%;height:100%;object-fit:cover;transition:transform 0.3s ease;">
             <span style="position:absolute;top:12px;left:12px;background:rgba(7,46,59,0.92);color:#5eead4;font-size:11px;font-weight:800;padding:5px 12px;border-radius:6px;letter-spacing:0.04em;">01. KUSEN ALUMINIUM</span>
             <span style="position:absolute;top:12px;right:12px;background:#ffd88a;color:#073746;font-size:11px;font-weight:700;padding:4px 9px;border-radius:6px;">Profil 3" & 4" SNI</span>
           </div>
           <div style="padding:24px;display:flex;flex-direction:column;flex-grow:1;">
-            <h3 style="margin:0 0 10px;font-size:20px;color:var(--deep);font-weight:800;">
+            <h3 style="margin:0 0 10px;font-size:20px;color:var(--deep);font-weight:800;cursor:pointer;" onclick="openServiceDetailModal('kusen-aluminium')">
               Kusen Aluminium
             </h3>
             <p style="font-size:14px;color:#556972;margin:0 0 18px;line-height:1.65;">
@@ -227,17 +227,17 @@
               <span style="font-size:12px;background:#e6f8f5;color:#0d9488;padding:3px 9px;border-radius:6px;font-weight:700;">Garansi 18 Bulan</span>
             </div>
 
-            <!-- Dual Action UX: Detail (Foto+Material+Ukuran+CTA) & Filtered Gallery -->
+            <!-- Direct Detail Action UX: Detail (Foto • Material • Ukuran • Estimasi) & WhatsApp -->
             <div style="margin-top:auto;display:flex;flex-direction:column;gap:8px;">
-              <button type="button" onclick="openServiceDetailModal('kusen-aluminium')" style="width:100%;background:var(--deep);color:#fff;border:none;padding:11px 16px;border-radius:8px;font-size:13.5px;font-weight:700;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:6px;">
-                <span>Detail Kusen (Foto • Material • Ukuran • CTA)</span> <span>→</span>
+              <button type="button" onclick="openServiceDetailModal('kusen-aluminium')" style="width:100%;background:linear-gradient(135deg, #072e3b, #0f4c5c);color:#fff;border:none;padding:12px 16px;border-radius:8px;font-size:13.5px;font-weight:800;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:6px;box-shadow:0 4px 14px rgba(7,46,59,0.18);">
+                <span>🔍 Detail Kusen (Foto • Material • Ukuran • Estimasi)</span> <span>→</span>
               </button>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                <a href="galeri.html?filter=pintu&search=kusen" style="background:#eaf3f5;color:var(--deep);text-align:center;padding:8px 10px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;border:1px solid #ccdce1;">
-                  Proyek di Galeri ↗
+                <a href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20ingin%20konsultasi%20detail%20Layanan%20Kusen%20Aluminium%20SNI%20(Foto%2C%20Material%2C%20Ukuran%2C%20Estimasi%20RAB)." target="_blank" rel="noopener" style="background:#25d366;color:#fff;text-align:center;padding:9px 10px;border-radius:6px;font-size:12px;font-weight:800;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:4px;">
+                  <span>💬 Chat WA Kusen</span>
                 </a>
-                <a href="/jasa-kusen-aluminium-karawang" style="background:#fff;color:var(--blue);text-align:center;padding:8px 10px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--blue);">
-                  Halaman Penuh ↗
+                <a href="/jasa-kusen-aluminium-karawang" style="background:#fff;color:var(--blue);text-align:center;padding:9px 10px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--blue);display:flex;align-items:center;justify-content:center;gap:4px;">
+                  <span>📄 Halaman Spesifikasi ↗</span>
                 </a>
               </div>
             </div>
@@ -246,13 +246,13 @@
 
         <!-- Layanan 02: Pintu & Jendela -->
         <article id="pintu-jendela" style="background:#fff;border:1.5px solid #dce5e9;border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(7,55,70,0.06);display:flex;flex-direction:column;transition:transform 0.25s ease, box-shadow 0.25s ease;">
-          <div style="position:relative;height:210px;overflow:hidden;background:#0f172a;">
-            <img src="assets/gallery/pintu-aluminium.jpg" alt="Foto Proyek Pintu dan Jendela Aluminium Karawang" style="width:100%;height:100%;object-fit:cover;">
+          <div onclick="openServiceDetailModal('pintu-jendela')" style="position:relative;height:210px;overflow:hidden;background:#0f172a;cursor:pointer;" title="Klik untuk melihat Detail, Foto Proyek, Material & Ukuran Pintu & Jendela">
+            <img src="assets/gallery/pintu-aluminium.jpg" alt="Foto Proyek Pintu dan Jendela Aluminium Karawang" style="width:100%;height:100%;object-fit:cover;transition:transform 0.3s ease;">
             <span style="position:absolute;top:12px;left:12px;background:rgba(7,46,59,0.92);color:#5eead4;font-size:11px;font-weight:800;padding:5px 12px;border-radius:6px;letter-spacing:0.04em;">02. PINTU & JENDELA</span>
             <span style="position:absolute;top:12px;right:12px;background:#ffd88a;color:#073746;font-size:11px;font-weight:700;padding:4px 9px;border-radius:6px;">Sliding • Swing • Bifold</span>
           </div>
           <div style="padding:24px;display:flex;flex-direction:column;flex-grow:1;">
-            <h3 style="margin:0 0 10px;font-size:20px;color:var(--deep);font-weight:800;">
+            <h3 style="margin:0 0 10px;font-size:20px;color:var(--deep);font-weight:800;cursor:pointer;" onclick="openServiceDetailModal('pintu-jendela')">
               Pintu & Jendela
             </h3>
             <p style="font-size:14px;color:#556972;margin:0 0 18px;line-height:1.65;">
@@ -271,17 +271,17 @@
               <span style="font-size:12px;background:#e6f8f5;color:#0d9488;padding:3px 9px;border-radius:6px;font-weight:700;">Garansi 24 Bulan</span>
             </div>
 
-            <!-- Dual Action UX: Detail (Foto+Material+Ukuran+CTA) & Filtered Gallery -->
+            <!-- Direct Detail Action UX: Detail (Foto • Material • Ukuran • Estimasi) & WhatsApp -->
             <div style="margin-top:auto;display:flex;flex-direction:column;gap:8px;">
-              <button type="button" onclick="openServiceDetailModal('pintu-jendela')" style="width:100%;background:var(--deep);color:#fff;border:none;padding:11px 16px;border-radius:8px;font-size:13.5px;font-weight:700;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:6px;">
-                <span>Detail Pintu & Jendela (Foto • Material • Ukuran • CTA)</span> <span>→</span>
+              <button type="button" onclick="openServiceDetailModal('pintu-jendela')" style="width:100%;background:linear-gradient(135deg, #072e3b, #0f4c5c);color:#fff;border:none;padding:12px 16px;border-radius:8px;font-size:13.5px;font-weight:800;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:6px;box-shadow:0 4px 14px rgba(7,46,59,0.18);">
+                <span>🔍 Detail Pintu & Jendela (Foto • Material • Ukuran • Estimasi)</span> <span>→</span>
               </button>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                <a href="galeri.html?filter=pintu" style="background:#eaf3f5;color:var(--deep);text-align:center;padding:8px 10px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;border:1px solid #ccdce1;">
-                  Proyek di Galeri ↗
+                <a href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20ingin%20konsultasi%20detail%20Layanan%20Pintu%20%26%20Jendela%20Aluminium%20(Bifold%2C%20Sliding%2C%20Casement%2C%20Estimasi%20RAB)." target="_blank" rel="noopener" style="background:#25d366;color:#fff;text-align:center;padding:9px 10px;border-radius:6px;font-size:12px;font-weight:800;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:4px;">
+                  <span>💬 Chat WA Pintu</span>
                 </a>
-                <a href="/jasa-pintu-aluminium-karawang" style="background:#fff;color:var(--blue);text-align:center;padding:8px 10px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--blue);">
-                  Halaman Penuh ↗
+                <a href="/jasa-pintu-aluminium-karawang" style="background:#fff;color:var(--blue);text-align:center;padding:9px 10px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--blue);display:flex;align-items:center;justify-content:center;gap:4px;">
+                  <span>📄 Halaman Spesifikasi ↗</span>
                 </a>
               </div>
             </div>
@@ -290,13 +290,13 @@
 
         <!-- Layanan 03: Pekerjaan Kaca -->
         <article id="pekerjaan-kaca" style="background:#fff;border:1.5px solid #dce5e9;border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(7,55,70,0.06);display:flex;flex-direction:column;transition:transform 0.25s ease, box-shadow 0.25s ease;">
-          <div style="position:relative;height:210px;overflow:hidden;background:#0f172a;">
-            <img src="assets/gallery/pintu-kaca.jpg" alt="Foto Proyek Pekerjaan Kaca Tempered Karawang" style="width:100%;height:100%;object-fit:cover;">
+          <div onclick="openServiceDetailModal('pekerjaan-kaca')" style="position:relative;height:210px;overflow:hidden;background:#0f172a;cursor:pointer;" title="Klik untuk melihat Detail, Foto Proyek, Material & Ukuran Pekerjaan Kaca">
+            <img src="assets/gallery/pintu-kaca.jpg" alt="Foto Proyek Pekerjaan Kaca Tempered Karawang" style="width:100%;height:100%;object-fit:cover;transition:transform 0.3s ease;">
             <span style="position:absolute;top:12px;left:12px;background:rgba(7,46,59,0.92);color:#5eead4;font-size:11px;font-weight:800;padding:5px 12px;border-radius:6px;letter-spacing:0.04em;">03. PEKERJAAN KACA</span>
             <span style="position:absolute;top:12px;right:12px;background:#ffd88a;color:#073746;font-size:11px;font-weight:700;padding:4px 9px;border-radius:6px;">Tempered 10 & 12mm</span>
           </div>
           <div style="padding:24px;display:flex;flex-direction:column;flex-grow:1;">
-            <h3 style="margin:0 0 10px;font-size:20px;color:var(--deep);font-weight:800;">
+            <h3 style="margin:0 0 10px;font-size:20px;color:var(--deep);font-weight:800;cursor:pointer;" onclick="openServiceDetailModal('pekerjaan-kaca')">
               Pekerjaan Kaca
             </h3>
             <p style="font-size:14px;color:#556972;margin:0 0 18px;line-height:1.65;">
@@ -315,17 +315,17 @@
               <span style="font-size:12px;background:#e6f8f5;color:#0d9488;padding:3px 9px;border-radius:6px;font-weight:700;">Garansi 36 Bulan</span>
             </div>
 
-            <!-- Dual Action UX: Detail (Foto+Material+Ukuran+CTA) & Filtered Gallery -->
+            <!-- Direct Detail Action UX: Detail (Foto • Material • Ukuran • Estimasi) & WhatsApp -->
             <div style="margin-top:auto;display:flex;flex-direction:column;gap:8px;">
-              <button type="button" onclick="openServiceDetailModal('pekerjaan-kaca')" style="width:100%;background:var(--deep);color:#fff;border:none;padding:11px 16px;border-radius:8px;font-size:13.5px;font-weight:700;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:6px;">
-                <span>Detail Kaca (Foto • Material • Ukuran • CTA)</span> <span>→</span>
+              <button type="button" onclick="openServiceDetailModal('pekerjaan-kaca')" style="width:100%;background:linear-gradient(135deg, #072e3b, #0f4c5c);color:#fff;border:none;padding:12px 16px;border-radius:8px;font-size:13.5px;font-weight:800;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:6px;box-shadow:0 4px 14px rgba(7,46,59,0.18);">
+                <span>🔍 Detail Pekerjaan Kaca (Foto • Material • Ukuran • Estimasi)</span> <span>→</span>
               </button>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                <a href="galeri.html?filter=kaca-tempered" style="background:#eaf3f5;color:var(--deep);text-align:center;padding:8px 10px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;border:1px solid #ccdce1;">
-                  Proyek di Galeri ↗
+                <a href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20ingin%20konsultasi%20detail%20Pekerjaan%20Kaca%20Tempered%20(Pintu%20Floor%20Hinge%2C%20Shower%20Screen%2C%20Estimasi%20RAB)." target="_blank" rel="noopener" style="background:#25d366;color:#fff;text-align:center;padding:9px 10px;border-radius:6px;font-size:12px;font-weight:800;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:4px;">
+                  <span>💬 Chat WA Kaca</span>
                 </a>
-                <a href="/jasa-pintu-kaca-karawang" style="background:#fff;color:var(--blue);text-align:center;padding:8px 10px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--blue);">
-                  Halaman Penuh ↗
+                <a href="/jasa-pintu-kaca-karawang" style="background:#fff;color:var(--blue);text-align:center;padding:9px 10px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--blue);display:flex;align-items:center;justify-content:center;gap:4px;">
+                  <span>📄 Halaman Spesifikasi ↗</span>
                 </a>
               </div>
             </div>
@@ -334,13 +334,13 @@
 
         <!-- Layanan 04: Partisi & Interior -->
         <article id="partisi-interior" style="background:#fff;border:1.5px solid #dce5e9;border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(7,55,70,0.06);display:flex;flex-direction:column;transition:transform 0.25s ease, box-shadow 0.25s ease;">
-          <div style="position:relative;height:210px;overflow:hidden;background:#0f172a;">
-            <img src="assets/gallery/partisi-aluminium.jpg" alt="Foto Proyek Partisi Kaca Kantor dan Dapur" style="width:100%;height:100%;object-fit:cover;">
+          <div onclick="openServiceDetailModal('partisi-interior')" style="position:relative;height:210px;overflow:hidden;background:#0f172a;cursor:pointer;" title="Klik untuk melihat Detail, Foto Proyek, Material & Ukuran Partisi & Interior">
+            <img src="assets/gallery/partisi-aluminium.jpg" alt="Foto Proyek Partisi Kaca Kantor dan Dapur" style="width:100%;height:100%;object-fit:cover;transition:transform 0.3s ease;">
             <span style="position:absolute;top:12px;left:12px;background:rgba(7,46,59,0.92);color:#5eead4;font-size:11px;font-weight:800;padding:5px 12px;border-radius:6px;letter-spacing:0.04em;">04. PARTISI & INTERIOR</span>
             <span style="position:absolute;top:12px;right:12px;background:#ffd88a;color:#073746;font-size:11px;font-weight:700;padding:4px 9px;border-radius:6px;">Kantor KIIC & Dapur</span>
           </div>
           <div style="padding:24px;display:flex;flex-direction:column;flex-grow:1;">
-            <h3 style="margin:0 0 10px;font-size:20px;color:var(--deep);font-weight:800;">
+            <h3 style="margin:0 0 10px;font-size:20px;color:var(--deep);font-weight:800;cursor:pointer;" onclick="openServiceDetailModal('partisi-interior')">
               Partisi & Interior
             </h3>
             <p style="font-size:14px;color:#556972;margin:0 0 18px;line-height:1.65;">
@@ -359,17 +359,17 @@
               <span style="font-size:12px;background:#e6f8f5;color:#0d9488;padding:3px 9px;border-radius:6px;font-weight:700;">Garansi 24 Bulan</span>
             </div>
 
-            <!-- Dual Action UX: Detail (Foto+Material+Ukuran+CTA) & Filtered Gallery -->
+            <!-- Direct Detail Action UX: Detail (Foto • Material • Ukuran • Estimasi) & WhatsApp -->
             <div style="margin-top:auto;display:flex;flex-direction:column;gap:8px;">
-              <button type="button" onclick="openServiceDetailModal('partisi-interior')" style="width:100%;background:var(--deep);color:#fff;border:none;padding:11px 16px;border-radius:8px;font-size:13.5px;font-weight:700;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:6px;">
-                <span>Detail Partisi (Foto • Material • Ukuran • CTA)</span> <span>→</span>
+              <button type="button" onclick="openServiceDetailModal('partisi-interior')" style="width:100%;background:linear-gradient(135deg, #072e3b, #0f4c5c);color:#fff;border:none;padding:12px 16px;border-radius:8px;font-size:13.5px;font-weight:800;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:6px;box-shadow:0 4px 14px rgba(7,46,59,0.18);">
+                <span>🔍 Detail Partisi & Interior (Foto • Material • Ukuran • Estimasi)</span> <span>→</span>
               </button>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                <a href="galeri.html?filter=partisi" style="background:#eaf3f5;color:var(--deep);text-align:center;padding:8px 10px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;border:1px solid #ccdce1;">
-                  Proyek di Galeri ↗
+                <a href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20ingin%20konsultasi%20detail%20Partisi%20Kaca%20%26%20Interior%20(Sekat%20Kantor%2C%20Dapur%20Moru%20Glass%2C%20Estimasi%20RAB)." target="_blank" rel="noopener" style="background:#25d366;color:#fff;text-align:center;padding:9px 10px;border-radius:6px;font-size:12px;font-weight:800;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:4px;">
+                  <span>💬 Chat WA Partisi</span>
                 </a>
-                <a href="/jasa-partisi-kaca-aluminium-karawang" style="background:#fff;color:var(--blue);text-align:center;padding:8px 10px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--blue);">
-                  Halaman Penuh ↗
+                <a href="/jasa-partisi-kaca-aluminium-karawang" style="background:#fff;color:var(--blue);text-align:center;padding:9px 10px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--blue);display:flex;align-items:center;justify-content:center;gap:4px;">
+                  <span>📄 Halaman Spesifikasi ↗</span>
                 </a>
               </div>
             </div>
@@ -378,13 +378,13 @@
 
         <!-- Layanan 05: Kanopi & Custom -->
         <article id="kanopi-custom" style="background:#fff;border:1.5px solid #dce5e9;border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(7,55,70,0.06);display:flex;flex-direction:column;transition:transform 0.25s ease, box-shadow 0.25s ease;">
-          <div style="position:relative;height:210px;overflow:hidden;background:#0f172a;">
-            <img src="assets/gallery/shower-kaca.jpg" alt="Foto Proyek Kanopi Kaca dan Railing Tempered" style="width:100%;height:100%;object-fit:cover;">
+          <div onclick="openServiceDetailModal('kanopi-custom')" style="position:relative;height:210px;overflow:hidden;background:#0f172a;cursor:pointer;" title="Klik untuk melihat Detail, Foto Proyek, Material & Ukuran Kanopi & Custom">
+            <img src="assets/gallery/shower-kaca.jpg" alt="Foto Proyek Kanopi Kaca dan Railing Tempered" style="width:100%;height:100%;object-fit:cover;transition:transform 0.3s ease;">
             <span style="position:absolute;top:12px;left:12px;background:rgba(7,46,59,0.92);color:#5eead4;font-size:11px;font-weight:800;padding:5px 12px;border-radius:6px;letter-spacing:0.04em;">05. KANOPI & CUSTOM</span>
             <span style="position:absolute;top:12px;right:12px;background:#ffd88a;color:#073746;font-size:11px;font-weight:700;padding:4px 9px;border-radius:6px;">Laminated 5+5mm</span>
           </div>
           <div style="padding:24px;display:flex;flex-direction:column;flex-grow:1;">
-            <h3 style="margin:0 0 10px;font-size:20px;color:var(--deep);font-weight:800;">
+            <h3 style="margin:0 0 10px;font-size:20px;color:var(--deep);font-weight:800;cursor:pointer;" onclick="openServiceDetailModal('kanopi-custom')">
               Kanopi & Custom
             </h3>
             <p style="font-size:14px;color:#556972;margin:0 0 18px;line-height:1.65;">
@@ -403,17 +403,17 @@
               <span style="font-size:12px;background:#e6f8f5;color:#0d9488;padding:3px 9px;border-radius:6px;font-weight:700;">Garansi 36 Bulan</span>
             </div>
 
-            <!-- Dual Action UX: Detail (Foto+Material+Ukuran+CTA) & Filtered Gallery -->
+            <!-- Direct Detail Action UX: Detail (Foto • Material • Ukuran • Estimasi) & WhatsApp -->
             <div style="margin-top:auto;display:flex;flex-direction:column;gap:8px;">
-              <button type="button" onclick="openServiceDetailModal('kanopi-custom')" style="width:100%;background:var(--deep);color:#fff;border:none;padding:11px 16px;border-radius:8px;font-size:13.5px;font-weight:700;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:6px;">
-                <span>Detail Kanopi (Foto • Material • Ukuran • CTA)</span> <span>→</span>
+              <button type="button" onclick="openServiceDetailModal('kanopi-custom')" style="width:100%;background:linear-gradient(135deg, #072e3b, #0f4c5c);color:#fff;border:none;padding:12px 16px;border-radius:8px;font-size:13.5px;font-weight:800;cursor:pointer;display:flex;justify-content:center;align-items:center;gap:6px;box-shadow:0 4px 14px rgba(7,46,59,0.18);">
+                <span>🔍 Detail Kanopi & Custom (Foto • Material • Ukuran • Estimasi)</span> <span>→</span>
               </button>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                <a href="galeri.html?filter=fasad-kanopi" style="background:#eaf3f5;color:var(--deep);text-align:center;padding:8px 10px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;border:1px solid #ccdce1;">
-                  Proyek di Galeri ↗
+                <a href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20ingin%20konsultasi%20detail%20Kanopi%20Kaca%20Tempered%20%26%20Railing%20Frameless%20(Material%2C%20Ukuran%2C%20Estimasi%20RAB)." target="_blank" rel="noopener" style="background:#25d366;color:#fff;text-align:center;padding:9px 10px;border-radius:6px;font-size:12px;font-weight:800;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:4px;">
+                  <span>💬 Chat WA Kanopi</span>
                 </a>
-                <a href="/jasa-kanopi-kaca-karawang" style="background:#fff;color:var(--blue);text-align:center;padding:8px 10px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--blue);">
-                  Halaman Penuh ↗
+                <a href="/jasa-kanopi-kaca-karawang" style="background:#fff;color:var(--blue);text-align:center;padding:9px 10px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--blue);display:flex;align-items:center;justify-content:center;gap:4px;">
+                  <span>📄 Halaman Spesifikasi ↗</span>
                 </a>
               </div>
             </div>
@@ -802,15 +802,15 @@
       <!-- 5. Tombol Aksi Nyata (CTA) -->
       <div class="sdm-cta-wrap">
         <a id="sdmWaBtn" href="#" target="_blank" rel="noopener" class="sdm-btn-wa">
-          <span>💬 Konsultasi & Jadwalkan Survey Gratis WhatsApp</span>
+          <span>💬 Konsultasi Spesifikasi & Estimasi via WhatsApp</span>
           <span>↗</span>
         </a>
         <div class="sdm-cta-row">
-          <a id="sdmGalleryBtn" href="#" class="sdm-btn-gallery">
-            <span>🖼️ Lihat Foto di Galeri (Terfilter)</span>
+          <a id="sdmSurveyBtn" href="#survey-kontak" onclick="closeServiceDetailModal()" class="sdm-btn-gallery" style="background:#f0fdf4;color:#166534;border:1.5px solid #86efac;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;">
+            <span>📅 Request Survey Lokasi Gratis (Rp 0)</span>
           </a>
           <a id="sdmLandingBtn" href="#" class="sdm-btn-landing">
-            <span>📄 Buka Halaman Spesifikasi Lengkap</span>
+            <span>📄 Buka Halaman Spesifikasi Lengkap ↗</span>
           </a>
         </div>
       </div>
@@ -1345,6 +1345,7 @@ function openServiceDetailModal(serviceId) {
   const pricing = document.getElementById('sdmPricing');
   const warranty = document.getElementById('sdmWarranty');
   const waBtn = document.getElementById('sdmWaBtn');
+  const surveyBtn = document.getElementById('sdmSurveyBtn');
   const galleryBtn = document.getElementById('sdmGalleryBtn');
   const landingBtn = document.getElementById('sdmLandingBtn');
 

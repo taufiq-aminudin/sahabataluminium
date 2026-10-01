@@ -10242,23 +10242,60 @@ footer .footer-grid {
     transform: none !important;
     transition: none !important;
   }
+  .masonry-media-box::before {
+    animation: none !important;
+    opacity: 0 !important;
+  }
   .masonry-media-box img,
   .masonry-card .masonry-main-img,
   .masonry-card:hover .masonry-media-box img,
   .masonry-card:hover .masonry-main-img {
+    opacity: 1 !important;
     transform: none !important;
     transition: none !important;
     filter: none !important;
   }
 }
 
-/* Media Box with Fixed Aspect Ratio to Prevent Layout Shifts */
+/* Media Box with Fixed Aspect Ratio & CSS Skeleton Loader */
 .masonry-media-box {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  background: #0f172a;
+  background: #0d1e28;
+}
+
+/* Shimmer Skeleton Wave for Loading State */
+.masonry-media-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(255, 255, 255, 0.08) 50%, 
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: masonrySkeletonShimmer 1.6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 1;
+  transition: opacity 0.4s ease-out;
+}
+
+@keyframes masonrySkeletonShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Hide Skeleton Shimmer once Image is Loaded */
+.masonry-media-box.is-loaded::before,
+.masonry-card.in-view .masonry-media-box.is-loaded::before,
+.masonry-media-box:has(.masonry-main-img.is-loaded)::before {
+  opacity: 0;
+  animation: none;
 }
 
 /* Fallback for older browsers without native aspect-ratio */
@@ -10274,6 +10311,7 @@ footer .footer-grid {
   }
 }
 
+/* Main Image with Smooth Fade-In Transition Effect */
 .masonry-media-box img,
 .masonry-card .masonry-main-img,
 .masonry-card img.masonry-main-img {
@@ -10283,11 +10321,20 @@ footer .footer-grid {
   display: block;
   object-fit: cover;
   object-position: center;
-  transform: scale(1);
+  opacity: 0;
+  transform: scale(1.02);
   transform-origin: center center;
-  transition: transform 0.4s ease-in-out,
+  transition: opacity 0.5s ease-out,
+              transform 0.4s ease-in-out,
               filter 0.3s ease-in-out;
-  will-change: transform;
+  will-change: opacity, transform;
+}
+
+/* Loaded / In-View State: Fade-in and settle to scale(1) */
+.masonry-main-img.is-loaded,
+.masonry-card.in-view .masonry-main-img {
+  opacity: 1;
+  transform: scale(1);
 }
 
 /* Hover Animation: Subtle Zoom to Main Project Image */

@@ -5697,69 +5697,9 @@ function updateSurveySummary() {
 
   updateSurveySummary();
 
-  const form = document.getElementById('siteSurveyScheduleForm');
-  if (form) {
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const submitBtn = document.getElementById('surveySubmitBtn');
-      const originalText = submitBtn ? submitBtn.innerHTML : '';
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span>⏳ Memproses & Menghubungkan ke WhatsApp...</span>';
-      }
-
-      const payload = {
-        name: document.getElementById('surveyNameInput')?.value || '',
-        phone: document.getElementById('surveyPhoneInput')?.value || '',
-        date: document.getElementById('surveyDateInput')?.value || '',
-        timeSlot: document.getElementById('surveyTimeSlotInput')?.value || '09:00 - 11:00 WIB (Pagi)',
-        location: document.getElementById('surveyLocationSelect')?.value || '',
-        address: document.getElementById('surveyAddressInput')?.value || '',
-        projectType: document.getElementById('surveySystemSelect')?.value || '',
-        bringSamples: !!document.getElementById('surveyBringSamples')?.checked
-      };
-
-      try {
-        const res = await fetch('/api/surveys', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json();
-
-        if (data && data.success && data.waUrl) {
-          // Open WhatsApp in new tab or redirect
-          window.open(data.waUrl, '_blank') || (window.location.href = data.waUrl);
-
-          // Show confirmation message on page
-          const summaryBox = document.getElementById('surveySummaryBox');
-          if (summaryBox) {
-            summaryBox.style.background = '#ecfdf5';
-            summaryBox.style.borderColor = '#10b981';
-            summaryBox.innerHTML = `
-              <div style="font-size: 14px; font-weight: 800; color: #065f46; display:flex; align-items:center; gap:6px;">
-                <span>✅</span> JADWAL SURVEY BERHASIL DICATAT (#${data.booking?.id})
-              </div>
-              <div style="font-size: 12.5px; color: #047857; margin-top: 4px; line-height: 1.5;">
-                Pesan konfirmasi telah dikirimkan ke WhatsApp tim teknisi kami. Tim Sahabat Kaca Aluminium akan segera menghubungi nomor <strong>${payload.phone}</strong> untuk validasi rute kedatangan.
-              </div>
-            `;
-          }
-        } else {
-          alert(data?.error || 'Gagal menyimpan jadwal survey, silakan coba lagi.');
-        }
-      } catch (err) {
-        console.error('Survey booking error:', err);
-        // Fallback directly to WhatsApp
-        const fallbackText = `Halo Admin Sahabat Kaca Aluminium, saya ingin konfirmasi jadwal survey gratis pada ${payload.date} jam ${payload.timeSlot} untuk ${payload.projectType} di ${payload.address}. Nama: ${payload.name} (${payload.phone}).`;
-        window.location.href = `https://wa.me/6289637371166?text=${encodeURIComponent(fallbackText)}`;
-      } finally {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalText;
-        }
-      }
-    });
+  // Initialize automated WhatsApp form interceptors
+  if (typeof window.initAutomatedWhatsAppFormInterceptors === 'function') {
+    window.initAutomatedWhatsAppFormInterceptors();
   }
 })();
 

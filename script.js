@@ -2129,124 +2129,334 @@ if (recentArticlesGrid && recentArticlesSkeleton) {
 }
 
 /* =========================================================
-   WHATSAPP LEAD CONVERSION CONTACT FORM HANDLER
+   AUTOMATED WHATSAPP FORM INTERCEPTOR & CONTEXT-AWARE DISPATCHER
    ========================================================= */
-function setupWhatsAppForm(formId, previewId, tagsContainerId) {
-  const form = document.getElementById(formId);
-  if (!form) return;
+const WA_OFFICIAL_NUMBER = '6289637371166';
 
-  const preview = document.getElementById(previewId);
-  const nameInput = form.querySelector('[name="name"]');
-  const phoneInput = form.querySelector('[name="phone"]');
-  const locationSelect = form.querySelector('[name="location"]');
-  const serviceSelect = form.querySelector('[name="service"]');
-  const messageInput = form.querySelector('[name="message"]');
-  const tagsContainer = document.getElementById(tagsContainerId);
-  const submitBtn = form.querySelector('button[type="submit"]');
+// Format human-readable Indonesian date
+function formatIndoDateContext(dateStr) {
+  if (!dateStr) return '-';
+  const parts = dateStr.split('-');
+  if (parts.length !== 3) return dateStr;
+  const d = new Date(parts[0], parts[1] - 1, parts[2]);
+  if (isNaN(d.getTime())) return dateStr;
+  const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+  const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+  return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
 
-  // Handle Quick Service Tags
-  if (tagsContainer && serviceSelect) {
-    const tags = tagsContainer.querySelectorAll('.service-tag');
-    tags.forEach(tag => {
-      tag.addEventListener('click', () => {
-        const val = tag.getAttribute('data-val');
-        if (val) {
-          serviceSelect.value = val;
-          tags.forEach(t => t.classList.remove('active'));
-          tag.classList.add('active');
-          updatePreview();
+// Generate context-aware survey message
+function buildSurveyContextMessage(formData) {
+  const { name, phone, date, timeSlot, location, address, projectType, bringSamples } = formData;
+  const dateFormatted = formatIndoDateContext(date);
+
+  let msg = `*KONFIRMASI JADWAL SURVEY ON-SITE GRATIS*\n`;
+  msg += `*Sahabat Kaca Aluminium Karawang*\n`;
+  msg += `────────────────────────────\n\n`;
+  msg += `Halo Tim Admin & Teknisi Sahabat Kaca Aluminium, saya ingin mengajukan dan mengonfirmasi jadwal survey lokasi gratis dengan rincian berikut:\n\n`;
+  msg += `📅 *Tanggal Survey:* ${dateFormatted || '-'}\n`;
+  msg += `⏰ *Sesi Waktu:* ${timeSlot || '09:00 - 11:00 WIB (Pagi)'}\n`;
+  msg += `👤 *Nama Pemesan:* ${name || '-'}\n`;
+  msg += `📱 *No. WhatsApp:* ${phone || '-'}\n`;
+  msg += `📍 *Wilayah Area:* ${location || '-'}\n`;
+  msg += `🏠 *Alamat Lengkap / Patokan:* ${address || '-'}\n`;
+  msg += `🛠️ *Sistem yang Disurvey:* ${projectType || '-'}\n`;
+  msg += `🧰 *Bawa Sampel Fisik Material:* ${bringSamples ? 'Ya, Mohon Bawa Sampel Aluminium & Kaca' : 'Tidak Perlu'}\n\n`;
+  msg += `Biaya Survey: *Rp 0 (100% GRATIS)*\n`;
+  msg += `Mohon konfirmasi kesiapan teknisi dan estimasi jam kedatangan. Terima kasih!`;
+  return msg;
+}
+
+// Generate context-aware consultation message
+function buildConsultationContextMessage(formData, pageName) {
+  const { name, phone, location, service, message } = formData;
+
+  let msg = `*KONSULTASI & ESTIMASI RAB PROYEK*\n`;
+  msg += `*Sahabat Kaca Aluminium*\n`;
+  msg += `────────────────────────────\n\n`;
+  msg += `Halo Admin Sahabat Kaca Aluminium, saya ingin konsultasi spesifikasi dan meminta estimasi penawaran harga proyek:\n\n`;
+  msg += `👤 *Nama Lengkap:* ${name || '-'}\n`;
+  msg += `📱 *Nomor WhatsApp:* ${phone || '-'}\n`;
+  msg += `📍 *Lokasi Proyek:* ${location || '-'}\n`;
+  msg += `🏗️ *Kebutuhan Utama:* ${service || '-'}\n`;
+  if (message && message.trim()) {
+    msg += `📝 *Keterangan / Ukuran:* ${message.trim()}\n`;
+  }
+  if (pageName) {
+    msg += `🌐 *Sumber Halaman:* ${pageName}\n`;
+  }
+  msg += `\nMohon rekomendasi jenis profil aluminium, ketebalan kaca, dan jadwal survey lokasi jika diperlukan. Terima kasih!`;
+  return msg;
+}
+
+// UI Prompt Modal Builder for Local WhatsApp App Dispatch
+function showWhatsAppPromptModal({ title, subtitle, formattedMessage, waUrl, localAppUrl, onSent }) {
+  let modalBackdrop = document.getElementById('waPromptModalBackdrop');
+  if (!modalBackdrop) {
+    modalBackdrop = document.createElement('div');
+    modalBackdrop.id = 'waPromptModalBackdrop';
+    modalBackdrop.className = 'wa-prompt-backdrop';
+    modalBackdrop.setAttribute('role', 'dialog');
+    modalBackdrop.setAttribute('aria-modal', 'true');
+    modalBackdrop.setAttribute('aria-labelledby', 'waPromptTitle');
+    modalBackdrop.innerHTML = `
+      <div class="wa-prompt-dialog">
+        <div class="wa-prompt-header">
+          <div class="wa-prompt-header-title" id="waPromptTitle">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+            </svg>
+            <span id="waPromptModalTitleText">Kirim ke WhatsApp Admin</span>
+          </div>
+          <button type="button" class="wa-prompt-close-btn" id="waPromptCloseBtn" aria-label="Tutup Dialog">×</button>
+        </div>
+        <div class="wa-prompt-body">
+          <p class="wa-prompt-desc" id="waPromptSubtitleText">Data Anda telah dirangkum dalam format pesan siap kirim. Silakan lanjutkan untuk membuka aplikasi WhatsApp lokal Anda:</p>
+          <div class="wa-prompt-bubble" id="waPromptMessageBubble"></div>
+        </div>
+        <div class="wa-prompt-footer">
+          <button type="button" class="wa-prompt-send-btn" id="waPromptActionBtn">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+            </svg>
+            <span>Kirim Pesan via Aplikasi WhatsApp</span>
+          </button>
+          <button type="button" class="wa-prompt-cancel-btn" id="waPromptCancelBtn">Kembali / Edit Formulir</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modalBackdrop);
+
+    const closeModal = () => {
+      modalBackdrop.classList.remove('is-active');
+      document.body.style.overflow = '';
+    };
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) closeModal();
+    });
+    document.getElementById('waPromptCloseBtn').addEventListener('click', closeModal);
+    document.getElementById('waPromptCancelBtn').addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalBackdrop.classList.contains('is-active')) {
+        closeModal();
+      }
+    });
+  }
+
+  // Populate data
+  document.getElementById('waPromptModalTitleText').textContent = title || 'Kirim ke WhatsApp Admin';
+  document.getElementById('waPromptSubtitleText').textContent = subtitle || 'Silakan tinjau ringkasan pesan berikut dan lanjutkan kirim ke aplikasi WhatsApp:';
+  document.getElementById('waPromptMessageBubble').textContent = formattedMessage;
+
+  const actionBtn = document.getElementById('waPromptActionBtn');
+  const newActionBtn = actionBtn.cloneNode(true);
+  actionBtn.parentNode.replaceChild(newActionBtn, actionBtn);
+
+  newActionBtn.addEventListener('click', () => {
+    const isMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(formattedMessage).catch(() => {});
+    }
+
+    if (isMobile) {
+      window.location.href = localAppUrl;
+      setTimeout(() => {
+        window.open(waUrl, '_blank', 'noopener,noreferrer');
+      }, 700);
+    } else {
+      window.open(waUrl, '_blank', 'noopener,noreferrer');
+    }
+
+    modalBackdrop.classList.remove('is-active');
+    document.body.style.overflow = '';
+    if (typeof onSent === 'function') onSent();
+  });
+
+  modalBackdrop.classList.add('is-active');
+  document.body.style.overflow = 'hidden';
+}
+
+// Automated Interceptor Function for Consultation & Survey Forms
+window.initAutomatedWhatsAppFormInterceptors = function () {
+  // 1. SURVEY FORM INTERCEPTOR
+  const surveyForm = document.getElementById('siteSurveyScheduleForm');
+  if (surveyForm && !surveyForm._waIntercepted) {
+    surveyForm._waIntercepted = true;
+
+    surveyForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const name = (document.getElementById('surveyNameInput')?.value || '').trim();
+      const phone = (document.getElementById('surveyPhoneInput')?.value || '').trim();
+      const date = (document.getElementById('surveyDateInput')?.value || '').trim();
+      const timeSlot = (document.getElementById('surveyTimeSlotInput')?.value || '09:00 - 11:00 WIB (Pagi)').trim();
+      const location = (document.getElementById('surveyLocationSelect')?.value || '').trim();
+      const address = (document.getElementById('surveyAddressInput')?.value || '').trim();
+      const projectType = (document.getElementById('surveySystemSelect')?.value || '').trim();
+      const bringSamples = !!document.getElementById('surveyBringSamples')?.checked;
+
+      if (!name || !phone || !date || !location || !address) {
+        alert('Mohon lengkapi Nama, No. WhatsApp, Tanggal Survey, Wilayah, dan Alamat Lokasi Proyek.');
+        return;
+      }
+
+      const payload = { name, phone, date, timeSlot, location, address, projectType, bringSamples };
+      const formattedMessage = buildSurveyContextMessage(payload);
+      const encodedMsg = encodeURIComponent(formattedMessage);
+      const waUrl = `https://wa.me/${WA_OFFICIAL_NUMBER}?text=${encodedMsg}`;
+      const localAppUrl = `whatsapp://send?phone=${WA_OFFICIAL_NUMBER}&text=${encodedMsg}`;
+
+      // Save asynchronously to backend API if available
+      fetch('/api/surveys', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch(err => console.warn('Survey background sync:', err));
+
+      // Prompt user to send via WhatsApp app
+      showWhatsAppPromptModal({
+        title: 'Konfirmasi Jadwal Survey via WhatsApp',
+        subtitle: 'Format jadwal survey gratis telah dibuat berdasarkan tanggal, sesi, dan lokasi yang Anda pilih. Lanjutkan untuk mengirim via aplikasi WhatsApp lokal Anda:',
+        formattedMessage,
+        waUrl,
+        localAppUrl,
+        onSent: () => {
+          const summaryBox = document.getElementById('surveySummaryBox');
+          if (summaryBox) {
+            summaryBox.style.background = '#ecfdf5';
+            summaryBox.style.borderColor = '#10b981';
+            summaryBox.innerHTML = `
+              <div style="font-size: 14px; font-weight: 800; color: #065f46; display:flex; align-items:center; gap:6px;">
+                <span>✅</span> JADWAL SURVEY TERKONFIRMASI KE WHATSAPP
+              </div>
+              <div style="font-size: 12.5px; color: #047857; margin-top: 4px; line-height: 1.5;">
+                Pesan booking telah dibuka di WhatsApp Admin. Teknisi kami akan segera memvalidasi rute kedatangan ke alamat <strong>${address}</strong> pada tanggal <strong>${formatIndoDateContext(date)}</strong>.
+              </div>
+            `;
+          }
         }
       });
     });
+  }
 
-    serviceSelect.addEventListener('change', () => {
-      const currentVal = serviceSelect.value;
-      tags.forEach(t => {
-        t.classList.toggle('active', t.getAttribute('data-val') === currentVal);
+  // 2. CONSULTATION FORM INTERCEPTOR (waContactFormHome & waContactForm)
+  const consultForms = [
+    { formId: 'waContactFormHome', previewId: 'waHomePreviewText', tagsId: 'waHomeServiceTags', page: 'Beranda' },
+    { formId: 'waContactForm', previewId: 'waPreviewText', tagsId: 'waServiceTags', page: 'Kontak' }
+  ];
+
+  consultForms.forEach(({ formId, previewId, tagsId, page }) => {
+    const form = document.getElementById(formId);
+    if (!form || form._waIntercepted) return;
+    form._waIntercepted = true;
+
+    const preview = document.getElementById(previewId);
+    const nameInput = form.querySelector('[name="name"]');
+    const phoneInput = form.querySelector('[name="phone"]');
+    const locationSelect = form.querySelector('[name="location"]');
+    const serviceSelect = form.querySelector('[name="service"]');
+    const messageInput = form.querySelector('[name="message"]');
+    const tagsContainer = document.getElementById(tagsId);
+
+    // Quick tag pills handling
+    if (tagsContainer && serviceSelect) {
+      const tags = tagsContainer.querySelectorAll('.service-tag');
+      tags.forEach(tag => {
+        tag.addEventListener('click', () => {
+          const val = tag.getAttribute('data-val');
+          if (val) {
+            serviceSelect.value = val;
+            tags.forEach(t => t.classList.remove('active'));
+            tag.classList.add('active');
+            updatePreview();
+          }
+        });
       });
-      updatePreview();
+
+      serviceSelect.addEventListener('change', () => {
+        const currentVal = serviceSelect.value;
+        tags.forEach(t => {
+          t.classList.toggle('active', t.getAttribute('data-val') === currentVal);
+        });
+        updatePreview();
+      });
+    }
+
+    function getFormData() {
+      return {
+        name: (nameInput?.value || '').trim(),
+        phone: (phoneInput?.value || '').trim(),
+        location: (locationSelect?.value || '').trim(),
+        service: (serviceSelect?.value || '').trim(),
+        message: (messageInput?.value || '').trim()
+      };
+    }
+
+    function updatePreview() {
+      if (!preview) return;
+      const data = getFormData();
+      preview.textContent = buildConsultationContextMessage({
+        name: data.name || '[Nama Anda]',
+        phone: data.phone || '[Nomor WhatsApp]',
+        location: data.location || '[Wilayah Proyek]',
+        service: data.service || '[Kebutuhan Layanan]',
+        message: data.message
+      }, page);
+    }
+
+    [nameInput, phoneInput, locationSelect, serviceSelect, messageInput].forEach(el => {
+      if (el) {
+        el.addEventListener('input', updatePreview);
+        el.addEventListener('change', updatePreview);
+      }
     });
-  }
 
-  // Update Live Preview Message
-  function buildMessage() {
-    const name = (nameInput?.value || '').trim() || '[Nama Anda]';
-    const phone = (phoneInput?.value || '').trim() || '[Nomor WhatsApp]';
-    const location = (locationSelect?.value || '').trim() || '[Wilayah Proyek]';
-    const service = (serviceSelect?.value || '').trim() || '[Kebutuhan Layanan]';
-    const note = (messageInput?.value || '').trim();
+    updatePreview();
 
-    let text = `Halo Admin Sahabat Kaca Aluminium, saya ingin konsultasi proyek:\n\n`;
-    text += `*Nama:* ${name}\n`;
-    text += `*No. WhatsApp:* ${phone}\n`;
-    text += `*Lokasi Proyek:* ${location}\n`;
-    text += `*Kebutuhan:* ${service}\n`;
-    if (note) {
-      text += `*Keterangan / Ukuran:* ${note}\n`;
-    }
-    text += `\nMohon info estimasi biaya (RAB) dan jadwal survey lokasi gratis. Terima kasih!`;
-    return text;
-  }
+    // Intercept form submission
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
 
-  function updatePreview() {
-    if (!preview) return;
-    preview.textContent = buildMessage();
-  }
+      const data = getFormData();
+      if (!data.name || !data.phone || !data.location || !data.service) {
+        alert('Mohon lengkapi Nama, No. WhatsApp, Lokasi Proyek, dan Kebutuhan Layanan.');
+        return;
+      }
 
-  // Bind input listeners for live preview
-  [nameInput, phoneInput, locationSelect, serviceSelect, messageInput].forEach(elem => {
-    if (elem) {
-      elem.addEventListener('input', updatePreview);
-      elem.addEventListener('change', updatePreview);
-    }
+      const formattedMessage = buildConsultationContextMessage(data, page);
+      const encodedMsg = encodeURIComponent(formattedMessage);
+      const waUrl = `https://wa.me/${WA_OFFICIAL_NUMBER}?text=${encodedMsg}`;
+      const localAppUrl = `whatsapp://send?phone=${WA_OFFICIAL_NUMBER}&text=${encodedMsg}`;
+
+      showWhatsAppPromptModal({
+        title: 'Kirim Konsultasi ke WhatsApp Admin',
+        subtitle: 'Pesan penawaran & konsultasi proyek Anda telah disusun rapi. Lanjutkan untuk mengirim ke WhatsApp:',
+        formattedMessage,
+        waUrl,
+        localAppUrl,
+        onSent: () => {
+          const submitBtn = form.querySelector('button[type="submit"]');
+          if (submitBtn) {
+            const originalHtml = submitBtn.innerHTML;
+            submitBtn.innerHTML = `<span>✓ Terhubung ke WhatsApp</span>`;
+            setTimeout(() => {
+              submitBtn.innerHTML = originalHtml;
+            }, 3500);
+          }
+        }
+      });
+    });
   });
+};
 
-  // Initial preview update
-  updatePreview();
-
-  // Form submission: open direct WhatsApp API URL
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const name = (nameInput?.value || '').trim();
-    const phone = (phoneInput?.value || '').trim();
-    const location = (locationSelect?.value || '').trim();
-    const service = (serviceSelect?.value || '').trim();
-
-    if (!name || !phone || !location || !service) {
-      alert('Mohon lengkapi Nama, No. WhatsApp, Lokasi Proyek, dan Kebutuhan Layanan.');
-      return;
-    }
-
-    const message = buildMessage();
-    const waNumber = '6289637371166';
-    const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
-
-    // Feedback on button
-    if (submitBtn) {
-      const originalHtml = submitBtn.innerHTML;
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = `<span>Menghubungkan ke WhatsApp...</span>`;
-      setTimeout(() => {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalHtml;
-      }, 3000);
-    }
-
-    // Open WhatsApp directly
-    window.open(waUrl, '_blank', 'noopener,noreferrer');
-  });
-}
-
-// Initialize on both possible forms
+// Auto-run on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
-  setupWhatsAppForm('waContactForm', 'waPreviewText', 'waServiceTags');
-  setupWhatsAppForm('waContactFormHome', 'waHomePreviewText', 'waHomeServiceTags');
+  window.initAutomatedWhatsAppFormInterceptors();
   setupFaqAskForm();
 });
 if (document.readyState !== 'loading') {
-  setupWhatsAppForm('waContactForm', 'waPreviewText', 'waServiceTags');
-  setupWhatsAppForm('waContactFormHome', 'waHomePreviewText', 'waHomeServiceTags');
+  window.initAutomatedWhatsAppFormInterceptors();
   setupFaqAskForm();
 }
 

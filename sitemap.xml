@@ -33,9 +33,59 @@
   </url>
   <url>
     <loc>https://www.sahabat-aluminium.my.id/kontak.html</loc>
-    <lastmod>2026-09-29</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+
+  <!-- 8 Halaman Khusus Layanan Karawang (High Conversion Landing Pages) -->
+  <url>
+    <loc>https://www.sahabat-aluminium.my.id/jasa-kusen-aluminium-karawang</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.sahabat-aluminium.my.id/jasa-pintu-aluminium-karawang</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.sahabat-aluminium.my.id/jasa-jendela-aluminium-karawang</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.sahabat-aluminium.my.id/jasa-pintu-kaca-karawang</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.sahabat-aluminium.my.id/jasa-partisi-kaca-aluminium-karawang</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.sahabat-aluminium.my.id/jasa-kanopi-kaca-karawang</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.sahabat-aluminium.my.id/jasa-shower-kaca-karawang</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://www.sahabat-aluminium.my.id/jasa-etalase-kaca-karawang</loc>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
   </url>
 
   <!-- 39 Blog & Artikel Hub Pages -->

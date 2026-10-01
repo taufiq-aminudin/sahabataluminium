@@ -998,6 +998,24 @@ Mohon konfirmasi ketersediaan tim teknisi lapangan untuk jadwal ini. Terima kasi
   }
 });
 
+// Landing Pages: Explicit routing for 8 primary services in Karawang
+const landingPages = [
+  'jasa-kusen-aluminium-karawang',
+  'jasa-pintu-aluminium-karawang',
+  'jasa-jendela-aluminium-karawang',
+  'jasa-pintu-kaca-karawang',
+  'jasa-partisi-kaca-aluminium-karawang',
+  'jasa-kanopi-kaca-karawang',
+  'jasa-shower-kaca-karawang',
+  'jasa-etalase-kaca-karawang'
+];
+
+landingPages.forEach(slug => {
+  app.get(`/${slug}`, (req, res) => {
+    res.sendFile(path.join(__dirname, `${slug}.html`));
+  });
+});
+
 // Serve static assets with html extension support
 app.use(express.static(__dirname, {
   extensions: ['html', 'htm'],

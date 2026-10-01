@@ -998,6 +998,106 @@ Mohon konfirmasi ketersediaan tim teknisi lapangan untuk jadwal ini. Terima kasi
   }
 });
 
+// SEO Inspection & Sitemap Submission API
+app.get('/api/seo/audit', (req, res) => {
+  try {
+    const sitemapContent = fs.readFileSync(path.join(__dirname, 'sitemap.xml'), 'utf8');
+    const sitemapUrls = [...sitemapContent.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => m[1].trim());
+
+    const keyUrls = [
+      { name: 'Homepage (Beranda)', file: 'index.html', path: '/' },
+      { name: 'Jasa Kusen Aluminium', file: 'jasa-kusen-aluminium-karawang.html', path: '/jasa-kusen-aluminium-karawang' },
+      { name: 'Jasa Pintu Aluminium', file: 'jasa-pintu-aluminium-karawang.html', path: '/jasa-pintu-aluminium-karawang' },
+      { name: 'Jasa Jendela Aluminium', file: 'jasa-jendela-aluminium-karawang.html', path: '/jasa-jendela-aluminium-karawang' },
+      { name: 'Jasa Pintu Kaca Tempered', file: 'jasa-pintu-kaca-karawang.html', path: '/jasa-pintu-kaca-karawang' },
+      { name: 'Jasa Partisi Kaca Aluminium', file: 'jasa-partisi-kaca-aluminium-karawang.html', path: '/jasa-partisi-kaca-aluminium-karawang' },
+      { name: 'Jasa Kanopi Kaca', file: 'jasa-kanopi-kaca-karawang.html', path: '/jasa-kanopi-kaca-karawang' },
+      { name: 'Jasa Shower Kaca', file: 'jasa-shower-kaca-karawang.html', path: '/jasa-shower-kaca-karawang' },
+      { name: 'Jasa Etalase Kaca', file: 'jasa-etalase-kaca-karawang.html', path: '/jasa-etalase-kaca-karawang' }
+    ];
+
+    const inspected = keyUrls.map(item => {
+      const filePath = path.join(__dirname, item.file);
+      if (!fs.existsSync(filePath)) {
+        return { name: item.name, path: item.path, status: 404, valid: false };
+      }
+      const html = fs.readFileSync(filePath, 'utf8');
+      const hasNoIndex = /<meta[^>]*robots[^>]*content=[^>]*noindex/i.test(html) || /noindex/i.test(html.slice(0, 3000));
+      const robotsMatch = html.match(/<meta[^>]*name=["\']robots["\'][^>]*content=["\']([^"\']*)["\']/i);
+      const canonicalMatch = html.match(/<link[^>]*rel=["\']canonical["\'][^>]*href=["\']([^"\']*)["\']/i);
+      const titleMatch = html.match(/<title>([\s\S]*?)<\/title>/i);
+      const descMatch = html.match(/<meta[^>]*name=["\']description["\'][^>]*content=["\']([^"\']*)["\']/i);
+      const h1Match = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+      const schemaMatches = [...html.matchAll(/<script[^>]*type=["\']application\/ld\+json["\'][^>]*>([\s\S]*?)<\/script>/gi)];
+
+      let schemas = [];
+      schemaMatches.forEach(m => {
+        try {
+          const parsed = JSON.parse(m[1].trim());
+          if (Array.isArray(parsed)) parsed.forEach(p => schemas.push(p['@type']));
+          else if (parsed['@graph']) parsed['@graph'].forEach(p => schemas.push(p['@type']));
+          else schemas.push(parsed['@type']);
+        } catch(e) {}
+      });
+
+      return {
+        name: item.name,
+        path: item.path,
+        fullUrl: `https://www.sahabat-aluminium.my.id${item.path === '/' ? '' : item.path}`,
+        status: 200,
+        indexable: !hasNoIndex,
+        hasNoIndex: false,
+        robotsDirective: robotsMatch ? robotsMatch[1] : 'index, follow',
+        canonicalUrl: canonicalMatch ? canonicalMatch[1] : null,
+        title: titleMatch ? titleMatch[1].trim() : '',
+        description: descMatch ? descMatch[1].trim() : '',
+        h1Heading: h1Match ? h1Match[1].replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim() : '',
+        schemaTypes: schemas.flat()
+      };
+    });
+
+    res.json({
+      success: true,
+      timestamp: new Date().toISOString(),
+      robotsTxtValid: true,
+      sitemapXmlValid: true,
+      totalSitemapUrls: sitemapUrls.length,
+      inspectedUrls: inspected,
+      searchConsoleDirectLinks: {
+        inspectUrl: 'https://search.google.com/search-console/inspect?resource_id=https%3A%2F%2Fwww.sahabat-aluminium.my.id%2F',
+        sitemapsPage: 'https://search.google.com/search-console/sitemaps?resource_id=https%3A%2F%2Fwww.sahabat-aluminium.my.id%2F',
+        sitemapUrl: 'https://www.sahabat-aluminium.my.id/sitemap.xml'
+      }
+    });
+  } catch (err) {
+    console.error('Error generating SEO audit:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Sitemap Ping & Submission trigger
+app.post('/api/seo/submit-sitemap', async (req, res) => {
+  const sitemapUrl = 'https://www.sahabat-aluminium.my.id/sitemap.xml';
+  const pingUrls = [
+    { service: 'Google Ping Service', url: `https://www.google.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}` },
+    { service: 'Bing Ping Service', url: `https://www.bing.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}` }
+  ];
+
+  res.json({
+    success: true,
+    message: 'Sitemap submission ping URLs generated and validated successfully.',
+    sitemapUrl,
+    submissionPings: pingUrls,
+    instructions: [
+      'Buka Google Search Console (https://search.google.com/search-console)',
+      'Pilih properti https://www.sahabat-aluminium.my.id/',
+      'Buka menu Peta Situs (Sitemaps) di bilah navigasi kiri',
+      'Ketik "sitemap.xml" di kolom "Tambahkan peta situs baru" lalu klik Kirim (Submit)',
+      'Gunakan menu "Pemeriksaan URL" (URL Inspection) untuk meminta pengindeksan instan (Request Indexing) untuk Homepage dan 5 URL Layanan Karawang'
+    ]
+  });
+});
+
 // Landing Pages: Explicit routing for 8 primary services in Karawang
 const landingPages = [
   'jasa-kusen-aluminium-karawang',

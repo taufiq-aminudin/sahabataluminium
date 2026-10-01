@@ -1,19 +1,16 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
 User-agent: Googlebot
 Allow: /
-Allow: /assets/
-Allow: /artikel/
-Allow: /*.css$
-Allow: /*.js$
-Allow: /*.jpg$
-Allow: /*.jpeg$
-Allow: /*.png$
-Allow: /*.webp$
-
-User-agent: Google-InspectionTool
-Allow: /
+Disallow: /api/
 
 User-agent: Googlebot-Image
 Allow: /assets/
+
+User-agent: Google-InspectionTool
+Allow: /
 
 User-agent: Mediapartners-Google
 Allow: /
@@ -23,10 +20,7 @@ Allow: /
 
 User-agent: Bingbot
 Allow: /
-
-User-agent: *
-Allow: /
 Disallow: /api/
 
-# XML Sitemap Index
+# XML Sitemap
 Sitemap: https://www.sahabat-aluminium.my.id/sitemap.xml

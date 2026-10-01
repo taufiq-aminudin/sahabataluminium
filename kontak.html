@@ -290,7 +290,7 @@
               <div class="form-badge-live">Online</div>
             </div>
 
-            <form id="waContactForm" class="contact-form-body">
+            <form id="waContactForm" class="contact-form-body" novalidate>
               <!-- Row 1: Nama & No WhatsApp -->
               <div class="form-grid-2">
                 <div class="form-group">
@@ -306,52 +306,52 @@
                   >
                 </div>
                 <div class="form-group">
-                  <label for="waFormPhone">Nomor WhatsApp / HP <span class="required">*</span></label>
+                  <label for="waFormPhone">Nomor WhatsApp / HP <span class="optional">(Opsional)</span></label>
                   <input 
                     type="tel" 
                     id="waFormPhone" 
                     name="phone" 
                     class="form-control" 
                     placeholder="Contoh: 0896-3737-1166" 
-                    required
                     autocomplete="tel"
                   >
                 </div>
               </div>
 
-              <!-- Row 2: Lokasi & Kategori Proyek -->
+              <!-- Row 2: Jenis Pekerjaan & Lokasi Proyek -->
               <div class="form-grid-2">
                 <div class="form-group">
-                  <label for="waFormLocation">Area Lokasi Proyek <span class="required">*</span></label>
-                  <select id="waFormLocation" name="location" class="form-control" required>
-                    <option value="" disabled selected>Pilih Area Layanan...</option>
-                    <optgroup label="9 Wilayah Cakupan Free Survey">
-                      <option value="Karawang Barat (Nagasari, Galuh Mas, Johar)">1. Karawang Barat</option>
-                      <option value="Karawang Timur (Kondangjaya, Palumbonsari)">2. Karawang Timur</option>
-                      <option value="Klari (Kosambi, Duren, Curug)">3. Klari</option>
-                      <option value="Telukjambe (Sukaluyu, KIIC, Sirnabaya)">4. Telukjambe</option>
-                      <option value="Cikampek (Kotabaru, Dawuan, Indotaisei)">5. Cikampek</option>
-                      <option value="Purwasari (Tamansari, Sukasari)">6. Purwasari</option>
-                      <option value="Rengasdengklok (Dengklok Utara & Selatan)">7. Rengasdengklok</option>
-                      <option value="Cikarang (Jababeka, MM2100, Deltamas, EJIP)">8. Cikarang</option>
-                      <option value="Bekasi & Sekitarnya">9. Bekasi</option>
-                    </optgroup>
-                    <option value="Wilayah Lainnya di Jawa Barat">Wilayah Lainnya</option>
+                  <label for="waFormService">Jenis Pekerjaan <span class="required">*</span></label>
+                  <select id="waFormService" name="service" class="form-control" required>
+                    <option value="" disabled selected>Pilih Jenis Pekerjaan...</option>
+                    <option value="Kusen & Jendela Aluminium SNI">Kusen & Jendela Aluminium SNI</option>
+                    <option value="Pintu Aluminium (Sliding / Swing / Lipat Bifold)">Pintu Aluminium (Sliding / Swing / Lipat Bifold)</option>
+                    <option value="Partisi Kaca Kantor / Sekat Ruangan / Pabrik">Partisi Kaca Kantor / Sekat Ruangan / Pabrik</option>
+                    <option value="Pintu Kaca Tempered Frameless / Floor Hinge">Pintu Kaca Tempered Frameless / Floor Hinge</option>
+                    <option value="Kanopi Kaca Tempered & Carport">Kanopi Kaca Tempered & Carport</option>
+                    <option value="Shower Screen Kaca Kamar Mandi">Shower Screen Kaca Kamar Mandi</option>
+                    <option value="Etalase Toko & Display Custom">Etalase Toko & Display Custom</option>
+                    <option value="Renovasi & Service Kaca Aluminium">Renovasi & Service Kaca Aluminium</option>
+                    <option value="Kustom / Proyek Lainnya">Kustom / Proyek Lainnya</option>
                   </select>
                 </div>
 
                 <div class="form-group">
-                  <label for="waFormService">Kebutuhan Utama <span class="required">*</span></label>
-                  <select id="waFormService" name="service" class="form-control" required>
-                    <option value="" disabled selected>Pilih Layanan...</option>
-                    <option value="Kusen & Jendela Aluminium SNI">Kusen & Jendela Aluminium</option>
-                    <option value="Pintu Aluminium (Sliding / Swing / Lipat Bifold)">Pintu Aluminium (Sliding/Swing/Lipat)</option>
-                    <option value="Partisi Kaca Kantor / Sekat Ruangan / Pabrik">Partisi Kaca Kantor / Pabrik</option>
-                    <option value="Pintu Kaca Tempered Frameless / Floor Hinge">Pintu Kaca Tempered Frameless</option>
-                    <option value="Kanopi Kaca Tempered & Carport">Kanopi Kaca Tempered</option>
-                    <option value="Shower Screen Kaca Kamar Mandi">Shower Screen Kaca</option>
-                    <option value="Etalase Toko & Display Custom">Etalase Toko & Lemari Display</option>
-                    <option value="Renovasi & Service Kaca Aluminium">Renovasi / Service Kaca Aluminium</option>
+                  <label for="waFormLocation">Lokasi Proyek <span class="required">*</span></label>
+                  <select id="waFormLocation" name="location" class="form-control" required>
+                    <option value="" disabled selected>Pilih Lokasi Proyek...</option>
+                    <optgroup label="9 Wilayah Cakupan Free Survey">
+                      <option value="Karawang Barat">1. Karawang Barat</option>
+                      <option value="Karawang Timur">2. Karawang Timur</option>
+                      <option value="Klari">3. Klari</option>
+                      <option value="Telukjambe">4. Telukjambe</option>
+                      <option value="Cikampek">5. Cikampek</option>
+                      <option value="Purwasari">6. Purwasari</option>
+                      <option value="Rengasdengklok">7. Rengasdengklok</option>
+                      <option value="Cikarang">8. Cikarang</option>
+                      <option value="Bekasi">9. Bekasi</option>
+                    </optgroup>
+                    <option value="Wilayah Lainnya di Jawa Barat">Wilayah Lainnya</option>
                   </select>
                 </div>
               </div>
@@ -369,15 +369,28 @@
                 </div>
               </div>
 
-              <!-- Pesan / Detail Ukuran -->
+              <!-- Row 3: Ukuran / Perkiraan Ukuran -->
               <div class="form-group">
-                <label for="waFormMessage">Keterangan Ukuran / Catatan Lokasi <span class="optional">(Opsional)</span></label>
+                <label for="waFormSize">Ukuran / Perkiraan Ukuran <span class="optional">(Opsional)</span></label>
+                <input 
+                  type="text" 
+                  id="waFormSize" 
+                  name="size" 
+                  class="form-control" 
+                  placeholder="Contoh: 1 set pintu (90x210 cm) / 4 unit jendela / luas ~15 m²"
+                  autocomplete="off"
+                >
+              </div>
+
+              <!-- Row 4: Keterangan Kebutuhan -->
+              <div class="form-group">
+                <label for="waFormMessage">Keterangan Kebutuhan <span class="optional">(Opsional)</span></label>
                 <textarea 
                   id="waFormMessage" 
                   name="message" 
                   class="form-control form-textarea" 
-                  rows="3" 
-                  placeholder="Contoh: Butuh kusen 3 inch hitam doff untuk rumah 2 lantai, 6 unit jendela casement, minta jadwal survey lokasi minggu ini..."
+                  rows="2" 
+                  placeholder="Contoh: Profil Alexindo hitam doff, kaca tempered 8mm, request estimasi biaya & survey lokasi..."
                 ></textarea>
               </div>
 
@@ -389,7 +402,15 @@
                   </svg>
                   <span>Format Pesan yang Akan Terkirim ke WhatsApp:</span>
                 </div>
-                <div id="waPreviewText" class="form-preview-content">Halo Admin Sahabat Kaca Aluminium, saya ingin konsultasi proyek...</div>
+                <div id="waPreviewText" class="form-preview-content">Halo Admin Sahabat Kaca Aluminium,
+
+Nama: -
+Jenis pekerjaan: -
+Lokasi proyek: -
+Ukuran: -
+Keterangan: -
+
+Saya ingin konsultasi mengenai proyek kaca/aluminium.</div>
               </div>
 
               <!-- Submit Button -->
@@ -401,6 +422,7 @@
                 </span>
                 <span>Kirim Konsultasi ke WhatsApp &rarr;</span>
               </button>
+              <div id="waFormFeedback" class="form-feedback-notice" style="display:none;margin-top:12px;padding:12px 14px;border-radius:8px;font-size:13px;line-height:1.5;"></div>
               <div class="form-secure-note">
                 🔒 Data Anda aman & langsung terhubung ke WhatsApp resmi Admin Sahabat Kaca Aluminium.
               </div>

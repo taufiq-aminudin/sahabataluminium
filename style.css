@@ -4274,6 +4274,19 @@ mark.faq-search-highlight {
 .btn-wa-submit:active {
   transform: scale(0.99);
 }
+.btn-wa-submit:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+.form-control.is-invalid {
+  border-color: #e03131 !important;
+  background-color: #fff8f8 !important;
+}
+.form-feedback-notice {
+  transition: all 0.25s ease;
+}
 .btn-wa-icon {
   display: flex;
   align-items: center;

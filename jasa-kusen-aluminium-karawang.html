@@ -312,6 +312,291 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* ========================================================
+       CLIENT-SIDE COST ESTIMATION CALCULATOR STYLES
+       ======================================================== */
+    .calc-tool-section {
+      background: #fdfefe;
+      border: 1px solid #cce1e8;
+      border-radius: 16px;
+      padding: 30px;
+      margin: 28px 0 35px;
+      box-shadow: 0 10px 30px rgba(7, 55, 70, 0.06);
+    }
+    .calc-header {
+      margin-bottom: 24px;
+    }
+    .calc-header h3 {
+      font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+      color: var(--deep);
+      margin: 4px 0 8px;
+    }
+    .calc-header p {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0;
+      line-height: 1.6;
+    }
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: 30px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .calc-grid {
+        grid-template-columns: 1fr;
+      }
+      .calc-tool-section {
+        padding: 20px 16px;
+      }
+    }
+    .calc-group {
+      margin-bottom: 20px;
+    }
+    .calc-group-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: 13.5px;
+      color: var(--deep);
+      margin-bottom: 8px;
+    }
+    .calc-badge {
+      background: #eef6f8;
+      color: var(--deep);
+      border: 1px solid #b5d5de;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    .calc-presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 12px;
+    }
+    .calc-preset-btn {
+      background: #f4f8fa;
+      border: 1px solid #cfdfe4;
+      color: #0b4554;
+      padding: 6px 11px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .calc-preset-btn:hover, .calc-preset-btn.active {
+      background: var(--deep);
+      color: #fff;
+      border-color: var(--deep);
+    }
+    .calc-dim-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 520px) {
+      .calc-dim-row {
+        grid-template-columns: 1fr;
+      }
+    }
+    .calc-slider-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .calc-slider-box input[type="range"] {
+      flex: 1;
+      height: 6px;
+      accent-color: #074758;
+      cursor: pointer;
+    }
+    .calc-num-input {
+      width: 80px;
+      padding: 8px 10px;
+      border: 1px solid #c9dee4;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--deep);
+      text-align: right;
+    }
+    .calc-select-control {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #c9dee4;
+      border-radius: 8px;
+      font-size: 13.5px;
+      background: #fff;
+      color: var(--deep);
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+    }
+    .calc-select-control:focus {
+      border-color: #074758;
+      box-shadow: 0 0 0 3px rgba(7, 71, 88, 0.1);
+    }
+    .calc-color-selector {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+      gap: 8px;
+    }
+    .calc-color-card {
+      border: 1.5px solid #d4e3e6;
+      border-radius: 8px;
+      padding: 8px 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #2b454e;
+      background: #fafcfd;
+      transition: all 0.15s ease;
+    }
+    .calc-color-card input {
+      display: none;
+    }
+    .calc-swatch {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.25);
+      flex-shrink: 0;
+    }
+    .calc-color-card.active {
+      border-color: #074758;
+      background: #eef6f8;
+      color: #074758;
+      box-shadow: 0 2px 6px rgba(7, 71, 88, 0.12);
+    }
+
+    /* RESULT PANEL */
+    .calc-result-box {
+      background: linear-gradient(135deg, #073746 0%, #0d576a 100%);
+      color: #fff;
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 14px 35px rgba(7, 55, 70, 0.25);
+      position: sticky;
+      top: 20px;
+    }
+    .calc-res-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      font-weight: 800;
+      color: #ffd88a;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .calc-price-main {
+      font-size: clamp(1.6rem, 2.7vw, 2.25rem);
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+      margin: 4px 0 6px;
+    }
+    .calc-price-note {
+      font-size: 12px;
+      color: #c0d8e0;
+      margin-bottom: 16px;
+    }
+    .calc-blueprint-box {
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .calc-blueprint-box svg {
+      width: 100%;
+      max-height: 135px;
+      display: block;
+      margin: 0 auto;
+    }
+    .calc-spec-list {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 12.5px;
+      margin-bottom: 18px;
+    }
+    .calc-spec-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 7px;
+    }
+    .calc-spec-item:last-child {
+      margin-bottom: 0;
+    }
+    .calc-spec-item .calc-label {
+      color: #a8cad4;
+    }
+    .calc-spec-item .calc-val {
+      color: #fff;
+      font-weight: 700;
+    }
+    .calc-btn-whatsapp {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #25d366;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 13.5px;
+      padding: 13px 18px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(37,211,102,0.3);
+      border: none;
+      width: 100%;
+      cursor: pointer;
+    }
+    .calc-btn-whatsapp:hover {
+      background: #1eb956;
+      transform: translateY(-2px);
+    }
+    .calc-copy-summary-btn {
+      display: block;
+      width: 100%;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 8px;
+      padding: 9px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 10px;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.2s ease;
+    }
+    .calc-copy-summary-btn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    .calc-toast {
+      display: none;
+      background: #ffd88a;
+      color: #073746;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 8px;
+      text-align: center;
+    }
   </style>
 </head>
 
@@ -389,8 +674,8 @@
             <a class="btn" style="background:#25d366;color:#fff;padding:14px 22px;border-radius:8px;" href="https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20ingin%20konsultasi%20jasa%20pasang%20kusen%20aluminium%20di%20Karawang." target="_blank" rel="noopener">
               Konsultasi WhatsApp: 0896-3737-1166 ↗
             </a>
-            <a class="btn" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.4);padding:14px 20px;border-radius:8px;" href="#harga-spesifikasi">
-              Lihat Estimasi Harga ↓
+            <a class="btn" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.4);padding:14px 20px;border-radius:8px;" href="#kalkulator-biaya">
+              Kalkulator Estimasi Biaya ↓
             </a>
           </div>
         </div>
@@ -420,8 +705,249 @@
           <div class="eyebrow">DAFTAR HARGA & SPESIFIKASI</div>
           <h2>Estimasi Biaya Pasang Kusen Aluminium Karawang</h2>
           <p style="color:var(--muted);font-size:15px;line-height:1.7;">
-            Berikut adalah perkiraan harga pasang kusen aluminium di Karawang per meter lari (m1). Harga transparan, sudah mencakup bahan kusen, perakitan profesional, sekrup pengunci, karet gasket, dan aplikasi sealant anti rembes.
+            Berikut adalah perkiraan harga pasang kusen aluminium di Karawang per meter lari (m1). Anda dapat menggunakan kalkulator simulasi interaktif di bawah ini untuk menghitung kebutuhan biaya berdasarkan ukuran opening ruangan Anda, atau melihat tabel tarif resmi per meter.
           </p>
+
+          <!-- ========================================================
+               INTERACTIVE CLIENT-SIDE COST ESTIMATION TOOL
+               ======================================================== -->
+          <div class="calc-tool-section" id="kalkulator-biaya">
+            <div class="calc-header">
+              <span class="calc-badge">⚡ SIMULATOR INTERAKTIF CLIENT-SIDE</span>
+              <h3>Kalkulator Estimasi Biaya Kusen Aluminium Karawang</h3>
+              <p>
+                Ubah ukuran lebar, tinggi, jumlah unit, dan jenis material aluminium di bawah ini untuk melihat kisaran harga langsung secara real-time.
+              </p>
+            </div>
+
+            <div class="calc-grid">
+              <!-- LEFT COLUMN: INPUTS -->
+              <div class="calc-inputs-col">
+                
+                <!-- 1. Tipe Konstruksi Kusen -->
+                <div class="calc-group">
+                  <div class="calc-group-title">
+                    <span>1. Jenis Opening / Konstruksi</span>
+                    <span class="calc-badge" id="calcTypeBadge">Pintu 1 Daun (3 Sisi)</span>
+                  </div>
+                  <div class="calc-presets" id="calcTypePresets">
+                    <button type="button" class="calc-preset-btn active" data-type="door3" onclick="setKusenType('door3', this)">🚪 Pintu 1 Daun (U-Frame 3 Sisi)</button>
+                    <button type="button" class="calc-preset-btn" data-type="door3double" onclick="setKusenType('door3double', this)">🚪🚪 Pintu Dobel Kupu (3 Sisi)</button>
+                    <button type="button" class="calc-preset-btn" data-type="window4" onclick="setKusenType('window4', this)">🪟 Jendela (4 Sisi Keliling)</button>
+                    <button type="button" class="calc-preset-btn" data-type="partition4" onclick="setKusenType('partition4', this)">🧱 Sekat / Partisi Kaca (4 Sisi)</button>
+                  </div>
+                </div>
+
+                <!-- 2. Preset Ukuran Populer -->
+                <div class="calc-group">
+                  <div class="calc-group-title">
+                    <span>2. Preset Ukuran Standar Cepat</span>
+                  </div>
+                  <div class="calc-presets">
+                    <button type="button" class="calc-preset-btn" onclick="applyDimPreset(80, 210, 'door3')">Pintu Kamar (80×210 cm)</button>
+                    <button type="button" class="calc-preset-btn" onclick="applyDimPreset(90, 220, 'door3')">Pintu Utama (90×220 cm)</button>
+                    <button type="button" class="calc-preset-btn" onclick="applyDimPreset(160, 220, 'door3double')">Pintu Dobel (160×220 cm)</button>
+                    <button type="button" class="calc-preset-btn" onclick="applyDimPreset(120, 120, 'window4')">Jendela Kamar (120×120 cm)</button>
+                    <button type="button" class="calc-preset-btn" onclick="applyDimPreset(150, 180, 'window4')">Jendela Ruang Tamu (150×180 cm)</button>
+                    <button type="button" class="calc-preset-btn" onclick="applyDimPreset(60, 40, 'window4')">Boven / WC (60×40 cm)</button>
+                  </div>
+                </div>
+
+                <!-- 3. Dimensi Lebar & Tinggi -->
+                <div class="calc-group">
+                  <div class="calc-dim-row">
+                    <div>
+                      <div class="calc-group-title">
+                        <span>Lebar (Width)</span>
+                        <span class="calc-badge" id="lblWidth">90 cm</span>
+                      </div>
+                      <div class="calc-slider-box">
+                        <input type="range" id="rangeWidth" min="40" max="400" step="5" value="90" oninput="syncDim('width', this.value)">
+                        <input type="number" id="numWidth" min="40" max="400" step="1" value="90" class="calc-num-input" oninput="syncDim('width', this.value)">
+                        <span style="font-size:12px;font-weight:700;color:var(--muted);">cm</span>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="calc-group-title">
+                        <span>Tinggi (Height)</span>
+                        <span class="calc-badge" id="lblHeight">210 cm</span>
+                      </div>
+                      <div class="calc-slider-box">
+                        <input type="range" id="rangeHeight" min="40" max="350" step="5" value="210" oninput="syncDim('height', this.value)">
+                        <input type="number" id="numHeight" min="40" max="350" step="1" value="210" class="calc-num-input" oninput="syncDim('height', this.value)">
+                        <span style="font-size:12px;font-weight:700;color:var(--muted);">cm</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 4. Jumlah Unit (Quantity) -->
+                <div class="calc-group">
+                  <div class="calc-group-title">
+                    <span>Jumlah Unit (Bukaan)</span>
+                    <span class="calc-badge" id="lblQty">1 Unit</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:12px;">
+                    <button type="button" onclick="adjustQty(-1)" style="width:38px;height:38px;border:1px solid #cedfe4;background:#f3f8fa;border-radius:8px;font-weight:700;font-size:18px;cursor:pointer;color:var(--deep);">-</button>
+                    <input type="number" id="inputQty" min="1" max="100" value="1" class="calc-num-input" style="width:70px;text-align:center;" oninput="updateCalculation()">
+                    <button type="button" onclick="adjustQty(1)" style="width:38px;height:38px;border:1px solid #cedfe4;background:#f3f8fa;border-radius:8px;font-weight:700;font-size:18px;cursor:pointer;color:var(--deep);">+</button>
+                    <span style="font-size:13px;color:var(--muted);">unit kusen dengan ukuran sama</span>
+                  </div>
+                </div>
+
+                <!-- 5. Pilihan Material & Merek Aluminium -->
+                <div class="calc-group">
+                  <div class="calc-group-title">
+                    <span>Merek & Ketebalan Profil Kusen</span>
+                  </div>
+                  <select id="selectMaterial" class="calc-select-control" onchange="updateCalculation()">
+                    <option value="dacon_3" data-min="85000" data-max="105000" data-name="Dacon / Inkalum 3 Inch (3 x 7 cm)">Dacon / Inkalum 3 Inch (Rp 85.000 - Rp 105.000/m1)</option>
+                    <option value="dacon_4" data-min="105000" data-max="130000" data-name="Dacon / Inkalum 4 Inch (4 x 10 cm)">Dacon / Inkalum 4 Inch (Rp 105.000 - Rp 130.000/m1)</option>
+                    <option value="alexindo_3" data-min="115000" data-max="140000" data-name="Alexindo SNI 3 Inch (Tebal 1.0-1.1 mm)" selected>Alexindo SNI 3 Inch — Tebal Standar Proyek (Rp 115.000 - Rp 140.000/m1)</option>
+                    <option value="alexindo_4" data-min="135000" data-max="175000" data-name="Alexindo SNI 4 Inch (Tebal 1.1-1.2 mm)">Alexindo SNI 4 Inch — Heavy Duty Kokoh (Rp 135.000 - Rp 175.000/m1)</option>
+                    <option value="wood_grain" data-min="165000" data-max="215000" data-name="Custom Powder Coating Urat Kayu (Luxury)">Powder Coating Urat Kayu Alami Premium (Rp 165.000 - Rp 215.000/m1)</option>
+                  </select>
+                </div>
+
+                <!-- 6. Pilihan Warna Kusen -->
+                <div class="calc-group">
+                  <div class="calc-group-title">
+                    <span>Pilihan Warna Kusen</span>
+                    <span class="calc-badge" id="lblColor">Hitam Doff</span>
+                  </div>
+                  <div class="calc-color-selector">
+                    <label class="calc-color-card active" onclick="setColorChoice('Hitam Doff', '#1f2427', this)">
+                      <input type="radio" name="calcColor" value="Hitam Doff" checked>
+                      <span class="calc-swatch" style="background:#1f2427;"></span>
+                      <span>Hitam Doff</span>
+                    </label>
+                    <label class="calc-color-card" onclick="setColorChoice('Putih Coating', '#f4f6f7', this)">
+                      <input type="radio" name="calcColor" value="Putih Coating">
+                      <span class="calc-swatch" style="background:#f4f6f7;border:1px solid #c0c0c0;"></span>
+                      <span>Putih Bersih</span>
+                    </label>
+                    <label class="calc-color-card" onclick="setColorChoice('Cokelat Anodize', '#4e3624', this)">
+                      <input type="radio" name="calcColor" value="Cokelat Anodize">
+                      <span class="calc-swatch" style="background:#4e3624;"></span>
+                      <span>Cokelat</span>
+                    </label>
+                    <label class="calc-color-card" onclick="setColorChoice('Silver Anodize', '#c0c8cc', this)">
+                      <input type="radio" name="calcColor" value="Silver Anodize">
+                      <span class="calc-swatch" style="background:#c0c8cc;"></span>
+                      <span>Silver CA</span>
+                    </label>
+                    <label class="calc-color-card" onclick="setColorChoice('Serat Kayu Jati', '#875128', this)">
+                      <input type="radio" name="calcColor" value="Serat Kayu Jati">
+                      <span class="calc-swatch" style="background:linear-gradient(45deg, #6d3f1a, #9c6332);"></span>
+                      <span>Urat Kayu</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- 7. Opsi Kaca Tambahan (Opsional) -->
+                <div class="calc-group">
+                  <div class="calc-group-title">
+                    <span>Pengisi Kaca Tambahan (Opsional)</span>
+                  </div>
+                  <select id="selectGlass" class="calc-select-control" onchange="updateCalculation()">
+                    <option value="none" data-min="0" data-max="0" data-name="Hanya Rangka Kusen (Tanpa Kaca)">Hanya Rangka Kusen (Tanpa Daun Kaca) — Rp 0</option>
+                    <option value="clear_5mm" data-min="160000" data-max="195000" data-name="Kaca Bening Polos 5mm Asahimas">Kaca Bening Polos 5mm (+ Rp 160rb - Rp 195rb/m²)</option>
+                    <option value="rayban_5mm" data-min="180000" data-max="220000" data-name="Kaca Rayban Gelap 5mm">Kaca Rayban Gelap 5mm (+ Rp 180rb - Rp 220rb/m²)</option>
+                    <option value="tempered_5mm" data-min="320000" data-max="370000" data-name="Kaca Tempered Safety 5mm">Kaca Tempered 5mm Safety (+ Rp 320rb - Rp 370rb/m²)</option>
+                    <option value="tempered_8mm" data-min="430000" data-max="510000" data-name="Kaca Tempered Safety 8mm">Kaca Tempered 8mm (+ Rp 430rb - Rp 510rb/m²)</option>
+                  </select>
+                </div>
+
+              </div>
+
+              <!-- RIGHT COLUMN: BLUEPRINT PREVIEW & RESULTS -->
+              <div class="calc-result-col">
+                <div class="calc-result-box">
+                  <span class="calc-res-tag">Hasil Simulasi Biaya</span>
+                  <div class="calc-price-main" id="resPriceRange">Rp 586.000 - Rp 714.000</div>
+                  <div class="calc-price-note" id="resPricePerUnit">Estimasi untuk 1 unit (Termasuk Bahan + Pasang + Sealant)</div>
+
+                  <!-- Blueprint Preview Visualizer -->
+                  <div class="calc-blueprint-box">
+                    <div style="font-size:11px;color:#ffd88a;font-weight:700;margin-bottom:6px;display:flex;justify-content:space-between;">
+                      <span>📐 Skema Dimensi Opening</span>
+                      <span id="previewAspectText">90 × 210 cm</span>
+                    </div>
+                    <svg id="blueprintSvg" viewBox="0 0 240 180">
+                      <!-- Grid lines -->
+                      <defs>
+                        <pattern id="gridPattern" width="12" height="12" patternUnits="userSpaceOnUse">
+                          <path d="M 12 0 L 0 0 0 12" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+                        </pattern>
+                      </defs>
+                      <rect width="240" height="180" fill="url(#gridPattern)" rx="6"/>
+                      
+                      <!-- Dynamic Frame -->
+                      <rect id="svgGlass" x="70" y="30" width="100" height="120" fill="rgba(100,200,240,0.18)" stroke="#58a4b8" stroke-width="1"/>
+                      <rect id="svgFrame" x="65" y="25" width="110" height="130" fill="none" stroke="#1f2427" stroke-width="8" stroke-linejoin="miter"/>
+                      
+                      <!-- Dimension Labels -->
+                      <!-- Width Top Label -->
+                      <line id="svgWidthLine" x1="65" y1="16" x2="175" y2="16" stroke="#ffd88a" stroke-width="1.2" stroke-dasharray="2,2"/>
+                      <text id="svgWidthText" x="120" y="12" fill="#ffd88a" font-size="10.5" font-weight="bold" text-anchor="middle">L: 90 cm</text>
+                      
+                      <!-- Height Left Label -->
+                      <line id="svgHeightLine" x1="55" y1="25" x2="55" y2="155" stroke="#ffd88a" stroke-width="1.2" stroke-dasharray="2,2"/>
+                      <text id="svgHeightText" x="48" y="93" fill="#ffd88a" font-size="10.5" font-weight="bold" text-anchor="middle" transform="rotate(-90 48 93)">T: 210 cm</text>
+                    </svg>
+                  </div>
+
+                  <!-- Specification Summary -->
+                  <div class="calc-spec-list">
+                    <div class="calc-spec-item">
+                      <span class="calc-label">Total Meter Lari (m1):</span>
+                      <span class="calc-val" id="resTotalM1">5.10 m1</span>
+                    </div>
+                    <div class="calc-spec-item">
+                      <span class="calc-label">Panjang per Unit:</span>
+                      <span class="calc-val" id="resUnitM1">5.10 m1 / unit</span>
+                    </div>
+                    <div class="calc-spec-item">
+                      <span class="calc-label">Total Luas Kaca:</span>
+                      <span class="calc-val" id="resGlassArea">1.89 m²</span>
+                    </div>
+                    <div class="calc-spec-item">
+                      <span class="calc-label">Material Terpilih:</span>
+                      <span class="calc-val" id="resMaterialName">Alexindo 3"</span>
+                    </div>
+                    <div class="calc-spec-item">
+                      <span class="calc-label">Warna Profil:</span>
+                      <span class="calc-val" id="resColorName">Hitam Doff</span>
+                    </div>
+                    <div class="calc-spec-item">
+                      <span class="calc-label">Survey Lapangan:</span>
+                      <span class="calc-val" style="color:#25d366;">100% GRATIS</span>
+                    </div>
+                  </div>
+
+                  <!-- Direct WhatsApp Button -->
+                  <button type="button" class="calc-btn-whatsapp" id="btnSendCalcWa" onclick="sendCalcToWhatsApp()">
+                    <span>💬 Kirim Estimasi Ini ke WhatsApp</span>
+                    <span>↗</span>
+                  </button>
+
+                  <button type="button" class="calc-copy-summary-btn" onclick="copyCalcSummary()">
+                    📋 Salin Rincian Estimasi (Clipboard)
+                  </button>
+
+                  <div class="calc-toast" id="calcToast">
+                    ✓ Rincian estimasi berhasil disalin ke clipboard!
+                  </div>
+
+                  <div style="margin-top:14px;font-size:11.5px;color:#a3c5cf;line-height:1.5;">
+                    💡 <em>Harga di atas adalah estimasi komprehensif (bahan + perakitan miter 45° + pemasangan on-site + sealant anti bocor). Tim kami siap survey lokasi gratis di Karawang Barat, Timur, Klari, Telukjambe, Cikampek, Cikarang & Bekasi.</em>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END INTERACTIVE CLIENT-SIDE COST ESTIMATION TOOL -->
 
           <div class="spec-table-wrap">
             <table class="spec-table">
@@ -637,5 +1163,316 @@
     WhatsApp Admin
   </a>
 
+  <!-- ========================================================
+       CLIENT-SIDE COST ESTIMATION CALCULATION SCRIPT
+       ======================================================== -->
+  <script>
+    (function initKusenCostCalculator() {
+      // Calculator state
+      const state = {
+        type: 'door3',
+        width: 90,
+        height: 210,
+        qty: 1,
+        material: 'alexindo_3',
+        color: 'Hitam Doff',
+        hexColor: '#1f2427',
+        glass: 'none'
+      };
+
+      // Type title lookup
+      const typeNames = {
+        door3: 'Pintu 1 Daun (Kusen 3 Sisi U-Frame)',
+        door3double: 'Pintu Dobel Kupu (Kusen 3 Sisi)',
+        window4: 'Jendela (Kusen 4 Sisi Keliling)',
+        partition4: 'Sekat / Partisi Kaca (Kusen 4 Sisi Keliling)'
+      };
+
+      // Format currency
+      function formatIDR(val) {
+        return 'Rp ' + Math.round(val).toLocaleString('id-ID');
+      }
+
+      // Sync Dimensions from slider / number input
+      window.syncDim = function(axis, val) {
+        val = parseInt(val, 10);
+        if (isNaN(val)) val = 50;
+
+        if (axis === 'width') {
+          val = Math.max(30, Math.min(450, val));
+          state.width = val;
+          document.getElementById('rangeWidth').value = val;
+          document.getElementById('numWidth').value = val;
+          document.getElementById('lblWidth').textContent = val + ' cm';
+        } else if (axis === 'height') {
+          val = Math.max(30, Math.min(380, val));
+          state.height = val;
+          document.getElementById('rangeHeight').value = val;
+          document.getElementById('numHeight').value = val;
+          document.getElementById('lblHeight').textContent = val + ' cm';
+        }
+        updateCalculation();
+      };
+
+      // Apply predefined dimension preset
+      window.applyDimPreset = function(w, h, type) {
+        state.width = w;
+        state.height = h;
+        document.getElementById('rangeWidth').value = w;
+        document.getElementById('numWidth').value = w;
+        document.getElementById('lblWidth').textContent = w + ' cm';
+
+        document.getElementById('rangeHeight').value = h;
+        document.getElementById('numHeight').value = h;
+        document.getElementById('lblHeight').textContent = h + ' cm';
+
+        if (type) {
+          const typeBtn = document.querySelector(`#calcTypePresets button[data-type="${type}"]`);
+          if (typeBtn) setKusenType(type, typeBtn);
+          else updateCalculation();
+        } else {
+          updateCalculation();
+        }
+      };
+
+      // Set Construction Type
+      window.setKusenType = function(type, btn) {
+        state.type = type;
+        document.querySelectorAll('#calcTypePresets .calc-preset-btn').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        document.getElementById('calcTypeBadge').textContent = typeNames[type] || 'Kusen Aluminium';
+        updateCalculation();
+      };
+
+      // Adjust Quantity
+      window.adjustQty = function(delta) {
+        const input = document.getElementById('inputQty');
+        let current = parseInt(input.value, 10) || 1;
+        current = Math.max(1, Math.min(100, current + delta));
+        input.value = current;
+        state.qty = current;
+        document.getElementById('lblQty').textContent = current + ' Unit';
+        updateCalculation();
+      };
+
+      // Set Color Choice
+      window.setColorChoice = function(colorName, hex, labelEl) {
+        state.color = colorName;
+        state.hexColor = hex;
+        document.querySelectorAll('.calc-color-card').forEach(c => c.classList.remove('active'));
+        if (labelEl) labelEl.classList.add('active');
+        document.getElementById('lblColor').textContent = colorName;
+        updateCalculation();
+      };
+
+      // Main calculation engine
+      window.updateCalculation = function() {
+        const wMeter = state.width / 100;
+        const hMeter = state.height / 100;
+        const qty = parseInt(document.getElementById('inputQty').value, 10) || 1;
+        state.qty = qty;
+        document.getElementById('lblQty').textContent = qty + ' Unit';
+
+        // 1. Calculate meter lari (m1) per unit based on frame sides
+        let m1PerUnit = 0;
+        if (state.type === 'door3' || state.type === 'door3double') {
+          // Standard door: 2 uprights + 1 header (U-shape)
+          m1PerUnit = (2 * hMeter) + wMeter;
+        } else {
+          // Window or partition: 4 sides (2 uprights + 2 horizontals)
+          m1PerUnit = 2 * (wMeter + hMeter);
+        }
+
+        const totalM1 = m1PerUnit * qty;
+        const glassAreaPerUnit = wMeter * hMeter;
+        const totalGlassArea = glassAreaPerUnit * qty;
+
+        // 2. Material Pricing
+        const matSelect = document.getElementById('selectMaterial');
+        const selectedMatOpt = matSelect.options[matSelect.selectedIndex];
+        const matMinRate = parseFloat(selectedMatOpt.getAttribute('data-min')) || 85000;
+        const matMaxRate = parseFloat(selectedMatOpt.getAttribute('data-max')) || 105000;
+        const matName = selectedMatOpt.getAttribute('data-name') || 'Aluminium SNI';
+
+        // 3. Glass Pricing
+        const glassSelect = document.getElementById('selectGlass');
+        const selectedGlassOpt = glassSelect.options[glassSelect.selectedIndex];
+        const glassMinRate = parseFloat(selectedGlassOpt.getAttribute('data-min')) || 0;
+        const glassMaxRate = parseFloat(selectedGlassOpt.getAttribute('data-max')) || 0;
+        const glassName = selectedGlassOpt.getAttribute('data-name') || 'Tanpa Kaca';
+        const hasGlass = glassMinRate > 0;
+
+        // 4. Total Cost Range Calculation
+        const totalCostMin = (totalM1 * matMinRate) + (hasGlass ? totalGlassArea * glassMinRate : 0);
+        const totalCostMax = (totalM1 * matMaxRate) + (hasGlass ? totalGlassArea * glassMaxRate : 0);
+
+        const costMinUnit = totalCostMin / qty;
+        const costMaxUnit = totalCostMax / qty;
+
+        // Round to clean 1.000
+        const roundedTotalMin = Math.round(totalCostMin / 1000) * 1000;
+        const roundedTotalMax = Math.round(totalCostMax / 1000) * 1000;
+        const roundedUnitMin = Math.round(costMinUnit / 1000) * 1000;
+        const roundedUnitMax = Math.round(costMaxUnit / 1000) * 1000;
+
+        // 5. Update UI DOM Elements
+        document.getElementById('resPriceRange').textContent = `${formatIDR(roundedTotalMin)} - ${formatIDR(roundedTotalMax)}`;
+        document.getElementById('resPricePerUnit').textContent = qty > 1 
+          ? `Estimasi total untuk ${qty} unit (~${formatIDR(roundedUnitMin)} - ${formatIDR(roundedUnitMax)}/unit)`
+          : `Estimasi untuk 1 unit (Termasuk Material SNI + Fabrikasi Miter + Pemasangan + Sealant)`;
+
+        document.getElementById('resTotalM1').textContent = `${totalM1.toFixed(2)} m1`;
+        document.getElementById('resUnitM1').textContent = `${m1PerUnit.toFixed(2)} m1 / unit`;
+        document.getElementById('resGlassArea').textContent = hasGlass ? `${totalGlassArea.toFixed(2)} m²` : 'Tanpa Kaca';
+        document.getElementById('resMaterialName').textContent = matName.split('(')[0].trim();
+        document.getElementById('resColorName').textContent = state.color;
+        document.getElementById('previewAspectText').textContent = `${state.width} × ${state.height} cm (${qty} unit)`;
+
+        // 6. Update SVG Blueprint
+        renderBlueprint(state.width, state.height, state.type, state.hexColor, hasGlass);
+
+        // Store active calculation data on window for WhatsApp & Copy
+        window._activeCalcData = {
+          type: typeNames[state.type],
+          width: state.width,
+          height: state.height,
+          qty: qty,
+          m1PerUnit: m1PerUnit.toFixed(2),
+          totalM1: totalM1.toFixed(2),
+          material: matName,
+          color: state.color,
+          glass: glassName,
+          totalPriceRange: `${formatIDR(roundedTotalMin)} - ${formatIDR(roundedTotalMax)}`,
+          unitPriceRange: `${formatIDR(roundedUnitMin)} - ${formatIDR(roundedUnitMax)}`
+        };
+      };
+
+      // Draw SVG Blueprint proportionally
+      function renderBlueprint(w, h, type, colorHex, hasGlass) {
+        const svgGlass = document.getElementById('svgGlass');
+        const svgFrame = document.getElementById('svgFrame');
+        const svgWLine = document.getElementById('svgWidthLine');
+        const svgWText = document.getElementById('svgWidthText');
+        const svgHLine = document.getElementById('svgHeightLine');
+        const svgHText = document.getElementById('svgHeightText');
+
+        // Bounding box inside 240x180 svg
+        const maxW = 140;
+        const maxH = 120;
+        const aspect = w / h;
+
+        let drawW, drawH;
+        if (aspect >= (maxW / maxH)) {
+          drawW = maxW;
+          drawH = maxW / aspect;
+        } else {
+          drawH = maxH;
+          drawW = maxH * aspect;
+        }
+
+        drawW = Math.max(35, Math.min(maxW, drawW));
+        drawH = Math.max(35, Math.min(maxH, drawH));
+
+        const startX = 65 + ((maxW - drawW) / 2);
+        const startY = 28 + ((maxH - drawH) / 2);
+
+        // Frame
+        svgFrame.setAttribute('x', startX);
+        svgFrame.setAttribute('y', startY);
+        svgFrame.setAttribute('width', drawW);
+        svgFrame.setAttribute('height', drawH);
+        svgFrame.setAttribute('stroke', colorHex || '#1f2427');
+
+        // Inner Glass
+        svgGlass.setAttribute('x', startX + 4);
+        svgGlass.setAttribute('y', startY + 4);
+        svgGlass.setAttribute('width', Math.max(0, drawW - 8));
+        svgGlass.setAttribute('height', Math.max(0, drawH - 8));
+        svgGlass.setAttribute('fill', hasGlass ? 'rgba(70,180,230,0.3)' : 'rgba(255,255,255,0.04)');
+        svgGlass.setAttribute('stroke', hasGlass ? '#42a7c4' : 'rgba(255,255,255,0.1)');
+
+        // Dimension markers
+        svgWLine.setAttribute('x1', startX);
+        svgWLine.setAttribute('x2', startX + drawW);
+        svgWLine.setAttribute('y1', Math.max(14, startY - 8));
+        svgWLine.setAttribute('y2', Math.max(14, startY - 8));
+
+        svgWText.setAttribute('x', startX + (drawW / 2));
+        svgWText.setAttribute('y', Math.max(11, startY - 11));
+        svgWText.textContent = `L: ${w} cm`;
+
+        svgHLine.setAttribute('x1', Math.max(20, startX - 8));
+        svgHLine.setAttribute('x2', Math.max(20, startX - 8));
+        svgHLine.setAttribute('y1', startY);
+        svgHLine.setAttribute('y2', startY + drawH);
+
+        const midY = startY + (drawH / 2);
+        const hTextX = Math.max(12, startX - 16);
+        svgHText.setAttribute('x', hTextX);
+        svgHText.setAttribute('y', midY);
+        svgHText.setAttribute('transform', `rotate(-90 ${hTextX} ${midY})`);
+        svgHText.textContent = `T: ${h} cm`;
+      }
+
+      // WhatsApp submission with prefilled calculated quotation
+      window.sendCalcToWhatsApp = function() {
+        const d = window._activeCalcData;
+        if (!d) return;
+
+        const message = 
+`*KONSULTASI HASIL ESTIMASI KUSEN ALUMINIUM*
+*Sahabat Kaca Aluminium Karawang*
+---------------------------------------
+• *Jenis Opening:* ${d.type}
+• *Dimensi Ukuran:* ${d.width} cm (L) × ${d.height} cm (T)
+• *Jumlah Unit:* ${d.qty} unit
+• *Estimasi Total Panjang:* ${d.totalM1} m1 (${d.m1PerUnit} m1/unit)
+• *Merk & Profil:* ${d.material}
+• *Warna Profil:* ${d.color}
+• *Pengisi Kaca:* ${d.glass}
+---------------------------------------
+• *Kisaran Biaya Estimasi:* ${d.totalPriceRange}
+---------------------------------------
+Halo Admin, saya ingin konfirmasi estimasi biaya di atas dan menjadwalkan *Survey Lokasi Gratis* ke tempat saya di wilayah Karawang / sekitarnya. Terima kasih!`;
+
+        const waUrl = `https://wa.me/6289637371166?text=${encodeURIComponent(message)}`;
+        window.open(waUrl, '_blank');
+      };
+
+      // Copy Summary to Clipboard
+      window.copyCalcSummary = function() {
+        const d = window._activeCalcData;
+        if (!d) return;
+
+        const summary = 
+`Estimasi Biaya Kusen Aluminium - Sahabat Kaca Aluminium Karawang
+- Jenis: ${d.type}
+- Dimensi: ${d.width} x ${d.height} cm (${d.qty} unit)
+- Total Panjang: ${d.totalM1} m1
+- Profil Material: ${d.material}
+- Warna: ${d.color}
+- Kaca: ${d.glass}
+- Kisaran Biaya: ${d.totalPriceRange}
+Free Survey Karawang: WhatsApp 0896-3737-1166 (https://www.sahabat-aluminium.my.id)`;
+
+        navigator.clipboard.writeText(summary).then(() => {
+          const toast = document.getElementById('calcToast');
+          if (toast) {
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3500);
+          }
+        }).catch(err => {
+          alert('Ringkasan disalin: ' + summary);
+        });
+      };
+
+      // Run calculation on load
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', updateCalculation);
+      } else {
+        updateCalculation();
+      }
+    })();
+  </script>
 </body>
 </html>

@@ -5884,6 +5884,341 @@ window.printProjectPdf = function(orderId) {
   }
 })();
 
+/* =========================================================
+   COST CALCULATOR WIDGET CONTROLLER (ROUGH BUDGET ESTIMATE)
+   ========================================================= */
+(function initCostCalculatorWidget() {
+  const COST_CALC_DATA = {
+    kusen: {
+      unit: 'm1',
+      unitName: 'Meter Lari (m1)',
+      label: 'Kusen Aluminium (Profil 3" / 4")',
+      defaultQty: 12,
+      presets: [6, 12, 20, 35, 50],
+      standard: {
+        min: 85000,
+        max: 110000,
+        spec: 'Standard SNI (Dacon / Inkalum 0.9–1.0mm)',
+        desc: 'Kisaran rata-rata: Rp 85.000 – Rp 110.000 / m1 (Standard SNI)'
+      },
+      premium: {
+        min: 135000,
+        max: 165000,
+        spec: 'Premium Grade (Alexindo / Alcomexindo 1.1–1.3mm)',
+        desc: 'Kisaran rata-rata: Rp 135.000 – Rp 165.000 / m1 (Premium Grade)'
+      }
+    },
+    pintu: {
+      unit: 'unit',
+      unitName: 'Unit Pintu',
+      label: 'Pintu Aluminium (Sliding / Swing)',
+      defaultQty: 2,
+      presets: [1, 2, 4, 6, 8],
+      standard: {
+        min: 1250000,
+        max: 1550000,
+        spec: 'Standard SNI (Profil Dacon / Clear Glass 5mm)',
+        desc: 'Kisaran rata-rata: Rp 1.250.000 – Rp 1.550.000 / unit (Standard SNI)'
+      },
+      premium: {
+        min: 2200000,
+        max: 2800000,
+        spec: 'Premium Grade (Alexindo + Kaca Tempered / Moru + SUS304)',
+        desc: 'Kisaran rata-rata: Rp 2.200.000 – Rp 2.800.000 / unit (Premium Grade)'
+      }
+    },
+    jendela: {
+      unit: 'unit',
+      unitName: 'Unit Jendela',
+      label: 'Jendela Aluminium (Casement / Sliding)',
+      defaultQty: 4,
+      presets: [2, 4, 6, 8, 12],
+      standard: {
+        min: 550000,
+        max: 750000,
+        spec: 'Standard SNI (Casement / Sliding Standar)',
+        desc: 'Kisaran rata-rata: Rp 550.000 – Rp 750.000 / unit (Standard SNI)'
+      },
+      premium: {
+        min: 850000,
+        max: 1150000,
+        spec: 'Premium Grade (Alexindo + Friction Stay SUS304 Heavy Duty)',
+        desc: 'Kisaran rata-rata: Rp 850.000 – Rp 1.150.000 / unit (Premium Grade)'
+      }
+    },
+    partisi: {
+      unit: 'm²',
+      unitName: 'Meter Persegi (m²)',
+      label: 'Partisi Kaca Tempered Kantor / Sekat',
+      defaultQty: 15,
+      presets: [6, 12, 18, 25, 40],
+      standard: {
+        min: 850000,
+        max: 1050000,
+        spec: 'Standard SNI (Kaca Tempered 10mm Clear Frameless)',
+        desc: 'Kisaran rata-rata: Rp 850.000 – Rp 1.050.000 / m² (Standard SNI)'
+      },
+      premium: {
+        min: 1250000,
+        max: 1550000,
+        spec: 'Premium Grade (Kaca Tempered 12mm + U-Channel Tanam / Lis Anodize)',
+        desc: 'Kisaran rata-rata: Rp 1.250.000 – Rp 1.550.000 / m² (Premium Grade)'
+      }
+    },
+    pintu_tempered: {
+      unit: 'unit',
+      unitName: 'Unit Pintu',
+      label: 'Pintu Kaca Frameless Floor Hinge',
+      defaultQty: 1,
+      presets: [1, 2, 3, 4, 6],
+      standard: {
+        min: 3200000,
+        max: 3800000,
+        spec: 'Standard SNI (Tempered 10mm + Floor Hinge Standar)',
+        desc: 'Kisaran rata-rata: Rp 3.200.000 – Rp 3.800.000 / unit (Standard SNI)'
+      },
+      premium: {
+        min: 4500000,
+        max: 5500000,
+        spec: 'Premium Grade (Tempered 12mm + Floor Hinge Dorma / Dekson SUS304)',
+        desc: 'Kisaran rata-rata: Rp 4.500.000 – Rp 5.500.000 / unit (Premium Grade)'
+      }
+    },
+    kanopi: {
+      unit: 'm²',
+      unitName: 'Meter Persegi (m²)',
+      label: 'Kanopi Kaca Tempered Carport',
+      defaultQty: 18,
+      presets: [12, 18, 24, 30, 45],
+      standard: {
+        min: 1450000,
+        max: 1750000,
+        spec: 'Standard SNI (Tempered 8mm + Rangka Hollow 40x80)',
+        desc: 'Kisaran rata-rata: Rp 1.450.000 – Rp 1.750.000 / m² (Standard SNI)'
+      },
+      premium: {
+        min: 1950000,
+        max: 2450000,
+        spec: 'Premium Grade (Tempered 10mm / Laminated + Rangka Hollow Galvanis 50x100)',
+        desc: 'Kisaran rata-rata: Rp 1.950.000 – Rp 2.450.000 / m² (Premium Grade)'
+      }
+    },
+    shower: {
+      unit: 'unit',
+      unitName: 'Unit Shower Screen',
+      label: 'Shower Screen Kaca Kamar Mandi',
+      defaultQty: 1,
+      presets: [1, 2, 3, 4, 5],
+      standard: {
+        min: 2100000,
+        max: 2600000,
+        spec: 'Standard SNI (Tempered 10mm + Fitting Chrome)',
+        desc: 'Kisaran rata-rata: Rp 2.100.000 – Rp 2.600.000 / unit (Standard SNI)'
+      },
+      premium: {
+        min: 3100000,
+        max: 3800000,
+        spec: 'Premium Grade (Tempered 10mm + Hardware Black Matte / Gold SUS304)',
+        desc: 'Kisaran rata-rata: Rp 3.100.000 – Rp 3.800.000 / unit (Premium Grade)'
+      }
+    },
+    bifold: {
+      unit: 'daun',
+      unitName: 'Daun Pintu Lipat',
+      label: 'Pintu Lipat Bifold System',
+      defaultQty: 4,
+      presets: [3, 4, 5, 6, 8],
+      standard: {
+        min: 1950000,
+        max: 2350000,
+        spec: 'Standard SNI (Profil Bifold Standar + Rel Gantung Awet)',
+        desc: 'Kisaran rata-rata: Rp 1.950.000 – Rp 2.350.000 / daun (Standard SNI)'
+      },
+      premium: {
+        min: 2750000,
+        max: 3350000,
+        spec: 'Premium Grade (Heavy-Duty European Style + Kaca Tempered / Fluted Moru)',
+        desc: 'Kisaran rata-rata: Rp 2.750.000 – Rp 3.350.000 / daun (Premium Grade)'
+      }
+    }
+  };
+
+  let activeQuality = 'standard';
+
+  function formatIDRCurrency(val) {
+    return 'Rp ' + Math.round(val).toLocaleString('id-ID');
+  }
+
+  function updateRoughEstimate() {
+    const serviceSelect = document.getElementById('calcServiceType');
+    const qtyInput = document.getElementById('calcQuantityInput');
+    if (!serviceSelect || !qtyInput) return;
+
+    const serviceKey = serviceSelect.value || 'kusen';
+    const config = COST_CALC_DATA[serviceKey] || COST_CALC_DATA.kusen;
+
+    let qty = parseFloat(qtyInput.value) || 1;
+    if (qty < 1) qty = 1;
+
+    const rate = config[activeQuality] || config.standard;
+    const minTotal = qty * rate.min;
+    const maxTotal = qty * rate.max;
+
+    // Update displays
+    const estimateMain = document.getElementById('calcEstimateMain');
+    const estimateSub = document.getElementById('calcEstimateSub');
+    const summaryService = document.getElementById('calcSummaryService');
+    const summaryQuality = document.getElementById('calcSummaryQuality');
+    const summaryQty = document.getElementById('calcSummaryQty');
+    const qtyUnitSuffix = document.getElementById('qtyUnitSuffix');
+    const qtyUnitBadge = document.getElementById('qtyUnitBadge');
+
+    if (estimateMain) estimateMain.textContent = `${formatIDRCurrency(minTotal)} – ${formatIDRCurrency(maxTotal)}`;
+    if (estimateSub) estimateSub.textContent = rate.desc;
+    if (summaryService) summaryService.textContent = config.label;
+    if (summaryQuality) summaryQuality.textContent = rate.spec;
+    if (summaryQty) summaryQty.textContent = `${qty} ${config.unitName}`;
+    if (qtyUnitSuffix) qtyUnitSuffix.textContent = config.unit;
+    if (qtyUnitBadge) qtyUnitBadge.textContent = `Satuan: ${config.unitName}`;
+
+    // Store state for consultation
+    window._lastRoughEstimate = {
+      service: config.label,
+      quality: rate.spec,
+      qty: `${qty} ${config.unitName}`,
+      estimateRange: `${formatIDRCurrency(minTotal)} – ${formatIDRCurrency(maxTotal)}`
+    };
+  }
+
+  // Update presets when service changes
+  function updatePresetsForService(serviceKey) {
+    const config = COST_CALC_DATA[serviceKey];
+    if (!config) return;
+    const row = document.getElementById('qtyPresetRow');
+    if (!row) return;
+
+    let html = `<span style="font-size:11.5px;color:#64748b;margin-right:2px;display:inline-flex;align-items:center;">Contoh Cepat:</span>`;
+    config.presets.forEach(p => {
+      html += `<button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(${p})">${p}</button>`;
+    });
+    row.innerHTML = html;
+  }
+
+  // Global methods
+  window.setCalcQuality = function(qualityKey) {
+    activeQuality = qualityKey === 'premium' ? 'premium' : 'standard';
+    const cardStd = document.getElementById('cardQualityStandard');
+    const cardPrem = document.getElementById('cardQualityPremium');
+
+    if (cardStd && cardPrem) {
+      if (activeQuality === 'standard') {
+        cardStd.classList.add('active');
+        cardStd.setAttribute('aria-checked', 'true');
+        cardPrem.classList.remove('active');
+        cardPrem.setAttribute('aria-checked', 'false');
+      } else {
+        cardPrem.classList.add('active');
+        cardPrem.setAttribute('aria-checked', 'true');
+        cardStd.classList.remove('active');
+        cardStd.setAttribute('aria-checked', 'false');
+      }
+    }
+    updateRoughEstimate();
+  };
+
+  window.adjustCalcQty = function(delta) {
+    const input = document.getElementById('calcQuantityInput');
+    if (!input) return;
+    let val = (parseFloat(input.value) || 0) + delta;
+    if (val < 1) val = 1;
+    input.value = val;
+    updateRoughEstimate();
+  };
+
+  window.setCalcPreset = function(val) {
+    const input = document.getElementById('calcQuantityInput');
+    if (!input) return;
+    input.value = val;
+    updateRoughEstimate();
+  };
+
+  window.consultEstimateViaWa = function(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const data = window._lastRoughEstimate;
+    if (!data) return;
+
+    const message = `*KONSULTASI HASIL ESTIMASI BIAYA WEB*\n` +
+      `*Sahabat Kaca Aluminium Karawang*\n` +
+      `────────────────────────────\n\n` +
+      `Halo Admin, saya baru saja menghitung estimasi anggaran di kalkulator web:\n\n` +
+      `🛠️ *Jenis Layanan:* ${data.service}\n` +
+      `⭐ *Kualitas Material:* ${data.quality}\n` +
+      `📏 *Kuantitas / Volume:* ${data.qty}\n` +
+      `💰 *Rough Budget Estimate:* ${data.estimateRange}\n\n` +
+      `Mohon info ketersediaan jadwal survey gratis ke lokasi saya untuk pengecekan dan pengukuran laser presisi. Terima kasih!`;
+
+    const encodedMsg = encodeURIComponent(message);
+    const waUrl = `https://wa.me/6289637371166?text=${encodedMsg}`;
+    const localAppUrl = `whatsapp://send?phone=6289637371166&text=${encodedMsg}`;
+
+    if (typeof showWhatsAppPromptModal === 'function') {
+      showWhatsAppPromptModal({
+        title: 'Konsultasi Estimasi Biaya via WhatsApp',
+        subtitle: 'Hasil perhitungan estimasi anggaran Anda telah dirangkum dalam format pesan siap kirim:',
+        formattedMessage: message,
+        waUrl,
+        localAppUrl
+      });
+    } else {
+      window.open(waUrl, '_blank', 'noopener,noreferrer');
+    }
+  };
+
+  // Event bindings
+  document.addEventListener('DOMContentLoaded', () => {
+    const serviceSelect = document.getElementById('calcServiceType');
+    const qtyInput = document.getElementById('calcQuantityInput');
+
+    if (serviceSelect) {
+      serviceSelect.addEventListener('change', () => {
+        const serviceKey = serviceSelect.value;
+        const config = COST_CALC_DATA[serviceKey];
+        if (config && qtyInput) {
+          qtyInput.value = config.defaultQty;
+          updatePresetsForService(serviceKey);
+        }
+        updateRoughEstimate();
+      });
+    }
+
+    if (qtyInput) {
+      qtyInput.addEventListener('input', updateRoughEstimate);
+      qtyInput.addEventListener('change', updateRoughEstimate);
+    }
+
+    updateRoughEstimate();
+  });
+
+  if (document.readyState !== 'loading') {
+    const serviceSelect = document.getElementById('calcServiceType');
+    const qtyInput = document.getElementById('calcQuantityInput');
+    if (serviceSelect && qtyInput) {
+      serviceSelect.addEventListener('change', () => {
+        const serviceKey = serviceSelect.value;
+        const config = COST_CALC_DATA[serviceKey];
+        if (config && qtyInput) {
+          qtyInput.value = config.defaultQty;
+          updatePresetsForService(serviceKey);
+        }
+        updateRoughEstimate();
+      });
+      qtyInput.addEventListener('input', updateRoughEstimate);
+      qtyInput.addEventListener('change', updateRoughEstimate);
+      updateRoughEstimate();
+    }
+  }
+})();
+
 
 
 

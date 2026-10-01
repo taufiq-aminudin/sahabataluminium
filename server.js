@@ -1188,6 +1188,11 @@ landingPages.forEach(slug => {
   });
 });
 
+// Explicit route for contact page
+app.get('/kontak', (req, res) => {
+  res.sendFile(path.join(__dirname, 'kontak.html'));
+});
+
 // Serve static assets with html extension support
 app.use(express.static(__dirname, {
   extensions: ['html', 'htm'],

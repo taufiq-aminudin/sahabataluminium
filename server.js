@@ -1011,7 +1011,19 @@ const landingPages = [
 ];
 
 landingPages.forEach(slug => {
+  // Direct route /jasa-...
   app.get(`/${slug}`, (req, res) => {
+    res.sendFile(path.join(__dirname, `${slug}.html`));
+  });
+
+  // Alias /layanan/jasa-...
+  app.get(`/layanan/${slug}`, (req, res) => {
+    res.sendFile(path.join(__dirname, `${slug}.html`));
+  });
+
+  // Alias without 'jasa-' prefix e.g. /layanan/pintu-aluminium-karawang
+  const withoutJasa = slug.replace(/^jasa-/, '');
+  app.get(`/layanan/${withoutJasa}`, (req, res) => {
     res.sendFile(path.join(__dirname, `${slug}.html`));
   });
 });

@@ -11,6 +11,32 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const HOST = '0.0.0.0';
 
+app.set('trust proxy', true);
+
+// Canonical Domain & HTTPS Enforcement Middleware
+// Enforces single-hop 301 redirect to https://sahabat-aluminium.my.id/
+app.use((req, res, next) => {
+  const rawHost = (req.headers['x-forwarded-host'] || req.headers.host || '').toLowerCase();
+  const host = rawHost.split(':')[0];
+  const proto = (req.headers['x-forwarded-proto'] || (req.connection && req.connection.encrypted ? 'https' : req.protocol) || 'http').toLowerCase();
+
+  const isWww = host === 'www.sahabat-aluminium.my.id';
+  const isApex = host === 'sahabat-aluminium.my.id';
+
+  // If request comes for www OR insecure http on apex domain, redirect 301 directly to canonical HTTPS apex
+  if (isWww || (isApex && proto === 'http')) {
+    let cleanPath = req.url;
+    if (cleanPath === '/index.html') {
+      cleanPath = '/';
+    } else if (cleanPath.endsWith('.html')) {
+      cleanPath = cleanPath.replace(/\.html$/, '');
+    }
+    return res.redirect(301, `https://sahabat-aluminium.my.id${cleanPath}`);
+  }
+
+  next();
+});
+
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 

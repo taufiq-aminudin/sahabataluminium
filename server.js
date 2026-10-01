@@ -998,6 +998,53 @@ Mohon konfirmasi ketersediaan tim teknisi lapangan untuk jadwal ini. Terima kasi
   }
 });
 
+// Explicit route for robots.txt with optimal SEO headers
+app.get('/robots.txt', (req, res) => {
+  res.type('text/plain; charset=UTF-8');
+  res.set('Cache-Control', 'public, max-age=3600');
+  const filePath = path.join(__dirname, 'robots.txt');
+  if (fs.existsSync(filePath)) {
+    return res.sendFile(filePath);
+  }
+  return res.send(`User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: https://sahabat-aluminium.my.id/sitemap.xml\nSitemap: https://www.sahabat-aluminium.my.id/sitemap.xml\n`);
+});
+
+// Explicit route for sitemap.xml with host adaptation (supporting both apex domain and www)
+app.get('/sitemap.xml', (req, res) => {
+  res.type('application/xml; charset=UTF-8');
+  res.set('Cache-Control', 'public, max-age=3600');
+  res.set('X-Robots-Tag', 'noindex, follow');
+
+  const host = (req.headers.host || '').toLowerCase();
+  const isNonWww = host.startsWith('sahabat-aluminium.my.id') || req.query.domain === 'non-www';
+  const filePath = path.join(__dirname, isNonWww ? 'sitemap-nonwww.xml' : 'sitemap.xml');
+
+  if (fs.existsSync(filePath)) {
+    return res.sendFile(filePath);
+  }
+
+  // Fallback: read sitemap.xml and adapt
+  let xml = fs.readFileSync(path.join(__dirname, 'sitemap.xml'), 'utf8');
+  if (isNonWww) {
+    xml = xml.replace(/https:\/\/www\.sahabat-aluminium\.my\.id/g, 'https://sahabat-aluminium.my.id');
+  }
+  return res.send(xml);
+});
+
+// Explicit route for apex non-www sitemap
+app.get('/sitemap-nonwww.xml', (req, res) => {
+  res.type('application/xml; charset=UTF-8');
+  res.set('Cache-Control', 'public, max-age=3600');
+  res.set('X-Robots-Tag', 'noindex, follow');
+  const filePath = path.join(__dirname, 'sitemap-nonwww.xml');
+  if (fs.existsSync(filePath)) {
+    return res.sendFile(filePath);
+  }
+  let xml = fs.readFileSync(path.join(__dirname, 'sitemap.xml'), 'utf8');
+  xml = xml.replace(/https:\/\/www\.sahabat-aluminium\.my\.id/g, 'https://sahabat-aluminium.my.id');
+  return res.send(xml);
+});
+
 // SEO Inspection & Sitemap Submission API
 app.get('/api/seo/audit', (req, res) => {
   try {

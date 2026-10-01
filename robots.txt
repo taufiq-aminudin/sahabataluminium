@@ -8,6 +8,7 @@ Disallow: /api/
 
 User-agent: Googlebot-Image
 Allow: /assets/
+Allow: /
 
 User-agent: Google-InspectionTool
 Allow: /
@@ -22,5 +23,6 @@ User-agent: Bingbot
 Allow: /
 Disallow: /api/
 
-# XML Sitemap
+# XML Sitemap Directives (Supports both apex and www domains for Google Search Console)
+Sitemap: https://sahabat-aluminium.my.id/sitemap.xml
 Sitemap: https://www.sahabat-aluminium.my.id/sitemap.xml

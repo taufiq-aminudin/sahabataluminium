@@ -1115,7 +1115,7 @@ app.post('/api/seo/submit-sitemap', async (req, res) => {
   });
 });
 
-// Landing Pages: Explicit routing for 8 primary services in Karawang
+// Landing Pages: Explicit routing for primary services & local service areas
 const landingPages = [
   'jasa-kusen-aluminium-karawang',
   'jasa-pintu-aluminium-karawang',
@@ -1124,7 +1124,12 @@ const landingPages = [
   'jasa-partisi-kaca-aluminium-karawang',
   'jasa-kanopi-kaca-karawang',
   'jasa-shower-kaca-karawang',
-  'jasa-etalase-kaca-karawang'
+  'jasa-etalase-kaca-karawang',
+  'jasa-kaca-aluminium-karawang',
+  'jasa-kaca-aluminium-cikarang',
+  'jasa-kaca-aluminium-cikampek',
+  'jasa-kaca-aluminium-cibitung',
+  'jasa-kaca-aluminium-bekasi'
 ];
 
 landingPages.forEach(slug => {

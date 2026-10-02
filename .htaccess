@@ -37,9 +37,9 @@ Options -Indexes
 
   # NEVER redirect or rewrite sitemap.xml or robots.txt
   RewriteRule ^sitemap\.xml$ - [L]
-  RewriteRule ^sitemap-nonwww\.xml$ - [L]
   RewriteRule ^robots\.txt$ - [L]
   RewriteRule ^ads\.txt$ - [L]
+  RewriteRule ^sitemap-nonwww\.xml$ https://sahabat-aluminium.my.id/sitemap.xml [R=301,L]
 
   # 1. Direct single-hop 301 redirect for index.html to canonical root
   RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html [NC]

@@ -18,8 +18,8 @@ app.set('trust proxy', true);
 // Must NEVER be redirected or challenged. Always return HTTP 200 OK.
 // ========================================================
 
-// 1. Sitemap XML (Google Search Console, Bingbot, Yandex)
-app.get(['/sitemap.xml', '/sitemap-nonwww.xml', '/sitemap'], (req, res) => {
+// 1. Sitemap XML (Google Search Console, Bingbot, Yandex compliance)
+app.get('/sitemap.xml', (req, res) => {
   const filePath = path.join(__dirname, 'sitemap.xml');
   if (fs.existsSync(filePath)) {
     const xmlContent = fs.readFileSync(filePath, 'utf8');
@@ -30,6 +30,11 @@ app.get(['/sitemap.xml', '/sitemap-nonwww.xml', '/sitemap'], (req, res) => {
     return res.status(200).send(xmlContent);
   }
   return res.status(404).type('text/plain; charset=UTF-8').send('Sitemap not found');
+});
+
+// Legacy/alias sitemap routes redirect 301 to canonical sitemap.xml
+app.get(['/sitemap-nonwww.xml', '/sitemap'], (req, res) => {
+  return res.redirect(301, '/sitemap.xml');
 });
 
 // 2. Robots.txt (Googlebot standard compliance)
@@ -111,7 +116,7 @@ app.use((req, res, next) => {
       if (isIndexHtml) {
         const qIndex = cleanPath.indexOf('?');
         cleanPath = qIndex !== -1 ? '/' + cleanPath.slice(qIndex) : '/';
-      } else if (cleanPath.endsWith('.html')) {
+      } else {
         cleanPath = cleanPath.replace(/\.html(\?.*)?$/, '$1');
       }
       return res.redirect(301, `https://sahabat-aluminium.my.id${cleanPath}`);

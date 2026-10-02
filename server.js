@@ -23,7 +23,7 @@ app.get('/sitemap.xml', (req, res) => {
   const filePath = path.join(__dirname, 'sitemap.xml');
   if (fs.existsSync(filePath)) {
     const xmlContent = fs.readFileSync(filePath, 'utf8');
-    res.setHeader('Content-Type', 'application/xml; charset=UTF-8');
+    res.setHeader('Content-Type', 'application/xml');
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600');
     res.setHeader('Access-Control-Allow-Origin', '*');

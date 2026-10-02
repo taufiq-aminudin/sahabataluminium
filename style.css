@@ -11390,6 +11390,93 @@ footer .footer-grid {
   text-align: center;
 }
 
+/* Enhanced Cost Calculator Radio & Quality Badges */
+.quality-radio-circle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #94a3b8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  margin-right: 6px;
+}
+
+.quality-option-card.active .quality-radio-circle {
+  border-color: #0d9488;
+  background: #0d9488;
+}
+
+.quality-radio-circle::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #ffffff;
+  border-radius: 50%;
+  display: none;
+}
+
+.quality-option-card.active .quality-radio-circle::after {
+  display: block;
+}
+
+.quality-rate-pill {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #0d9488;
+  background: rgba(13, 148, 136, 0.1);
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin-top: 8px;
+  display: inline-block;
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
+  border: 1px solid rgba(13, 148, 136, 0.2);
+}
+
+.quality-option-card.active .quality-rate-pill {
+  background: rgba(13, 148, 136, 0.18);
+  color: #0f766e;
+  border-color: #0d9488;
+}
+
+.calc-secondary-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.calc-copy-btn, .calc-pdf-btn {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.calc-copy-btn:hover, .calc-pdf-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+@media (max-width: 480px) {
+  .calc-secondary-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 
 

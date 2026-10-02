@@ -649,6 +649,10 @@
         Layanan
       </a>
 
+      <a href="#kalkulator-biaya" style="color:#0d9488;font-weight:700;">
+        🧮 Hitung Estimasi
+      </a>
+
       <a href="#status-proyek" style="color:var(--gold);font-weight:800;">
         📍 Status Proyek
       </a>
@@ -954,17 +958,21 @@
             <div class="cost-calc-group">
               <label for="calcServiceType" class="cost-calc-label">
                 <span>1. Pilih Jenis Layanan / Pekerjaan</span>
-                <span style="color:#0d9488;font-size:12px;">Paling Populer: Kusen & Pintu</span>
+                <span style="color:#0d9488;font-size:12px;font-weight:700;">12 Layanan Tersedia</span>
               </label>
               <select id="calcServiceType" class="cost-calc-select" aria-label="Pilih Jenis Layanan">
-                <option value="kusen" data-unit="m1" data-label="Kusen Aluminium (Profil 3 / 4 Inch SNI)">Kusen Aluminium (Profil 3" / 4" SNI - per meter lari)</option>
-                <option value="pintu" data-unit="unit" data-label="Pintu Aluminium (Sliding / Swing Modern)">Pintu Aluminium Sliding / Swing (per unit)</option>
-                <option value="jendela" data-unit="unit" data-label="Jendela Aluminium (Casement / Sliding)">Jendela Aluminium Casement / Sliding (per unit)</option>
-                <option value="partisi" data-unit="m²" data-label="Partisi Kaca Tempered Kantor / Sekat Ruangan">Partisi Kaca Kantor Tempered (per m²)</option>
-                <option value="pintu_tempered" data-unit="unit" data-label="Pintu Kaca Frameless Tempered (Floor Hinge)">Pintu Kaca Frameless Floor Hinge (per unit)</option>
-                <option value="kanopi" data-unit="m²" data-label="Kanopi Kaca Tempered Carport / Teras">Kanopi Kaca Tempered Carport (per m²)</option>
-                <option value="shower" data-unit="unit" data-label="Shower Screen Kaca Tempered Kamar Mandi">Shower Screen Kaca Kamar Mandi (per unit)</option>
-                <option value="bifold" data-unit="daun" data-label="Pintu Lipat Bifold System Aluminium">Pintu Lipat Bifold System (per daun)</option>
+                <option value="kusen" data-unit="m1" selected>Kusen Aluminium (Profil 3" / 4" SNI - per meter lari)</option>
+                <option value="pintu" data-unit="unit">Pintu Aluminium Sliding / Swing (per unit)</option>
+                <option value="jendela" data-unit="unit">Jendela Aluminium Casement / Sliding (per unit)</option>
+                <option value="partisi" data-unit="m²">Partisi Kaca Kantor Tempered (per m²)</option>
+                <option value="pintu_tempered" data-unit="unit">Pintu Kaca Frameless Floor Hinge (per unit)</option>
+                <option value="kanopi" data-unit="m²">Kanopi Kaca Tempered Carport (per m²)</option>
+                <option value="shower" data-unit="unit">Shower Screen Kaca Kamar Mandi (per unit)</option>
+                <option value="bifold" data-unit="daun">Pintu Lipat Bifold System (per daun)</option>
+                <option value="etalase" data-unit="m1">Etalase Kaca Toko & Display Counter (per meter lari)</option>
+                <option value="railing" data-unit="m1">Railing Tangga & Balkon Kaca Tempered (per meter lari)</option>
+                <option value="acp" data-unit="m²">Fasad ACP Aluminium Composite Panel (per m²)</option>
+                <option value="curtain_wall" data-unit="m²">Curtain Wall Fasad Kaca Komersial (per m²)</option>
               </select>
             </div>
 
@@ -978,24 +986,52 @@
               <div class="quality-options-grid" role="radiogroup" aria-label="Pilih Kualitas Material">
                 
                 <!-- Option Standard -->
-                <div class="quality-option-card active" id="cardQualityStandard" role="radio" aria-checked="true" tabindex="0" onclick="window.setCalcQuality('standard')">
+                <div 
+                  class="quality-option-card active" 
+                  id="cardQualityStandard" 
+                  role="radio" 
+                  aria-checked="true" 
+                  tabindex="0" 
+                  onclick="window.setCalcQuality('standard')"
+                  onkeydown="if(event.key==='Enter'||event.key===' '){ window.setCalcQuality('standard'); event.preventDefault(); }"
+                >
                   <div class="quality-card-head">
-                    <span class="quality-title">Standard SNI</span>
+                    <div style="display:flex;align-items:center;">
+                      <span class="quality-radio-circle" aria-hidden="true"></span>
+                      <span class="quality-title">Standard SNI</span>
+                    </div>
                     <span class="quality-badge">Hemat Budget</span>
                   </div>
-                  <div class="quality-desc">
-                    Profil Dacon / Inkalum 0.9–1.0mm, Kaca Clear Polos SNI, aksesoris kunci & engsel standar berkualitas awet.
+                  <div class="quality-desc" id="stdQualityDesc">
+                    Profil Dacon / Inkalum 3", Kaca Clear 5mm SNI, seal karet kedap & aksesoris awet standar hunian.
+                  </div>
+                  <div>
+                    <span class="quality-rate-pill" id="stdQualityRate">Rp 85.000 – Rp 110.000 / m1</span>
                   </div>
                 </div>
 
                 <!-- Option Premium -->
-                <div class="quality-option-card" id="cardQualityPremium" role="radio" aria-checked="false" tabindex="0" onclick="window.setCalcQuality('premium')">
+                <div 
+                  class="quality-option-card" 
+                  id="cardQualityPremium" 
+                  role="radio" 
+                  aria-checked="false" 
+                  tabindex="0" 
+                  onclick="window.setCalcQuality('premium')"
+                  onkeydown="if(event.key==='Enter'||event.key===' '){ window.setCalcQuality('premium'); event.preventDefault(); }"
+                >
                   <div class="quality-card-head">
-                    <span class="quality-title">Premium Grade</span>
+                    <div style="display:flex;align-items:center;">
+                      <span class="quality-radio-circle" aria-hidden="true"></span>
+                      <span class="quality-title">Premium Grade</span>
+                    </div>
                     <span class="quality-badge">Heavy Duty</span>
                   </div>
-                  <div class="quality-desc">
-                    Profil Alexindo / Alcomexindo 1.1–1.3mm, Kaca Tempered / Fluted Moru, hardware SUS304 Dekson / Dorma.
+                  <div class="quality-desc" id="premQualityDesc">
+                    Profil Alexindo / Alcomexindo 4", Kaca Riben / Panasap / Moru, EPDM weatherseal & finish powder coating tahan cuaca.
+                  </div>
+                  <div>
+                    <span class="quality-rate-pill" id="premQualityRate">Rp 135.000 – Rp 165.000 / m1</span>
                   </div>
                 </div>
 
@@ -1019,12 +1055,12 @@
               </div>
 
               <div class="qty-presets" id="qtyPresetRow">
-                <span style="font-size:11.5px;color:#64748b;margin-right:2px;display:inline-flex;align-items:center;">Contoh Cepat:</span>
-                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(6)">6</button>
-                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(12)">12</button>
-                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(20)">20</button>
-                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(35)">35</button>
-                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(50)">50</button>
+                <span style="font-size:11.5px;color:#64748b;margin-right:2px;display:inline-flex;align-items:center;">Pilihan Cepat:</span>
+                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(6)">6 m1</button>
+                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(12)">12 m1</button>
+                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(20)">20 m1</button>
+                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(35)">35 m1</button>
+                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(50)">50 m1</button>
               </div>
             </div>
 
@@ -1039,7 +1075,7 @@
               </div>
               <div class="result-price-label">Perkiraan Estimasi Anggaran:</div>
               <div class="result-price-main" id="calcEstimateMain">Rp 1.020.000 – Rp 1.320.000</div>
-              <div class="result-price-sub" id="calcEstimateSub">Kisaran rata-rata: Rp 85.000 – Rp 110.000 / m1 (Standard SNI)</div>
+              <div class="result-price-sub" id="calcEstimateSub">Acuan tarif: Rp 85.000 – Rp 110.000 / m1 × 12 m1</div>
 
               <div class="result-specs-box">
                 <div class="result-spec-row">
@@ -1047,15 +1083,23 @@
                   <span class="result-spec-val" id="calcSummaryService">Kusen Aluminium (Profil 3" / 4")</span>
                 </div>
                 <div class="result-spec-row">
-                  <span class="result-spec-label">Spesifikasi:</span>
-                  <span class="result-spec-val" id="calcSummaryQuality">Standard SNI (Dacon / Inkalum)</span>
+                  <span class="result-spec-label">Mutu & Spek:</span>
+                  <span class="result-spec-val" id="calcSummaryQuality">Standard SNI (Dacon / Inkalum 0.9–1.0mm 3")</span>
                 </div>
                 <div class="result-spec-row">
                   <span class="result-spec-label">Volume Dihitung:</span>
                   <span class="result-spec-val" id="calcSummaryQty">12 Meter Lari (m1)</span>
                 </div>
                 <div class="result-spec-row">
-                  <span class="result-spec-label">Survey Lokasi:</span>
+                  <span class="result-spec-label">Tarif Satuan:</span>
+                  <span class="result-spec-val" id="calcSummaryRate">Rp 85.000 – Rp 110.000 / m1</span>
+                </div>
+                <div class="result-spec-row">
+                  <span class="result-spec-label">Estimasi Waktu:</span>
+                  <span class="result-spec-val" id="calcSummaryLeadTime" style="color:#5eead4;">2–4 Hari Kerja</span>
+                </div>
+                <div class="result-spec-row">
+                  <span class="result-spec-label">Survey & Ukur:</span>
                   <span class="result-spec-val" style="color:#5eead4;">Rp 0 (100% GRATIS)</span>
                 </div>
               </div>
@@ -1072,9 +1116,17 @@
                 <a href="#jadwal-survey" class="calc-survey-link" onclick="window.activateSurveyTab(event)">
                   📅 Kunci Jadwal Survey Lokasi & Pengukuran Presisi (Gratis)
                 </a>
+                <div class="calc-secondary-actions">
+                  <button type="button" class="calc-copy-btn" id="calcCopyBtn" onclick="window.copyEstimateText(event)">
+                    📋 Salin Rincian Estimasi
+                  </button>
+                  <button type="button" class="calc-pdf-btn" id="calcPdfBtn" onclick="window.printEstimateSheet(event)">
+                    🖨️ Cetak / Simpan PDF
+                  </button>
+                </div>
               </div>
               <div class="calc-disclaimer">
-                * Estimasi bersifat perkiraan kasar. Rincian RAB final disesuaikan dengan hasil ukur laser di lokasi proyek.
+                * Estimasi bersifat perkiraan kasar transparan. Rincian RAB final disesuaikan dengan hasil ukur laser di lokasi proyek.
               </div>
             </div>
 

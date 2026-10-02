@@ -156,6 +156,7 @@
       <a href="/">Beranda</a>
       <a href="/tentang">Tentang Kami</a>
       <a class="active" href="/layanan">Layanan</a>
+      <a href="#kalkulator-biaya" style="color:#0d9488;font-weight:700;">🧮 Hitung Estimasi</a>
       <a href="/#status-proyek" style="color:var(--gold);font-weight:800;">📍 Status Proyek</a>
       <a href="/galeri">Portofolio & Proyek</a>
       <a href="/artikel">Blog & Artikel</a>
@@ -495,6 +496,219 @@
             </div>
           </div>
         </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================
+       COST CALCULATOR WIDGET (ROUGH BUDGET ESTIMATE)
+  ==================================================== -->
+  <section class="cost-calc-section" id="kalkulator-biaya">
+    <div class="container">
+      <div class="cost-calc-card">
+        
+        <div class="cost-calc-badge-row">
+          <div class="cost-calc-tag">
+            <span>⚡</span>
+            <span>Kalkulator Estimasi Biaya Cepat (RAB Kasar)</span>
+          </div>
+          <span style="font-size:12.5px;color:#0d9488;font-weight:700;">
+            ✓ Real-time Update • Harga Terpasang Bersih Karawang & Bekasi
+          </span>
+        </div>
+
+        <div class="cost-calc-header">
+          <h2>Hitung Estimasi Anggaran Kasar Proyek Kaca & Aluminium Anda</h2>
+          <p>
+            Pilih jenis pekerjaan, tingkatan spesifikasi material (Standard SNI vs Premium Heavy-Duty), dan tentukan volume untuk menghasilkan <em>Rough Budget Estimate</em> secara instan dan transparan.
+          </p>
+        </div>
+
+        <div class="cost-calc-grid">
+          
+          <!-- Column 1: Interactive Form Controls -->
+          <div class="cost-calc-inputs">
+            
+            <!-- Step 1: Service Type -->
+            <div class="cost-calc-group">
+              <label for="calcServiceType" class="cost-calc-label">
+                <span>1. Pilih Jenis Layanan / Pekerjaan</span>
+                <span style="color:#0d9488;font-size:12px;font-weight:700;">12 Layanan Tersedia</span>
+              </label>
+              <select id="calcServiceType" class="cost-calc-select" aria-label="Pilih Jenis Layanan">
+                <option value="kusen" data-unit="m1" selected>Kusen Aluminium (Profil 3" / 4" SNI - per meter lari)</option>
+                <option value="pintu" data-unit="unit">Pintu Aluminium Sliding / Swing (per unit)</option>
+                <option value="jendela" data-unit="unit">Jendela Aluminium Casement / Sliding (per unit)</option>
+                <option value="partisi" data-unit="m²">Partisi Kaca Kantor Tempered (per m²)</option>
+                <option value="pintu_tempered" data-unit="unit">Pintu Kaca Frameless Floor Hinge (per unit)</option>
+                <option value="kanopi" data-unit="m²">Kanopi Kaca Tempered Carport (per m²)</option>
+                <option value="shower" data-unit="unit">Shower Screen Kaca Kamar Mandi (per unit)</option>
+                <option value="bifold" data-unit="daun">Pintu Lipat Bifold System (per daun)</option>
+                <option value="etalase" data-unit="m1">Etalase Kaca Toko & Display Counter (per meter lari)</option>
+                <option value="railing" data-unit="m1">Railing Tangga & Balkon Kaca Tempered (per meter lari)</option>
+                <option value="acp" data-unit="m²">Fasad ACP Aluminium Composite Panel (per m²)</option>
+                <option value="curtain_wall" data-unit="m²">Curtain Wall Fasad Kaca Komersial (per m²)</option>
+              </select>
+            </div>
+
+            <!-- Step 2: Material Quality Tier (Standard vs Premium) -->
+            <div class="cost-calc-group">
+              <div class="cost-calc-label">
+                <span>2. Pilih Kualitas Material</span>
+                <span id="qualityGuideText" style="color:#64748b;font-size:12px;font-weight:600;">Standard (Ekonomis) vs Premium (Luxury)</span>
+              </div>
+              
+              <div class="quality-options-grid" role="radiogroup" aria-label="Pilih Kualitas Material">
+                
+                <!-- Option Standard -->
+                <div 
+                  class="quality-option-card active" 
+                  id="cardQualityStandard" 
+                  role="radio" 
+                  aria-checked="true" 
+                  tabindex="0" 
+                  onclick="window.setCalcQuality('standard')"
+                  onkeydown="if(event.key==='Enter'||event.key===' '){ window.setCalcQuality('standard'); event.preventDefault(); }"
+                >
+                  <div class="quality-card-head">
+                    <div style="display:flex;align-items:center;">
+                      <span class="quality-radio-circle" aria-hidden="true"></span>
+                      <span class="quality-title">Standard SNI</span>
+                    </div>
+                    <span class="quality-badge">Hemat Budget</span>
+                  </div>
+                  <div class="quality-desc" id="stdQualityDesc">
+                    Profil Dacon / Inkalum 3", Kaca Clear 5mm SNI, seal karet kedap & aksesoris awet standar hunian.
+                  </div>
+                  <div>
+                    <span class="quality-rate-pill" id="stdQualityRate">Rp 85.000 – Rp 110.000 / m1</span>
+                  </div>
+                </div>
+
+                <!-- Option Premium -->
+                <div 
+                  class="quality-option-card" 
+                  id="cardQualityPremium" 
+                  role="radio" 
+                  aria-checked="false" 
+                  tabindex="0" 
+                  onclick="window.setCalcQuality('premium')"
+                  onkeydown="if(event.key==='Enter'||event.key===' '){ window.setCalcQuality('premium'); event.preventDefault(); }"
+                >
+                  <div class="quality-card-head">
+                    <div style="display:flex;align-items:center;">
+                      <span class="quality-radio-circle" aria-hidden="true"></span>
+                      <span class="quality-title">Premium Grade</span>
+                    </div>
+                    <span class="quality-badge">Heavy Duty</span>
+                  </div>
+                  <div class="quality-desc" id="premQualityDesc">
+                    Profil Alexindo / Alcomexindo 4", Kaca Riben / Panasap / Moru, EPDM weatherseal & finish powder coating tahan cuaca.
+                  </div>
+                  <div>
+                    <span class="quality-rate-pill" id="premQualityRate">Rp 135.000 – Rp 165.000 / m1</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Step 3: Quantity Input -->
+            <div class="cost-calc-group">
+              <label for="calcQuantityInput" class="cost-calc-label">
+                <span>3. Perkiraan Kuantitas / Volume</span>
+                <span id="qtyUnitBadge" style="color:#0d9488;font-size:12px;font-weight:700;">Satuan: Meter Lari (m1)</span>
+              </label>
+              
+              <div class="quantity-control-row">
+                <button type="button" class="qty-btn" id="qtyMinusBtn" aria-label="Kurangi Jumlah" onclick="window.adjustCalcQty(-1)">−</button>
+                <div class="qty-input-wrap">
+                  <input type="number" id="calcQuantityInput" class="qty-input" value="12" min="1" max="1000" step="1" aria-label="Kuantitas">
+                  <span class="qty-unit-label" id="qtyUnitSuffix">m1</span>
+                </div>
+                <button type="button" class="qty-btn" id="qtyPlusBtn" aria-label="Tambah Jumlah" onclick="window.adjustCalcQty(1)">+</button>
+              </div>
+
+              <div class="qty-presets" id="qtyPresetRow">
+                <span style="font-size:11.5px;color:#64748b;margin-right:2px;display:inline-flex;align-items:center;">Pilihan Cepat:</span>
+                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(6)">6 m1</button>
+                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(12)">12 m1</button>
+                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(20)">20 m1</button>
+                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(35)">35 m1</button>
+                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(50)">50 m1</button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Column 2: Live Rough Budget Estimate Result -->
+          <div class="cost-calc-result">
+            <div>
+              <div class="result-badge">
+                <span>💰</span>
+                <span>Rough Budget Estimate</span>
+              </div>
+              <div class="result-price-label">Perkiraan Estimasi Anggaran:</div>
+              <div class="result-price-main" id="calcEstimateMain">Rp 1.020.000 – Rp 1.320.000</div>
+              <div class="result-price-sub" id="calcEstimateSub">Acuan tarif: Rp 85.000 – Rp 110.000 / m1 × 12 m1</div>
+
+              <div class="result-specs-box">
+                <div class="result-spec-row">
+                  <span class="result-spec-label">Pekerjaan:</span>
+                  <span class="result-spec-val" id="calcSummaryService">Kusen Aluminium (Profil 3" / 4")</span>
+                </div>
+                <div class="result-spec-row">
+                  <span class="result-spec-label">Mutu & Spek:</span>
+                  <span class="result-spec-val" id="calcSummaryQuality">Standard SNI (Dacon / Inkalum 0.9–1.0mm 3")</span>
+                </div>
+                <div class="result-spec-row">
+                  <span class="result-spec-label">Volume Dihitung:</span>
+                  <span class="result-spec-val" id="calcSummaryQty">12 Meter Lari (m1)</span>
+                </div>
+                <div class="result-spec-row">
+                  <span class="result-spec-label">Tarif Satuan:</span>
+                  <span class="result-spec-val" id="calcSummaryRate">Rp 85.000 – Rp 110.000 / m1</span>
+                </div>
+                <div class="result-spec-row">
+                  <span class="result-spec-label">Estimasi Waktu:</span>
+                  <span class="result-spec-val" id="calcSummaryLeadTime" style="color:#5eead4;">2–4 Hari Kerja</span>
+                </div>
+                <div class="result-spec-row">
+                  <span class="result-spec-label">Survey & Ukur:</span>
+                  <span class="result-spec-val" style="color:#5eead4;">Rp 0 (100% GRATIS)</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="result-actions">
+                <a href="https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20ingin%20konsultasi%20hasil%20estimasi%20biaya." class="calc-wa-btn" id="calcWaActionBtn" onclick="window.consultEstimateViaWa(event)">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                  </svg>
+                  <span>Konsultasi Estimasi Ini ke WhatsApp &rarr;</span>
+                </a>
+                <a href="/#jadwal-survey" class="calc-survey-link">
+                  📅 Kunci Jadwal Survey Lokasi & Pengukuran Presisi (Gratis)
+                </a>
+                <div class="calc-secondary-actions">
+                  <button type="button" class="calc-copy-btn" id="calcCopyBtn" onclick="window.copyEstimateText(event)">
+                    📋 Salin Rincian Estimasi
+                  </button>
+                  <button type="button" class="calc-pdf-btn" id="calcPdfBtn" onclick="window.printEstimateSheet(event)">
+                    🖨️ Cetak / Simpan PDF
+                  </button>
+                </div>
+              </div>
+              <div class="calc-disclaimer">
+                * Estimasi bersifat perkiraan kasar transparan. Rincian RAB final disesuaikan dengan hasil ukur laser di lokasi proyek.
+              </div>
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
     </div>

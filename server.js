@@ -1215,10 +1215,10 @@ landingPages.forEach(slug => {
     res.sendFile(path.join(__dirname, `${slug}.html`));
   });
 
-  // Alias without 'jasa-' prefix e.g. /layanan/pintu-aluminium-karawang
+  // Alias without 'jasa-' prefix e.g. /layanan/pintu-aluminium-karawang redirects 301 to canonical /jasa-pintu-aluminium-karawang
   const withoutJasa = slug.replace(/^jasa-/, '');
   app.get(`/layanan/${withoutJasa}`, (req, res) => {
-    res.sendFile(path.join(__dirname, `${slug}.html`));
+    res.redirect(301, `https://sahabat-aluminium.my.id/${slug}`);
   });
 });
 

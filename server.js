@@ -1114,7 +1114,7 @@ app.get('/api/seo/audit', (req, res) => {
       return {
         name: item.name,
         path: item.path,
-        fullUrl: `https://www.sahabat-aluminium.my.id${item.path === '/' ? '' : item.path}`,
+        fullUrl: `https://sahabat-aluminium.my.id${item.path === '/' ? '' : item.path}`,
         status: 200,
         indexable: !hasNoIndex,
         hasNoIndex: false,

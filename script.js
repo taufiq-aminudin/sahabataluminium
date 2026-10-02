@@ -2586,31 +2586,202 @@ function setupFaqAskForm() {
 }
 
 /* =========================================================
-   HOMEPAGE FEATURED PORTFOLIO FILTER
+   HOMEPAGE FEATURED PORTFOLIO FILTER & PAGINATION CONTROLLER
    ========================================================= */
-const homePortfolioFilter = document.getElementById('featuredPortfolioFilter');
-if (homePortfolioFilter) {
-  const filterBtns = homePortfolioFilter.querySelectorAll('button');
-  const projectCards = document.querySelectorAll('#featuredPortfolioGrid .featured-project-card');
+(function initFeaturedPortfolioPagination() {
+  const portfolioGrid = document.getElementById('featuredPortfolioGrid');
+  if (!portfolioGrid) return;
 
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const cat = btn.getAttribute('data-cat');
+  const projectCards = Array.from(portfolioGrid.querySelectorAll('.featured-project-card'));
+  if (!projectCards.length) return;
 
-      projectCards.forEach(card => {
-        const cardCat = card.getAttribute('data-cat') || '';
-        const cats = cardCat.split(' ');
-        if (cat === 'all' || cats.includes(cat)) {
-          card.style.display = '';
+  const filterContainer = document.getElementById('featuredPortfolioFilter');
+  const paginationContainer = document.getElementById('featuredPortfolioPagination');
+  const prevBtn = document.getElementById('portfolioPrevBtn');
+  const nextBtn = document.getElementById('portfolioNextBtn');
+  const pageNumbersContainer = document.getElementById('portfolioPageNumbers');
+  const rangeText = document.getElementById('portfolioRangeText');
+  const totalText = document.getElementById('portfolioTotalText');
+  const setTabsContainer = document.getElementById('portfolioSetTabs');
+
+  const ITEMS_PER_PAGE = 6;
+  let currentCategory = 'all';
+  let currentPage = 1;
+
+  function getMatchingCards() {
+    return projectCards.filter(card => {
+      if (currentCategory === 'all') return true;
+      const cardCat = card.getAttribute('data-cat') || '';
+      const cats = cardCat.split(' ');
+      return cats.includes(currentCategory);
+    });
+  }
+
+  function updateView(shouldScroll = false) {
+    const matching = getMatchingCards();
+    const totalItems = matching.length;
+    const totalPages = Math.max(1, Math.ceil(totalItems / ITEMS_PER_PAGE));
+
+    if (currentPage > totalPages) {
+      currentPage = totalPages;
+    }
+    if (currentPage < 1) {
+      currentPage = 1;
+    }
+
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
+    const visibleCards = matching.slice(startIndex, endIndex);
+
+    // Toggle card visibility & trigger animation
+    projectCards.forEach(card => {
+      if (visibleCards.includes(card)) {
+        card.style.display = '';
+        card.classList.remove('fade-in');
+        // Force reflow for clean re-trigger of transition
+        void card.offsetWidth;
+        card.classList.add('fade-in');
+      } else {
+        card.style.display = 'none';
+        card.classList.remove('fade-in');
+      }
+    });
+
+    // Update Counter Text
+    if (rangeText && totalText) {
+      if (totalItems === 0) {
+        rangeText.textContent = '0';
+        totalText.textContent = '0';
+      } else {
+        rangeText.textContent = `${startIndex + 1}–${endIndex}`;
+        totalText.textContent = `${totalItems}`;
+      }
+    }
+
+    // Update Navigation Buttons & Numbered Tabs
+    if (paginationContainer) {
+      if (totalItems <= ITEMS_PER_PAGE) {
+        // Only 1 page available
+        if (prevBtn) prevBtn.disabled = true;
+        if (nextBtn) nextBtn.disabled = true;
+        if (pageNumbersContainer) {
+          pageNumbersContainer.innerHTML = '<button type="button" class="portfolio-num-btn active" aria-current="page" disabled>1</button>';
+        }
+      } else {
+        if (prevBtn) prevBtn.disabled = (currentPage === 1);
+        if (nextBtn) nextBtn.disabled = (currentPage === totalPages);
+
+        if (pageNumbersContainer) {
+          pageNumbersContainer.innerHTML = '';
+          for (let p = 1; p <= totalPages; p++) {
+            const numBtn = document.createElement('button');
+            numBtn.type = 'button';
+            numBtn.className = `portfolio-num-btn ${p === currentPage ? 'active' : ''}`;
+            numBtn.textContent = p;
+            numBtn.setAttribute('aria-label', `Halaman ${p}`);
+            if (p === currentPage) {
+              numBtn.setAttribute('aria-current', 'page');
+            }
+            numBtn.addEventListener('click', () => {
+              if (currentPage !== p) {
+                currentPage = p;
+                updateView(true);
+              }
+            });
+            pageNumbersContainer.appendChild(numBtn);
+          }
+        }
+      }
+    }
+
+    // Update Quick Set Tabs
+    if (setTabsContainer) {
+      const setBtns = setTabsContainer.querySelectorAll('.portfolio-set-tab');
+      setBtns.forEach(btn => {
+        const pageTarget = parseInt(btn.getAttribute('data-page'), 10);
+        if (pageTarget === currentPage) {
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
         } else {
-          card.style.display = 'none';
+          btn.classList.remove('active');
+          btn.setAttribute('aria-selected', 'false');
+        }
+        btn.style.display = pageTarget <= totalPages ? '' : 'none';
+      });
+    }
+
+    // Smooth scroll to top of section if requested
+    if (shouldScroll) {
+      const section = document.getElementById('portofolio-proyek');
+      if (section) {
+        const topPos = section.getBoundingClientRect().top + window.pageYOffset - 90;
+        window.scrollTo({
+          top: topPos,
+          behavior: 'smooth'
+        });
+      }
+    }
+  }
+
+  // Prev / Next button listeners
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        updateView(true);
+      }
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      const matching = getMatchingCards();
+      const totalPages = Math.ceil(matching.length / ITEMS_PER_PAGE);
+      if (currentPage < totalPages) {
+        currentPage++;
+        updateView(true);
+      }
+    });
+  }
+
+  // Category Filter Buttons listener
+  if (filterContainer) {
+    const filterBtns = filterContainer.querySelectorAll('button');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.getAttribute('data-cat') || 'all';
+        currentPage = 1; // Reset to page 1 on filter change
+        updateView(false);
+      });
+    });
+  }
+
+  // Set tabs listener
+  if (setTabsContainer) {
+    const setBtns = setTabsContainer.querySelectorAll('.portfolio-set-tab');
+    setBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const p = parseInt(btn.getAttribute('data-page'), 10);
+        if (p && p !== currentPage) {
+          currentPage = p;
+          updateView(true);
         }
       });
     });
-  });
-}
+  }
+
+  // Initial render on load
+  updateView(false);
+
+  // Global helper
+  window.setPortfolioPage = function(pageNumber) {
+    currentPage = pageNumber;
+    updateView(true);
+  };
+})();
+
 
 /* =========================================================
    PROJECT STATUS DASHBOARD (REAL-TIME ORDER TRACKING)

@@ -5424,6 +5424,217 @@ body.faq-drawer-open {
 }
 
 /* =========================================================
+   FEATURED PORTFOLIO PAGINATION
+   ========================================================= */
+.featured-portfolio-pagination {
+  margin-top: 36px;
+  padding: 16px 22px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(7, 46, 59, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  transition: all 0.25s ease;
+}
+
+.portfolio-page-info {
+  font-size: 13.5px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.portfolio-page-info strong {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.portfolio-page-badge {
+  display: inline-flex;
+  align-items: center;
+  background: #f0fdfa;
+  color: #0d9488;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccfbf1;
+  margin-left: 4px;
+}
+
+/* Quick Set Tabs */
+.portfolio-set-tabs {
+  display: inline-flex;
+  align-items: center;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 10px;
+  gap: 4px;
+}
+
+.portfolio-set-tab {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.portfolio-set-tab:hover:not(.active) {
+  color: #0f172a;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.portfolio-set-tab.active {
+  background: #ffffff;
+  color: #072e3b;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Pagination Buttons Navigation */
+.portfolio-pagination-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.portfolio-page-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  color: #334155;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.portfolio-page-btn svg {
+  transition: transform 0.2s ease;
+}
+
+.portfolio-page-btn:hover:not(:disabled) {
+  background: #072e3b;
+  color: #ffffff;
+  border-color: #072e3b;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(7, 46, 59, 0.15);
+}
+
+.portfolio-page-btn:hover:not(:disabled) svg {
+  stroke: #ffffff;
+}
+
+.portfolio-page-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  border-color: #e2e8f0;
+  color: #94a3b8;
+  background: #f8fafc;
+  transform: none;
+  box-shadow: none;
+}
+
+.portfolio-page-numbers {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.portfolio-num-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 38px;
+  padding: 0 10px;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  color: #475569;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.portfolio-num-btn:hover:not(.active) {
+  background: #e2e8f0;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+.portfolio-num-btn.active {
+  background: #072e3b;
+  color: #ffffff;
+  border-color: #072e3b;
+  box-shadow: 0 4px 12px rgba(7, 46, 59, 0.2);
+}
+
+/* Card Entry Animation for Page Switch */
+.featured-project-card.fade-in {
+  animation: portfolioCardFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes portfolioCardFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .featured-portfolio-pagination {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 16px;
+  }
+  .portfolio-page-info {
+    justify-content: center;
+    text-align: center;
+  }
+  .portfolio-set-tabs {
+    justify-content: center;
+    width: 100%;
+  }
+  .portfolio-set-tab {
+    flex: 1;
+    text-align: center;
+  }
+  .portfolio-pagination-nav {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* =========================================================
    PROJECT STATUS DASHBOARD (REAL-TIME TRACKING)
    ========================================================= */
 .status-dashboard-section {

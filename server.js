@@ -96,16 +96,31 @@ app.use((req, res, next) => {
 
   const isWww = host === 'www.sahabat-aluminium.my.id';
   const isApex = host === 'sahabat-aluminium.my.id';
+  const isProdHost = isWww || isApex;
+  const isHttps = proto === 'https' || isCfHttps;
+  const isIndexHtml = req.path === '/index.html';
 
-  // If request comes for www OR insecure http on apex domain, redirect 301 directly to canonical HTTPS apex
-  if (isWww || (isApex && proto === 'http' && !isCfHttps)) {
-    let cleanPath = req.url;
-    if (cleanPath === '/index.html') {
-      cleanPath = '/';
-    } else if (cleanPath.endsWith('.html')) {
-      cleanPath = cleanPath.replace(/\.html$/, '');
+  if (isProdHost) {
+    // Single-hop 301 redirect for:
+    // - www.sahabat-aluminium.my.id -> https://sahabat-aluminium.my.id
+    // - http://sahabat-aluminium.my.id -> https://sahabat-aluminium.my.id
+    // - https://sahabat-aluminium.my.id/index.html -> https://sahabat-aluminium.my.id/
+    // - any combination thereof
+    if (isWww || !isHttps || isIndexHtml) {
+      let cleanPath = req.url;
+      if (isIndexHtml) {
+        const qIndex = cleanPath.indexOf('?');
+        cleanPath = qIndex !== -1 ? '/' + cleanPath.slice(qIndex) : '/';
+      } else if (cleanPath.endsWith('.html')) {
+        cleanPath = cleanPath.replace(/\.html(\?.*)?$/, '$1');
+      }
+      return res.redirect(301, `https://sahabat-aluminium.my.id${cleanPath}`);
     }
-    return res.redirect(301, `https://sahabat-aluminium.my.id${cleanPath}`);
+  } else if (isIndexHtml) {
+    // In dev / preview / localhost environment:
+    const qIndex = req.url.indexOf('?');
+    const cleanPath = qIndex !== -1 ? '/' + req.url.slice(qIndex) : '/';
+    return res.redirect(301, cleanPath);
   }
 
   next();
@@ -1225,6 +1240,10 @@ app.get(['/kontak', '/kontak/'], (req, res) => {
 
 // 301 Permanent Redirects for legacy .html URLs to canonical clean URLs
 app.get('/index.html', (req, res) => {
+  const host = (req.headers['x-forwarded-host'] || req.headers.host || '').toLowerCase().split(':')[0];
+  if (host === 'sahabat-aluminium.my.id' || host === 'www.sahabat-aluminium.my.id') {
+    return res.redirect(301, 'https://sahabat-aluminium.my.id/');
+  }
   return res.redirect(301, '/');
 });
 

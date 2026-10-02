@@ -41,11 +41,15 @@ Options -Indexes
   RewriteRule ^robots\.txt$ - [L]
   RewriteRule ^ads\.txt$ - [L]
 
-  # Redirect www to non-www (HTTPS)
+  # 1. Direct single-hop 301 redirect for index.html to canonical root
+  RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html [NC]
+  RewriteRule ^index\.html$ https://sahabat-aluminium.my.id/ [R=301,L]
+
+  # 2. Redirect www to non-www (HTTPS)
   RewriteCond %{HTTP_HOST} ^www\.sahabat-aluminium\.my\.id$ [NC]
   RewriteRule ^(.*)$ https://sahabat-aluminium.my.id/$1 [R=301,L]
 
-  # Enforce HTTPS on apex domain (except for sitemap and robots if requested directly)
+  # 3. Enforce HTTPS on apex domain
   RewriteCond %{HTTPS} off
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^(.*)$ https://sahabat-aluminium.my.id/$1 [R=301,L]

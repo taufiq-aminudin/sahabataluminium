@@ -13,18 +13,92 @@ const HOST = '0.0.0.0';
 
 app.set('trust proxy', true);
 
+// ========================================================
+// CRITICAL CRAWLER ROUTES (SITEMAP, ROBOTS, ADS)
+// Must NEVER be redirected or challenged. Always return HTTP 200 OK.
+// ========================================================
+
+// 1. Sitemap XML (Google Search Console, Bingbot, Yandex)
+app.get(['/sitemap.xml', '/sitemap-nonwww.xml', '/sitemap'], (req, res) => {
+  const filePath = path.join(__dirname, 'sitemap.xml');
+  if (fs.existsSync(filePath)) {
+    const xmlContent = fs.readFileSync(filePath, 'utf8');
+    res.setHeader('Content-Type', 'application/xml; charset=UTF-8');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    return res.status(200).send(xmlContent);
+  }
+  return res.status(404).type('text/plain; charset=UTF-8').send('Sitemap not found');
+});
+
+// 2. Robots.txt (Googlebot standard compliance)
+app.get('/robots.txt', (req, res) => {
+  const filePath = path.join(__dirname, 'robots.txt');
+  let content = 'User-agent: *\nAllow: /\n\nSitemap: https://sahabat-aluminium.my.id/sitemap.xml\n';
+  if (fs.existsSync(filePath)) {
+    content = fs.readFileSync(filePath, 'utf8');
+  }
+  res.setHeader('Content-Type', 'text/plain; charset=UTF-8');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  return res.status(200).send(content);
+});
+
+// 3. Ads.txt (Google AdSense crawler)
+app.get('/ads.txt', (req, res) => {
+  const filePath = path.join(__dirname, 'ads.txt');
+  if (fs.existsSync(filePath)) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    res.setHeader('Content-Type', 'text/plain; charset=UTF-8');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    return res.status(200).send(content);
+  }
+  return res.status(404).type('text/plain; charset=UTF-8').send('ads.txt not found');
+});
+
 // Canonical Domain & HTTPS Enforcement Middleware
 // Enforces single-hop 301 redirect to https://sahabat-aluminium.my.id/
 app.use((req, res, next) => {
+  // Never redirect sitemap, robots, or crawler verification files
+  const crawlerExempt = [
+    '/sitemap.xml',
+    '/sitemap-nonwww.xml',
+    '/sitemap',
+    '/robots.txt',
+    '/ads.txt'
+  ];
+  if (crawlerExempt.includes(req.path) || req.path.startsWith('/.well-known/')) {
+    return next();
+  }
+
   const rawHost = (req.headers['x-forwarded-host'] || req.headers.host || '').toLowerCase();
   const host = rawHost.split(':')[0];
-  const proto = (req.headers['x-forwarded-proto'] || (req.connection && req.connection.encrypted ? 'https' : req.protocol) || 'http').toLowerCase();
+
+  // Detect Cloudflare HTTPS schemes to prevent infinite loops behind Flexible SSL
+  let isCfHttps = false;
+  const cfVisitorHeader = req.headers['cf-visitor'];
+  if (cfVisitorHeader) {
+    try {
+      const parsed = JSON.parse(cfVisitorHeader);
+      if (parsed.scheme === 'https') isCfHttps = true;
+    } catch(e) {}
+  }
+
+  const proto = (
+    (isCfHttps ? 'https' : null) ||
+    req.headers['x-forwarded-proto'] ||
+    (req.connection && req.connection.encrypted ? 'https' : req.protocol) ||
+    'http'
+  ).toLowerCase();
 
   const isWww = host === 'www.sahabat-aluminium.my.id';
   const isApex = host === 'sahabat-aluminium.my.id';
 
   // If request comes for www OR insecure http on apex domain, redirect 301 directly to canonical HTTPS apex
-  if (isWww || (isApex && proto === 'http')) {
+  if (isWww || (isApex && proto === 'http' && !isCfHttps)) {
     let cleanPath = req.url;
     if (cleanPath === '/index.html') {
       cleanPath = '/';
@@ -979,28 +1053,6 @@ Mohon konfirmasi ketersediaan tim teknisi lapangan untuk jadwal ini. Terima kasi
   }
 });
 
-// Explicit route for robots.txt with optimal SEO headers
-app.get('/robots.txt', (req, res) => {
-  res.type('text/plain; charset=UTF-8');
-  res.set('Cache-Control', 'public, max-age=3600');
-  const filePath = path.join(__dirname, 'robots.txt');
-  if (fs.existsSync(filePath)) {
-    return res.sendFile(filePath);
-  }
-  return res.send(`User-agent: *\nAllow: /\n\nSitemap: https://sahabat-aluminium.my.id/sitemap.xml\n`);
-});
-
-// Explicit route for sitemap.xml with host adaptation
-app.get(['/sitemap.xml', '/sitemap-nonwww.xml'], (req, res) => {
-  res.type('application/xml; charset=UTF-8');
-  res.set('Cache-Control', 'public, max-age=3600');
-
-  const filePath = path.join(__dirname, 'sitemap.xml');
-  if (fs.existsSync(filePath)) {
-    return res.sendFile(filePath);
-  }
-  return res.status(404).send('<!-- Sitemap not found -->');
-});
 
 // SEO Inspection & Sitemap Submission API
 app.get('/api/seo/audit', (req, res) => {

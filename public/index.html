@@ -649,6 +649,10 @@
         Layanan
       </a>
 
+      <a href="#kalkulator-biaya" style="color:#0d9488;font-weight:700;">
+        🧮 Hitung Estimasi
+      </a>
+
       <a href="#status-proyek" style="color:var(--gold);font-weight:800;">
         📍 Status Proyek
       </a>
@@ -954,17 +958,21 @@
             <div class="cost-calc-group">
               <label for="calcServiceType" class="cost-calc-label">
                 <span>1. Pilih Jenis Layanan / Pekerjaan</span>
-                <span style="color:#0d9488;font-size:12px;">Paling Populer: Kusen & Pintu</span>
+                <span style="color:#0d9488;font-size:12px;font-weight:700;">12 Layanan Tersedia</span>
               </label>
               <select id="calcServiceType" class="cost-calc-select" aria-label="Pilih Jenis Layanan">
-                <option value="kusen" data-unit="m1" data-label="Kusen Aluminium (Profil 3 / 4 Inch SNI)">Kusen Aluminium (Profil 3" / 4" SNI - per meter lari)</option>
-                <option value="pintu" data-unit="unit" data-label="Pintu Aluminium (Sliding / Swing Modern)">Pintu Aluminium Sliding / Swing (per unit)</option>
-                <option value="jendela" data-unit="unit" data-label="Jendela Aluminium (Casement / Sliding)">Jendela Aluminium Casement / Sliding (per unit)</option>
-                <option value="partisi" data-unit="m²" data-label="Partisi Kaca Tempered Kantor / Sekat Ruangan">Partisi Kaca Kantor Tempered (per m²)</option>
-                <option value="pintu_tempered" data-unit="unit" data-label="Pintu Kaca Frameless Tempered (Floor Hinge)">Pintu Kaca Frameless Floor Hinge (per unit)</option>
-                <option value="kanopi" data-unit="m²" data-label="Kanopi Kaca Tempered Carport / Teras">Kanopi Kaca Tempered Carport (per m²)</option>
-                <option value="shower" data-unit="unit" data-label="Shower Screen Kaca Tempered Kamar Mandi">Shower Screen Kaca Kamar Mandi (per unit)</option>
-                <option value="bifold" data-unit="daun" data-label="Pintu Lipat Bifold System Aluminium">Pintu Lipat Bifold System (per daun)</option>
+                <option value="kusen" data-unit="m1" selected>Kusen Aluminium (Profil 3" / 4" SNI - per meter lari)</option>
+                <option value="pintu" data-unit="unit">Pintu Aluminium Sliding / Swing (per unit)</option>
+                <option value="jendela" data-unit="unit">Jendela Aluminium Casement / Sliding (per unit)</option>
+                <option value="partisi" data-unit="m²">Partisi Kaca Kantor Tempered (per m²)</option>
+                <option value="pintu_tempered" data-unit="unit">Pintu Kaca Frameless Floor Hinge (per unit)</option>
+                <option value="kanopi" data-unit="m²">Kanopi Kaca Tempered Carport (per m²)</option>
+                <option value="shower" data-unit="unit">Shower Screen Kaca Kamar Mandi (per unit)</option>
+                <option value="bifold" data-unit="daun">Pintu Lipat Bifold System (per daun)</option>
+                <option value="etalase" data-unit="m1">Etalase Kaca Toko & Display Counter (per meter lari)</option>
+                <option value="railing" data-unit="m1">Railing Tangga & Balkon Kaca Tempered (per meter lari)</option>
+                <option value="acp" data-unit="m²">Fasad ACP Aluminium Composite Panel (per m²)</option>
+                <option value="curtain_wall" data-unit="m²">Curtain Wall Fasad Kaca Komersial (per m²)</option>
               </select>
             </div>
 
@@ -978,24 +986,52 @@
               <div class="quality-options-grid" role="radiogroup" aria-label="Pilih Kualitas Material">
                 
                 <!-- Option Standard -->
-                <div class="quality-option-card active" id="cardQualityStandard" role="radio" aria-checked="true" tabindex="0" onclick="window.setCalcQuality('standard')">
+                <div 
+                  class="quality-option-card active" 
+                  id="cardQualityStandard" 
+                  role="radio" 
+                  aria-checked="true" 
+                  tabindex="0" 
+                  onclick="window.setCalcQuality('standard')"
+                  onkeydown="if(event.key==='Enter'||event.key===' '){ window.setCalcQuality('standard'); event.preventDefault(); }"
+                >
                   <div class="quality-card-head">
-                    <span class="quality-title">Standard SNI</span>
+                    <div style="display:flex;align-items:center;">
+                      <span class="quality-radio-circle" aria-hidden="true"></span>
+                      <span class="quality-title">Standard SNI</span>
+                    </div>
                     <span class="quality-badge">Hemat Budget</span>
                   </div>
-                  <div class="quality-desc">
-                    Profil Dacon / Inkalum 0.9–1.0mm, Kaca Clear Polos SNI, aksesoris kunci & engsel standar berkualitas awet.
+                  <div class="quality-desc" id="stdQualityDesc">
+                    Profil Dacon / Inkalum 3", Kaca Clear 5mm SNI, seal karet kedap & aksesoris awet standar hunian.
+                  </div>
+                  <div>
+                    <span class="quality-rate-pill" id="stdQualityRate">Rp 85.000 – Rp 110.000 / m1</span>
                   </div>
                 </div>
 
                 <!-- Option Premium -->
-                <div class="quality-option-card" id="cardQualityPremium" role="radio" aria-checked="false" tabindex="0" onclick="window.setCalcQuality('premium')">
+                <div 
+                  class="quality-option-card" 
+                  id="cardQualityPremium" 
+                  role="radio" 
+                  aria-checked="false" 
+                  tabindex="0" 
+                  onclick="window.setCalcQuality('premium')"
+                  onkeydown="if(event.key==='Enter'||event.key===' '){ window.setCalcQuality('premium'); event.preventDefault(); }"
+                >
                   <div class="quality-card-head">
-                    <span class="quality-title">Premium Grade</span>
+                    <div style="display:flex;align-items:center;">
+                      <span class="quality-radio-circle" aria-hidden="true"></span>
+                      <span class="quality-title">Premium Grade</span>
+                    </div>
                     <span class="quality-badge">Heavy Duty</span>
                   </div>
-                  <div class="quality-desc">
-                    Profil Alexindo / Alcomexindo 1.1–1.3mm, Kaca Tempered / Fluted Moru, hardware SUS304 Dekson / Dorma.
+                  <div class="quality-desc" id="premQualityDesc">
+                    Profil Alexindo / Alcomexindo 4", Kaca Riben / Panasap / Moru, EPDM weatherseal & finish powder coating tahan cuaca.
+                  </div>
+                  <div>
+                    <span class="quality-rate-pill" id="premQualityRate">Rp 135.000 – Rp 165.000 / m1</span>
                   </div>
                 </div>
 
@@ -1019,12 +1055,12 @@
               </div>
 
               <div class="qty-presets" id="qtyPresetRow">
-                <span style="font-size:11.5px;color:#64748b;margin-right:2px;display:inline-flex;align-items:center;">Contoh Cepat:</span>
-                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(6)">6</button>
-                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(12)">12</button>
-                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(20)">20</button>
-                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(35)">35</button>
-                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(50)">50</button>
+                <span style="font-size:11.5px;color:#64748b;margin-right:2px;display:inline-flex;align-items:center;">Pilihan Cepat:</span>
+                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(6)">6 m1</button>
+                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(12)">12 m1</button>
+                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(20)">20 m1</button>
+                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(35)">35 m1</button>
+                <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(50)">50 m1</button>
               </div>
             </div>
 
@@ -1039,7 +1075,7 @@
               </div>
               <div class="result-price-label">Perkiraan Estimasi Anggaran:</div>
               <div class="result-price-main" id="calcEstimateMain">Rp 1.020.000 – Rp 1.320.000</div>
-              <div class="result-price-sub" id="calcEstimateSub">Kisaran rata-rata: Rp 85.000 – Rp 110.000 / m1 (Standard SNI)</div>
+              <div class="result-price-sub" id="calcEstimateSub">Acuan tarif: Rp 85.000 – Rp 110.000 / m1 × 12 m1</div>
 
               <div class="result-specs-box">
                 <div class="result-spec-row">
@@ -1047,15 +1083,23 @@
                   <span class="result-spec-val" id="calcSummaryService">Kusen Aluminium (Profil 3" / 4")</span>
                 </div>
                 <div class="result-spec-row">
-                  <span class="result-spec-label">Spesifikasi:</span>
-                  <span class="result-spec-val" id="calcSummaryQuality">Standard SNI (Dacon / Inkalum)</span>
+                  <span class="result-spec-label">Mutu & Spek:</span>
+                  <span class="result-spec-val" id="calcSummaryQuality">Standard SNI (Dacon / Inkalum 0.9–1.0mm 3")</span>
                 </div>
                 <div class="result-spec-row">
                   <span class="result-spec-label">Volume Dihitung:</span>
                   <span class="result-spec-val" id="calcSummaryQty">12 Meter Lari (m1)</span>
                 </div>
                 <div class="result-spec-row">
-                  <span class="result-spec-label">Survey Lokasi:</span>
+                  <span class="result-spec-label">Tarif Satuan:</span>
+                  <span class="result-spec-val" id="calcSummaryRate">Rp 85.000 – Rp 110.000 / m1</span>
+                </div>
+                <div class="result-spec-row">
+                  <span class="result-spec-label">Estimasi Waktu:</span>
+                  <span class="result-spec-val" id="calcSummaryLeadTime" style="color:#5eead4;">2–4 Hari Kerja</span>
+                </div>
+                <div class="result-spec-row">
+                  <span class="result-spec-label">Survey & Ukur:</span>
                   <span class="result-spec-val" style="color:#5eead4;">Rp 0 (100% GRATIS)</span>
                 </div>
               </div>
@@ -1072,9 +1116,17 @@
                 <a href="#jadwal-survey" class="calc-survey-link" onclick="window.activateSurveyTab(event)">
                   📅 Kunci Jadwal Survey Lokasi & Pengukuran Presisi (Gratis)
                 </a>
+                <div class="calc-secondary-actions">
+                  <button type="button" class="calc-copy-btn" id="calcCopyBtn" onclick="window.copyEstimateText(event)">
+                    📋 Salin Rincian Estimasi
+                  </button>
+                  <button type="button" class="calc-pdf-btn" id="calcPdfBtn" onclick="window.printEstimateSheet(event)">
+                    🖨️ Cetak / Simpan PDF
+                  </button>
+                </div>
               </div>
               <div class="calc-disclaimer">
-                * Estimasi bersifat perkiraan kasar. Rincian RAB final disesuaikan dengan hasil ukur laser di lokasi proyek.
+                * Estimasi bersifat perkiraan kasar transparan. Rincian RAB final disesuaikan dengan hasil ukur laser di lokasi proyek.
               </div>
             </div>
 
@@ -2108,7 +2160,116 @@
             </div>
           </div>
         </article>
+
+        <!-- Project 9 -->
+        <article class="featured-project-card" data-cat="tempered desain-rumah">
+          <div class="featured-project-thumb">
+            <span class="featured-project-badge">Summarecon Bekasi</span>
+            <img src="assets/gallery/shower-kaca.jpg" alt="Kanopi Kaca Tempered Carport Modern" loading="lazy">
+          </div>
+          <div class="featured-project-content">
+            <span class="featured-project-category">Kanopi Kaca • Carport</span>
+            <h3 class="featured-project-title">Kanopi Kaca Tempered Laminated Carport Modern</h3>
+            <p class="featured-project-desc">Kanopi carport bentangan 4.5m x 5m kaca tempered laminated 5+5mm PVB, rangka hollow galvanis epoxy primer anti karat dan tahan gempa.</p>
+            <div class="featured-project-action">
+              <a href="/galeri?filter=kaca-tempered" class="featured-project-link">Lihat di Galeri →</a>
+              <a href="https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20tertarik%20kanopi%20kaca%20tempered." target="_blank" rel="noopener" class="featured-project-wa">Konsultasi Serupa</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 10 -->
+        <article class="featured-project-card" data-cat="pintu">
+          <div class="featured-project-thumb">
+            <span class="featured-project-badge">KBI Purwakarta</span>
+            <img src="assets/gallery/pintu-sliding.jpg" alt="Pintu Lipat Aluminium 6 Daun Garasi & Ruang Fleksibel" loading="lazy">
+          </div>
+          <div class="featured-project-content">
+            <span class="featured-project-category">Pintu Lipat • Serbaguna</span>
+            <h3 class="featured-project-title">Pintu Lipat Aluminium 6 Daun Ruang Serbaguna & Garasi</h3>
+            <p class="featured-project-desc">Pintu folding 6 daun bukaan ganda untuk sekat ruang serbaguna fleksibel dan garasi mobil dengan engsel heavy-duty dan peredam getaran.</p>
+            <div class="featured-project-action">
+              <a href="/galeri?filter=pintu" class="featured-project-link">Lihat di Galeri →</a>
+              <a href="https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20tertarik%20pintu%20lipat%20aluminium." target="_blank" rel="noopener" class="featured-project-wa">Konsultasi Serupa</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 11 -->
+        <article class="featured-project-card" data-cat="partisi">
+          <div class="featured-project-thumb">
+            <span class="featured-project-badge">GIIC Cikarang</span>
+            <img src="assets/gallery/partisi-aluminium.jpg" alt="Partisi Kaca Akustik Double Glass dengan Louver Blinds" loading="lazy">
+          </div>
+          <div class="featured-project-content">
+            <span class="featured-project-category">Partisi Kaca • Akustik STC 42</span>
+            <h3 class="featured-project-title">Partisi Kaca Akustik Double Glass Tirai Blinds Internal</h3>
+            <p class="featured-project-desc">Partisi kedap suara STC 42 dB dengan sistem double glass dan blinds magnetic internal untuk ruang meeting direksi pabrik GIIC Cikarang.</p>
+            <div class="featured-project-action">
+              <a href="/galeri?filter=partisi" class="featured-project-link">Lihat di Galeri →</a>
+              <a href="https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20tertarik%20partisi%20kaca%20akustik." target="_blank" rel="noopener" class="featured-project-wa">Konsultasi Serupa</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 12 -->
+        <article class="featured-project-card" data-cat="pintu desain-rumah">
+          <div class="featured-project-thumb">
+            <span class="featured-project-badge">Resinda Karawang</span>
+            <img src="assets/gallery/pintu-kaca.jpg" alt="Pintu Entrance Pivot Jumbo Oversized Aluminium" loading="lazy">
+          </div>
+          <div class="featured-project-content">
+            <span class="featured-project-category">Pintu Pivot • Luxury</span>
+            <h3 class="featured-project-title">Pintu Entrance Pivot Jumbo Oversized Aluminium</h3>
+            <p class="featured-project-desc">Pintu utama arsitektural pivot frame ukuran 1.4m x 2.8m berengsel lantai floor hinge dan tarikan handle vertikal 1.8 meter premium look.</p>
+            <div class="featured-project-action">
+              <a href="/galeri?filter=pintu" class="featured-project-link">Lihat di Galeri →</a>
+              <a href="https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20tertarik%20pintu%20pivot%20jumbo." target="_blank" rel="noopener" class="featured-project-wa">Konsultasi Serupa</a>
+            </div>
+          </div>
+        </article>
       </div>
+
+      <!-- Interactive Pagination Bar for Featured Portfolio -->
+      <div class="featured-portfolio-pagination" id="featuredPortfolioPagination" aria-label="Kontrol Halaman Portofolio">
+        <div class="portfolio-page-info" id="portfolioPageInfo">
+          <span>Menampilkan <strong id="portfolioRangeText">1–6</strong> dari <strong id="portfolioTotalText">12</strong> proyek</span>
+          <span class="portfolio-page-badge">6 Proyek / Halaman</span>
+        </div>
+
+        <!-- Quick Set Toggle Pills -->
+        <div class="portfolio-set-tabs" id="portfolioSetTabs" role="tablist" aria-label="Pilih Set Portofolio">
+          <button type="button" class="portfolio-set-tab active" data-page="1" role="tab" aria-selected="true">
+            Set 1 (Proyek 1–6)
+          </button>
+          <button type="button" class="portfolio-set-tab" data-page="2" role="tab" aria-selected="false">
+            Set 2 (Proyek 7–12)
+          </button>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="portfolio-pagination-nav" role="navigation" aria-label="Navigasi Halaman Portofolio">
+          <button type="button" class="portfolio-page-btn portfolio-prev-btn" id="portfolioPrevBtn" aria-label="Halaman Sebelumnya" disabled>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M15 19l-7-7 7-7"/>
+            </svg>
+            <span>Sebelumnya</span>
+          </button>
+
+          <div class="portfolio-page-numbers" id="portfolioPageNumbers">
+            <button type="button" class="portfolio-num-btn active" aria-current="page">1</button>
+            <button type="button" class="portfolio-num-btn">2</button>
+          </div>
+
+          <button type="button" class="portfolio-page-btn portfolio-next-btn" id="portfolioNextBtn" aria-label="Halaman Selanjutnya">
+            <span>Selanjutnya</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
     </div>
   </section>
 

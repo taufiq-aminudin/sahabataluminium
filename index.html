@@ -1036,6 +1036,17 @@
                 </div>
 
               </div>
+
+              <!-- Quick Decision Assistance Banner -->
+              <div class="spec-compare-guide-banner">
+                <div class="spec-compare-guide-text">
+                  <span class="spec-compare-guide-icon">💡</span>
+                  <span><strong>Butuh panduan memilih?</strong> Bandingkan ketebalan profil, ketahanan kaca, merek, dan rekomendasi penggunaan sebelum memutuskan.</span>
+                </div>
+                <button type="button" class="spec-compare-guide-btn" onclick="window.toggleSpecComparisonTable(true)">
+                  📊 Lihat Tabel Perbandingan Spek ↓
+                </button>
+              </div>
             </div>
 
             <!-- Step 3: Quantity Input -->
@@ -1132,6 +1143,279 @@
 
           </div>
 
+        </div>
+
+        <!-- ========================================================
+             COMPARISON TABLE: STANDARD SNI VS PREMIUM GRADE
+             ======================================================== -->
+        <div class="cost-calc-spec-wrapper" id="specComparisonWrapper">
+          <div class="spec-header-row">
+            <div>
+              <div class="spec-badge-pill">
+                <span>🔍 Panduan Keputusan Spesifikasi</span>
+              </div>
+              <h3 class="spec-table-title">Tabel Perbandingan Spesifikasi: Standard SNI vs Premium Grade</h3>
+              <p class="spec-table-sub">
+                Bandingkan parameter teknis, ketebalan fisik, merek profil, dan daya tahan material untuk menentukan opsi terbaik sesuai anggaran dan kebutuhan bangunan Anda.
+              </p>
+            </div>
+            <div class="spec-context-service-box">
+              <span class="spec-context-label">Layanan Terpilih Saat Ini:</span>
+              <span class="spec-context-val" id="specContextServiceBadge">Kusen Aluminium (Profil 3" / 4")</span>
+            </div>
+          </div>
+
+          <div class="spec-table-responsive-box">
+            <table class="spec-comparison-table" id="specComparisonTable" aria-label="Tabel Perbandingan Spesifikasi Material">
+              <thead>
+                <tr>
+                  <th class="spec-th-feature" scope="col">
+                    <span class="th-title">Parameter & Aspek Teknis</span>
+                    <span class="th-sub">Faktor penentu mutu & umur pakai</span>
+                  </th>
+                  <th class="spec-th-tier col-standard active" id="thColStandard" scope="col">
+                    <div class="th-tier-header">
+                      <span class="th-tier-badge badge-std">Hemat Budget</span>
+                      <span class="th-tier-name">Standard SNI</span>
+                      <span class="th-tier-pitch">Efisien, Lulus Uji SNI & Fungsional Hunian</span>
+                      <span class="th-tier-price" id="tableStdRate">Rp 85.000 – Rp 110.000 / m1</span>
+                      <button type="button" class="spec-pick-btn" id="btnPickStd" onclick="window.setCalcQuality('standard')">
+                        <span class="pick-icon">✓</span> <span class="pick-text">Sedang Dipilih</span>
+                      </button>
+                    </div>
+                  </th>
+                  <th class="spec-th-tier col-premium" id="thColPremium" scope="col">
+                    <div class="th-tier-header">
+                      <span class="th-tier-badge badge-prem">Heavy Duty & Luxury</span>
+                      <span class="th-tier-name">Premium Grade</span>
+                      <span class="th-tier-pitch">Maksimal Kokoh, Estetis & Tahan Cuaca Ekstrem</span>
+                      <span class="th-tier-price" id="tablePremRate">Rp 135.000 – Rp 165.000 / m1</span>
+                      <button type="button" class="spec-pick-btn" id="btnPickPrem" onclick="window.setCalcQuality('premium')">
+                        <span class="pick-icon">⭐</span> <span class="pick-text">Pilih Premium</span>
+                      </button>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- 0. Dynamic Service Specific Row -->
+                <tr class="spec-row-highlight">
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">🎯</span>
+                      <strong id="specDynamicFeatureName">Spesifikasi Konstruksi Kusen Aluminium</strong>
+                    </div>
+                    <div class="spec-feature-desc">Disesuaikan otomatis sesuai layanan yang Anda pilih pada form di atas</div>
+                  </td>
+                  <td class="spec-td-val col-standard active" id="specDynamicStdVal">
+                    Profil 3 Inch (3 x 7 cm), tebal profil 0.9–1.0 mm SNI, spigot siku standar proyek, kaca polos/riben 5mm.
+                  </td>
+                  <td class="spec-td-val col-premium" id="specDynamicPremVal">
+                    Profil 4 Inch (4 x 10 cm), tebal profil 1.15–1.35 mm Alexindo heavy-duty, sambungan mitre 45° presisi laser, perkuatan ganda & seal EPDM.
+                  </td>
+                </tr>
+
+                <!-- 1. Ketebalan Profil Aluminium -->
+                <tr>
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">📏</span>
+                      <strong>Ketebalan Profil Aluminium</strong>
+                    </div>
+                    <div class="spec-feature-desc">Ketahanan struktural terhadap lendutan, puntiran & tekanan angin</div>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <strong>0.9 mm – 1.0 mm (SNI Standar Hunian)</strong>
+                    <div class="spec-note">Telah lulus uji SNI, ringan dan stabil untuk bukaan standar perumahan 1–2 lantai.</div>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <strong>1.15 mm – 1.35 mm (Heavy-Duty Struktural)</strong>
+                    <div class="spec-note">Profil tebal arsitektural. Sangat kaku, anti getar, kuat menopang bukaan lebar dan kaca tinggi floor-to-ceiling.</div>
+                  </td>
+                </tr>
+
+                <!-- 2. Pilihan Merek Profil Pabrikan -->
+                <tr>
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">🏭</span>
+                      <strong>Merek Profil Pabrikan</strong>
+                    </div>
+                    <div class="spec-feature-desc">Reputasi pabrik peleburan billet & akurasi cetakan ekstrusi</div>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <strong>Dacon, Inkalum, Forta</strong>
+                    <div class="spec-note">Pabrikan nasional resmi bersertifikasi SNI. Dimensi presisi, warna konsisten, biaya sangat ekonomis.</div>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <strong>Alexindo, Alcomexindo, YKK AP</strong>
+                    <div class="spec-note">Standar emas kontraktor dan arsitek. Ketebalan dinding profil homogen, paduan alloy murni, standar proyek komersial.</div>
+                  </td>
+                </tr>
+
+                <!-- 3. Pilihan Kaca & Pengisi -->
+                <tr>
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">🪟</span>
+                      <strong>Spesifikasi Kaca & Pengisi</strong>
+                    </div>
+                    <div class="spec-feature-desc">Kejernihan visual, keamanan benturan, dan insulasi termal</div>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <strong>Kaca Polos Clear / Rayben 5 mm SNI (Asahimas)</strong>
+                    <div class="spec-note">Permukaan jernih optik bebas gelombang, menepis silau matahari, ideal untuk jendela dan partisi standar.</div>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <strong>Kaca Tempered 8–12 mm / Laminated / Moru Fluted / Panasap</strong>
+                    <div class="spec-note">Kekuatan benturan 4–5x lebih kuat dari kaca biasa. Safety glass (butiran jagung tidak tajam), penolak panas UV tinggi.</div>
+                  </td>
+                </tr>
+
+                <!-- 4. Weatherproofing Sealant & Karet Gasket -->
+                <tr>
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">🛡️</span>
+                      <strong>Sistem Karet & Sealant Silikon</strong>
+                    </div>
+                    <div class="spec-feature-desc">Perlindungan rembesan air hujan badai dan kekedapan debu halus</div>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <strong>Karet PVC Sintetis + Sealant Netral Standar Proyek</strong>
+                    <div class="spec-note">Elastisitas baik, efektif menahan tempias air hujan normal, ketahanan 3–5 tahun sebelum re-sealant.</div>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <strong>Gasket EPDM Automotive Grade + Sealant Netral Dowsil / Sika</strong>
+                    <div class="spec-note">Karet EPDM tahan radiasi ultraviolet ekstrem Karawang. Tidak menyusut, tidak getas, garansi bebas bocor rembes 10+ tahun.</div>
+                  </td>
+                </tr>
+
+                <!-- 5. Aksesoris, Hardware, Engsel & Kunci -->
+                <tr>
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">🔑</span>
+                      <strong>Aksesoris, Engsel & Handle Kunci</strong>
+                    </div>
+                    <div class="spec-feature-desc">Kenyamanan pengoperasian buka-tutup dan proteksi keamanan</div>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <strong>Hardware Alloy Zinc Die-Cast SNI Standar</strong>
+                    <div class="spec-note">Buka-tutup lancar, roller nilon tahan aus, anak kunci kuningan standar hunian keluarga.</div>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <strong>Stainless Steel SUS-304 Heavy-Duty / Dekson / Dorma</strong>
+                    <div class="spec-note">Anti korosi seumur hidup bahkan di area lembap/industri. Bearing kuningan super halus, multi-point locking anti maling.</div>
+                  </td>
+                </tr>
+
+                <!-- 6. Finishing Permukaan & Ketahanan Warna -->
+                <tr>
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">🎨</span>
+                      <strong>Finishing Warna & Ketahanan Cuaca</strong>
+                    </div>
+                    <div class="spec-feature-desc">Ketahanan terhadap goresan kuku, panas matahari & hujan asam</div>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <strong>Anodized 10µm / Powder Coating Standar</strong>
+                    <div class="spec-note">Pilihan Hitam, Putih, Cokelat, Silver CA. Lapisan cat rapi, garansi warna 5 tahun tidak mengelupas.</div>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <strong>Powder Coating AkzoNobel / Jotun 60–80µm / Urat Kayu 3D</strong>
+                    <div class="spec-note">Lapisan ekstra tebal anti gores, tahan asam hujan kawasan industri Karawang, garansi anti pudar 10+ tahun.</div>
+                  </td>
+                </tr>
+
+                <!-- 7. Reduksi Kebisingan (Acoustic Insulation) -->
+                <tr>
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">🔇</span>
+                      <strong>Peredaman Suara & Insulasi Suhu</strong>
+                    </div>
+                    <div class="spec-feature-desc">Kenyamanan istirahat dan efisiensi listrik AC ruangan</div>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <strong>Reduksi Suara ~20 – 25 dB</strong>
+                    <div class="spec-note">Cukup tenang untuk meredam obrolan santai dan lalu lintas sedang di dalam komplek perumahan.</div>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <strong>Reduksi Suara ~32 – 38 dB (Acoustic Double Barrier)</strong>
+                    <div class="spec-note">Sangat senyap. Meredam bising knalpot kendaraan dan jalan utama, menjaga suhu dingin AC bertahan lebih lama.</div>
+                  </td>
+                </tr>
+
+                <!-- 8. Rekomendasi Aplikasi & Bangunan -->
+                <tr>
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">🏢</span>
+                      <strong>Rekomendasi Peruntukan Proyek</strong>
+                    </div>
+                    <div class="spec-feature-desc">Kesesuaian fungsi arsitektur dengan alokasi anggaran</div>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <strong>Rumah Subsidi, Kos/Kontrakan, Renovasi Hemat Budget, Sekat Interior</strong>
+                    <div class="spec-note">Pilihan cerdas bagi pemilik properti yang mengutamakan efisiensi biaya awal tanpa mengorbankan standar mutu SNI.</div>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <strong>Rumah Tinggal Pribadi, Fasad Ruko, Villa Modern, Kantor & Fasad Mewah</strong>
+                    <div class="spec-note">Investasi mutlak bagi hunian pribadi idaman keluarga dan bangunan komersial yang membutuhkan impresi prestise tinggi.</div>
+                  </td>
+                </tr>
+
+                <!-- 9. Evaluasi Nilai Investasi Jangka Panjang -->
+                <tr>
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">💡</span>
+                      <strong>Nilai Investasi & Umur Pakai</strong>
+                    </div>
+                    <div class="spec-feature-desc">Pertimbangan biaya awal vs biaya perawatan berkala</div>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <strong>Biaya Awal 30–40% Lebih Hemat</strong>
+                    <div class="spec-note">Estimasi umur pakai 10–15 tahun dengan perawatan normal. Mengoptimalkan cash flow pembangunan Anda.</div>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <strong>Investasi Bebas Renovasi Ulang (20+ Tahun)</strong>
+                    <div class="spec-note">Meningkatkan nilai jual kembali properti (resale value), bebas biaya reparasi, kenyamanan pakai optimal.</div>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td class="spec-td-feature">
+                    <strong>Terapkan Pilihan ke Estimasi:</strong>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <button type="button" class="spec-bottom-pick-btn" onclick="window.setCalcQuality('standard')">
+                      ✓ Gunakan Standard SNI
+                    </button>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <button type="button" class="spec-bottom-pick-btn" onclick="window.setCalcQuality('premium')">
+                      ⭐ Gunakan Premium Grade
+                    </button>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <!-- Expert Advice Callout -->
+          <div class="spec-advice-box">
+            <div class="spec-advice-icon">💬</div>
+            <div class="spec-advice-content">
+              <strong>Saran Ahli Konsultan Sahabat Kaca Aluminium:</strong>
+              <p>
+                Jika proyek Anda adalah <strong>rumah tinggal pribadi jangka panjang</strong> atau elemen eksterior yang terpapar panas dan hujan langsung (seperti pintu utama, jendela fasad, dan kanopi), kami sangat merekomendasikan <strong>Premium Grade</strong> agar kokoh maksimal dan tidak perlu renovasi ulang puluhan tahun. Untuk area interior, partisi kantor sekat kering, atau rumah sewa/kontrakan, <strong>Standard SNI</strong> sudah sangat kuat, rapi, dan terbukti anti rayap seumur hidup.
+              </p>
+            </div>
+          </div>
         </div>
 
       </div>

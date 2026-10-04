@@ -6107,6 +6107,145 @@ window.printProjectPdf = function(orderId) {
         spec: 'Premium Grade (Heavy-Duty European Style + Kaca Tempered / Fluted Moru)',
         desc: 'Kisaran rata-rata: Rp 2.750.000 – Rp 3.350.000 / daun (Premium Grade)'
       }
+    },
+    etalase: {
+      unit: 'm1',
+      unitName: 'Meter Lari (m1)',
+      label: 'Etalase Kaca Toko & Display Counter',
+      defaultQty: 3,
+      presets: [2, 3, 5, 8, 12],
+      standard: {
+        min: 650000,
+        max: 850000,
+        spec: 'Standard SNI (Rangka Aluminium Standar + Kaca 5mm Polos)',
+        desc: 'Kisaran rata-rata: Rp 650.000 – Rp 850.000 / m1 (Standard SNI)'
+      },
+      premium: {
+        min: 950000,
+        max: 1350000,
+        spec: 'Premium Grade (Aluminium Tebal Anodize + Kaca Tempered + Lampu LED & Kunci Sentral)',
+        desc: 'Kisaran rata-rata: Rp 950.000 – Rp 1.350.000 / m1 (Premium Grade)'
+      }
+    },
+    railing: {
+      unit: 'm1',
+      unitName: 'Meter Lari (m1)',
+      label: 'Railing Tangga & Balkon Kaca Tempered',
+      defaultQty: 6,
+      presets: [3, 6, 10, 15, 25],
+      standard: {
+        min: 1100000,
+        max: 1450000,
+        spec: 'Standard SNI (Kaca Tempered 10mm + Tiang Hollow Stainless 201)',
+        desc: 'Kisaran rata-rata: Rp 1.100.000 – Rp 1.450.000 / m1 (Standard SNI)'
+      },
+      premium: {
+        min: 1650000,
+        max: 2250000,
+        spec: 'Premium Grade (Kaca Tempered 12mm Frameless / Base Shoe U-Channel + SUS304 / Handrail Kayu)',
+        desc: 'Kisaran rata-rata: Rp 1.650.000 – Rp 2.250.000 / m1 (Premium Grade)'
+      }
+    },
+    acp: {
+      unit: 'm²',
+      unitName: 'Meter Persegi (m²)',
+      label: 'Fasad ACP (Aluminium Composite Panel)',
+      defaultQty: 30,
+      presets: [15, 30, 50, 80, 150],
+      standard: {
+        min: 600000,
+        max: 750000,
+        spec: 'Standard SNI (ACP Marks / Alcopan 3–4mm PE Interior/Semi-Outdoor)',
+        desc: 'Kisaran rata-rata: Rp 600.000 – Rp 750.000 / m² (Standard SNI)'
+      },
+      premium: {
+        min: 850000,
+        max: 1150000,
+        spec: 'Premium Grade (ACP Seven / Alustar 4mm PVDF 0.3–0.5mm Skin Tahan Cuaca Berat)',
+        desc: 'Kisaran rata-rata: Rp 850.000 – Rp 1.150.000 / m² (Premium Grade)'
+      }
+    },
+    curtain_wall: {
+      unit: 'm²',
+      unitName: 'Meter Persegi (m²)',
+      label: 'Curtain Wall Fasad Kaca Komersial',
+      defaultQty: 25,
+      presets: [15, 25, 50, 100, 200],
+      standard: {
+        min: 1350000,
+        max: 1750000,
+        spec: 'Standard SNI (Mullion & Transom Standar 50x100 + Kaca Panasap 6mm / Stopsol)',
+        desc: 'Kisaran rata-rata: Rp 1.350.000 – Rp 1.750.000 / m² (Standard SNI)'
+      },
+      premium: {
+        min: 1950000,
+        max: 2650000,
+        spec: 'Premium Grade (Mullion Heavy Duty Alexindo/YKK 50x150 + Kaca Tempered Reflective / Double Glass)',
+        desc: 'Kisaran rata-rata: Rp 1.950.000 – Rp 2.650.000 / m² (Premium Grade)'
+      }
+    }
+  };
+
+  const SERVICE_SPEC_DETAILS = {
+    kusen: {
+      title: 'Spesifikasi Konstruksi Kusen Aluminium',
+      std: 'Profil 3 Inch (3 x 7 cm), tebal profil 0.9–1.0 mm SNI, spigot siku standar proyek, kaca polos/riben 5mm.',
+      prem: 'Profil 4 Inch (4 x 10 cm), tebal profil 1.15–1.35 mm Alexindo heavy-duty, sambungan mitre 45° presisi laser, perkuatan ganda & seal EPDM.'
+    },
+    pintu: {
+      title: 'Spesifikasi Daun Pintu, Kaca & Kunci',
+      std: 'Rangka profil 7 cm, kaca clear 5mm SNI, engsel kupu-kupu standar, lockset lever handle aluminium.',
+      prem: 'Rangka profil 8.5–9 cm ekstra kokoh, kaca tempered 8mm / fluted moru estetis, mortise lockset SUS-304 anti congkel & bearing halus.'
+    },
+    jendela: {
+      title: 'Spesifikasi Engsel & Mekanisme Jendela',
+      std: 'Casement arm standar, rambuncis aluminium, kaca bening 5mm SNI, peredam getaran standar.',
+      prem: 'Friction stay SUS-304 heavy-duty (tahan angin badai), rambuncis multi-point lock kokoh, kaca tinted Panasap penolak panas.'
+    },
+    partisi: {
+      title: 'Spesifikasi Partisi Kaca Kantor & Sekat',
+      std: 'Kaca Tempered 10mm clear frameless, penjepit lis aluminium U-channel ekspos standar, sealant netral.',
+      prem: 'Kaca Tempered 12mm super jernih (low-iron optional), lis recessed tanam lantai/plafon anti-getar, estetika seamless modern.'
+    },
+    pintu_tempered: {
+      title: 'Spesifikasi Pintu Floor Hinge Tempered',
+      std: 'Kaca Tempered 10mm SNI, mesin floor hinge standar kapasitas 80kg, top patch fitting standar, handle pipa stainless.',
+      prem: 'Kaca Tempered 12mm, floor hinge Dorma / Dekson SUS-304 kapasitas 120kg, lock corner patch SUS-304, push bar mewah.'
+    },
+    kanopi: {
+      title: 'Spesifikasi Struktur Rangka & Kaca Kanopi',
+      std: 'Kaca Tempered 8mm clear, rangka besi hollow 40x80mm cat primer anti karat, sealant tahan bocor standar.',
+      prem: 'Kaca Tempered Laminated 5+5mm (safety glass double-layer tidak runtuh jika retak), rangka galvanis 50x100mm cat epoxy oven 2 lapis.'
+    },
+    shower: {
+      title: 'Spesifikasi Shower Box Kaca Kamar Mandi',
+      std: 'Kaca Tempered 8–10mm, fitting engsel zinc-alloy chrome tahan lembap standar, handle towel bar standar.',
+      prem: 'Kaca Tempered 10mm + Nano Hydrophobic anti kerak air/sabun, hardware 100% Solid Stainless SUS-304 (Pilihan Black Matte / Brushed Gold).'
+    },
+    bifold: {
+      title: 'Spesifikasi Rel & Roda Pintu Lipat Bifold',
+      std: 'Rel gantung aluminium standar, 4 roda nilon per daun, engsel lipat standar, operasional lancar hunian biasa.',
+      prem: 'Heavy-duty European style top-hung bearing rel, dorongan super senyap & ringan tanpa goyang, seal karet ganda EPDM kedap suara.'
+    },
+    etalase: {
+      title: 'Spesifikasi Rangka Display & Keamanan Toko',
+      std: 'Rangka profil etalase 1.5 inch standar, kaca polos 5mm, roda nilon, kunci sliding standar.',
+      prem: 'Rangka tebal heavy-duty finishing anodize / powder coating premium, kaca tempered display, lampu LED strip tersembunyi & central lock system.'
+    },
+    railing: {
+      title: 'Spesifikasi Tiang, Kaca & Base Shoe Railing',
+      std: 'Kaca Tempered 10mm, tiang hollow stainless 201 kombinasi bracket, handrail pipa stainless standar.',
+      prem: 'Kaca Tempered 12mm / Laminated frameless, U-channel base shoe aluminium tanam lantai (tanpa tiang penghalang pandang) + handrail kayu jati/SUS304.'
+    },
+    acp: {
+      title: 'Spesifikasi Lembar Panel ACP & Rangka Fasad',
+      std: 'ACP tebal 3–4mm PE 0.21mm (Merk Marks/Alcopan), rangka hollow besi 20x40/40x40mm, sealant netral standar.',
+      prem: 'ACP Seven / Alustar 4mm PVDF skin 0.3–0.5mm outdoor exterior grade (garansi warna 10+ tahun), rangka besi galvanis tebal + sealant Dowsil anti jamur.'
+    },
+    curtain_wall: {
+      title: 'Spesifikasi Rangka Mullion & Kaca Fasad Gedung',
+      std: 'Mullion & Transom 50x100mm, kaca Stopsol / Panasap 6mm single glass, silicone structural glazing standar.',
+      prem: 'Mullion heavy duty 50x150mm Alexindo/YKK arsitektural, kaca tempered reflective 8mm / Double Glazing (IGU kedap suara & panas maksimal).'
     }
   };
 
@@ -6123,6 +6262,7 @@ window.printProjectPdf = function(orderId) {
 
     const serviceKey = serviceSelect.value || 'kusen';
     const config = COST_CALC_DATA[serviceKey] || COST_CALC_DATA.kusen;
+    const specInfo = SERVICE_SPEC_DETAILS[serviceKey] || SERVICE_SPEC_DETAILS.kusen;
 
     let qty = parseFloat(qtyInput.value) || 1;
     if (qty < 1) qty = 1;
@@ -6137,16 +6277,77 @@ window.printProjectPdf = function(orderId) {
     const summaryService = document.getElementById('calcSummaryService');
     const summaryQuality = document.getElementById('calcSummaryQuality');
     const summaryQty = document.getElementById('calcSummaryQty');
+    const summaryRate = document.getElementById('calcSummaryRate');
     const qtyUnitSuffix = document.getElementById('qtyUnitSuffix');
     const qtyUnitBadge = document.getElementById('qtyUnitBadge');
+    const stdQualityRate = document.getElementById('stdQualityRate');
+    const premQualityRate = document.getElementById('premQualityRate');
+    const stdQualityDesc = document.getElementById('stdQualityDesc');
+    const premQualityDesc = document.getElementById('premQualityDesc');
 
     if (estimateMain) estimateMain.textContent = `${formatIDRCurrency(minTotal)} – ${formatIDRCurrency(maxTotal)}`;
     if (estimateSub) estimateSub.textContent = rate.desc;
     if (summaryService) summaryService.textContent = config.label;
     if (summaryQuality) summaryQuality.textContent = rate.spec;
     if (summaryQty) summaryQty.textContent = `${qty} ${config.unitName}`;
+    if (summaryRate) summaryRate.textContent = `${formatIDRCurrency(rate.min)} – ${formatIDRCurrency(rate.max)} / ${config.unit}`;
     if (qtyUnitSuffix) qtyUnitSuffix.textContent = config.unit;
     if (qtyUnitBadge) qtyUnitBadge.textContent = `Satuan: ${config.unitName}`;
+
+    // Update quality cards rates and descriptions for the selected service
+    if (stdQualityRate) stdQualityRate.textContent = `${formatIDRCurrency(config.standard.min)} – ${formatIDRCurrency(config.standard.max)} / ${config.unit}`;
+    if (premQualityRate) premQualityRate.textContent = `${formatIDRCurrency(config.premium.min)} – ${formatIDRCurrency(config.premium.max)} / ${config.unit}`;
+    if (stdQualityDesc) stdQualityDesc.textContent = config.standard.spec;
+    if (premQualityDesc) premQualityDesc.textContent = config.premium.spec;
+
+    // Update comparison table elements
+    const tableStdRate = document.getElementById('tableStdRate');
+    const tablePremRate = document.getElementById('tablePremRate');
+    const specContextBadge = document.getElementById('specContextServiceBadge');
+    const specDynamicTitle = document.getElementById('specDynamicFeatureName');
+    const specDynamicStd = document.getElementById('specDynamicStdVal');
+    const specDynamicPrem = document.getElementById('specDynamicPremVal');
+
+    if (tableStdRate) tableStdRate.textContent = `${formatIDRCurrency(config.standard.min)} – ${formatIDRCurrency(config.standard.max)} / ${config.unit}`;
+    if (tablePremRate) tablePremRate.textContent = `${formatIDRCurrency(config.premium.min)} – ${formatIDRCurrency(config.premium.max)} / ${config.unit}`;
+    if (specContextBadge) specContextBadge.textContent = config.label;
+    if (specDynamicTitle) specDynamicTitle.textContent = specInfo.title;
+    if (specDynamicStd) specDynamicStd.textContent = specInfo.std;
+    if (specDynamicPrem) specDynamicPrem.textContent = specInfo.prem;
+
+    // Synchronize comparison table active column classes & buttons
+    const thStd = document.getElementById('thColStandard');
+    const thPrem = document.getElementById('thColPremium');
+    const btnPickStd = document.getElementById('btnPickStd');
+    const btnPickPrem = document.getElementById('btnPickPrem');
+    const stdCells = document.querySelectorAll('.col-standard');
+    const premCells = document.querySelectorAll('.col-premium');
+
+    if (activeQuality === 'standard') {
+      if (thStd) thStd.classList.add('active');
+      if (thPrem) thPrem.classList.remove('active');
+      stdCells.forEach(el => el.classList.add('active'));
+      premCells.forEach(el => el.classList.remove('active'));
+
+      if (btnPickStd) {
+        btnPickStd.innerHTML = '<span class="pick-icon">✓</span> <span class="pick-text">Sedang Dipilih</span>';
+      }
+      if (btnPickPrem) {
+        btnPickPrem.innerHTML = '<span class="pick-icon">⭐</span> <span class="pick-text">Pilih Premium</span>';
+      }
+    } else {
+      if (thPrem) thPrem.classList.add('active');
+      if (thStd) thStd.classList.remove('active');
+      premCells.forEach(el => el.classList.add('active'));
+      stdCells.forEach(el => el.classList.remove('active'));
+
+      if (btnPickStd) {
+        btnPickStd.innerHTML = '<span class="pick-icon">🔘</span> <span class="pick-text">Pilih Standard</span>';
+      }
+      if (btnPickPrem) {
+        btnPickPrem.innerHTML = '<span class="pick-icon">✓</span> <span class="pick-text">Sedang Dipilih</span>';
+      }
+    }
 
     // Store state for consultation
     window._lastRoughEstimate = {
@@ -6166,7 +6367,7 @@ window.printProjectPdf = function(orderId) {
 
     let html = `<span style="font-size:11.5px;color:#64748b;margin-right:2px;display:inline-flex;align-items:center;">Contoh Cepat:</span>`;
     config.presets.forEach(p => {
-      html += `<button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(${p})">${p}</button>`;
+      html += `<button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(${p})">${p} ${config.unit}</button>`;
     });
     row.innerHTML = html;
   }
@@ -6191,6 +6392,14 @@ window.printProjectPdf = function(orderId) {
       }
     }
     updateRoughEstimate();
+  };
+
+  window.toggleSpecComparisonTable = function(shouldScroll) {
+    const wrapper = document.getElementById('specComparisonWrapper');
+    if (!wrapper) return;
+    if (shouldScroll) {
+      wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   window.adjustCalcQty = function(delta) {

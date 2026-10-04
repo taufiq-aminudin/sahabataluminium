@@ -12555,6 +12555,75 @@ footer .footer-grid {
   transform: scale(0.98);
 }
 
+/* =========================================================
+   COST CALCULATOR: DIMENSION HELPER & ITEMZIED RAB BREAKDOWN
+   ========================================================= */
+.dim-helper-toggle-btn {
+  background: #f1f5f9;
+  border: 1px dashed #0d9488;
+  color: #0f766e;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+}
+
+.dim-helper-toggle-btn:hover {
+  background: #e6fffa;
+  border-color: #0f766e;
+}
+
+.calc-rab-breakdown-toggle:hover {
+  background: rgba(255, 255, 255, 0.14) !important;
+  border-color: rgba(94, 234, 212, 0.7) !important;
+}
+
+.calc-rab-breakdown-box .rab-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  padding: 3.5px 0;
+  line-height: 1.45;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .cost-calc-card, .cost-calc-card * {
+    visibility: visible;
+  }
+  .cost-calc-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+  }
+  .calc-secondary-actions, .calc-wa-btn, .calc-survey-link, .dim-helper-trigger-row, .dim-helper-panel {
+    display: none !important;
+  }
+  .calc-rab-breakdown-box {
+    display: block !important;
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+  }
+  .calc-rab-breakdown-box strong, .calc-rab-breakdown-box span {
+    color: #0f172a !important;
+  }
+}
+
 
 
 

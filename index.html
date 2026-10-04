@@ -1073,6 +1073,41 @@
                 <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(35)">35 m1</button>
                 <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(50)">50 m1</button>
               </div>
+
+              <!-- Dimension Helper Trigger & Box -->
+              <div class="dim-helper-trigger-row" style="margin-top:10px;">
+                <button type="button" class="dim-helper-toggle-btn" id="btnToggleDimHelper" onclick="window.toggleDimHelper()" aria-expanded="false" style="background:#f1f5f9;border:1px dashed #0d9488;color:#0f766e;font-size:12px;font-weight:700;padding:7px 12px;border-radius:8px;cursor:pointer;width:100%;display:flex;align-items:center;justify-content:space-between;">
+                  <span>📐 Hitung dari Ukuran Opening (Panjang × Lebar / Tinggi)</span>
+                  <span style="font-size:11px;">▼</span>
+                </button>
+              </div>
+
+              <div class="dim-helper-panel" id="calcDimHelperBox" style="display:none;margin-top:10px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:10px;padding:12px 14px;">
+                <div style="font-size:12px;font-weight:700;color:#072e3b;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+                  <span>📐 Masukkan Ukuran Fisik (cm)</span>
+                  <span style="font-size:11px;color:#64748b;font-weight:400;">Otomatis konversi ke volume</span>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+                  <div>
+                    <label for="dimHelperWidth" style="display:block;font-size:11px;color:#475569;margin-bottom:3px;font-weight:600;">Lebar (cm)</label>
+                    <input type="number" id="dimHelperWidth" value="90" min="10" max="3000" class="qty-input" style="width:100%;height:36px;font-size:13px;padding:4px 8px;border-radius:6px;border:1px solid #cbd5e1;" oninput="window.calculateFromDimensions()">
+                  </div>
+                  <div>
+                    <label for="dimHelperHeight" style="display:block;font-size:11px;color:#475569;margin-bottom:3px;font-weight:600;">Tinggi (cm)</label>
+                    <input type="number" id="dimHelperHeight" value="210" min="10" max="3000" class="qty-input" style="width:100%;height:36px;font-size:13px;padding:4px 8px;border-radius:6px;border:1px solid #cbd5e1;" oninput="window.calculateFromDimensions()">
+                  </div>
+                  <div>
+                    <label for="dimHelperQty" style="display:block;font-size:11px;color:#475569;margin-bottom:3px;font-weight:600;">Jumlah Unit</label>
+                    <input type="number" id="dimHelperQty" value="1" min="1" max="500" class="qty-input" style="width:100%;height:36px;font-size:13px;padding:4px 8px;border-radius:6px;border:1px solid #cbd5e1;" oninput="window.calculateFromDimensions()">
+                  </div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;flex-wrap:wrap;gap:6px;">
+                  <button type="button" class="dim-apply-btn" onclick="window.calculateFromDimensions()" style="background:#0d9488;color:#fff;border:none;border-radius:6px;padding:6px 12px;font-size:11.5px;font-weight:700;cursor:pointer;">
+                    ✓ Terapkan ke Kuantitas
+                  </button>
+                  <span id="dimHelperResultNote" style="font-size:11px;color:#0d9488;font-weight:600;"></span>
+                </div>
+              </div>
             </div>
 
           </div>
@@ -1085,8 +1120,8 @@
                 <span>Rough Budget Estimate</span>
               </div>
               <div class="result-price-label">Perkiraan Estimasi Anggaran:</div>
-              <div class="result-price-main" id="calcEstimateMain">Rp 1.020.000 – Rp 1.320.000</div>
-              <div class="result-price-sub" id="calcEstimateSub">Acuan tarif: Rp 85.000 – Rp 110.000 / m1 × 12 m1</div>
+              <div class="result-price-main" id="calcEstimateMain">Rp 1.260.000 – Rp 1.560.000</div>
+              <div class="result-price-sub" id="calcEstimateSub">Acuan tarif: Rp 105.000 – Rp 130.000 / m1 × 12 m1</div>
 
               <div class="result-specs-box">
                 <div class="result-spec-row">
@@ -1095,7 +1130,7 @@
                 </div>
                 <div class="result-spec-row">
                   <span class="result-spec-label">Mutu & Spek:</span>
-                  <span class="result-spec-val" id="calcSummaryQuality">Standard SNI (Dacon / Inkalum 0.9–1.0mm 3")</span>
+                  <span class="result-spec-val" id="calcSummaryQuality">Standard SNI (Dacon / Inkalum 0.9–1.0mm 3" Terpasang + Sealant)</span>
                 </div>
                 <div class="result-spec-row">
                   <span class="result-spec-label">Volume Dihitung:</span>
@@ -1103,7 +1138,7 @@
                 </div>
                 <div class="result-spec-row">
                   <span class="result-spec-label">Tarif Satuan:</span>
-                  <span class="result-spec-val" id="calcSummaryRate">Rp 85.000 – Rp 110.000 / m1</span>
+                  <span class="result-spec-val" id="calcSummaryRate">Rp 105.000 – Rp 130.000 / m1</span>
                 </div>
                 <div class="result-spec-row">
                   <span class="result-spec-label">Estimasi Waktu:</span>
@@ -1112,6 +1147,53 @@
                 <div class="result-spec-row">
                   <span class="result-spec-label">Survey & Ukur:</span>
                   <span class="result-spec-val" style="color:#5eead4;">Rp 0 (100% GRATIS)</span>
+                </div>
+              </div>
+
+              <!-- RAB Component Breakdown Toggle -->
+              <div style="margin-top:12px;">
+                <button type="button" class="calc-rab-breakdown-toggle" id="btnToggleRabBreakdown" onclick="window.toggleRabBreakdown()" aria-expanded="false" style="width:100%;background:rgba(255,255,255,0.08);color:#5eead4;border:1px dashed rgba(94,234,212,0.4);border-radius:10px;padding:9px 12px;font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all 0.2s;">
+                  <span>📊 Rincian Komponen RAB (Analisa Biaya Transparan)</span>
+                  <span style="font-size:11px;">▼</span>
+                </button>
+              </div>
+
+              <!-- Itemized RAB Component Breakdown Box -->
+              <div class="calc-rab-breakdown-box" id="calcRabBreakdownBox" style="display:none;margin-top:10px;background:rgba(2,44,56,0.65);border:1px solid rgba(94,234,212,0.3);border-radius:10px;padding:12px 14px;">
+                <div style="font-size:11.5px;color:#a5f3fc;font-weight:700;margin-bottom:8px;letter-spacing:0.5px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:5px;">
+                  TRANSPARANSI STRUKTUR HARGA REALISTIS KONTRAKTOR (JABODETABEK & KARAWANG):
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
+                  <span>1. Material Profil Aluminium / Kaca / Panel (48%)</span>
+                  <strong id="calcRabMaterial" style="color:#ffffff;">Rp 605.000 – Rp 749.000</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
+                  <span>2. Aksesoris & Hardware (Kunci/Engsel/Sealant Dowsil) (16%)</span>
+                  <strong id="calcRabHardware" style="color:#ffffff;">Rp 202.000 – Rp 250.000</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
+                  <span>3. Upah Tukang Fabrikasi Miter 45° & Pasang Lapangan (16%)</span>
+                  <strong id="calcRabLabor" style="color:#ffffff;">Rp 202.000 – Rp 250.000</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
+                  <span>4. Transportasi & Pengiriman Armada Pick-up Lokal (5%)</span>
+                  <strong id="calcRabTransport" style="color:#ffffff;">Rp 63.000 – Rp 78.000</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
+                  <span>5. Operasional & Waste Cutting Allowance 10–12% (5%)</span>
+                  <strong id="calcRabWaste" style="color:#ffffff;">Rp 63.000 – Rp 78.000</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
+                  <span>6. Margin Usaha & Garansi Hasil Kerja (10%)</span>
+                  <strong id="calcRabMargin" style="color:#ffffff;">Rp 125.000 – Rp 155.000</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#5eead4;padding:3px 0;border-top:1px dashed rgba(255,255,255,0.15);margin-top:4px;padding-top:5px;">
+                  <span>7. Survey Lokasi & Pengukuran Laser Presisi</span>
+                  <strong>Rp 0 (100% GRATIS)</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:13px;color:#fef08a;padding:5px 0 2px;border-top:1px solid rgba(255,255,255,0.2);margin-top:4px;font-weight:800;">
+                  <span>Total Estimasi Jual Proyek</span>
+                  <span id="calcRabTotal">Rp 1.260.000 – Rp 1.560.000</span>
                 </div>
               </div>
             </div>

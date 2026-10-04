@@ -6249,6 +6249,141 @@ window.printProjectPdf = function(orderId) {
     }
   };
 
+  const SERVICE_RECOMMENDATION_DATA = {
+    kusen: {
+      tierKey: 'premium',
+      badgeText: '⭐ Disarankan: PREMIUM GRADE (UNTUK FASAD LUAR)',
+      badgeClass: 'choice-badge-prem',
+      envText: 'Tipe Pekerjaan: Struktural Dinding Hunian & Ruko (Outdoor & Indoor)',
+      headline: 'Alexindo 4" Premium untuk Fasad Luar, Dacon 3" Standard untuk Pintu/Jendela Kamar',
+      reason: 'Untuk kusen yang dipasang di dinding luar atau fasad utama, profil 4 Inch Premium (Alexindo/Alcomexindo tebal 1.15–1.35mm) sangat direkomendasikan agar kokoh menahan terpaan angin kencang dan sambungan sudut tidak renggang. Untuk sekat kamar tidur atau pintu interior, Standard SNI (3 Inch) sudah sangat hemat dan tahan rayap seumur hidup.',
+      whenStd: 'Renovasi sekat interior kamar, rumah sewa/kontrakan, atau efisiensi anggaran total.',
+      whenPrem: 'Fasad tampak depan rumah tinggal pribadi, jendela ruang tamu utama, dan bukaan kaca lebar.',
+      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
+    },
+    pintu: {
+      tierKey: 'premium',
+      badgeText: '⭐ Disarankan: PREMIUM GRADE',
+      badgeClass: 'choice-badge-prem',
+      envText: 'Tipe Pekerjaan: Akses Utama & Frekuensi Buka-Tutup Harian Tinggi',
+      headline: 'Kekuatan Mortise SUS-304 & Profil 8.5–9cm Mencegah Daun Pintu Turun',
+      reason: 'Daun pintu aluminium menanggung beban dinamis buka-tutup setiap hari. Varian Premium menggunakan profil rangka lebar 8.5–9cm dan engsel/kunci mortise Stainless SUS-304 yang tahan benturan serta anti-turun (anti-sagging). Pilihan kaca tempered atau moru fluted memberikan privasi elegan sekaligus keamanan optimal.',
+      whenStd: 'Pintu kamar mandi belakang, pintu gudang, atau proyek kost-kostan.',
+      whenPrem: 'Pintu utama rumah tinggal, pintu teras penghubung taman, dan area akses tamu.',
+      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
+    },
+    jendela: {
+      tierKey: 'premium',
+      badgeText: '🔥 Disarankan: PREMIUM GRADE (OUTDOOR WEATHERPROOF)',
+      badgeClass: 'choice-badge-prem',
+      envText: 'Tipe Pekerjaan: Bukaan Dinding Luar (Terpaan Hujan Badai & Angin Kencang)',
+      headline: 'Wajib Friction Stay SUS-304 & Karet EPDM Anti Bocor Rembes',
+      reason: 'Jendela luar bangunan berhadapan langsung dengan curah hujan Karawang. Friction stay SUS-304 pada Premium Grade menahan daun jendela tetap kokoh terbuka tanpa terhempas angin kencang. Dilengkapi gasket EPDM dan sealant Dowsil neutral grade yang menjamin 100% bebas bocor rembes ke dinding dalam.',
+      whenStd: 'Jendela bovenlight ventilasi toilet, jendela lorong dalam, atau bangunan semi-permanen.',
+      whenPrem: 'Jendela kamar tidur lantai 2, jendela fasad tampak muka, dan jendela ruang keluarga ber-AC.',
+      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
+    },
+    partisi: {
+      tierKey: 'standard',
+      badgeText: '🏷️ Disarankan: STANDARD SNI (HEMAT & SANGAT MEMADAI)',
+      badgeClass: 'choice-badge-std',
+      envText: 'Tipe Pekerjaan: Interior Kering & Pembatas Ruang Kantor / Komersial',
+      headline: 'Kaca Tempered 10mm SNI Sudah Sangat Kokoh untuk Sekat Kantor',
+      reason: 'Untuk area interior kering tanpa terpaan cuaca, Standard SNI dengan Kaca Tempered 10mm Clear Frameless sudah memberikan standar keamanan tinggi, kedap suara obrolan, dan tampilan visual modern yang luas. Anda dapat menghemat biaya 25–30% dibanding memilih varian 12mm lis tanam.',
+      whenStd: 'Sekat ruang meeting kantor, partisi ruang staf, klinik dokter, dan etalase toko mall.',
+      whenPrem: 'Partisi ruang direksi VIP yang membutuhkan insulasi akustik kedap maksimal (12mm) atau desain lis tanam minimalis.',
+      btnText: 'Terapkan Rekomendasi (Standard SNI) ke Kalkulator'
+    },
+    pintu_tempered: {
+      tierKey: 'premium',
+      badgeText: '⭐ Disarankan: PREMIUM GRADE',
+      badgeClass: 'choice-badge-prem',
+      envText: 'Tipe Pekerjaan: Akses Publik & Beban Kaca Frameless Berat (High-Traffic)',
+      headline: 'Mesin Floor Hinge Dorma / Dekson SUS-304 untuk Kelancaran Operasional',
+      reason: 'Pintu kaca frameless memiliki bobot daun kaca murni yang sangat berat (40–60 kg). Mesin floor hinge Dorma/Dekson pada Premium Grade berkapasitas beban hingga 120 kg dengan mekanisme hidrolik tahan banting ratusan ribu kali buka-tutup, mencegah pintu membanting atau anjlok.',
+      whenStd: 'Pintu ruko dengan frekuensi pengunjung rendah atau jam operasional terbatas.',
+      whenPrem: 'Pintu utama lobi kantor, kafe, minimarket, showroom komersial, dan ruko ramai pengunjung.',
+      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
+    },
+    kanopi: {
+      tierKey: 'premium',
+      badgeText: '🔥 REKOMENDASI MUTLAK: PREMIUM GRADE (OUTDOOR SAFETY)',
+      badgeClass: 'choice-badge-prem',
+      envText: 'Tipe Pekerjaan: Atap Eksterior Terbuka (Sinar UV Ekstrem, Hujan & Risiko Benturan Kejatuhan)',
+      headline: 'Kaca Laminated 5+5mm & Rangka Galvanis 50x100mm Melindungi Kendaraan & Keluarga',
+      reason: 'Atap kanopi adalah elemen eksterior paling berisiko tinggi. Kami SANGAT MEREKOMENDASIKAN Premium Grade dengan Kaca Laminated 5+5mm (kaca berikat interlayer PVB yang tidak akan rontok ke bawah bila terjadi benturan benda jatuh dari atas) serta rangka hollow galvanis 50x100mm cat oven anti karat seumur hidup.',
+      whenStd: 'Kanopi jemuran belakang rumah atau carport terlindung dengan bentang pendek di bawah 3 meter.',
+      whenPrem: 'Carport mobil depan rumah tinggal mewah, kanopi drop-off kendaraan, dan void atap terbuka lebar.',
+      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
+    },
+    shower: {
+      tierKey: 'premium',
+      badgeText: '⭐ Disarankan: PREMIUM GRADE',
+      badgeClass: 'choice-badge-prem',
+      envText: 'Tipe Pekerjaan: Area Basah Lembap Tinggi (Tantangan Karat & Kerak Sabun)',
+      headline: 'Fitting Solid SUS-304 & Nano Hydrophobic Anti Kerak Air Membandel',
+      reason: 'Kamar mandi memiliki kelembapan 100% dan paparan sabun/shampoo terus-menerus. Hardware Zinc biasa rentan keropos dan menghitam dalam 1–2 tahun. Premium Grade menggunakan fitting 100% Solid Stainless SUS-304 anti karat serta coating Nano Hydrophobic yang membuat air meluncur seperti daun talas sehingga kaca bebas buram kerak.',
+      whenStd: 'Kamar mandi tamu yang jarang digunakan atau proyek kost sewa ekonomis.',
+      whenPrem: 'Kamar mandi utama (master bathroom), walk-in shower modern ala hotel bintang 5.',
+      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
+    },
+    bifold: {
+      tierKey: 'premium',
+      badgeText: '🔥 REKOMENDASI SANGAT KUAT: PREMIUM GRADE',
+      badgeClass: 'choice-badge-prem',
+      envText: 'Tipe Pekerjaan: Bukaan Lipat Bentang Panjang & Sambungan Multi-Daun',
+      headline: 'Rel Gantung European Style Mencegah Roda Macet & Anjlok',
+      reason: 'Pintu lipat bifold adalah mekanisme kusen paling rumit. Jika memakai rel standar, bobot 3–6 daun pintu akan membuat rel melengkung dan macet setelah beberapa bulan. Premium Grade dilengkapi top-hung heavy-duty roller bearing Eropa yang digeser dengan satu jari pun sangat enteng, halus, dan senyap.',
+      whenStd: 'Pintu lipat 3 daun ukuran kecil untuk sekat ruangan interior yang jarang dibuka-tutup.',
+      whenPrem: 'Pintu lipat 4–8 daun bukaan lebar menghubungkan ruang keluarga dengan taman/kolam renang outdoor.',
+      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
+    },
+    etalase: {
+      tierKey: 'standard',
+      badgeText: '🏷️ Disarankan: STANDARD SNI (HEMAT MODAL USAHA)',
+      badgeClass: 'choice-badge-std',
+      envText: 'Tipe Pekerjaan: Interior Toko Retail & Display Counter',
+      headline: 'Paling Efisien untuk Menghemat Modal Awal Bisnis Anda',
+      reason: 'Bagi pemilik toko baru atau UMKM, etalase aluminium Standard SNI adalah pilihan paling rasional untuk menjaga modal usaha tetap hemat. Struktur aluminium profil 1.5" sudah sangat kokoh menampung stok barang dagangan, ringan digeser, dan anti rayap.',
+      whenStd: 'Etalase sembako, counter pulsa/hp, display apotek, dan meja kasir toko kelontong.',
+      whenPrem: 'Boutique pakaian mewah, toko perhiasan/emas, optik kacamata, dan counter mall yang membutuhkan kaca tempered dan lampu LED strip tersembunyi.',
+      btnText: 'Terapkan Rekomendasi (Standard SNI) ke Kalkulator'
+    },
+    railing: {
+      tierKey: 'premium',
+      badgeText: '🔥 REKOMENDASI MUTLAK: PREMIUM GRADE (SAFETY TINGGI)',
+      badgeClass: 'choice-badge-prem',
+      envText: 'Tipe Pekerjaan: Balkon Lantai 2+ & Tangga (Proteksi Nyawa & Kejatuhan)',
+      headline: 'Frameless Base Shoe Tanam / SUS-316 & Kaca Tempered 12mm',
+      reason: 'Railing tangga dan balkon berfungsi sebagai pelindung nyawa anggota keluarga dan anak-anak. Standard SNI dengan tiang 201 sudah aman, namun Premium Grade dengan kaca tempered 12mm frameless base shoe tanam atau spigot SUS-316 memberikan kekuatan struktural anti roboh yang teruji serta visual panoramik tanpa tiang pembatas yang mengganggu pemandangan.',
+      whenStd: 'Railing tangga rumah standar 2 lantai dengan budget renovasi terukur.',
+      whenPrem: 'Balkon luar lantai 2–3 terpapar angin luar, tangga utama void ruang tamu, dan gedung komersial.',
+      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
+    },
+    acp: {
+      tierKey: 'premium',
+      badgeText: '🔥 REKOMENDASI MUTLAK: PREMIUM GRADE (OUTDOOR EXTERIOR)',
+      badgeClass: 'choice-badge-prem',
+      envText: 'Tipe Pekerjaan: Fasad Eksterior Bangunan (Panas Terik & Hujan Asam Karawang)',
+      headline: 'Wajib ACP Seven / Alustar PVDF 4mm untuk Fasad Tahan 10+ Tahun',
+      reason: 'ACP PE (Standard) hanya didesain untuk interior atau semi-outdoor. Jika dipasang di fasad luar gedung, cat PE akan memudar dan mengelupas dalam 2–3 tahun terpapar matahari Karawang. Untuk fasad luar, WAJIB menggunakan ACP Seven / Alustar PVDF 4mm (Premium Grade) yang bergaransi warna 10–15 tahun tidak pudar.',
+      whenStd: 'Plafon SPBU semi-outdoor, sekat pilar dalam showroom, atau backdrop resepsionis interior.',
+      whenPrem: 'Fasad tampak depan ruko, gedung kantor komersial, bando toko, dan bangunan industri KIIC/Suryacipta.',
+      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
+    },
+    curtain_wall: {
+      tierKey: 'premium',
+      badgeText: '🔥 REKOMENDASI MUTLAK: PREMIUM GRADE (STRUKTURAL ARSITEKTURAL)',
+      badgeClass: 'choice-badge-prem',
+      envText: 'Tipe Pekerjaan: Fasad Kaca Gedung Bertingkat (Beban Angin & Tekanan Gempa)',
+      headline: 'Mullion Heavy-Duty 50x150mm & Double Glass / Tempered Reflective',
+      reason: 'Curtain wall menggantung pada struktur utama gedung dan menerima beban angin serta getaran gempa secara langsung. Mullion heavy-duty Alexindo/YKK 50x150mm Premium Grade menjamin kekakuan struktural tanpa lendutan berbahaya, serta kaca tempered/double glass yang mengisolasi panas matahari gedung hingga 60%.',
+      whenStd: 'Fasad ruko 2 lantai dengan bidang kaca relatif kecil di area terlindung.',
+      whenPrem: 'Gedung kantor 3–5 lantai, fasad hotel, rumah sakit, dan gedung serbaguna komersial modern.',
+      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
+    }
+  };
+
   let activeQuality = 'standard';
 
   function formatIDRCurrency(val) {
@@ -6349,6 +6484,31 @@ window.printProjectPdf = function(orderId) {
       }
     }
 
+    // Update dynamic Summary & Recommendation section beneath comparison table
+    const recData = SERVICE_RECOMMENDATION_DATA[serviceKey] || SERVICE_RECOMMENDATION_DATA.kusen;
+    const summaryServiceTitle = document.getElementById('summaryServiceTitle');
+    const summaryChoiceBadge = document.getElementById('summaryChoiceBadge');
+    const summaryEnvText = document.getElementById('summaryEnvText');
+    const summaryHeadline = document.getElementById('summaryHeadline');
+    const summaryReason = document.getElementById('summaryReason');
+    const summaryWhenStd = document.getElementById('summaryWhenStd');
+    const summaryWhenPrem = document.getElementById('summaryWhenPrem');
+    const applyRecommendText = document.getElementById('applyRecommendText');
+
+    if (summaryServiceTitle) summaryServiceTitle.textContent = config.label;
+    if (summaryChoiceBadge) {
+      summaryChoiceBadge.textContent = recData.badgeText;
+      summaryChoiceBadge.className = 'spec-summary-choice-badge ' + recData.badgeClass;
+    }
+    if (summaryEnvText) summaryEnvText.textContent = recData.envText;
+    if (summaryHeadline) summaryHeadline.textContent = recData.headline;
+    if (summaryReason) summaryReason.textContent = recData.reason;
+    if (summaryWhenStd) summaryWhenStd.textContent = recData.whenStd;
+    if (summaryWhenPrem) summaryWhenPrem.textContent = recData.whenPrem;
+    if (applyRecommendText) applyRecommendText.textContent = recData.btnText;
+
+    window._currentRecommendedQuality = recData.tierKey;
+
     // Store state for consultation
     window._lastRoughEstimate = {
       service: config.label,
@@ -6392,6 +6552,28 @@ window.printProjectPdf = function(orderId) {
       }
     }
     updateRoughEstimate();
+  };
+
+  window.applyRecommendedQuality = function() {
+    const targetKey = window._currentRecommendedQuality || 'premium';
+    window.setCalcQuality(targetKey);
+
+    const btn = document.getElementById('btnApplyRecommendation');
+    if (btn) {
+      const originalHtml = btn.innerHTML;
+      const label = targetKey === 'premium' ? 'Premium Grade' : 'Standard SNI';
+      btn.innerHTML = `<span>✓</span> <span>Pilihan ${label} Berhasil Diterapkan ke Kalkulator!</span>`;
+      btn.style.background = '#0d9488';
+      setTimeout(() => {
+        btn.innerHTML = originalHtml;
+        btn.style.background = '';
+      }, 2500);
+    }
+
+    const estCard = document.querySelector('.cost-calc-result');
+    if (estCard) {
+      estCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   };
 
   window.toggleSpecComparisonTable = function(shouldScroll) {

@@ -982,6 +982,70 @@
             </table>
           </div>
 
+          <!-- ========================================================
+               DYNAMIC SUMMARY & BEST CHOICE RECOMMENDATION
+               ======================================================== -->
+          <div class="spec-summary-section" id="specSummarySection">
+            <div class="spec-summary-header">
+              <div class="spec-summary-title-wrap">
+                <span class="spec-summary-eyebrow">🎯 Ringkasan & Rekomendasi Pilihan Terbaik</span>
+                <h4 class="spec-summary-heading">
+                  Rekomendasi Mutu untuk: <span id="summaryServiceTitle" class="highlight-teal">Kusen Aluminium (Profil 3" / 4")</span>
+                </h4>
+              </div>
+              <div class="spec-summary-badge-wrap">
+                <span class="spec-summary-choice-badge choice-badge-prem" id="summaryChoiceBadge">
+                  ⭐ Disarankan: PREMIUM GRADE (UNTUK FASAD LUAR)
+                </span>
+              </div>
+            </div>
+
+            <!-- Dynamic Recommendation Box -->
+            <div class="spec-summary-card" id="summaryCard">
+              <div class="spec-summary-env-tag" id="summaryEnvTag">
+                <span class="env-icon">📍</span>
+                <span id="summaryEnvText">Tipe Pekerjaan: Struktural Dinding Hunian & Ruko (Outdoor & Indoor)</span>
+              </div>
+
+              <div class="spec-summary-headline" id="summaryHeadline">
+                Alexindo 4" Premium untuk Fasad Luar, Dacon 3" Standard untuk Pintu/Jendela Kamar
+              </div>
+
+              <p class="spec-summary-reason" id="summaryReason">
+                Untuk kusen yang dipasang di dinding luar atau fasad utama, profil 4 Inch Premium (Alexindo/Alcomexindo tebal 1.15–1.35mm) sangat direkomendasikan agar kokoh menahan terpaan angin kencang dan sambungan sudut tidak renggang. Untuk sekat kamar tidur atau pintu interior, Standard SNI (3 Inch) sudah sangat hemat dan tahan rayap seumur hidup.
+              </p>
+
+              <!-- Two Pillar Decision Matrix -->
+              <div class="spec-summary-matrix-grid">
+                <div class="summary-matrix-col col-std-guide">
+                  <div class="matrix-head">
+                    <span class="matrix-bullet">🏷️</span>
+                    <strong>Kapan Memilih Standard SNI?</strong>
+                  </div>
+                  <p id="summaryWhenStd">Renovasi sekat interior kamar, rumah sewa/kontrakan, atau efisiensi anggaran total.</p>
+                </div>
+                <div class="summary-matrix-col col-prem-guide">
+                  <div class="matrix-head">
+                    <span class="matrix-bullet">⭐</span>
+                    <strong>Kapan Wajib / Disarankan Premium?</strong>
+                  </div>
+                  <p id="summaryWhenPrem">Fasad tampak depan rumah tinggal pribadi, jendela ruang tamu utama, dan bukaan kaca lebar.</p>
+                </div>
+              </div>
+
+              <!-- Quick Action Bar -->
+              <div class="spec-summary-action-row">
+                <div class="summary-action-hint">
+                  <span>💡 Klik tombol untuk langsung menerapkan rekomendasi terbaik ini ke kalkulator estimasi di atas:</span>
+                </div>
+                <button type="button" class="spec-apply-recommend-btn" id="btnApplyRecommendation" onclick="window.applyRecommendedQuality()">
+                  <span id="applyRecommendIcon">⚡</span>
+                  <span id="applyRecommendText">Terapkan Rekomendasi (Premium Grade) ke Kalkulator</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
           <!-- Expert Advice Callout -->
           <div class="spec-advice-box">
             <div class="spec-advice-icon">💬</div>

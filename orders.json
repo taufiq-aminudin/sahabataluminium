@@ -1,0 +1,390 @@
+[
+  {
+    "id": "SKA-2026-001",
+    "customerName": "Ibu Ratna Dewi (Ruko Galuh Mas Blok VII)",
+    "contactPhone": "+62 813-8890-1234",
+    "projectTitle": "Pintu Sliding Kaca Tempered 10mm & Kusen Alexindo 4\" Ruko 2 Lantai",
+    "projectType": "Komersial & Ruko",
+    "location": "Ruko Broadway Galuh Mas, Karawang Barat",
+    "orderDate": "2026-09-26",
+    "estimatedCompletion": "2026-10-02",
+    "leadEngineer": "Bpk. Hendra Gunawan (Spesialis Sliding Door)",
+    "fieldSupervisor": "Bpk. Dedi Supriyadi",
+    "materialSpec": "Kusen Aluminium Alexindo 4 Inch Finish Anodize Black, Kaca Tempered Clear 10mm Asahimas, Rel Gantung & Roda Heavy Duty Dekkson, Kunci Kaca Patch Fitting.",
+    "currentStage": "Survey",
+    "progressPercent": 25,
+    "stages": {
+      "Survey": {
+        "status": "in_progress",
+        "date": "28 September 2026",
+        "notes": "Survey lokasi dan laser measurement bukaan kusen ruko (lebar 3.6m x tinggi 2.8m)."
+      },
+      "Fabrication": {
+        "status": "pending",
+        "date": "28 September 2026",
+        "notes": "Rel gantung heavy duty dan profil kusen telah dirakit dan siap pasang."
+      },
+      "Installation": {
+        "status": "pending",
+        "date": "Estimasi 30 September 2026",
+        "notes": "Pemasangan kusen induk, rel sliding gantung, dan daun pintu kaca on-site."
+      },
+      "Completed": {
+        "status": "pending",
+        "date": "Estimasi 02 Oktober 2026",
+        "notes": "Penyetelan kelancaran geser roda rel, aplikasi sealant waterproofing, dan serah terima garansi 1 tahun."
+      }
+    },
+    "activityLog": [
+      {
+        "timestamp": "2026-09-28 11:34",
+        "stage": "Fabrication",
+        "title": "Uji Fabrikasi Profil Kusen Sliding Ruko",
+        "desc": "Rel gantung heavy duty dan profil kusen telah dirakit dan siap pasang.",
+        "photo": "/assets/uploads/orders/order-SKA-2026-001-1790595254742.png",
+        "photoCaption": "Rel gantung heavy duty dan profil kusen telah dirakit dan siap pasang.",
+        "uploader": "Tim Fabrikasi Workshop"
+      },
+      {
+        "timestamp": "2026-09-28 10:13",
+        "stage": "Survey",
+        "title": "Tahap Survey & Pengukuran Dimensi Selesai",
+        "desc": "Survey lokasi dan laser measurement bukaan kusen ruko (lebar 3.6m x tinggi 2.8m).",
+        "photo": "/assets/gallery/pintu-sliding.jpg",
+        "photoCaption": "Laser measurement bukaan opening 3.6m x 2.8m untuk jalur pintu sliding gantung.",
+        "uploader": "Bpk. Hendra Gunawan"
+      },
+      {
+        "timestamp": "2026-09-28 10:12",
+        "stage": "Fabrication",
+        "title": "Tahap Fabrikasi Rangka Aluminium di Workshop Berjalan",
+        "desc": "Pemotongan profil kusen sliding dan penyiapan rel gantung Dekkson heavy duty."
+      },
+      {
+        "timestamp": "2026-09-28 09:55",
+        "stage": "Survey",
+        "title": "Tahap Survey & Pengukuran Dimensi Selesai/Diperbarui",
+        "desc": "Status proyek berhasil diperbarui ke tahap Survey oleh tim operasional Sahabat Kaca Aluminium."
+      },
+      {
+        "timestamp": "2026-09-26 14:15",
+        "stage": "Survey",
+        "title": "Laser Measurement & Konsultasi Bukaan Pintu",
+        "desc": "Tim teknisi mengukur dimensi opening dan mendiskusikan opsi rel gantung tanpa rel tanam lantai agar akses pelanggan ruko bebas hambatan."
+      },
+      {
+        "timestamp": "2026-09-26 10:00",
+        "stage": "Survey",
+        "title": "Order Diterbitkan & Tim Lapangan Ditugaskan",
+        "desc": "SPK Proyek #SKA-2026-001 resmi dibuat. Lead Teknisi Hendra Gunawan dijadwalkan survey lokasi."
+      }
+    ]
+  },
+  {
+    "id": "SKA-2026-002",
+    "customerName": "PT. Precision Part Nusantara (KIIC Plant 2)",
+    "contactPhone": "+62 811-9234-5678",
+    "projectTitle": "Partisi Kaca Cleanroom & Pintu Swing Aluminium Heavy Duty Fasilitas Pabrik",
+    "projectType": "Industri Pabrik",
+    "location": "Kawasan Industri KIIC (Karawang International Industrial City), Karawang Barat",
+    "orderDate": "2026-09-22",
+    "estimatedCompletion": "2026-10-04",
+    "leadEngineer": "Bpk. Bambang Setiadi (Fabrikator Kepala)",
+    "fieldSupervisor": "Bpk. Agus Hermawan (K3 Officer)",
+    "materialSpec": "Kusen Inkalum 4 Inch Anodize White CA, Kaca Polos Asahimas 8mm Sealant Silikon Netral Anti-Dust, Handle Stainless SUS304 & Floor Hinge Dekkson FH-84.",
+    "currentStage": "Fabrication",
+    "progressPercent": 50,
+    "stages": {
+      "Survey": {
+        "status": "completed",
+        "date": "23 September 2026",
+        "notes": "Verifikasi ukuran 8 panel partisi cleanroom modul 1.2m x 3.0m selesai. Koordinasi induction K3 pabrik telah disetujui."
+      },
+      "Fabrication": {
+        "status": "in_progress",
+        "date": "28 September 2026",
+        "notes": "Profil aluminium Alexindo 4 inch telah dipotong presisi sudut 45 derajat di workshop."
+      },
+      "Installation": {
+        "status": "pending",
+        "date": "28 September 2026",
+        "notes": "Uji update stage ke Installation"
+      },
+      "Completed": {
+        "status": "pending",
+        "date": "Estimasi 04 Oktober 2026",
+        "notes": "Pengujian kekedapan debu (dust seal test) dan penyerahan BAST (Berita Acara Serah Terima) proyek."
+      }
+    },
+    "activityLog": [
+      {
+        "timestamp": "2026-09-28 11:18",
+        "stage": "Fabrication",
+        "title": "Dokumentasi Kusen Alexindo 4 Inch Lantai 1 (Telah Dikalibrasi)",
+        "desc": "Kusen aluminium telah dipotong siku 45 derajat dengan mesin presisi tinggi dan dites waterpass.",
+        "photo": "/assets/uploads/orders/order-SKA-2026-002-1790594296377.png",
+        "photoCaption": "Kusen aluminium telah dipotong siku 45 derajat dengan mesin presisi tinggi dan dites waterpass.",
+        "uploader": "Tim Pengawas Lapangan PT Indotech",
+        "editedAt": "2026-09-28 11:21"
+      },
+      {
+        "timestamp": "2026-09-28 09:52",
+        "stage": "Fabrication",
+        "title": "Tahap Fabrikasi Rangka Aluminium di Workshop Berjalan",
+        "desc": "Perakitan modul rangka profil aluminium di workshop pusat Karawang Barat."
+      },
+      {
+        "timestamp": "2026-09-28 09:52",
+        "stage": "Installation",
+        "title": "Tahap Instalasi On-Site Berlangsung di Lokasi",
+        "desc": "Uji update stage ke Installation"
+      },
+      {
+        "timestamp": "2026-09-25 15:40",
+        "stage": "Fabrication",
+        "title": "Perakitan 6 Rangka Modul Kusen 4 Inch",
+        "desc": "Modul kusen aluminium Inkalum putih telah dirakit dan siap untuk tahap pemasangan karet epdm seal."
+      },
+      {
+        "timestamp": "2026-09-24 11:20",
+        "stage": "Fabrication",
+        "title": "Material Inkalum & Kaca Tiba di Workshop",
+        "desc": "Bahan baku telah lolos quality check internal workshop bebas baret dan goresan."
+      },
+      {
+        "timestamp": "2026-09-23 13:00",
+        "stage": "Survey",
+        "title": "Approval Desain Shop Drawing & Survey Cleanroom",
+        "desc": "Gambar kerja tata letak partisi ruangan cleanroom disetujui tanpa revisi dimensi.",
+        "photo": "/assets/gallery/partisi-aluminium.jpg",
+        "photoCaption": "Inspeksi opening partisi modular cleanroom 8 panel dan kesiapan struktur lantai.",
+        "uploader": "Bpk. Agus Hermawan (K3 Officer)"
+      },
+      {
+        "timestamp": "2026-09-22 09:30",
+        "stage": "Survey",
+        "title": "SPK & DP Kontrak Kerja Diterima",
+        "desc": "Proyek resmi masuk antrean fabrikasi prioritas industri."
+      }
+    ]
+  },
+  {
+    "id": "SKA-2026-003",
+    "customerName": "Bpk. Dr. Adrian Wicaksono",
+    "contactPhone": "+62 812-4567-8901",
+    "projectTitle": "Jendela Aluminium Casement Kedap Suara & Shower Screen Frameless Kamar Mandi",
+    "projectType": "Residensial Mewah",
+    "location": "Cluster San Diego, Perumahan Grand Taruma, Karawang Barat",
+    "orderDate": "2026-09-17",
+    "estimatedCompletion": "2026-09-29",
+    "leadEngineer": "Bpk. Wawan Kurniawan (Master Installer)",
+    "fieldSupervisor": "Bpk. Hendra Gunawan",
+    "materialSpec": "Kusen Aluminium Alexindo Anodize Brown 3\", Kaca Clear Tempered 10mm & Kaca Double Laminated 5+5mm Akustik, Engsel Friction Stay Dekkson Stainless 304, Rambuncis Multipoint Lock.",
+    "currentStage": "Installation",
+    "progressPercent": 75,
+    "stages": {
+      "Survey": {
+        "status": "completed",
+        "date": "18 September 2026",
+        "notes": "Pengukuran 6 unit jendela kamar tidur dan 2 unit shower box kaca sudut 90 derajat."
+      },
+      "Fabrication": {
+        "status": "completed",
+        "date": "22 September 2026",
+        "notes": "Fabrikasi jendela casement dan proses temper kaca shower screen di oven tempering berstandar SNI selesai."
+      },
+      "Installation": {
+        "status": "in_progress",
+        "date": "27 September 2026",
+        "notes": "Pemasangan rangka kusen ke tembok dengan sekrup dynabolt dan aplikasi expanding foam + sealant tahan air hujan."
+      },
+      "Completed": {
+        "status": "pending",
+        "date": "Estimasi 29 September 2026",
+        "notes": "Pembersihan residu sealant, penyetelan handle multipoint lock, dan penyerahan kartu garansi 12 bulan."
+      }
+    },
+    "activityLog": [
+      {
+        "timestamp": "2026-09-27 16:00",
+        "stage": "Installation",
+        "title": "Pemasangan 4 Unit Jendela Casement Utama Selesai",
+        "desc": "Rangka telah dipasang tegak lurus (waterpass terverifikasi). Aplikasi silikon sealent Dowsil tahan UV telah dirapikan.",
+        "photo": "/assets/gallery/jendela-kaca.jpg",
+        "photoCaption": "Pemasangan kusen casement lantai 2 dan perapian sealant tahan cuaca dan kedap suara.",
+        "uploader": "Bpk. Wawan Kurniawan (Master Installer)"
+      },
+      {
+        "timestamp": "2026-09-26 10:30",
+        "stage": "Installation",
+        "title": "Material & Tim Teknisi Tiba di Grand Taruma",
+        "desc": "Proses bongkar muatan kaca tempered shower screen dan rangka jendela dilakukan dengan pengaman proteksi busa."
+      },
+      {
+        "timestamp": "2026-09-22 17:00",
+        "stage": "Fabrication",
+        "title": "Fabrikasi Workshop & Tes Kelancaran Friction Stay Selesai",
+        "desc": "Semua aksesoris jendela telah diuji buka-tutup 50 kali untuk memastikan kehalusan fungsi.",
+        "photo": "/assets/gallery/shower-kaca.jpg",
+        "photoCaption": "Fabrikasi kaca shower screen tempered 10mm SNI presisi sudut 90 derajat dengan bevel halus.",
+        "uploader": "Bpk. Bambang Setiadi"
+      },
+      {
+        "timestamp": "2026-09-18 11:45",
+        "stage": "Survey",
+        "title": "Survey Lokasi & Uji Kedap Suara Lingkungan",
+        "desc": "Rekomendasi kaca double laminated akustik dipilih untuk sisi hadap jalan utama perumahan.",
+        "photo": "/assets/gallery/jendela-aluminium.jpg",
+        "photoCaption": "Survey opening kusen jendela casement kamar tidur dan verifikasi dimensi bukaan.",
+        "uploader": "Bpk. Hendra Gunawan"
+      }
+    ]
+  },
+  {
+    "id": "SKA-2026-004",
+    "customerName": "Klinik Pratama Sehat Medika (Cikarang Baru)",
+    "contactPhone": "+62 857-1122-3344",
+    "projectTitle": "Fasad Aluminium Composite Panel (ACP Seven) & Pintu Kaca Sensor Otomatis",
+    "projectType": "Fasilitas Kesehatan & Komersial",
+    "location": "Jl. Ki Hajar Dewantara, Cikarang Kota, Jababeka, Bekasi",
+    "orderDate": "2026-09-05",
+    "estimatedCompletion": "2026-09-24",
+    "leadEngineer": "Bpk. M. Syukri (Spesialis ACP & Otomasi)",
+    "fieldSupervisor": "Bpk. Agus Hermawan",
+    "materialSpec": "ACP Seven 4mm PVDF Green & White Coating Luar Ruang, Rangka Hollow Besi Galvanis 40x40mm Anti Karat, Mesin Automatic Sliding Door Radar Sensor Dorma, Kaca Tempered 12mm.",
+    "currentStage": "Completed",
+    "progressPercent": 100,
+    "stages": {
+      "Survey": {
+        "status": "completed",
+        "date": "06 September 2026",
+        "notes": "Pengukuran elevasi fasad gedung tinggi 8 meter dan jalur instalasi kelistrikan sensor pintu otomatis."
+      },
+      "Fabrication": {
+        "status": "completed",
+        "date": "11 September 2026",
+        "notes": "Grooving & bending lembaran ACP Seven sesuai modul arsitektur dan perakitan braket sudut."
+      },
+      "Installation": {
+        "status": "completed",
+        "date": "19 September 2026",
+        "notes": "Pemasangan scafolding, rangka hollow galvanis, panel ACP, dan mesin pintu sliding otomatis radar sensor."
+      },
+      "Completed": {
+        "status": "completed",
+        "date": "24 September 2026",
+        "notes": "Pengujian sensor safety beam pintu otomatis, uji semprot air waterproofing fasad, dan penandatanganan serah terima garansi resmi 2 tahun."
+      }
+    },
+    "activityLog": [
+      {
+        "timestamp": "2026-09-24 11:30",
+        "stage": "Completed",
+        "title": "Serah Terima Proyek & Kartu Garansi Resmi",
+        "desc": "Seluruh pekerjaan disetujui memuaskan oleh Direktur Operasional Klinik. Garansi struktur fasad ACP 10 tahun dan aksesoris 2 tahun diterbitkan.",
+        "photo": "/assets/gallery/pintu-kamar-mandi.jpg",
+        "photoCaption": "Serah terima pintu dan fasad selesai 100%, lolos uji waterproofing dan garansi 2 tahun.",
+        "uploader": "Direktur Operasional Klinik"
+      },
+      {
+        "timestamp": "2026-09-22 15:00",
+        "stage": "Installation",
+        "title": "Uji Sensitivitas Radar Sensor Pintu Otomatis",
+        "desc": "Kecepatan buka tutup pintu dan sensor anti-jepit (safety infrared) berfungsi sempurna.",
+        "photo": "/assets/gallery/pintu-kaca-putih.jpg",
+        "photoCaption": "Pemasangan mesin radar pintu Dorma dan daun pintu kaca tempered 12mm terpasang presisi.",
+        "uploader": "Bpk. Agus Hermawan"
+      },
+      {
+        "timestamp": "2026-09-18 16:30",
+        "stage": "Installation",
+        "title": "Aplikasi Sealant Netral Warna Fasad",
+        "desc": "Pengisian nat antar modul panel ACP Seven selesai rapi dengan silikon neutral weatherseal."
+      },
+      {
+        "timestamp": "2026-09-11 14:00",
+        "stage": "Fabrication",
+        "title": "Grooving 42 Lembar Panel ACP Seven Presisi",
+        "desc": "Semua tekukan ACP menggunakan mesin router khusus menjamin radius tekukan rapi tanpa retak cat.",
+        "photo": "/assets/gallery/pintu-aluminium.jpg",
+        "photoCaption": "Fabrikasi modul panel ACP Seven dan perakitan braket sudut di workshop.",
+        "uploader": "Bpk. M. Syukri (Spesialis ACP & Otomasi)"
+      },
+      {
+        "timestamp": "2026-09-06 14:00",
+        "stage": "Survey",
+        "title": "Survey Elevasi Fasad & Jalur Sensor Otomatis",
+        "desc": "Pengukuran tinggi fasad 8 meter dan koordinasi jalur kelistrikan pintu sensor.",
+        "photo": "/assets/gallery/pintu-kaca.jpg",
+        "photoCaption": "Survey elevasi fasad gedung klinik & penentuan titik jalur sensor otomatis radar.",
+        "uploader": "Bpk. M. Syukri"
+      }
+    ]
+  },
+  {
+    "id": "SKA-2026-005",
+    "customerName": "Bpk. Rian Hidayat",
+    "contactPhone": "+62 819-3322-1100",
+    "projectTitle": "Kanopi Kaca Tempered 10mm Laminated Rangka Hollow & Pintu Lipat Aluminium",
+    "projectType": "Residensial Modern",
+    "location": "Cluster Morizen, Summarecon Bekasi",
+    "orderDate": "2026-09-20",
+    "estimatedCompletion": "2026-10-06",
+    "leadEngineer": "Bpk. Hendra Gunawan",
+    "fieldSupervisor": "Bpk. Dedi Supriyadi",
+    "materialSpec": "Kaca Tempered Laminated 5+5mm PVB 0.76mm Clear, Rangka Hollow Galvanis 50x100mm Epoxy Primer + Cat Finish Matte Black, Pintu Lipat (Folding Door) Aluminium Dacon 4 Daun.",
+    "currentStage": "Installation",
+    "progressPercent": 70,
+    "stages": {
+      "Survey": {
+        "status": "completed",
+        "date": "21 September 2026",
+        "notes": "Pengukuran kemiringan talang kanopi carport 4.5m x 5.0m agar aliran air hujan mengalir optimal."
+      },
+      "Fabrication": {
+        "status": "completed",
+        "date": "25 September 2026",
+        "notes": "Pengelasan rangka carport galvanis, pelapisan cat dasar anti karat zinchromate, dan proses laminasi kaca tempered."
+      },
+      "Installation": {
+        "status": "in_progress",
+        "date": "28 September 2026",
+        "notes": "Ereksi tiang dan balok kanopi carport, pemasangan dudukan spider fitting dan sealant structural."
+      },
+      "Completed": {
+        "status": "pending",
+        "date": "Estimasi 06 Oktober 2026",
+        "notes": "Instalasi 4 daun folding door aluminium, penyetelan engsel kupu-kupu, dan penyerahan buku panduan perawatan."
+      }
+    },
+    "activityLog": [
+      {
+        "timestamp": "2026-09-28 10:15",
+        "stage": "Installation",
+        "title": "Ereksi Rangka Kanopi Carport & Dynabolt Kolom",
+        "desc": "Rangka hollow galvanis telah terpasang kokoh pada struktur dinding rumah dengan chemical anchor Fischer.",
+        "photo": "/assets/gallery/partisi-aluminium.jpg",
+        "photoCaption": "Ereksi tiang struktur kanopi dan verifikasi kelurusan bentang di lokasi Summarecon.",
+        "uploader": "Bpk. Hendra Gunawan"
+      },
+      {
+        "timestamp": "2026-09-25 16:45",
+        "stage": "Fabrication",
+        "title": "Pengecatan Rangka & Glass Lamination Selesai",
+        "desc": "Kaca tempered laminated 5+5mm lolos uji adhesi PVB dan siap kirim ke jobsite Summarecon.",
+        "photo": "/assets/gallery/pintu-sliding.jpg",
+        "photoCaption": "Fabrikasi 4 daun folding door aluminium dan pelapisan epoxy primer hollow galvanis.",
+        "uploader": "Bpk. Dedi Supriyadi"
+      },
+      {
+        "timestamp": "2026-09-21 14:00",
+        "stage": "Survey",
+        "title": "Survey Kemiringan & Verifikasi Beban Kanopi",
+        "desc": "Perhitungan beban bentang kanopi carport disimulasikan aman dari lendutan angin dan hujan deras.",
+        "photo": "/assets/gallery/shower-kaca.jpg",
+        "photoCaption": "Survey elevasi kemiringan talang air dan titik anchoring kolom carport.",
+        "uploader": "Bpk. Hendra Gunawan"
+      }
+    ]
+  }
+]

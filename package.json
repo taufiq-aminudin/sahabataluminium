@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
-    "validate:data": "node validateData.js",
-    "build": "node validateData.js && node build.js",
+    "validate:data": "node scripts/validateData.js",
+    "build": "node scripts/validateData.js && node build.js",
     "deploy": "wrangler deploy",
     "preview": "wrangler dev",
     "lint": "node --check server.js"

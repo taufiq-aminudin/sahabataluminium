@@ -10137,10 +10137,516 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
     updateRoughEstimate();
   }
 
+  window.initCostCalculator = setupEventListeners;
+
   // Bind on DOMContentLoaded or immediately if already loaded
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', setupEventListeners);
   } else {
     setupEventListeners();
+  }
+})();
+
+/* =========================================================================
+   CLIENT-SIDE SPA ROUTER FOR SAHABAT KACA ALUMINIUM
+   Dynamically manages pages (/tentang-kami, /layanan, /hitung-estimasi, etc.)
+   while preserving styles, handling browser history, and updating content.
+   ========================================================================= */
+(function() {
+  'use strict';
+
+  // In-memory cache for fetched pages
+  const pageCache = new Map();
+  let isNavigating = false;
+
+  // Create or retrieve top progress bar
+  function getProgressBar() {
+    let bar = document.getElementById('spa-progress-bar');
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.id = 'spa-progress-bar';
+      bar.style.cssText = 'position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#0d9488,#2dd4bf,#ffd88a);z-index:999999;transition:width 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;width:0%;opacity:0;pointer-events:none;box-shadow:0 0 10px rgba(45,212,191,0.7);';
+      document.body.appendChild(bar);
+    }
+    return bar;
+  }
+
+  function showProgress() {
+    const bar = getProgressBar();
+    bar.style.opacity = '1';
+    bar.style.width = '30%';
+    setTimeout(() => {
+      if (isNavigating) bar.style.width = '70%';
+    }, 150);
+  }
+
+  function finishProgress() {
+    const bar = getProgressBar();
+    bar.style.width = '100%';
+    setTimeout(() => {
+      bar.style.opacity = '0';
+      setTimeout(() => {
+        bar.style.width = '0%';
+      }, 250);
+    }, 150);
+  }
+
+  // Get or initialize #spa-content wrapper between <header> and <footer>
+  function getSpaContainer() {
+    let container = document.getElementById('spa-content');
+    if (container) return container;
+
+    const header = document.querySelector('header.site-header') || document.querySelector('header');
+    const footer = document.querySelector('footer');
+
+    if (!header || !footer) return null;
+
+    container = document.createElement('div');
+    container.id = 'spa-content';
+    container.className = 'spa-content';
+    container.style.cssText = 'display:block;width:100%;min-height:50vh;transition:opacity 0.15s ease-out;';
+
+    // Insert container immediately after header
+    header.parentNode.insertBefore(container, header.nextSibling);
+
+    // Move all siblings between header and footer into container
+    let next = container.nextSibling;
+    while (next && next !== footer) {
+      const current = next;
+      next = current.nextSibling;
+      container.appendChild(current);
+    }
+
+    return container;
+  }
+
+  // Extract content between header and footer from parsed doc
+  function extractPageContent(newDoc) {
+    const existingSpa = newDoc.getElementById('spa-content');
+    if (existingSpa) return existingSpa.innerHTML;
+
+    const header = newDoc.querySelector('header.site-header') || newDoc.querySelector('header');
+    const footer = newDoc.querySelector('footer');
+
+    if (header && footer) {
+      let html = '';
+      let curr = header.nextElementSibling;
+      while (curr && curr !== footer) {
+        html += curr.outerHTML + '\n';
+        curr = curr.nextElementSibling;
+      }
+      return html;
+    }
+
+    const main = newDoc.querySelector('main');
+    if (main) return main.outerHTML;
+
+    return newDoc.body.innerHTML;
+  }
+
+  // Sync head metadata (title, description, canonical, open graph, stylesheets, and styles)
+  function syncHeadMetadata(newDoc) {
+    // 1. Title
+    if (newDoc.title) {
+      document.title = newDoc.title;
+    }
+
+    // 2. Meta description
+    const newDesc = newDoc.querySelector('meta[name="description"]');
+    if (newDesc) {
+      let desc = document.querySelector('meta[name="description"]');
+      if (!desc) {
+        desc = document.createElement('meta');
+        desc.name = 'description';
+        document.head.appendChild(desc);
+      }
+      desc.content = newDesc.content;
+    }
+
+    // 3. Canonical
+    const newCanon = newDoc.querySelector('link[rel="canonical"]');
+    if (newCanon) {
+      let canon = document.querySelector('link[rel="canonical"]');
+      if (!canon) {
+        canon = document.createElement('link');
+        canon.rel = 'canonical';
+        document.head.appendChild(canon);
+      }
+      canon.href = newCanon.href;
+    }
+
+    // 4. Stylesheets: add any missing <link rel="stylesheet">
+    newDoc.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href) {
+        const absHref = new URL(href, window.location.origin).href;
+        const exists = Array.from(document.querySelectorAll('link[rel="stylesheet"]')).some(l => {
+          return new URL(l.getAttribute('href'), window.location.origin).href === absHref;
+        });
+        if (!exists) {
+          const newLink = document.createElement('link');
+          newLink.rel = 'stylesheet';
+          newLink.href = href;
+          document.head.appendChild(newLink);
+        }
+      }
+    });
+
+    // 5. Injected page-specific <style> tags
+    document.querySelectorAll('style[data-spa-injected]').forEach(el => el.remove());
+    newDoc.querySelectorAll('head style').forEach(style => {
+      const newStyle = document.createElement('style');
+      newStyle.setAttribute('data-spa-injected', 'true');
+      newStyle.textContent = style.textContent;
+      document.head.appendChild(newStyle);
+    });
+  }
+
+  // Update navigation active states
+  function updateNavActiveState(pathname) {
+    const cleanPath = pathname.replace(/\/$/, '') || '/';
+    const nav = document.getElementById('mainNav');
+    if (!nav) return;
+
+    // Reset all nav links
+    nav.querySelectorAll('a').forEach(a => a.classList.remove('active'));
+
+    // Highlight dropdown for /layanan routes
+    const dropdown = document.getElementById('navDropdownLayanan');
+    const dropdownBtn = document.getElementById('dropdownLayananBtn');
+    if (dropdown && cleanPath.startsWith('/layanan')) {
+      dropdown.classList.add('active');
+      if (dropdownBtn) dropdownBtn.classList.add('active');
+    } else if (dropdown) {
+      dropdown.classList.remove('active');
+    }
+
+    // Find and highlight matching link
+    nav.querySelectorAll('a').forEach(a => {
+      const href = a.getAttribute('href');
+      if (!href) return;
+      const linkPath = new URL(href, window.location.origin).pathname.replace(/\/$/, '') || '/';
+      if (linkPath === cleanPath) {
+        a.classList.add('active');
+      }
+    });
+
+    // Close mobile menus
+    nav.classList.remove('open');
+    if (dropdown) dropdown.classList.remove('active-mobile');
+    const toggleBtn = document.querySelector('.menu-toggle');
+    if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  // Re-run inline and page-specific scripts
+  function executePageScripts(container, newDoc) {
+    const scriptsToRun = [];
+
+    // Scripts inside the new content container
+    container.querySelectorAll('script').forEach(s => scriptsToRun.push(s));
+
+    // Scripts in newDoc body (bottom scripts)
+    const footerInDoc = newDoc.querySelector('footer');
+    if (footerInDoc) {
+      let next = footerInDoc.nextElementSibling;
+      while (next) {
+        if (next.tagName === 'SCRIPT') {
+          const src = next.getAttribute('src') || '';
+          if (!src.includes('script.js') && !src.includes('googletagmanager') && !src.includes('pagead2') && !src.includes('html2pdf')) {
+            scriptsToRun.push(next);
+          }
+        }
+        next = next.nextElementSibling;
+      }
+    }
+
+    scriptsToRun.forEach(oldScript => {
+      const src = oldScript.getAttribute('src');
+      if (src) {
+        if (!document.querySelector(`script[src="${src}"]`)) {
+          const s = document.createElement('script');
+          s.src = src;
+          s.async = false;
+          document.body.appendChild(s);
+        }
+      } else if (oldScript.textContent.trim()) {
+        try {
+          const s = document.createElement('script');
+          s.textContent = oldScript.textContent;
+          document.body.appendChild(s);
+          s.remove();
+        } catch (err) {
+          console.warn('Script execution notice:', err);
+        }
+      }
+      if (oldScript.parentNode) {
+        oldScript.remove();
+      }
+    });
+  }
+
+  // Re-bind interactive components on page change
+  function reinitializeComponents(pathname) {
+    // 1. Calculator
+    if (document.getElementById('kalkulator-biaya') || document.getElementById('calcServiceType')) {
+      if (typeof window.initCostCalculator === 'function') {
+        try {
+          window.initCostCalculator();
+        } catch (e) {
+          console.warn('Calculator re-init:', e);
+        }
+      }
+    }
+
+    // 2. Lightbox attachments
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightboxImage');
+    const lbTitle = document.getElementById('lightboxTitle');
+    if (lb && lbImg) {
+      document.querySelectorAll('.gallery-item').forEach(item => {
+        item.onclick = function() {
+          lbImg.src = item.dataset.image || '';
+          lbImg.alt = item.dataset.title || '';
+          if (lbTitle) lbTitle.textContent = item.dataset.title || '';
+          lb.classList.add('open');
+          lb.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        };
+      });
+    }
+
+    // 3. Re-bind dropdown & mobile menu toggles
+    const nav = document.querySelector('#mainNav');
+    if (nav) {
+      document.querySelectorAll('.nav-dropdown-toggle').forEach(btn => {
+        btn.onclick = function(e) {
+          if (window.innerWidth <= 992) {
+            e.preventDefault();
+            e.stopPropagation();
+            const parent = btn.closest('.nav-dropdown');
+            if (parent) parent.classList.toggle('active-mobile');
+          }
+        };
+      });
+      document.querySelectorAll('#mainNav a:not(.nav-dropdown-toggle)').forEach(a => {
+        a.onclick = function() {
+          nav.classList.remove('open');
+          const openDd = document.querySelector('.nav-dropdown.active-mobile');
+          if (openDd) openDd.classList.remove('active-mobile');
+        };
+      });
+    }
+
+    // 4. FAQ Accordion toggles if present
+    document.querySelectorAll('.faq-toggle, .faq-question').forEach(btn => {
+      btn.onclick = function() {
+        const item = btn.closest('.faq-item, .faq-card');
+        if (item) item.classList.toggle('active');
+      };
+    });
+  }
+
+  // Fetch page HTML with caching
+  async function fetchPage(url) {
+    const cleanUrl = url.split('#')[0];
+    if (pageCache.has(cleanUrl)) {
+      return pageCache.get(cleanUrl);
+    }
+    const res = await fetch(cleanUrl, {
+      headers: { 'X-Requested-With': 'SPARouter' }
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const text = await res.text();
+    pageCache.set(cleanUrl, text);
+    return text;
+  }
+
+  // Main Navigate function
+  async function navigate(url, options = {}) {
+    const { pushState = true, scrollToTop = true } = options;
+    const targetUrl = new URL(url, window.location.origin);
+    const path = targetUrl.pathname;
+    const hash = targetUrl.hash;
+    const search = targetUrl.search;
+
+    // Check same page anchor navigation
+    if (path === window.location.pathname && search === window.location.search) {
+      if (hash) {
+        const el = document.querySelector(hash);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        if (pushState) window.history.pushState({ path: targetUrl.href }, '', targetUrl.href);
+      } else if (scrollToTop) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    if (isNavigating) return;
+    isNavigating = true;
+    showProgress();
+
+    try {
+      const htmlText = await fetchPage(targetUrl.href);
+      const parser = new DOMParser();
+      const newDoc = parser.parseFromString(htmlText, 'text/html');
+
+      // 1. Sync Head metadata & styles
+      syncHeadMetadata(newDoc);
+
+      // 2. Extract & swap page content
+      const container = getSpaContainer();
+      if (container) {
+        container.style.opacity = '0.7';
+        const newHtml = extractPageContent(newDoc);
+        container.innerHTML = newHtml;
+        requestAnimationFrame(() => {
+          container.style.opacity = '1';
+        });
+
+        // 3. Execute scripts inside new content
+        executePageScripts(container, newDoc);
+      }
+
+      // 4. Update Nav active indicators
+      updateNavActiveState(path);
+
+      // 5. Update history
+      if (pushState) {
+        window.history.pushState({ path: targetUrl.href }, '', targetUrl.href);
+      }
+
+      // 6. Reinitialize interactive components
+      reinitializeComponents(path);
+
+      // 7. Scroll handling
+      if (hash) {
+        setTimeout(() => {
+          const el = document.querySelector(hash);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 50);
+      } else if (scrollToTop) {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      }
+
+      // 8. Event notification
+      window.dispatchEvent(new CustomEvent('spa:navigated', {
+        detail: { url: targetUrl.href, pathname: path }
+      }));
+
+    } catch (err) {
+      console.warn('SPA navigation fallback to standard load:', err);
+      window.location.href = targetUrl.href;
+    } finally {
+      isNavigating = false;
+      finishProgress();
+    }
+  }
+
+  // Prefetch a route into cache
+  function prefetch(url) {
+    try {
+      const u = new URL(url, window.location.origin);
+      if (u.origin !== window.location.origin) return;
+      if (/\.(pdf|png|jpe?g|webp|svg|css|js|json|xml|txt)$/i.test(u.pathname)) return;
+      const cleanUrl = u.origin + u.pathname + u.search;
+      if (!pageCache.has(cleanUrl)) {
+        fetch(cleanUrl, { priority: 'low' })
+          .then(r => r.text())
+          .then(text => pageCache.set(cleanUrl, text))
+          .catch(() => {});
+      }
+    } catch (e) {}
+  }
+
+  // Global link interception
+  function initLinkInterception() {
+    document.addEventListener('click', function(e) {
+      // Find closest anchor tag
+      const a = e.target.closest('a');
+      if (!a || !a.href) return;
+
+      // Ignore modified clicks or secondary button clicks
+      if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+
+      // Ignore target="_blank", download, or external protocols
+      if (a.target && a.target !== '_self') return;
+      if (a.hasAttribute('download')) return;
+
+      const url = new URL(a.href, window.location.origin);
+
+      // Ignore external domains
+      if (url.origin !== window.location.origin) return;
+
+      // Ignore static file downloads or media
+      if (/\.(pdf|png|jpe?g|webp|svg|css|js|json|xml|txt)$/i.test(url.pathname)) return;
+
+      // Same-page anchor handling
+      if (url.pathname === window.location.pathname && url.search === window.location.search && url.hash) {
+        const targetEl = document.querySelector(url.hash);
+        if (targetEl) {
+          e.preventDefault();
+          targetEl.scrollIntoView({ behavior: 'smooth' });
+          window.history.pushState(null, '', url.hash);
+        }
+        return;
+      }
+
+      // Intercept and navigate client-side!
+      e.preventDefault();
+      navigate(a.href);
+    }, false);
+
+    // Popstate listener for back/forward buttons
+    window.addEventListener('popstate', function() {
+      navigate(window.location.href, { pushState: false });
+    });
+
+    // Prefetch on hover and touchstart
+    let prefetchTimeout = null;
+    document.addEventListener('mouseover', function(e) {
+      const a = e.target.closest('a');
+      if (a && a.href) {
+        clearTimeout(prefetchTimeout);
+        prefetchTimeout = setTimeout(() => prefetch(a.href), 50);
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchstart', function(e) {
+      const a = e.target.closest('a');
+      if (a && a.href) prefetch(a.href);
+    }, { passive: true });
+  }
+
+  // Bootstrap router on page load
+  function initRouter() {
+    // Cache current page HTML
+    pageCache.set(window.location.origin + window.location.pathname + window.location.search, document.documentElement.outerHTML);
+
+    // Ensure #spa-content is initialized
+    getSpaContainer();
+
+    // Set active link on initial load
+    updateNavActiveState(window.location.pathname);
+
+    // Bind link click interception
+    initLinkInterception();
+
+    // Re-bind components
+    reinitializeComponents(window.location.pathname);
+  }
+
+  // Expose router API globally
+  window.router = {
+    navigate: navigate,
+    prefetch: prefetch,
+    clearCache: () => pageCache.clear(),
+    getCurrentPath: () => window.location.pathname
+  };
+  window.SPARouter = window.router;
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initRouter);
+  } else {
+    initRouter();
   }
 })();

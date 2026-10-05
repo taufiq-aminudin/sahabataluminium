@@ -131,6 +131,8 @@ function getFooter(depth = 1) {
 <a class="whatsapp-float" href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20ingin%20konsultasi%20dan%20survey%20lokasi." target="_blank" rel="noopener" aria-label="Hubungi WhatsApp">
   <span>💬 WhatsApp Kami</span>
 </a>
+
+<script src="/script.js"></script>
 `;
 }
 

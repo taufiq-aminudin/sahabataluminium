@@ -12593,34 +12593,692 @@ footer .footer-grid {
   line-height: 1.45;
 }
 
+/* =========================================================
+   FORMAL BRANDED PDF QUOTATION DOCUMENT & GENERATOR MODAL
+   ========================================================= */
+.quotation-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(3, 20, 26, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  overflow-y: auto;
+}
+
+.quotation-modal-backdrop.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.quotation-modal-dialog {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 1120px;
+  max-height: 94vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  animation: quoSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes quoSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.quotation-modal-header {
+  background: #072e3b;
+  color: #ffffff;
+  padding: 16px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #0d9488;
+}
+
+.quotation-modal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quotation-modal-icon-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(13, 148, 136, 0.25);
+  border: 1px solid #0d9488;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.quotation-modal-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.quotation-modal-subtitle {
+  font-size: 12px;
+  color: #99f6e4;
+  margin-top: 2px;
+}
+
+.quotation-modal-close-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.quotation-modal-close-btn:hover {
+  background: rgba(239, 68, 68, 0.85);
+  border-color: #ef4444;
+}
+
+.quotation-modal-body {
+  padding: 18px 22px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.quotation-layout-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .quotation-layout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Left Form Controls */
+.quotation-form-panel {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.quotation-form-section-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #072e3b;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 8px;
+}
+
+.quo-input-group {
+  margin-bottom: 12px;
+}
+
+.quo-input-label {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 4px;
+}
+
+.quo-text-input, .quo-textarea-input {
+  width: 100%;
+  padding: 8px 11px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #0f172a;
+  background: #f8fafc;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.quo-text-input:focus, .quo-textarea-input:focus {
+  outline: none;
+  border-color: #0d9488;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+}
+
+.quo-textarea-input {
+  resize: vertical;
+  min-height: 64px;
+  font-family: inherit;
+}
+
+.quo-action-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.quo-primary-print-btn {
+  background: #072e3b;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(7, 46, 59, 0.2);
+}
+
+.quo-primary-print-btn:hover {
+  background: #0d9488;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(13, 148, 136, 0.3);
+}
+
+.quo-secondary-wa-btn {
+  background: #25d366;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.quo-secondary-wa-btn:hover {
+  background: #1eb857;
+  color: #ffffff;
+}
+
+.quo-tertiary-copy-btn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.quo-tertiary-copy-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* Right Document Preview */
+.quotation-preview-panel {
+  background: #cbd5e1;
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+.quo-sheet {
+  background: #ffffff;
+  width: 100%;
+  max-width: 680px;
+  min-height: 840px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  padding: 28px 32px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  color: #1e293b;
+  font-size: 12px;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+/* Kop Surat Resmi */
+.quo-kop {
+  margin-bottom: 16px;
+}
+
+.quo-kop-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.quo-logo-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quo-logo-icon {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.quo-brand-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+  color: #072e3b;
+  letter-spacing: 0.5px;
+}
+
+.quo-brand-sub {
+  margin: 2px 0 0;
+  font-size: 10px;
+  font-weight: 700;
+  color: #0d9488;
+  letter-spacing: 0.8px;
+}
+
+.quo-kop-contact {
+  text-align: right;
+  font-size: 10.5px;
+  color: #475569;
+  line-height: 1.45;
+}
+
+.quo-kop-contact p {
+  margin: 0;
+}
+
+.quo-kop-divider {
+  height: 3px;
+  background: linear-gradient(90deg, #072e3b 0%, #0d9488 65%, #ffd88a 100%);
+  margin-top: 12px;
+  border-radius: 2px;
+}
+
+/* Document Title Header */
+.quo-doc-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 16px;
+}
+
+.quo-doc-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 900;
+  color: #072e3b;
+  letter-spacing: 0.5px;
+}
+
+.quo-doc-subtitle {
+  font-size: 9.5px;
+  color: #64748b;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.quo-meta-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 10.5px;
+  line-height: 1.5;
+  text-align: right;
+  min-width: 170px;
+}
+
+.quo-badge-status {
+  background: #dcfce7;
+  color: #15803d;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 9px;
+  display: inline-block;
+}
+
+/* Client & Project Info */
+.quo-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.quo-info-box {
+  background: #f1f5f9;
+  border-left: 3px solid #0d9488;
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.quo-info-label {
+  font-size: 9px;
+  font-weight: 800;
+  color: #64748b;
+  letter-spacing: 0.5px;
+  margin-bottom: 3px;
+}
+
+.quo-info-val {
+  font-size: 12px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.quo-info-sub {
+  font-size: 10.5px;
+  color: #475569;
+  margin-top: 2px;
+}
+
+/* Itemized Table */
+.quo-table-wrap {
+  margin-bottom: 16px;
+}
+
+.quo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.quo-table th {
+  background: #072e3b;
+  color: #ffffff;
+  padding: 8px 10px;
+  font-weight: 800;
+  text-align: left;
+  border: 1px solid #072e3b;
+}
+
+.quo-table td {
+  padding: 9px 10px;
+  border: 1px solid #cbd5e1;
+  vertical-align: top;
+  color: #334155;
+}
+
+.quo-table tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.quo-item-spec {
+  color: #0d9488;
+  font-weight: 700;
+  font-size: 10.5px;
+  margin-top: 2px;
+}
+
+.quo-item-subnotes {
+  font-size: 9.5px;
+  color: #64748b;
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+/* RAB Component Breakdown Section */
+.quo-rab-section {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+
+.quo-section-title {
+  font-size: 10px;
+  font-weight: 800;
+  color: #072e3b;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 4px;
+}
+
+.quo-rab-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  font-size: 10px;
+}
+
+.quo-rab-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 0;
+  color: #475569;
+}
+
+.quo-rab-row strong {
+  color: #0f172a;
+}
+
+.quo-survey-free-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #0d9488;
+  border-top: 1px dashed #cbd5e1;
+  margin-top: 4px;
+  padding-top: 4px;
+  font-weight: 700;
+}
+
+/* Terms & Conditions */
+.quo-terms {
+  margin-bottom: 16px;
+  font-size: 9.5px;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.quo-terms ol {
+  margin: 4px 0 0;
+  padding-left: 16px;
+}
+
+.quo-terms li {
+  margin-bottom: 3px;
+}
+
+/* Signatures */
+.quo-signatures {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 10px;
+}
+
+.quo-sig-col {
+  width: 200px;
+  font-size: 10.5px;
+}
+
+.quo-sig-right {
+  text-align: right;
+}
+
+.quo-sig-role {
+  margin: 0 0 6px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.quo-sig-space {
+  height: 50px;
+}
+
+.quo-sig-stamp-wrap {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.quo-digital-stamp {
+  border: 2px dashed #0d9488;
+  color: #0f766e;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 8px;
+  font-weight: 900;
+  text-align: center;
+  transform: rotate(-3deg);
+  background: rgba(13, 148, 136, 0.06);
+}
+
+.quo-digital-stamp span {
+  display: block;
+}
+
+.quo-stamp-mid {
+  font-size: 9px;
+  color: #072e3b;
+  margin: 1px 0;
+}
+
+.quo-sig-name {
+  margin: 0;
+  font-size: 11px;
+  color: #0f172a;
+}
+
+.quo-sig-date {
+  margin: 2px 0 0;
+  font-size: 9.5px;
+  color: #64748b;
+}
+
+.quo-footer-note {
+  margin-top: 16px;
+  padding-top: 8px;
+  border-top: 1px solid #e2e8f0;
+  font-size: 8.5px;
+  color: #94a3b8;
+  text-align: center;
+  font-style: italic;
+}
+
+/* =========================================================
+   CLEAN A4 PRINT STYLES FOR BRANDED QUOTATION
+   ========================================================= */
 @media print {
-  body * {
-    visibility: hidden;
+  /* Default page layout */
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm;
   }
-  .cost-calc-card, .cost-calc-card * {
-    visibility: visible;
-  }
-  .cost-calc-card {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100% !important;
-    background: #fff !important;
-    color: #000 !important;
-    box-shadow: none !important;
-    border: 1px solid #ccc !important;
-  }
-  .calc-secondary-actions, .calc-wa-btn, .calc-survey-link, .dim-helper-trigger-row, .dim-helper-panel {
+
+  body.is-printing-quotation > *:not(.quotation-modal-backdrop) {
     display: none !important;
   }
-  .calc-rab-breakdown-box {
+
+  body.is-printing-quotation .quotation-modal-backdrop {
+    position: static !important;
+    background: #ffffff !important;
+    padding: 0 !important;
+    overflow: visible !important;
     display: block !important;
-    background: #f8fafc !important;
-    color: #0f172a !important;
-    border: 1px solid #cbd5e1 !important;
+    width: 100% !important;
+    backdrop-filter: none !important;
   }
-  .calc-rab-breakdown-box strong, .calc-rab-breakdown-box span {
-    color: #0f172a !important;
+
+  body.is-printing-quotation .quotation-modal-dialog {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: transparent !important;
+    animation: none !important;
+  }
+
+  body.is-printing-quotation .quotation-modal-header,
+  body.is-printing-quotation .quotation-form-panel,
+  body.is-printing-quotation .quotation-modal-close-btn,
+  body.is-printing-quotation .quo-action-stack {
+    display: none !important;
+  }
+
+  body.is-printing-quotation .quotation-layout-grid {
+    display: block !important;
+  }
+
+  body.is-printing-quotation .quotation-preview-panel {
+    padding: 0 !important;
+    background: transparent !important;
+    display: block !important;
+  }
+
+  body.is-printing-quotation .quo-sheet {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: 10pt !important;
+    color: #000000 !important;
+    background: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body.is-printing-quotation .quo-table th {
+    background: #072e3b !important;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 }
 

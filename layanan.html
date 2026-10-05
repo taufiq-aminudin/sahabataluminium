@@ -552,6 +552,23 @@
               </select>
             </div>
 
+            <!-- Step 1b: Region / Wilayah Proyek (Transport & Survey Policy) -->
+            <div class="cost-calc-group">
+              <label for="calcRegion" class="cost-calc-label">
+                <span>1b. Wilayah Lokasi Proyek (Transport & Survey)</span>
+                <span id="regionTransportBadge" style="color:#0d9488;font-size:12px;font-weight:700;">Karawang (Basis Workshop)</span>
+              </label>
+              <select id="calcRegion" class="cost-calc-select" aria-label="Pilih Wilayah Proyek" onchange="window.updateCalcRegion()">
+                <option value="karawang" selected>Karawang (Workshop Utama: Klari, Telukjambe, Kosambi, Galuh Mas, KIIC)</option>
+                <option value="cikampek">Cikampek & Jatisari (Karawang Timur)</option>
+                <option value="cikarang">Cikarang (Lippo, Jababeka, Delta Mas, MM2100)</option>
+                <option value="bekasi">Bekasi (Kota & Kabupaten, Tambun, Cibitung)</option>
+                <option value="jakarta">DKI Jakarta (Pusat, Selatan, Timur, Barat, Utara)</option>
+                <option value="depok_tangerang">Depok, Tangerang & Tangerang Selatan</option>
+                <option value="bogor">Bogor (Kota & Kabupaten)</option>
+              </select>
+            </div>
+
             <!-- Step 2: Material Quality Tier (Standard vs Premium) -->
             <div class="cost-calc-group">
               <div class="cost-calc-label">
@@ -661,7 +678,7 @@
               <div class="dim-helper-panel" id="calcDimHelperBox" style="display:none;margin-top:10px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:10px;padding:12px 14px;">
                 <div style="font-size:12px;font-weight:700;color:#072e3b;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
                   <span>📐 Masukkan Ukuran Fisik (cm)</span>
-                  <span style="font-size:11px;color:#64748b;font-weight:400;">Otomatis konversi ke volume</span>
+                  <span style="font-size:11px;color:#64748b;font-weight:400;">Otomatis konversi ke volume m1 / m² / unit</span>
                 </div>
                 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
                   <div>
@@ -677,7 +694,17 @@
                     <input type="number" id="dimHelperQty" value="1" min="1" max="500" class="qty-input" style="width:100%;height:36px;font-size:13px;padding:4px 8px;border-radius:6px;border:1px solid #cbd5e1;" oninput="window.calculateFromDimensions()">
                   </div>
                 </div>
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;flex-wrap:wrap;gap:6px;">
+
+                <!-- Opening Type Selector (for kusen & frames) -->
+                <div id="dimHelperOpeningRow" style="margin-top:8px;">
+                  <label for="dimHelperOpeningType" style="display:block;font-size:11px;color:#475569;margin-bottom:3px;font-weight:600;">Tipe Bukaan / Rangka (Khusus Kusen):</label>
+                  <select id="dimHelperOpeningType" class="cost-calc-select" style="font-size:12px;padding:5px 8px;height:34px;" onchange="window.calculateFromDimensions()">
+                    <option value="door" selected>Pintu (3 Sisi: 2 Tiang Vertikal + 1 Ambang Atas)</option>
+                    <option value="window">Jendela / Sekat Keliling (4 Sisi Penuh: 2 Tiang + 2 Ambang)</option>
+                  </select>
+                </div>
+
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;flex-wrap:wrap;gap:6px;">
                   <button type="button" class="dim-apply-btn" onclick="window.calculateFromDimensions()" style="background:#0d9488;color:#fff;border:none;border-radius:6px;padding:6px 12px;font-size:11.5px;font-weight:700;cursor:pointer;">
                     ✓ Terapkan ke Kuantitas
                   </button>
@@ -695,6 +722,12 @@
                 <span>💰</span>
                 <span>Rough Budget Estimate</span>
               </div>
+
+              <!-- Minimum Order Notification Pill -->
+              <div class="calc-min-order-alert" id="calcMinOrderAlert" style="display:none;background:#fef3c7;border:1px solid #f59e0b;color:#92400e;border-radius:8px;padding:8px 10px;font-size:11.5px;margin-bottom:10px;font-weight:600;line-height:1.45;">
+                ⚠️ <strong>Ketentuan Minimum Order Lapangan:</strong> Rp 750.000 (Pekerjaan volume kecil dikenakan batas minimum order untuk alokasi mobilisasi teknisi, transport pick-up, dan setting alat laser presisi).
+              </div>
+
               <div class="result-price-label">Perkiraan Estimasi Anggaran:</div>
               <div class="result-price-main" id="calcEstimateMain">Rp 1.260.000 – Rp 1.560.000</div>
               <div class="result-price-sub" id="calcEstimateSub">Acuan tarif: Rp 105.000 – Rp 130.000 / m1 × 12 m1</div>
@@ -717,12 +750,16 @@
                   <span class="result-spec-val" id="calcSummaryRate">Rp 105.000 – Rp 130.000 / m1</span>
                 </div>
                 <div class="result-spec-row">
+                  <span class="result-spec-label">Wilayah & Transport:</span>
+                  <span class="result-spec-val" id="calcSummaryRegion" style="color:#5eead4;">Karawang (Basis Workshop)</span>
+                </div>
+                <div class="result-spec-row">
                   <span class="result-spec-label">Estimasi Waktu:</span>
                   <span class="result-spec-val" id="calcSummaryLeadTime" style="color:#5eead4;">2–4 Hari Kerja</span>
                 </div>
                 <div class="result-spec-row">
                   <span class="result-spec-label">Survey & Ukur:</span>
-                  <span class="result-spec-val" style="color:#5eead4;">Rp 0 (100% GRATIS)</span>
+                  <span class="result-spec-val" id="calcSummarySurvey" style="color:#5eead4;">Rp 0 (100% GRATIS)</span>
                 </div>
               </div>
 
@@ -735,41 +772,76 @@
               </div>
 
               <!-- Itemized RAB Component Breakdown Box -->
-              <div class="calc-rab-breakdown-box" id="calcRabBreakdownBox" style="display:none;margin-top:10px;background:rgba(2,44,56,0.65);border:1px solid rgba(94,234,212,0.3);border-radius:10px;padding:12px 14px;">
-                <div style="font-size:11.5px;color:#a5f3fc;font-weight:700;margin-bottom:8px;letter-spacing:0.5px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:5px;">
-                  TRANSPARANSI STRUKTUR HARGA REALISTIS KONTRAKTOR (JABODETABEK & KARAWANG):
+              <div class="calc-rab-breakdown-box" id="calcRabBreakdownBox" style="display:none;margin-top:10px;background:rgba(2,44,56,0.85);border:1px solid rgba(94,234,212,0.35);border-radius:10px;padding:14px;">
+                <div style="font-size:12px;color:#a5f3fc;font-weight:800;margin-bottom:8px;letter-spacing:0.5px;border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:6px;display:flex;justify-content:space-between;align-items:center;">
+                  <span>📋 DETAIL ESTIMASI ANGGARAN BIAYA (RAB)</span>
+                  <span style="font-size:10px;color:#5eead4;font-weight:700;">TRANSPARANSI KONTRAKTOR</span>
+                </div>
+
+                <!-- Detail Header Meta -->
+                <div style="background:rgba(0,0,0,0.25);border-radius:6px;padding:8px 10px;margin-bottom:10px;font-size:11px;color:#cbd5e1;line-height:1.5;">
+                  <div><strong>Produk:</strong> <span id="rabDetailProduct">Kusen Aluminium (Profil 3" / 4")</span></div>
+                  <div><strong>Spesifikasi:</strong> <span id="rabDetailSpec">Standard SNI (Dacon / Inkalum 3")</span></div>
+                  <div><strong>Ukuran / Volume:</strong> <span id="rabDetailVolume">12 Meter Lari (m1)</span></div>
+                  <div><strong>Wilayah Lokasi:</strong> <span id="rabDetailRegion">Karawang (Basis Workshop)</span></div>
+                </div>
+
+                <!-- 10 Transparent Component Rows -->
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
+                  <span>• Material Aluminium / Rangka Utama:</span>
+                  <strong id="calcRabAluminium" style="color:#ffffff;">Rp 378.000 – Rp 468.000</strong>
                 </div>
                 <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
-                  <span>1. Material Profil Aluminium / Kaca / Panel (48%)</span>
-                  <strong id="calcRabMaterial" style="color:#ffffff;">Rp 605.000 – Rp 749.000</strong>
+                  <span>• Material Kaca / Infill Panel:</span>
+                  <strong id="calcRabKaca" style="color:#ffffff;">Rp 227.000 – Rp 281.000</strong>
                 </div>
                 <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
-                  <span>2. Aksesoris & Hardware (Kunci/Engsel/Sealant Dowsil) (16%)</span>
-                  <strong id="calcRabHardware" style="color:#ffffff;">Rp 202.000 – Rp 250.000</strong>
+                  <span>• Aksesoris Sealant Dowsil & Karet Kedap:</span>
+                  <strong id="calcRabAksesoris" style="color:#ffffff;">Rp 101.000 – Rp 125.000</strong>
                 </div>
                 <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
-                  <span>3. Upah Tukang Fabrikasi Miter 45° & Pasang Lapangan (16%)</span>
-                  <strong id="calcRabLabor" style="color:#ffffff;">Rp 202.000 – Rp 250.000</strong>
+                  <span>• Hardware Kunci, Engsel & Handle:</span>
+                  <strong id="calcRabHardware" style="color:#ffffff;">Rp 101.000 – Rp 125.000</strong>
                 </div>
                 <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
-                  <span>4. Transportasi & Pengiriman Armada Pick-up Lokal (5%)</span>
+                  <span>• Jasa Produksi & Perakitan Siku Miter 45°:</span>
+                  <strong id="calcRabProdLabor" style="color:#ffffff;">Rp 101.000 – Rp 125.000</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
+                  <span>• Jasa Pemasangan & Setting Lapangan:</span>
+                  <strong id="calcRabInstallLabor" style="color:#ffffff;">Rp 101.000 – Rp 125.000</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
+                  <span>• Transportasi Armada Pick-up & Logistik:</span>
                   <strong id="calcRabTransport" style="color:#ffffff;">Rp 63.000 – Rp 78.000</strong>
                 </div>
                 <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
-                  <span>5. Operasional & Waste Cutting Allowance 10–12% (5%)</span>
+                  <span>• Biaya Operasional & Cutting Waste (10–12%):</span>
                   <strong id="calcRabWaste" style="color:#ffffff;">Rp 63.000 – Rp 78.000</strong>
                 </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#94a3b8;padding:3px 0;border-top:1px dashed rgba(255,255,255,0.15);margin-top:3px;padding-top:4px;">
+                  <span>Subtotal Biaya Dasar (HPP & Operasional):</span>
+                  <strong id="calcRabSubtotal" style="color:#e2e8f0;">Rp 1.135.000 – Rp 1.405.000</strong>
+                </div>
                 <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
-                  <span>6. Margin Usaha & Garansi Hasil Kerja (10%)</span>
+                  <span>• Margin Pelaksana & Garansi 1 Tahun:</span>
                   <strong id="calcRabMargin" style="color:#ffffff;">Rp 125.000 – Rp 155.000</strong>
                 </div>
-                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#5eead4;padding:3px 0;border-top:1px dashed rgba(255,255,255,0.15);margin-top:4px;padding-top:5px;">
-                  <span>7. Survey Lokasi & Pengukuran Laser Presisi</span>
-                  <strong>Rp 0 (100% GRATIS)</strong>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#5eead4;padding:3px 0;border-top:1px dashed rgba(255,255,255,0.15);margin-top:3px;padding-top:4px;">
+                  <span>• Survey Lokasi & Pengukuran Laser Presisi:</span>
+                  <strong id="calcRabSurveyStatus">Rp 0 (100% GRATIS)</strong>
                 </div>
-                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:13px;color:#fef08a;padding:5px 0 2px;border-top:1px solid rgba(255,255,255,0.2);margin-top:4px;font-weight:800;">
-                  <span>Total Estimasi Jual Proyek</span>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:13.5px;color:#fef08a;padding:6px 0 3px;border-top:1px solid rgba(255,255,255,0.25);margin-top:4px;font-weight:900;">
+                  <span>ESTIMASI TOTAL:</span>
                   <span id="calcRabTotal">Rp 1.260.000 – Rp 1.560.000</span>
+                </div>
+                <div style="font-size:10.5px;color:#94a3b8;font-style:italic;margin-top:8px;line-height:1.4;border-top:1px dotted rgba(255,255,255,0.1);padding-top:6px;">
+                  * Estimasi harga dapat berubah setelah pengukuran dan survey lokasi.
+                </div>
+                <div style="margin-top:10px;">
+                  <a href="https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20ingin%20survey%20dan%20penawaran%20harga%20RAB." class="calc-wa-btn" style="padding:7px 12px;font-size:12px;justify-content:center;background:#25d366;color:#ffffff;display:flex;align-items:center;gap:6px;text-decoration:none;border-radius:8px;font-weight:700;" onclick="window.consultEstimateViaWa(event)">
+                    <span>💬 CHAT WHATSAPP UNTUK SURVEY & PENAWARAN &rarr;</span>
+                  </a>
                 </div>
               </div>
             </div>

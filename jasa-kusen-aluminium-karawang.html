@@ -931,9 +931,14 @@
                     <span>↗</span>
                   </button>
 
-                  <button type="button" class="calc-copy-summary-btn" onclick="copyCalcSummary()">
-                    📋 Salin Rincian Estimasi (Clipboard)
-                  </button>
+                  <div style="display:flex;gap:8px;margin-top:8px;">
+                    <button type="button" class="calc-copy-summary-btn" style="flex:1;" onclick="copyCalcSummary()">
+                      📋 Salin Rincian
+                    </button>
+                    <button type="button" class="calc-copy-summary-btn" style="flex:1;background:#072e3b;color:#5eead4;border-color:rgba(94,234,212,0.4);" onclick="window.openKusenQuotationModal()">
+                      🖨️ Buat PDF SPH
+                    </button>
+                  </div>
 
                   <div class="calc-toast" id="calcToast">
                     ✓ Rincian estimasi berhasil disalin ke clipboard!

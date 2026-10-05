@@ -6384,27 +6384,94 @@ window.printProjectPdf = function(orderId) {
     }
   };
 
+  const REGION_DATA = {
+    karawang: {
+      name: 'Karawang (Basis Workshop Klari / Galuh Mas / KIIC)',
+      transportBase: 100000,
+      surveyText: '100% GRATIS (On-Schedule)',
+      note: 'Basis workshop terdekat, armada pick-up lokal cepat & survey laser presisi gratis.'
+    },
+    cikampek: {
+      name: 'Cikampek & Jatisari (Karawang Timur)',
+      transportBase: 120000,
+      surveyText: '100% GRATIS (On-Schedule)',
+      note: 'Wilayah ring 1 Karawang, armada pick-up workshop langsung ke lokasi.'
+    },
+    cikarang: {
+      name: 'Cikarang (Lippo, Jababeka, Delta Mas, MM2100)',
+      transportBase: 180000,
+      surveyText: '100% GRATIS (On-Schedule)',
+      note: 'Jangkauan harian armada Karawang-Cikarang via jalur arteri & tol.'
+    },
+    bekasi: {
+      name: 'Bekasi (Kota & Kabupaten, Tambun, Cibitung)',
+      transportBase: 220000,
+      surveyText: '100% GRATIS (On-Schedule)',
+      note: 'Layanan instalasi terjadwal dengan armada pick-up material aman.'
+    },
+    jakarta: {
+      name: 'DKI Jakarta (Pusat, Selatan, Timur, Barat, Utara)',
+      transportBase: 350000,
+      surveyText: 'Gratis saat SPK / On-Schedule',
+      note: 'Termasuk alokasi e-toll armada pick-up & logistik pengiriman Jakarta.'
+    },
+    depok_tangerang: {
+      name: 'Depok, Tangerang & Tangerang Selatan',
+      transportBase: 380000,
+      surveyText: 'Gratis saat SPK / On-Schedule',
+      note: 'Termasuk alokasi tol JORR & pengawalan kaca utuh ke lokasi.'
+    },
+    bogor: {
+      name: 'Bogor (Kota & Kabupaten)',
+      transportBase: 380000,
+      surveyText: 'Gratis saat SPK / On-Schedule',
+      note: 'Termasuk logistik armada pengiriman workshop ke wilayah Bogor.'
+    }
+  };
+
+  const MIN_PROJECT_VALUE = 750000; // Rp 750.000 minimum order charge for on-site execution
+
   let activeQuality = 'standard';
 
   function formatIDRCurrency(val) {
+    if (isNaN(val) || val === null || val === undefined) return 'Rp 0';
     return 'Rp ' + Math.round(val).toLocaleString('id-ID');
   }
 
   function updateRoughEstimate() {
     const serviceSelect = document.getElementById('calcServiceType');
     const qtyInput = document.getElementById('calcQuantityInput');
+    const regionSelect = document.getElementById('calcRegion');
     if (!serviceSelect || !qtyInput) return;
 
     const serviceKey = serviceSelect.value || 'kusen';
     const config = COST_CALC_DATA[serviceKey] || COST_CALC_DATA.kusen;
     const specInfo = SERVICE_SPEC_DETAILS[serviceKey] || SERVICE_SPEC_DETAILS.kusen;
+    const regionKey = (regionSelect && regionSelect.value) || 'karawang';
+    const region = REGION_DATA[regionKey] || REGION_DATA.karawang;
 
-    let qty = parseFloat(qtyInput.value) || 1;
-    if (qty < 1) qty = 1;
+    let rawQty = parseFloat(qtyInput.value);
+    if (isNaN(rawQty) || rawQty <= 0) rawQty = 1;
+    const qty = Math.max(0.1, Math.round(rawQty * 10) / 10);
 
     const rate = config[activeQuality] || config.standard;
-    const minTotal = qty * rate.min;
-    const maxTotal = qty * rate.max;
+    const rawMinTotal = Math.round(qty * rate.min);
+    const rawMaxTotal = Math.round(qty * rate.max);
+
+    // Minimum project value evaluation (TAHAP 12)
+    const minAlert = document.getElementById('calcMinOrderAlert');
+    let isMinOrderApplied = false;
+    let minTotal = rawMinTotal;
+    let maxTotal = rawMaxTotal;
+
+    if (rawMinTotal < MIN_PROJECT_VALUE) {
+      isMinOrderApplied = true;
+      minTotal = MIN_PROJECT_VALUE;
+      maxTotal = Math.max(MIN_PROJECT_VALUE * 1.15, rawMaxTotal);
+      if (minAlert) minAlert.style.display = 'block';
+    } else {
+      if (minAlert) minAlert.style.display = 'none';
+    }
 
     // Update displays
     const estimateMain = document.getElementById('calcEstimateMain');
@@ -6413,6 +6480,9 @@ window.printProjectPdf = function(orderId) {
     const summaryQuality = document.getElementById('calcSummaryQuality');
     const summaryQty = document.getElementById('calcSummaryQty');
     const summaryRate = document.getElementById('calcSummaryRate');
+    const summaryRegion = document.getElementById('calcSummaryRegion');
+    const summarySurvey = document.getElementById('calcSummarySurvey');
+    const regionBadge = document.getElementById('regionTransportBadge');
     const qtyUnitSuffix = document.getElementById('qtyUnitSuffix');
     const qtyUnitBadge = document.getElementById('qtyUnitBadge');
     const stdQualityRate = document.getElementById('stdQualityRate');
@@ -6421,11 +6491,18 @@ window.printProjectPdf = function(orderId) {
     const premQualityDesc = document.getElementById('premQualityDesc');
 
     if (estimateMain) estimateMain.textContent = `${formatIDRCurrency(minTotal)} – ${formatIDRCurrency(maxTotal)}`;
-    if (estimateSub) estimateSub.textContent = rate.desc;
+    if (estimateSub) {
+      estimateSub.textContent = isMinOrderApplied
+        ? `* Tarif dasar: ${formatIDRCurrency(rate.min)} – ${formatIDRCurrency(rate.max)} / ${config.unit} (Diberlakukan batas Minimum Order Lapangan Rp 750.000)`
+        : `Acuan tarif: ${formatIDRCurrency(rate.min)} – ${formatIDRCurrency(rate.max)} / ${config.unit} × ${qty} ${config.unit}`;
+    }
     if (summaryService) summaryService.textContent = config.label;
     if (summaryQuality) summaryQuality.textContent = rate.spec;
     if (summaryQty) summaryQty.textContent = `${qty} ${config.unitName}`;
     if (summaryRate) summaryRate.textContent = `${formatIDRCurrency(rate.min)} – ${formatIDRCurrency(rate.max)} / ${config.unit}`;
+    if (summaryRegion) summaryRegion.textContent = region.name;
+    if (summarySurvey) summarySurvey.textContent = region.surveyText;
+    if (regionBadge) regionBadge.textContent = region.name.split(' (')[0];
     if (qtyUnitSuffix) qtyUnitSuffix.textContent = config.unit;
     if (qtyUnitBadge) qtyUnitBadge.textContent = `Satuan: ${config.unitName}`;
 
@@ -6450,43 +6527,84 @@ window.printProjectPdf = function(orderId) {
     if (specDynamicStd) specDynamicStd.textContent = specInfo.std;
     if (specDynamicPrem) specDynamicPrem.textContent = specInfo.prem;
 
-    // Itemized RAB Component Breakdown (Transparent Contractor Cost Structure)
-    // Formula: Material (48%) + Hardware (16%) + Labor (16%) + Transport (5%) + Operational & Waste (5%) + Margin (10%) = Total (100%)
-    const rabMaterialMin = Math.round((minTotal * 0.48) / 1000) * 1000;
-    const rabMaterialMax = Math.round((maxTotal * 0.48) / 1000) * 1000;
+    // Itemized Transparent Contractor Cost Structure (TAHAP 13 Format):
+    // Material Aluminium (~30%), Material Kaca (~18%), Aksesoris (~8%), Hardware (~8%),
+    // Jasa Produksi (~8%), Jasa Pasang (~8%), Transportasi (~5% or region baseline),
+    // Operasional & Waste Cutting Allowance (~5%), Subtotal HPP, Margin (~10-15%)
+    const rabAluminiumMin = Math.round((minTotal * 0.30) / 1000) * 1000;
+    const rabAluminiumMax = Math.round((maxTotal * 0.30) / 1000) * 1000;
 
-    const rabHdwMin = Math.round((minTotal * 0.16) / 1000) * 1000;
-    const rabHdwMax = Math.round((maxTotal * 0.16) / 1000) * 1000;
+    const rabKacaMin = Math.round((minTotal * 0.18) / 1000) * 1000;
+    const rabKacaMax = Math.round((maxTotal * 0.18) / 1000) * 1000;
 
-    const rabLaborMin = Math.round((minTotal * 0.16) / 1000) * 1000;
-    const rabLaborMax = Math.round((maxTotal * 0.16) / 1000) * 1000;
+    const rabAksesorisMin = Math.round((minTotal * 0.08) / 1000) * 1000;
+    const rabAksesorisMax = Math.round((maxTotal * 0.08) / 1000) * 1000;
 
-    const rabTransMin = Math.round((minTotal * 0.05) / 1000) * 1000;
-    const rabTransMax = Math.round((maxTotal * 0.05) / 1000) * 1000;
+    const rabHdwMin = Math.round((minTotal * 0.08) / 1000) * 1000;
+    const rabHdwMax = Math.round((maxTotal * 0.08) / 1000) * 1000;
+
+    const rabProdLaborMin = Math.round((minTotal * 0.08) / 1000) * 1000;
+    const rabProdLaborMax = Math.round((maxTotal * 0.08) / 1000) * 1000;
+
+    const rabInstallLaborMin = Math.round((minTotal * 0.08) / 1000) * 1000;
+    const rabInstallLaborMax = Math.round((maxTotal * 0.08) / 1000) * 1000;
+
+    const rabTransMin = Math.max(region.transportBase, Math.round((minTotal * 0.05) / 1000) * 1000);
+    const rabTransMax = Math.max(region.transportBase, Math.round((maxTotal * 0.05) / 1000) * 1000);
 
     const rabWasteMin = Math.round((minTotal * 0.05) / 1000) * 1000;
     const rabWasteMax = Math.round((maxTotal * 0.05) / 1000) * 1000;
 
-    // Balance guarantees exact arithmetic sum equality with minTotal and maxTotal
-    const rabMarginMin = minTotal - (rabMaterialMin + rabHdwMin + rabLaborMin + rabTransMin + rabWasteMin);
-    const rabMarginMax = maxTotal - (rabMaterialMax + rabHdwMax + rabLaborMax + rabTransMax + rabWasteMax);
+    const rabSubtotalMin = rabAluminiumMin + rabKacaMin + rabAksesorisMin + rabHdwMin + rabProdLaborMin + rabInstallLaborMin + rabTransMin + rabWasteMin;
+    const rabSubtotalMax = rabAluminiumMax + rabKacaMax + rabAksesorisMax + rabHdwMax + rabProdLaborMax + rabInstallLaborMax + rabTransMax + rabWasteMax;
 
-    // Update RAB Breakdown elements if present
-    const elRabMaterial = document.getElementById('calcRabMaterial');
+    // Exact balance for margin guarantees arithmetic sum equality
+    const rabMarginMin = Math.max(Math.round((minTotal * 0.10) / 1000) * 1000, minTotal - rabSubtotalMin);
+    const rabMarginMax = Math.max(Math.round((maxTotal * 0.10) / 1000) * 1000, maxTotal - rabSubtotalMax);
+
+    // Update Header Meta inside Breakdown Box
+    const rabDetailProduct = document.getElementById('rabDetailProduct');
+    const rabDetailSpec = document.getElementById('rabDetailSpec');
+    const rabDetailVolume = document.getElementById('rabDetailVolume');
+    const rabDetailRegion = document.getElementById('rabDetailRegion');
+
+    if (rabDetailProduct) rabDetailProduct.textContent = config.label;
+    if (rabDetailSpec) rabDetailSpec.textContent = rate.spec;
+    if (rabDetailVolume) rabDetailVolume.textContent = `${qty} ${config.unitName}`;
+    if (rabDetailRegion) rabDetailRegion.textContent = region.name;
+
+    // Update 10 itemized component rows
+    const elRabAluminium = document.getElementById('calcRabAluminium');
+    const elRabKaca = document.getElementById('calcRabKaca');
+    const elRabAksesoris = document.getElementById('calcRabAksesoris');
     const elRabHardware = document.getElementById('calcRabHardware');
-    const elRabLabor = document.getElementById('calcRabLabor');
+    const elRabProdLabor = document.getElementById('calcRabProdLabor');
+    const elRabInstallLabor = document.getElementById('calcRabInstallLabor');
     const elRabTransport = document.getElementById('calcRabTransport');
     const elRabWaste = document.getElementById('calcRabWaste');
+    const elRabSubtotal = document.getElementById('calcRabSubtotal');
     const elRabMargin = document.getElementById('calcRabMargin');
+    const elRabSurveyStatus = document.getElementById('calcRabSurveyStatus');
     const elRabTotal = document.getElementById('calcRabTotal');
 
-    if (elRabMaterial) elRabMaterial.textContent = `${formatIDRCurrency(rabMaterialMin)} – ${formatIDRCurrency(rabMaterialMax)}`;
+    if (elRabAluminium) elRabAluminium.textContent = `${formatIDRCurrency(rabAluminiumMin)} – ${formatIDRCurrency(rabAluminiumMax)}`;
+    if (elRabKaca) elRabKaca.textContent = `${formatIDRCurrency(rabKacaMin)} – ${formatIDRCurrency(rabKacaMax)}`;
+    if (elRabAksesoris) elRabAksesoris.textContent = `${formatIDRCurrency(rabAksesorisMin)} – ${formatIDRCurrency(rabAksesorisMax)}`;
     if (elRabHardware) elRabHardware.textContent = `${formatIDRCurrency(rabHdwMin)} – ${formatIDRCurrency(rabHdwMax)}`;
-    if (elRabLabor) elRabLabor.textContent = `${formatIDRCurrency(rabLaborMin)} – ${formatIDRCurrency(rabLaborMax)}`;
+    if (elRabProdLabor) elRabProdLabor.textContent = `${formatIDRCurrency(rabProdLaborMin)} – ${formatIDRCurrency(rabProdLaborMax)}`;
+    if (elRabInstallLabor) elRabInstallLabor.textContent = `${formatIDRCurrency(rabInstallLaborMin)} – ${formatIDRCurrency(rabInstallLaborMax)}`;
     if (elRabTransport) elRabTransport.textContent = `${formatIDRCurrency(rabTransMin)} – ${formatIDRCurrency(rabTransMax)}`;
     if (elRabWaste) elRabWaste.textContent = `${formatIDRCurrency(rabWasteMin)} – ${formatIDRCurrency(rabWasteMax)}`;
+    if (elRabSubtotal) elRabSubtotal.textContent = `${formatIDRCurrency(rabSubtotalMin)} – ${formatIDRCurrency(rabSubtotalMax)}`;
     if (elRabMargin) elRabMargin.textContent = `${formatIDRCurrency(rabMarginMin)} – ${formatIDRCurrency(rabMarginMax)}`;
+    if (elRabSurveyStatus) elRabSurveyStatus.textContent = region.surveyText;
     if (elRabTotal) elRabTotal.textContent = `${formatIDRCurrency(minTotal)} – ${formatIDRCurrency(maxTotal)}`;
+
+    // Backward compatibility for earlier element IDs
+    const elRabMaterial = document.getElementById('calcRabMaterial');
+    const elRabLabor = document.getElementById('calcRabLabor');
+    if (elRabMaterial) elRabMaterial.textContent = `${formatIDRCurrency(rabAluminiumMin + rabKacaMin)} – ${formatIDRCurrency(rabAluminiumMax + rabKacaMax)}`;
+    if (elRabLabor) elRabLabor.textContent = `${formatIDRCurrency(rabProdLaborMin + rabInstallLaborMin)} – ${formatIDRCurrency(rabProdLaborMax + rabInstallLaborMax)}`;
 
     // Synchronize comparison table active column classes & buttons
     const thStd = document.getElementById('thColStandard');
@@ -6547,21 +6665,41 @@ window.printProjectPdf = function(orderId) {
 
     window._currentRecommendedQuality = recData.tierKey;
 
-    // Store state for consultation & copying
+    // Store rich state for consultation, copying, and official PDF quotation
     window._lastRoughEstimate = {
       service: config.label,
       quality: rate.spec,
       qty: `${qty} ${config.unitName}`,
-      rate: `${formatIDRCurrency(rate.min)} – ${formatIDRCurrency(rate.max)} / ${config.unit}`,
+      rawQty: qty,
+      unit: config.unit,
+      rateText: `${formatIDRCurrency(rate.min)} – ${formatIDRCurrency(rate.max)} / ${config.unit}`,
       estimateRange: `${formatIDRCurrency(minTotal)} – ${formatIDRCurrency(maxTotal)}`,
-      rabMaterial: `${formatIDRCurrency(rabMaterialMin)} – ${formatIDRCurrency(rabMaterialMax)}`,
+      estimateRangeText: `${formatIDRCurrency(minTotal)} – ${formatIDRCurrency(maxTotal)}`,
+      leadTime: config.unit === 'm1' && qty <= 25 ? '2–4 Hari Kerja' : (qty <= 50 ? '3–6 Hari Kerja' : '5–10 Hari Kerja'),
+      regionKey,
+      regionName: region.name,
+      surveyText: region.surveyText,
+      isMinOrderApplied,
+      rabAluminium: `${formatIDRCurrency(rabAluminiumMin)} – ${formatIDRCurrency(rabAluminiumMax)}`,
+      rabKaca: `${formatIDRCurrency(rabKacaMin)} – ${formatIDRCurrency(rabKacaMax)}`,
+      rabMaterial: `${formatIDRCurrency(rabAluminiumMin + rabKacaMin)} – ${formatIDRCurrency(rabAluminiumMax + rabKacaMax)}`,
+      rabAksesoris: `${formatIDRCurrency(rabAksesorisMin)} – ${formatIDRCurrency(rabAksesorisMax)}`,
       rabHardware: `${formatIDRCurrency(rabHdwMin)} – ${formatIDRCurrency(rabHdwMax)}`,
-      rabLabor: `${formatIDRCurrency(rabLaborMin)} – ${formatIDRCurrency(rabLaborMax)}`,
+      rabProdLabor: `${formatIDRCurrency(rabProdLaborMin)} – ${formatIDRCurrency(rabProdLaborMax)}`,
+      rabInstallLabor: `${formatIDRCurrency(rabInstallLaborMin)} – ${formatIDRCurrency(rabInstallLaborMax)}`,
+      rabLabor: `${formatIDRCurrency(rabProdLaborMin + rabInstallLaborMin)} – ${formatIDRCurrency(rabProdLaborMax + rabInstallLaborMax)}`,
       rabTransport: `${formatIDRCurrency(rabTransMin)} – ${formatIDRCurrency(rabTransMax)}`,
       rabWaste: `${formatIDRCurrency(rabWasteMin)} – ${formatIDRCurrency(rabWasteMax)}`,
-      rabMargin: `${formatIDRCurrency(rabMarginMin)} – ${formatIDRCurrency(rabMarginMax)}`
+      rabSubtotal: `${formatIDRCurrency(rabSubtotalMin)} – ${formatIDRCurrency(rabSubtotalMax)}`,
+      rabMargin: `${formatIDRCurrency(rabMarginMin)} – ${formatIDRCurrency(rabMarginMax)}`,
+      totalMin: minTotal,
+      totalMax: maxTotal
     };
   }
+
+  window.updateCalcRegion = function() {
+    updateRoughEstimate();
+  };
 
   // Update presets when service changes
   function updatePresetsForService(serviceKey) {
@@ -6680,27 +6818,46 @@ window.printProjectPdf = function(orderId) {
     const wEl = document.getElementById('dimHelperWidth');
     const hEl = document.getElementById('dimHelperHeight');
     const qEl = document.getElementById('dimHelperQty');
+    const openingTypeEl = document.getElementById('dimHelperOpeningType');
     const serviceSelect = document.getElementById('calcServiceType');
     const qtyInput = document.getElementById('calcQuantityInput');
     if (!wEl || !hEl || !qEl || !serviceSelect || !qtyInput) return;
 
-    const widthCm = Math.max(1, parseFloat(wEl.value) || 90);
-    const heightCm = Math.max(1, parseFloat(hEl.value) || 210);
-    const unitQty = Math.max(1, parseInt(qEl.value, 10) || 1);
+    // Sanitize inputs (TAHAP 14: Handles empty, 0, negative, decimals, and extreme dimensions)
+    let rawW = parseFloat(wEl.value);
+    let rawH = parseFloat(hEl.value);
+    let rawQ = parseFloat(qEl.value);
+
+    if (isNaN(rawW) || rawW <= 0) rawW = 90;
+    if (isNaN(rawH) || rawH <= 0) rawH = 210;
+    if (isNaN(rawQ) || rawQ <= 0) rawQ = 1;
+
+    // Absolute and bounded
+    const widthCm = Math.abs(rawW);
+    const heightCm = Math.abs(rawH);
+    const unitQty = Math.max(1, Math.round(Math.abs(rawQ)));
+    const openingType = (openingTypeEl && openingTypeEl.value) || 'door';
     const serviceKey = serviceSelect.value || 'kusen';
 
     const wMeter = widthCm / 100;
     const hMeter = heightCm / 100;
+    const areaM2 = Math.round(wMeter * hMeter * unitQty * 100) / 100;
+    const perimeterM1 = Math.round(2 * (wMeter + hMeter) * unitQty * 10) / 10;
 
     let computedVol = 1;
     if (serviceKey === 'kusen') {
-      // 3 sides (opening pintu: 2 tiang vertikal + 1 ambang atas)
-      const m1PerOpening = (2 * hMeter) + wMeter;
-      computedVol = Math.max(1, Math.round(m1PerOpening * unitQty * 10) / 10);
+      if (openingType === 'door') {
+        // 3 sides (opening pintu: 2 tiang vertikal + 1 ambang atas)
+        const m1PerOpening = (2 * hMeter) + wMeter;
+        computedVol = Math.max(1, Math.round(m1PerOpening * unitQty * 10) / 10);
+      } else {
+        // 4 sides keliling penuh (jendela / sekat pembagi)
+        const m1PerOpening = 2 * (wMeter + hMeter);
+        computedVol = Math.max(1, Math.round(m1PerOpening * unitQty * 10) / 10);
+      }
     } else if (serviceKey === 'partisi' || serviceKey === 'kanopi' || serviceKey === 'acp' || serviceKey === 'curtain_wall') {
       // m² = W * H * Qty
-      const area = wMeter * hMeter * unitQty;
-      computedVol = Math.max(1, Math.round(area * 10) / 10);
+      computedVol = Math.max(0.5, Math.round(areaM2 * 10) / 10);
     } else if (serviceKey === 'etalase' || serviceKey === 'railing') {
       // m1 = width in meters * unitQty
       computedVol = Math.max(1, Math.round(wMeter * unitQty * 10) / 10);
@@ -6714,11 +6871,11 @@ window.printProjectPdf = function(orderId) {
 
     const noteEl = document.getElementById('dimHelperResultNote');
     if (noteEl) {
-      noteEl.textContent = `✓ Volume terhitung: ${computedVol} ${COST_CALC_DATA[serviceKey]?.unit || ''} (dari ukuran ${widthCm}×${heightCm} cm × ${unitQty} unit)`;
+      noteEl.textContent = `✓ Dimensi: ${widthCm}×${heightCm} cm (${unitQty} unit) → Luas: ${areaM2} m² | Keliling: ${perimeterM1} m1 → Volume: ${computedVol} ${COST_CALC_DATA[serviceKey]?.unit || ''}`;
     }
   };
 
-  // Copy estimate summary to clipboard
+  // Copy estimate summary to clipboard with TAHAP 13 transparent detail format
   window.copyEstimateText = function(e) {
     if (e && e.preventDefault) e.preventDefault();
     const data = window._lastRoughEstimate;
@@ -6726,28 +6883,35 @@ window.printProjectPdf = function(orderId) {
 
     const copyText = 
 `==============================================
-ESTIMASI BIAYA RAB KONTRAKTOR - SAHABAT KACA ALUMINIUM
-Wilayah Layanan: Karawang, Cikarang, Bekasi, Cikampek & Jabodetabek
-Website: https://sahabat-aluminium.my.id | WA: 0896-3737-1166
+DETAIL ESTIMASI ANGGARAN BIAYA (RAB) - SAHABAT KACA ALUMINIUM
+Wilayah Proyek: ${data.regionName}
+Hotline WA: 0896-3737-1166 | Web: https://sahabat-aluminium.my.id
 ==============================================
-• Jenis Pekerjaan   : ${data.service}
-• Mutu & Kualitas   : ${data.quality}
-• Volume / Kuantitas: ${data.qty}
-• Acuan Tarif Satuan: ${data.rate}
+DETAIL ESTIMASI:
+• Produk            : ${data.service}
+• Spesifikasi       : ${data.quality}
+• Kuantitas / Volume: ${data.qty}
+• Acuan Tarif Satuan: ${data.rateText}
 ----------------------------------------------
-RINCIAN KOMPONEN BIAYA RAB (ANALISA REALISTIS):
-1. Material Utama (Profil & Kaca/Panel)  : ${data.rabMaterial} (48%)
-2. Aksesoris & Hardware (Kunci/Engsel/Sealant): ${data.rabHardware} (16%)
-3. Upah Tenaga Kerja (Pabrikasi & Pasang): ${data.rabLabor} (16%)
-4. Transport & Logistik Armada Lokal     : ${data.rabTransport} (5%)
-5. Operasional & Waste Cutting Allowance : ${data.rabWaste} (5%)
-6. Margin Usaha & Garansi Kontraktor     : ${data.rabMargin} (10%)
+RINCIAN KOMPONEN BIAYA PELAKSANA (TRANSPARAN):
+• Material Aluminium / Rangka Utama : ${data.rabAluminium}
+• Material Kaca / Infill Panel       : ${data.rabKaca}
+• Aksesoris Sealant & Karet Kedap   : ${data.rabAksesoris}
+• Hardware Kunci, Engsel & Handle   : ${data.rabHardware}
+• Jasa Produksi & Fabrikasi Miter 45°: ${data.rabProdLabor}
+• Jasa Pemasangan & Setting Lapangan: ${data.rabInstallLabor}
+• Transportasi Armada Pick-up       : ${data.rabTransport}
+• Operasional & Cutting Waste 10–12%: ${data.rabWaste}
+• Subtotal Biaya Dasar (HPP)        : ${data.rabSubtotal}
+• Margin Pelaksana & Garansi 1 Tahun : ${data.rabMargin}
 ----------------------------------------------
-ESTIMASI ANGGARAN TOTAL : ${data.estimateRange}
-Survey Lokasi & Ukur Laser Presisi       : Rp 0 (100% GRATIS)
-==============================================
-Catatan: Rincian final disesuaikan dengan hasil ukur fisik laser on-site.
-Jadwalkan Survey Gratis: https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Aluminium%2C%20saya%20ingin%20jadwalkan%20survey%20gratis`;
+ESTIMASI TOTAL                      : ${data.estimateRange}
+Survey Lokasi & Laser Presisi        : ${data.surveyText}
+${data.isMinOrderApplied ? '⚠️ Ketentuan Minimum Order: Pekerjaan on-site dikenakan batas minimum order Rp 750.000.\n' : ''}----------------------------------------------
+Estimasi harga dapat berubah setelah pengukuran dan survey lokasi.
+
+CHAT WHATSAPP UNTUK SURVEY & PENAWARAN:
+https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Aluminium%2C%20saya%20ingin%20jadwalkan%20survey%20dan%20penawaran%20harga%20RAB`;
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(copyText).then(() => {
@@ -6790,10 +6954,547 @@ Jadwalkan Survey Gratis: https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat
     }
   }
 
-  // Print estimate sheet
+  // =========================================================
+  // FORMAL BRANDED PDF QUOTATION GENERATOR (SPH)
+  // =========================================================
+  let _activeQuotationData = null;
+
+  function formatQuoDate(d) {
+    const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  }
+
+  function generateQuotationDocNo() {
+    const d = new Date();
+    const yr = d.getFullYear();
+    const mo = String(d.getMonth() + 1).padStart(2, '0');
+    const rnd = Math.floor(1000 + Math.random() * 9000);
+    return `SPH-SKA-${yr}${mo}-${rnd}`;
+  }
+
+  window.openQuotationModal = function(customData) {
+    const estimate = customData || window._lastRoughEstimate || {
+      service: 'Kusen Aluminium (Profil 3" / 4")',
+      quality: 'Standard SNI (Dacon / Inkalum 0.9–1.0mm 3" Terpasang + Sealant)',
+      qty: '12 Meter Lari (m1)',
+      estimateRange: 'Rp 1.260.000 – Rp 1.560.000',
+      estimateRangeText: 'Rp 1.260.000 – Rp 1.560.000',
+      rateText: 'Rp 105.000 – Rp 130.000 / m1',
+      leadTime: '2–4 Hari Kerja',
+      rabMaterial: 'Rp 605.000 – Rp 749.000',
+      rabHardware: 'Rp 202.000 – Rp 250.000',
+      rabLabor: 'Rp 202.000 – Rp 250.000',
+      rabTransport: 'Rp 63.000 – Rp 78.000',
+      rabWaste: 'Rp 63.000 – Rp 78.000',
+      rabMargin: 'Rp 125.000 – Rp 155.000',
+      totalMin: 1260000,
+      totalMax: 1560000
+    };
+
+    _activeQuotationData = Object.assign({}, estimate);
+    if (!_activeQuotationData.docNo) {
+      _activeQuotationData.docNo = generateQuotationDocNo();
+      _activeQuotationData.docDate = formatQuoDate(new Date());
+    }
+
+    let backdrop = document.getElementById('quotationModalBackdrop');
+    if (!backdrop) {
+      backdrop = document.createElement('div');
+      backdrop.id = 'quotationModalBackdrop';
+      backdrop.className = 'quotation-modal-backdrop';
+      backdrop.setAttribute('role', 'dialog');
+      backdrop.setAttribute('aria-modal', 'true');
+      backdrop.setAttribute('aria-label', 'Surat Penawaran Harga Resmi');
+      backdrop.innerHTML = `
+        <div class="quotation-modal-dialog" onclick="event.stopPropagation()">
+          <div class="quotation-modal-header">
+            <div class="quotation-modal-header-left">
+              <div class="quotation-modal-icon-badge">📄</div>
+              <div>
+                <h3 class="quotation-modal-title">Dokumen Resmi Penawaran Harga (Quotation SPH)</h3>
+                <div class="quotation-modal-subtitle">Sahabat Kaca Aluminium Karawang · Estimasi Transparan Siap Cetak / Simpan PDF</div>
+              </div>
+            </div>
+            <button type="button" class="quotation-modal-close-btn" onclick="window.closeQuotationModal()" aria-label="Tutup Modal">&times;</button>
+          </div>
+          <div class="quotation-modal-body">
+            <div class="quotation-layout-grid">
+              
+              <!-- Left: Customer Details & Project Notes Form -->
+              <div class="quotation-form-panel">
+                <div class="quotation-form-section-title">
+                  <span>✏️</span> <span>Data Pelanggan & Catatan Proyek</span>
+                </div>
+                
+                <div class="quo-input-group">
+                  <label class="quo-input-label" for="quoInputCustName">Nama Pelanggan / Instansi / PIC:</label>
+                  <input type="text" id="quoInputCustName" class="quo-text-input" value="Bpk/Ibu Pemilik Proyek" placeholder="Contoh: Bpk. Hendra Gunawan / PT Karawang Sejahtera" oninput="window.updateQuotationPreview()">
+                </div>
+
+                <div class="quo-input-group">
+                  <label class="quo-input-label" for="quoInputCustPhone">No. WhatsApp / Telepon:</label>
+                  <input type="text" id="quoInputCustPhone" class="quo-text-input" value="" placeholder="Contoh: 0812-3456-7890" oninput="window.updateQuotationPreview()">
+                </div>
+
+                <div class="quo-input-group">
+                  <label class="quo-input-label" for="quoInputCustLocation">Lokasi Proyek / Alamat Pasang:</label>
+                  <input type="text" id="quoInputCustLocation" class="quo-text-input" value="Karawang, Jawa Barat" placeholder="Contoh: Galuh Mas, KIIC, Cikarang, Grand Taruma" oninput="window.updateQuotationPreview()">
+                </div>
+
+                <div class="quo-input-group">
+                  <label class="quo-input-label" for="quoInputProjectNotes">Catatan Khusus / Permintaan Spesifik:</label>
+                  <textarea id="quoInputProjectNotes" class="quo-textarea-input" placeholder="Tuliskan catatan teknis proyek, preferensi warna aluminium, lantai pemasangan, dsb." oninput="window.updateQuotationPreview()">Termasuk survey lokasi dan pengukuran laser presisi gratis. Material aluminium profil SNI, aksesoris kunci & engsel terpasang rapi, sealant netral anti-bocor, serta garansi pemeliharaan 1 tahun.</textarea>
+                </div>
+
+                <div class="quo-action-stack">
+                  <button type="button" class="quo-primary-print-btn" onclick="window.printQuotationDocument()">
+                    <span>🖨️</span> <span>Cetak Dokumen / Simpan PDF</span>
+                  </button>
+                  <a href="#" class="quo-secondary-wa-btn" id="quoWaBtn" onclick="window.sendQuotationViaWa(event)">
+                    <span>💬</span> <span>Kirim Penawaran ke WhatsApp</span>
+                  </a>
+                  <button type="button" class="quo-tertiary-copy-btn" id="quoCopyBtn" onclick="window.copyQuotationText()">
+                    <span>📋</span> <span>Salin Teks Ringkasan SPH</span>
+                  </button>
+                </div>
+
+                <div style="margin-top:14px;font-size:11px;color:#64748b;line-height:1.45;background:#f8fafc;padding:9px 11px;border-radius:8px;border:1px dashed #cbd5e1;">
+                  💡 <em>Dokumen ini dirancang otomatis sesuai format resmi standar kontraktor. Anda dapat mencetaknya langsung ke printer fisik atau memilih <strong>"Save as PDF"</strong> pada dialog print browser Anda.</em>
+                </div>
+              </div>
+
+              <!-- Right: Formal Branded Document Preview -->
+              <div class="quotation-preview-panel">
+                <div class="quo-sheet" id="quoPrintableSheet">
+                  
+                  <!-- Kop Surat Resmi -->
+                  <div class="quo-kop">
+                    <div class="quo-kop-brand">
+                      <div class="quo-logo-box">
+                        <div class="quo-logo-icon">🏢</div>
+                        <div>
+                          <h2 class="quo-brand-title">SAHABAT KACA ALUMINIUM</h2>
+                          <div class="quo-brand-sub">KONTRAKTOR SPESIALIS KACA TEMPERED & ALUMINIUM SNI</div>
+                        </div>
+                      </div>
+                      <div class="quo-kop-contact">
+                        <p><strong>Workshop & Fabrikasi:</strong> Karawang, Jawa Barat</p>
+                        <p>Telp / WA: 0896-3737-1166 · Website: sahabat-aluminium.my.id</p>
+                        <p>Melayani: Karawang, Cikarang, Bekasi, Cikampek & Jabodetabek</p>
+                      </div>
+                    </div>
+                    <div class="quo-kop-divider"></div>
+                  </div>
+
+                  <!-- Document Header -->
+                  <div class="quo-doc-header">
+                    <div>
+                      <h3 class="quo-doc-title">SURAT PENAWARAN HARGA (ESTIMASI SPH)</h3>
+                      <div class="quo-doc-subtitle">DOKUMEN RESMI PERKIRAAN ANGGARAN BIAYA & PRA-KONTRAK</div>
+                    </div>
+                    <div class="quo-meta-card">
+                      <div>No. Dokumen: <strong id="quoSheetDocNo">SPH-SKA-2026-0000</strong></div>
+                      <div>Tanggal: <strong id="quoSheetDate">04 Oktober 2026</strong></div>
+                      <div>Masa Berlaku: <strong>14 Hari Kalender</strong></div>
+                      <div style="margin-top:2px;"><span class="quo-badge-status">VALID ESTIMATE</span></div>
+                    </div>
+                  </div>
+
+                  <!-- Client & Project Info -->
+                  <div class="quo-info-grid">
+                    <div class="quo-info-box">
+                      <div class="quo-info-label">DITUJUKAN KEPADA (KLIEN / PEMILIK):</div>
+                      <div class="quo-info-val" id="quoSheetCustName">Bpk/Ibu Pemilik Proyek</div>
+                      <div class="quo-info-sub" id="quoSheetCustPhone">Kontak: -</div>
+                    </div>
+                    <div class="quo-info-box">
+                      <div class="quo-info-label">LOKASI & WILAYAH PEKERJAAN:</div>
+                      <div class="quo-info-val" id="quoSheetCustLocation">Karawang, Jawa Barat</div>
+                      <div class="quo-info-sub">Status Survey: <strong>100% GRATIS (On-Schedule)</strong></div>
+                    </div>
+                  </div>
+
+                  <!-- Itemized Technical Table -->
+                  <div class="quo-table-wrap">
+                    <table class="quo-table">
+                      <thead>
+                        <tr>
+                          <th style="width:30px;text-align:center;">No</th>
+                          <th>Deskripsi Uraian Pekerjaan & Spesifikasi Material</th>
+                          <th style="width:90px;text-align:center;">Volume</th>
+                          <th style="width:130px;text-align:right;">Tarif Acuan Unit</th>
+                          <th style="width:150px;text-align:right;">Perkiraan Total Anggaran</th>
+                        </tr>
+                      </thead>
+                      <tbody id="quoTableBody">
+                        <!-- Populated by JS -->
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <!-- RAB Component Breakdown -->
+                  <div class="quo-rab-section">
+                    <div class="quo-section-title">📊 ANALISA TRANSPARAN STRUKTUR BIAYA PELAKSANA (RAB):</div>
+                    <div class="quo-rab-grid">
+                      <div>
+                        <div class="quo-rab-row">
+                          <span>1. Material Profil Aluminium / Kaca (48%):</span>
+                          <strong id="quoRabMaterial">Rp 0</strong>
+                        </div>
+                        <div class="quo-rab-row">
+                          <span>2. Aksesoris & Hardware Presisi (16%):</span>
+                          <strong id="quoRabHardware">Rp 0</strong>
+                        </div>
+                        <div class="quo-rab-row">
+                          <span>3. Upah Pabrikasi & Pemasangan On-Site (16%):</span>
+                          <strong id="quoRabLabor">Rp 0</strong>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="quo-rab-row">
+                          <span>4. Transportasi & Logistik Pickup Lokal (5%):</span>
+                          <strong id="quoRabTransport">Rp 0</strong>
+                        </div>
+                        <div class="quo-rab-row">
+                          <span>5. Biaya Operasional & Cutting Waste 10–12% (5%):</span>
+                          <strong id="quoRabWaste">Rp 0</strong>
+                        </div>
+                        <div class="quo-rab-row">
+                          <span>6. Margin Pelaksana & Garansi Sambungan (10%):</span>
+                          <strong id="quoRabMargin">Rp 0</strong>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="quo-survey-free-row">
+                      <span>7. Survey Lapangan & Pengukuran Laser Presisi:</span>
+                      <span>100% GRATIS TANPA BIAYA</span>
+                    </div>
+                  </div>
+
+                  <!-- Project Notes Box -->
+                  <div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;padding:9px 12px;margin-bottom:14px;">
+                    <div style="font-size:9.5px;font-weight:800;color:#072e3b;margin-bottom:3px;letter-spacing:0.5px;">
+                      📌 CATATAN KHUSUS & REKOMENDASI TEKNIS:
+                    </div>
+                    <div id="quoSheetProjectNotes" style="font-size:10.5px;color:#334155;line-height:1.45;font-style:italic;">
+                      -
+                    </div>
+                  </div>
+
+                  <!-- Terms & Conditions -->
+                  <div class="quo-terms">
+                    <strong>Syarat & Ketentuan Standar Penawaran:</strong>
+                    <ol>
+                      <li>Harga di atas merupakan estimasi transparan realistis retail kontraktor di wilayah Jabodetabek & Karawang, disesuaikan dengan hasil ukur presisi di lokasi.</li>
+                      <li>Survey lokasi, konsultasi spesifikasi teknis, serta pembuatan visual gambar kerja bersifat <strong>100% GRATIS</strong> tanpa ikatan di muka.</li>
+                      <li>Skema termin pembayaran bertahap: DP 40% saat kesepakatan SPK, Termin Material 40% saat profil tiba di workshop/lokasi, Pelunasan 20% setelah pekerjaan serah terima rapi.</li>
+                      <li>Semua pekerjaan kami lindungi dengan garansi resmi kebocoran air hujan dan kerapihan sambungan miter selama 12 bulan kalender.</li>
+                    </ol>
+                  </div>
+
+                  <!-- Official Signatures -->
+                  <div class="quo-signatures">
+                    <div class="quo-sig-col">
+                      <p class="quo-sig-role">Disetujui & Diterima Oleh (Klien):</p>
+                      <div class="quo-sig-space"></div>
+                      <p class="quo-sig-name" id="quoSigCustName"><strong>( Bpk/Ibu Pemilik Proyek )</strong></p>
+                      <p class="quo-sig-date">Pemesan / Penanggung Jawab Proyek</p>
+                    </div>
+                    <div class="quo-sig-col quo-sig-right">
+                      <p class="quo-sig-role">Diterbitkan Oleh (Pelaksana):</p>
+                      <div class="quo-sig-stamp-wrap">
+                        <div class="quo-digital-stamp">
+                          <span>SAHABAT KACA ALUMINIUM</span>
+                          <span class="quo-stamp-mid">OFFICIAL VERIFIED ESTIMATE</span>
+                          <span>KARAWANG - JABODETABEK</span>
+                        </div>
+                      </div>
+                      <p class="quo-sig-name"><strong>Hendra Gunawan, S.T.</strong></p>
+                      <p class="quo-sig-date">Lead Estimator & Fabrikasi Lapangan</p>
+                    </div>
+                  </div>
+
+                  <div class="quo-footer-note">
+                    Dokumen resmi ini diterbitkan melalui Sistem Estimator Sahabat Kaca Aluminium. Untuk jadwal survey dan konfirmasi, hubungi hotline/WhatsApp resmi: 0896-3737-1166.
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(backdrop);
+
+      backdrop.addEventListener('click', (e) => {
+        if (e.target === backdrop) {
+          window.closeQuotationModal();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && backdrop.classList.contains('is-active')) {
+          window.closeQuotationModal();
+        }
+      });
+    }
+
+    window.updateQuotationPreview();
+    backdrop.classList.add('is-active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeQuotationModal = function() {
+    const backdrop = document.getElementById('quotationModalBackdrop');
+    if (backdrop) {
+      backdrop.classList.remove('is-active');
+    }
+    document.body.style.overflow = '';
+  };
+
+  window.updateQuotationPreview = function() {
+    const data = _activeQuotationData;
+    if (!data) return;
+
+    const inputName = document.getElementById('quoInputCustName');
+    const inputPhone = document.getElementById('quoInputCustPhone');
+    const inputLoc = document.getElementById('quoInputCustLocation');
+    const inputNotes = document.getElementById('quoInputProjectNotes');
+
+    const custName = (inputName && inputName.value.trim()) || 'Bpk/Ibu Pemilik Proyek';
+    const custPhone = (inputPhone && inputPhone.value.trim()) || '-';
+    const custLoc = (inputLoc && inputLoc.value.trim()) || 'Karawang, Jawa Barat';
+    const projectNotes = (inputNotes && inputNotes.value.trim()) || 'Termasuk survey laser presisi gratis dan garansi pengerjaan 1 tahun.';
+
+    const sheetDocNo = document.getElementById('quoSheetDocNo');
+    const sheetDate = document.getElementById('quoSheetDate');
+    const sheetCustName = document.getElementById('quoSheetCustName');
+    const sheetCustPhone = document.getElementById('quoSheetCustPhone');
+    const sheetCustLocation = document.getElementById('quoSheetCustLocation');
+    const sheetProjectNotes = document.getElementById('quoSheetProjectNotes');
+    const sigCustName = document.getElementById('quoSigCustName');
+
+    if (sheetDocNo) sheetDocNo.textContent = data.docNo;
+    if (sheetDate) sheetDate.textContent = data.docDate;
+    if (sheetCustName) sheetCustName.textContent = custName;
+    if (sheetCustPhone) sheetCustPhone.textContent = custPhone !== '-' ? `No. Kontak / WA: ${custPhone}` : 'Kontak: -';
+    if (sheetCustLocation) sheetCustLocation.textContent = custLoc;
+    if (sheetProjectNotes) sheetProjectNotes.textContent = projectNotes;
+    if (sigCustName) sigCustName.innerHTML = `<strong>( ${custName} )</strong>`;
+
+    const tableBody = document.getElementById('quoTableBody');
+    if (tableBody) {
+      tableBody.innerHTML = `
+        <tr>
+          <td style="text-align:center;font-weight:700;">1</td>
+          <td>
+            <strong style="color:#072e3b;font-size:11.5px;">${data.service}</strong>
+            <div class="quo-item-spec">Spesifikasi: ${data.quality}</div>
+            <div class="quo-item-subnotes">
+              • Termasuk perakitan presisi siku miter 45° & sealant netral Dowsil/Iki<br>
+              • Aksesoris engsel, kunci & handle standar teruji kokoh<br>
+              • Estimasi masa pengerjaan: <strong>${data.leadTime || '2–4 Hari Kerja'}</strong>
+            </div>
+          </td>
+          <td style="text-align:center;font-weight:700;">${data.qty}</td>
+          <td style="text-align:right;font-weight:700;color:#0d9488;">${data.rateText}</td>
+          <td style="text-align:right;font-weight:800;color:#072e3b;font-size:12px;">${data.estimateRangeText || data.estimateRange}</td>
+        </tr>
+        <tr>
+          <td style="text-align:center;font-weight:700;">2</td>
+          <td>
+            <strong style="color:#072e3b;">Survey Lapangan & Laser Presisi On-Site</strong>
+            <div class="quo-item-subnotes">Kunjungan teknisi langsung ke lokasi proyek untuk pengukuran akurat dan konsultasi denah</div>
+          </td>
+          <td style="text-align:center;font-weight:700;">1 Paket</td>
+          <td style="text-align:right;font-weight:700;color:#10b981;">Rp 0</td>
+          <td style="text-align:right;font-weight:800;color:#10b981;">100% GRATIS</td>
+        </tr>
+        <tr style="background:#f1f5f9;font-weight:800;border-top:2px solid #072e3b;">
+          <td colspan="4" style="text-align:right;padding:10px;font-size:11.5px;color:#072e3b;">
+            TOTAL ESTIMASI ANGGARAN PROYEK:
+          </td>
+          <td style="text-align:right;padding:10px;font-size:13px;color:#072e3b;font-weight:900;">
+            ${data.estimateRangeText || data.estimateRange}
+          </td>
+        </tr>
+      `;
+    }
+
+    const elMaterial = document.getElementById('quoRabMaterial');
+    const elHardware = document.getElementById('quoRabHardware');
+    const elLabor = document.getElementById('quoRabLabor');
+    const elTransport = document.getElementById('quoRabTransport');
+    const elWaste = document.getElementById('quoRabWaste');
+    const elMargin = document.getElementById('quoRabMargin');
+
+    if (elMaterial) elMaterial.textContent = data.rabMaterial;
+    if (elHardware) elHardware.textContent = data.rabHardware;
+    if (elLabor) elLabor.textContent = data.rabLabor;
+    if (elTransport) elTransport.textContent = data.rabTransport;
+    if (elWaste) elWaste.textContent = data.rabWaste;
+    if (elMargin) elMargin.textContent = data.rabMargin;
+  };
+
+  window.printQuotationDocument = function() {
+    document.body.classList.add('is-printing-quotation');
+    window.print();
+    setTimeout(() => {
+      document.body.classList.remove('is-printing-quotation');
+    }, 1000);
+  };
+
+  window.sendQuotationViaWa = function(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const data = _activeQuotationData;
+    if (!data) return;
+
+    const inputName = document.getElementById('quoInputCustName');
+    const inputPhone = document.getElementById('quoInputCustPhone');
+    const inputLoc = document.getElementById('quoInputCustLocation');
+    const inputNotes = document.getElementById('quoInputProjectNotes');
+
+    const custName = (inputName && inputName.value.trim()) || 'Bpk/Ibu Pemilik Proyek';
+    const custPhone = (inputPhone && inputPhone.value.trim()) || '-';
+    const custLoc = (inputLoc && inputLoc.value.trim()) || 'Karawang, Jawa Barat';
+    const notes = (inputNotes && inputNotes.value.trim()) || '-';
+
+    const msg = `*DOKUMEN RESMI PENAWARAN HARGA (SPH)*\n` +
+      `*Sahabat Kaca Aluminium Karawang*\n` +
+      `No. Dok: ${data.docNo}\n` +
+      `Tanggal: ${data.docDate}\n` +
+      `────────────────────────────\n\n` +
+      `*DATA KLIEN & LOKASI:*\n` +
+      `• Klien / PIC: ${custName}\n` +
+      `• No. Kontak: ${custPhone}\n` +
+      `• Lokasi Proyek: ${custLoc}\n\n` +
+      `*RINCIAN ESTIMASI PEKERJAAN:*\n` +
+      `🛠️ *Item Pekerjaan:* ${data.service}\n` +
+      `⭐ *Spesifikasi:* ${data.quality}\n` +
+      `📏 *Volume / Kuantitas:* ${data.qty}\n` +
+      `🏷️ *Tarif Satuan:* ${data.rateText}\n` +
+      `💰 *Total Anggaran Estimasi:* ${data.estimateRangeText || data.estimateRange}\n\n` +
+      `*STRUKTUR BIAYA REALISTIS (RAB):*\n` +
+      `• Material Rangka/Kaca: ${data.rabMaterial}\n` +
+      `• Aksesoris & Hardware: ${data.rabHardware}\n` +
+      `• Upah Pabrikasi & Pasang: ${data.rabLabor}\n` +
+      `• Transportasi Pickup: ${data.rabTransport}\n` +
+      `• Operasional & Waste 10%: ${data.rabWaste}\n` +
+      `• Margin & Garansi Pelaksana: ${data.rabMargin}\n` +
+      `• Survey Lokasi & Laser Ukur: 100% GRATIS\n\n` +
+      `*CATATAN KHUSUS:* ${notes}\n\n` +
+      `Halo Tim Sahabat Aluminium, mohon jadwal survey ke alamat saya untuk pengukuran laser presisi dan finalisasi Surat Penawaran Harga ini. Terima kasih!`;
+
+    const encoded = encodeURIComponent(msg);
+    const waUrl = `https://wa.me/6289637371166?text=${encoded}`;
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
+  };
+
+  window.copyQuotationText = function() {
+    const data = _activeQuotationData;
+    if (!data) return;
+
+    const inputName = document.getElementById('quoInputCustName');
+    const inputPhone = document.getElementById('quoInputCustPhone');
+    const inputLoc = document.getElementById('quoInputCustLocation');
+    const inputNotes = document.getElementById('quoInputProjectNotes');
+
+    const custName = (inputName && inputName.value.trim()) || 'Bpk/Ibu Pemilik Proyek';
+    const custPhone = (inputPhone && inputPhone.value.trim()) || '-';
+    const custLoc = (inputLoc && inputLoc.value.trim()) || 'Karawang, Jawa Barat';
+    const notes = (inputNotes && inputNotes.value.trim()) || '-';
+
+    const text = `SURAT PENAWARAN HARGA (SPH) - SAHABAT KACA ALUMINIUM
+No: ${data.docNo} | Tanggal: ${data.docDate}
+==================================================
+Klien: ${custName}
+Kontak: ${custPhone}
+Lokasi: ${custLoc}
+
+Uraian Pekerjaan: ${data.service}
+Spesifikasi: ${data.quality}
+Volume: ${data.qty}
+Tarif: ${data.rateText}
+Total Estimasi Anggaran: ${data.estimateRangeText || data.estimateRange}
+
+RAB Breakdown:
+- Material: ${data.rabMaterial}
+- Aksesoris & Hardware: ${data.rabHardware}
+- Jasa Pabrikasi & Pasang: ${data.rabLabor}
+- Transportasi: ${data.rabTransport}
+- Operasional & Waste Potongan: ${data.rabWaste}
+- Margin & Garansi 1 Tahun: ${data.rabMargin}
+- Survey Lokasi: 100% GRATIS
+
+Catatan Proyek: ${notes}
+Hotline WA: 0896-3737-1166 | Web: sahabat-aluminium.my.id`;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        showQuoCopyFeedback();
+      }).catch(() => {
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
+    }
+  };
+
+  function showQuoCopyFeedback() {
+    const btn = document.getElementById('quoCopyBtn');
+    if (btn) {
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<span>✓</span> <span>Teks SPH Tersalin!</span>';
+      btn.style.background = '#0d9488';
+      btn.style.color = '#ffffff';
+      setTimeout(() => {
+        btn.innerHTML = orig;
+        btn.style.background = '';
+        btn.style.color = '';
+      }, 2500);
+    }
+  }
+
+  // Print estimate sheet triggers official PDF quotation modal
   window.printEstimateSheet = function(e) {
     if (e && e.preventDefault) e.preventDefault();
-    window.print();
+    window.openQuotationModal();
+  };
+
+  // Open quotation modal from specific pages (like kusen, pintu, etc.)
+  window.openKusenQuotationModal = function() {
+    const serviceName = 'Kusen Aluminium SNI Karawang';
+    const selectMat = document.getElementById('selectMaterial');
+    const selectGlass = document.getElementById('selectGlass');
+    const matName = (selectMat && selectMat.options[selectMat.selectedIndex]) ? selectMat.options[selectMat.selectedIndex].getAttribute('data-name') : 'Dacon / Inkalum 3 Inch';
+    const glassName = (selectGlass && selectGlass.options[selectGlass.selectedIndex]) ? selectGlass.options[selectGlass.selectedIndex].getAttribute('data-name') : 'Kaca Polos / Clear 5 mm';
+    const valTotalM1 = (document.getElementById('valTotalM1') && document.getElementById('valTotalM1').textContent) || '12 m1';
+    const valEstMin = (document.getElementById('valEstMin') && document.getElementById('valEstMin').textContent) || 'Rp 1.080.000';
+    const valEstMax = (document.getElementById('valEstMax') && document.getElementById('valEstMax').textContent) || 'Rp 1.320.000';
+
+    const rabMat = (document.getElementById('rabKusenMaterial') && document.getElementById('rabKusenMaterial').textContent) || 'Rp 576.000';
+    const rabHdw = (document.getElementById('rabKusenHardware') && document.getElementById('rabKusenHardware').textContent) || 'Rp 192.000';
+    const rabLab = (document.getElementById('rabKusenLabor') && document.getElementById('rabKusenLabor').textContent) || 'Rp 192.000';
+    const rabTra = (document.getElementById('rabKusenTransport') && document.getElementById('rabKusenTransport').textContent) || 'Rp 60.000';
+    const rabWst = (document.getElementById('rabKusenWaste') && document.getElementById('rabKusenWaste').textContent) || 'Rp 60.000';
+    const rabMrg = (document.getElementById('rabKusenMargin') && document.getElementById('rabKusenMargin').textContent) || 'Rp 120.000';
+
+    window.openQuotationModal({
+      service: serviceName,
+      quality: `${matName} + ${glassName}`,
+      qty: valTotalM1,
+      rateText: 'Tarif Terpasang Lengkap',
+      estimateRange: `${valEstMin} – ${valEstMax}`,
+      estimateRangeText: `${valEstMin} – ${valEstMax}`,
+      leadTime: '2–4 Hari Kerja',
+      rabMaterial: rabMat,
+      rabHardware: rabHdw,
+      rabLabor: rabLab,
+      rabTransport: rabTra,
+      rabWaste: rabWst,
+      rabMargin: rabMrg
+    });
   };
 
   // Activate survey tab and scroll smoothly

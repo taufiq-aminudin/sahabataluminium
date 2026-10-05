@@ -1226,21 +1226,71 @@ landingPages.forEach(slug => {
   });
 });
 
-// Explicit routes for core pages to support clean URLs
+// Explicit routes for 17 requested separate pages
+const servicePages = [
+  'kusen-aluminium',
+  'pintu-aluminium',
+  'jendela-aluminium',
+  'pintu-kaca-tempered',
+  'partisi-kaca-aluminium',
+  'kanopi-kaca-tempered',
+  'shower-kaca',
+  'etalase-kaca'
+];
+
+servicePages.forEach(slug => {
+  app.get([`/layanan/${slug}`, `/layanan/${slug}/`], (req, res) => {
+    res.sendFile(path.join(__dirname, 'layanan', `${slug}.html`));
+  });
+});
+
+app.get(['/tentang-kami', '/tentang-kami/'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'tentang-kami.html'));
+});
+
 app.get(['/layanan', '/layanan/'], (req, res) => {
   res.sendFile(path.join(__dirname, 'layanan.html'));
 });
 
+app.get(['/hitung-estimasi', '/hitung-estimasi/'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'hitung-estimasi.html'));
+});
+
+app.get(['/status-proyek', '/status-proyek/'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'status-proyek.html'));
+});
+
+app.get(['/portofolio', '/portofolio/'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'portofolio.html'));
+});
+
+app.get(['/kontraktor', '/kontraktor/'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'kontraktor.html'));
+});
+
+app.get(['/blog', '/blog/'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'blog.html'));
+});
+
+app.get(['/faq', '/faq/'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'faq.html'));
+});
+
+app.get(['/testimoni', '/testimoni/'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'testimoni.html'));
+});
+
+// Explicit routes for secondary core pages and aliases
 app.get(['/galeri', '/galeri/'], (req, res) => {
-  res.sendFile(path.join(__dirname, 'galeri.html'));
+  res.sendFile(path.join(__dirname, 'portofolio.html'));
 });
 
 app.get(['/artikel', '/artikel/'], (req, res) => {
-  res.sendFile(path.join(__dirname, 'artikel.html'));
+  res.sendFile(path.join(__dirname, 'blog.html'));
 });
 
 app.get(['/tentang', '/tentang/'], (req, res) => {
-  res.sendFile(path.join(__dirname, 'tentang.html'));
+  res.redirect(301, '/tentang-kami');
 });
 
 app.get(['/kontak', '/kontak/'], (req, res) => {
@@ -1256,6 +1306,11 @@ app.get('/index.html', (req, res) => {
   return res.redirect(301, '/');
 });
 
+app.get('/layanan/:slug.html', (req, res) => {
+  const cleanSlug = req.params.slug.replace(/\.html$/, '');
+  return res.redirect(301, `/layanan/${cleanSlug}`);
+});
+
 app.get('/artikel/:slug.html', (req, res) => {
   const cleanSlug = req.params.slug.replace(/\.html$/, '');
   return res.redirect(301, `/artikel/${cleanSlug}`);
@@ -1264,10 +1319,14 @@ app.get('/artikel/:slug.html', (req, res) => {
 app.get('/:page.html', (req, res, next) => {
   const page = req.params.page;
   const validPages = [
-    'layanan', 'galeri', 'artikel', 'tentang', 'kontak',
+    'tentang-kami', 'layanan', 'hitung-estimasi', 'status-proyek',
+    'portofolio', 'kontraktor', 'blog', 'faq', 'testimoni',
+    'galeri', 'artikel', 'tentang', 'kontak',
     ...landingPages
   ];
   if (validPages.includes(page)) {
+    if (page === 'tentang') return res.redirect(301, '/tentang-kami');
+    if (page === 'galeri') return res.redirect(301, '/portofolio');
     return res.redirect(301, `/${page}`);
   }
   next();

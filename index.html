@@ -632,56 +632,70 @@
 
     <!-- NAVIGATION -->
 
-    <nav id="mainNav">
+    <nav id="mainNav" class="site-nav">
 
       <a
-        class="active"
+        class="nav-link active"
         href="/"
       >
         Beranda
       </a>
 
-      <a href="/tentang">
+      <a class="nav-link" href="/tentang-kami">
         Tentang Kami
       </a>
 
-      <a href="/layanan">
-        Layanan
+      <div class="nav-dropdown" id="navDropdownLayanan">
+        <a class="nav-link nav-dropdown-toggle" href="/layanan" id="dropdownLayananBtn" role="button" onclick="toggleDropdown(event)">
+          Layanan <span style="font-size:10px;margin-left:3px;">▼</span>
+        </a>
+        <div class="nav-dropdown-menu">
+          <a class="nav-dropdown-item" href="/layanan/kusen-aluminium">Kusen Aluminium</a>
+          <a class="nav-dropdown-item" href="/layanan/pintu-aluminium">Pintu Aluminium</a>
+          <a class="nav-dropdown-item" href="/layanan/jendela-aluminium">Jendela Aluminium</a>
+          <a class="nav-dropdown-item" href="/layanan/pintu-kaca-tempered">Pintu Kaca Tempered</a>
+          <a class="nav-dropdown-item" href="/layanan/partisi-kaca-aluminium">Partisi Kaca Aluminium</a>
+          <a class="nav-dropdown-item" href="/layanan/kanopi-kaca-tempered">Kanopi Kaca Tempered</a>
+          <a class="nav-dropdown-item" href="/layanan/shower-kaca">Shower Kaca</a>
+          <a class="nav-dropdown-item" href="/layanan/etalase-kaca">Etalase Kaca</a>
+          <div class="nav-dropdown-divider"></div>
+          <a class="nav-dropdown-footer" href="/layanan">Lihat Katalog Semua Layanan →</a>
+        </div>
+      </div>
+
+      <a class="nav-link" href="/hitung-estimasi">
+        Hitung Estimasi
       </a>
 
-      <a href="#kalkulator-biaya" style="color:#0d9488;font-weight:700;">
-        🧮 Hitung Estimasi
+      <a class="nav-link" href="/status-proyek">
+        Status Proyek
       </a>
 
-      <a href="#status-proyek" style="color:var(--gold);font-weight:800;">
-        📍 Status Proyek
+      <a class="nav-link" href="/portofolio">
+        Portofolio
       </a>
 
-      <a href="#portofolio-proyek">
-        Portofolio Proyek
+      <a class="nav-link" href="/kontraktor">
+        Kontraktor
       </a>
 
-      <a href="#kontraktor-proyek">
-        Kontraktor Proyek
-      </a>
-
-      <a href="#artikel-terbaru">
+      <a class="nav-link" href="/blog">
         Blog & Artikel
       </a>
 
-      <a href="#faq">
+      <a class="nav-link" href="/faq">
         FAQ
       </a>
 
-      <a href="#testimoni">
+      <a class="nav-link" href="/testimoni">
         Testimoni
       </a>
 
-      <a href="#jadwal-survey" class="nav-highlight-survey" onclick="window.activateSurveyTab(event)">
+      <a class="nav-link nav-highlight-survey" href="#jadwal-survey" onclick="window.activateSurveyTab(event)">
         📅 Jadwal Survey Gratis
       </a>
 
-      <a href="/kontak">
+      <a class="nav-link" href="/kontak">
         Hubungi Kami
       </a>
 

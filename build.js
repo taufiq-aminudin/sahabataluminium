@@ -62,6 +62,11 @@ if (fs.existsSync(path.join(__dirname, 'artikel'))) {
   console.log('Copied artikel/ to ./public/artikel');
 }
 
+if (fs.existsSync(path.join(__dirname, 'layanan'))) {
+  copyDir(path.join(__dirname, 'layanan'), path.join(PUBLIC_DIR, 'layanan'));
+  console.log('Copied layanan/ to ./public/layanan');
+}
+
 // 3. Copy CSS, JS, and SEO metadata files
 const staticFiles = [
   'style.css',
@@ -69,6 +74,7 @@ const staticFiles = [
   'print.css',
   'pricingConfig.js',
   'projectCatalog.js',
+  'masterData.js',
   'script.js',
   'sitemap.xml',
   'sitemap-nonwww.xml',

@@ -1218,7 +1218,11 @@ landingPages.forEach(slug => {
   // Alias without 'jasa-' prefix e.g. /layanan/pintu-aluminium-karawang redirects 301 to canonical /jasa-pintu-aluminium-karawang
   const withoutJasa = slug.replace(/^jasa-/, '');
   app.get(`/layanan/${withoutJasa}`, (req, res) => {
-    res.redirect(301, `https://sahabat-aluminium.my.id/${slug}`);
+    const rawHost = (req.headers['x-forwarded-host'] || req.headers.host || '').toLowerCase().split(':')[0];
+    if (rawHost === 'sahabat-aluminium.my.id' || rawHost === 'www.sahabat-aluminium.my.id') {
+      return res.redirect(301, `https://sahabat-aluminium.my.id/${slug}`);
+    }
+    return res.redirect(301, `/${slug}`);
   });
 });
 

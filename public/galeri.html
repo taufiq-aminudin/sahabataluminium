@@ -677,15 +677,17 @@
       <!-- Category Filter Tabs -->
       <div class="portfolio-filter" role="tablist">
         <button class="active" data-filter="all">Semua Portofolio (26)</button>
-        <button data-filter="desain-rumah">Desain Rumah & Hunian (18)</button>
-        <button data-filter="partisi">Partisi Kantor & Pabrik (4)</button>
-        <button data-filter="pintu">Pintu Geser, Lipat & Swing (7)</button>
-        <button data-filter="kaca-tempered">Pintu Kaca Tempered (4)</button>
-        <button data-filter="fasad-kanopi">Kanopi & Fasad ACP (5)</button>
-        <button data-filter="jendela">Jendela Aluminium (3)</button>
-        <button data-filter="kamar-mandi">Shower & Kamar Mandi (2)</button>
-        <button data-filter="railing">Railing Kaca & Tangga (2)</button>
-        <button data-filter="komersial">Ruko & Komersial (5)</button>
+        <button data-filter="glass-canopy">Kanopi Kaca (3)</button>
+        <button data-filter="glass-railing">Railing Kaca (2)</button>
+        <button data-filter="aluminium-partition">Partisi Kantor & Pabrik (4)</button>
+        <button data-filter="tempered-door">Pintu Kaca Tempered (3)</button>
+        <button data-filter="aluminium-door">Pintu Aluminium (4)</button>
+        <button data-filter="aluminium-bifold">Pintu Lipat Bifold (3)</button>
+        <button data-filter="aluminium-window">Jendela Aluminium (3)</button>
+        <button data-filter="shower-glass">Shower & Kamar Mandi (2)</button>
+        <button data-filter="acp-facade">Fasad ACP (1)</button>
+        <button data-filter="curtain-wall">Curtain Wall (1)</button>
+        <button data-filter="aluminium-showcase">Etalase Kaca (1)</button>
       </div>
 
       <!-- Portfolio Grid with 18 Projects -->
@@ -1226,28 +1228,37 @@
         </div>
         <div class="pdm-info-col">
           <div class="pdm-badge-bar">
-            <span class="pdm-badge cat" id="pdmCatBadge">Partisi</span>
-            <span class="pdm-badge loc" id="pdmLocBadge">Karawang</span>
+            <span class="pdm-badge cat" id="pdmCatBadge"></span>
+            <span class="pdm-badge loc" id="pdmLocBadge"></span>
             <span class="pdm-badge status" id="pdmStatusBadge">✓ Selesai 100%</span>
           </div>
-          <h2 class="pdm-title" id="pdmTitle">Judul Proyek</h2>
-          <p class="pdm-desc" id="pdmDesc">Deskripsi ringkas proyek.</p>
+          <h2 class="pdm-title" id="pdmTitle"></h2>
+          <p class="pdm-desc" id="pdmDesc"></p>
 
           <table class="pdm-specs-table">
             <tbody>
-              <tr><td class="label">Profil Aluminium</td><td id="pdmKusen">-</td></tr>
-              <tr><td class="label">Finishing / Warna</td><td id="pdmFinishing">-</td></tr>
-              <tr><td class="label">Spesifikasi Kaca</td><td id="pdmKaca">-</td></tr>
-              <tr><td class="label">Hardware & Fitting</td><td id="pdmHardware">-</td></tr>
-              <tr><td class="label">Sealant & Karet</td><td id="pdmSealant">-</td></tr>
-              <tr><td class="label">Volume / Dimensi</td><td id="pdmVolume">-</td></tr>
-              <tr><td class="label">Solusi Teknis</td><td id="pdmSolusi">-</td></tr>
-              <tr><td class="label">Durasi Pengerjaan</td><td id="pdmDurasi">-</td></tr>
-              <tr><td class="label">Masa Garansi</td><td id="pdmGaransi">-</td></tr>
+              <tr><td class="label">Profil / Struktur</td><td id="pdmKusen"></td></tr>
+              <tr><td class="label">Finishing / Warna</td><td id="pdmFinishing"></td></tr>
+              <tr><td class="label">Spesifikasi Kaca</td><td id="pdmKaca"></td></tr>
+              <tr><td class="label">Hardware & Fitting</td><td id="pdmHardware"></td></tr>
+              <tr><td class="label">Sealant & Gasket</td><td id="pdmSealant"></td></tr>
+              <tr><td class="label">Volume / Dimensi</td><td id="pdmVolume"></td></tr>
+              <tr><td class="label">Solusi Teknis</td><td id="pdmSolusi"></td></tr>
+              <tr><td class="label">Durasi Pengerjaan</td><td id="pdmDurasi"></td></tr>
+              <tr><td class="label">Masa Garansi</td><td id="pdmGaransi"></td></tr>
             </tbody>
           </table>
 
-          
+          <!-- Authentic Testimonial Box -->
+          <div id="pdmTestimonialWrap" style="display:none;background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:12px 16px;margin:14px 0;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+              <span style="font-size:11.5px;font-weight:700;color:#166534;text-transform:uppercase;letter-spacing:0.04em;">⭐ Ulasan Pelanggan Proyek Ini</span>
+              <span id="pdmTestiRating" style="color:#eab308;font-size:14px;">★★★★★</span>
+            </div>
+            <p id="pdmTestiQuote" style="font-size:12.5px;color:#14532d;font-style:italic;margin:0 0 6px;line-height:1.5;"></p>
+            <div style="font-size:11.5px;color:#166534;font-weight:700;" id="pdmTestiAuthor"></div>
+          </div>
+
           <div id="pdmServiceLinkWrap" style="margin-bottom: 10px;">
             <a href="/layanan" id="pdmServiceLink" class="pdm-btn-secondary" style="display:inline-flex;align-items:center;gap:6px;width:100%;font-size:12.5px;color:#074758;border-color:#b7d6df;background:#f0f7f9;text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:700;">
               <span>🛠️</span>
@@ -1261,9 +1272,12 @@
             </a>
           </div>
 
-          <div class="pdm-actions">
-            <a href="https://wa.me/6289637371166" id="pdmWaLink" target="_blank" rel="noopener" class="pdm-btn-wa">
-              <span>💬 Konsultasi Biaya Proyek Ini</span>
+          <div class="pdm-actions" style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="/index.html#kalkulator-biaya" id="pdmRabCalcLink" class="pdm-btn-rab" style="flex:1;min-width:180px;background:#0d9488;color:#fff;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 14px;border-radius:8px;font-weight:700;text-decoration:none;font-size:13px;">
+              <span>🧮 Hitung Pekerjaan Serupa</span> <span>→</span>
+            </a>
+            <a href="https://wa.me/6289637371166" id="pdmWaLink" target="_blank" rel="noopener" class="pdm-btn-wa" style="flex:1;min-width:180px;">
+              <span>💬 Konsultasi Biaya</span>
             </a>
             <button type="button" class="pdm-btn-secondary" onclick="closeProjectDetailModal()">Tutup</button>
           </div>
@@ -1363,522 +1377,33 @@
   <div class="container copyright">© 2026 Sahabat Kaca Aluminium. All rights reserved.</div>
 </footer>
 
+<script src="projectCatalog.js"></script>
 <script>
-// Centralized Project Technical Details Dataset (26 Projects)
-const projectsData = {
-  'proj-01': {
-    title: 'Partisi Kaca Aluminium Ruang Rapat & Kantor Industri',
-    cat: 'Partisi Kantor',
-    loc: 'KIIC Karawang Barat',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/partisi-aluminium.jpg',
-    desc: 'Pemasangan partisi kaca modular ruang meeting eksekutif pada fasilitas manufaktur kawasan industri KIIC Karawang Barat. Memberikan kekedapan suara tinggi agar rapat internal tidak bocor ke area produksi.',
-    kusen: 'Alexindo 4 Inch Profil Tebal 1.35mm SNI',
-    finishing: 'Powder Coating Matte Black UV-Resistance',
-    kaca: 'Kaca Polos Clear 8mm Asahimas Polished Edge',
-    hardware: 'Dekson Patch Fitting & Engsel Heavy-Duty',
-    sealant: 'Dowsil Neutral Weatherseal Silicone + Karet EPDM Kedap Suara',
-    volume: 'Luas 32 m² (Tinggi 3.2m x Panjang 10m)',
-    solusi: 'Aplikasi double acoustic seal EPDM pada sambungan kusen dan dinding beton untuk meminimalisir kebisingan mesin pabrik masuk ke ruang rapat.',
-    durasi: '3 Hari Kerja On-Site',
-    garansi: '12 Bulan Garansi Kebocoran & Struktur',
-    articleUrl: 'artikel/partisi-kaca-kantor-cleanroom-pabrik-industri.html',
-    articleTitle: 'Panduan Partisi Kaca Kantor & Pabrik Industri'
-  },
-  'proj-02': {
-    title: 'Pintu Kaca Tempered Frameless Floor Hinge Toko & Showroom',
-    cat: 'Pintu Tempered',
-    loc: 'Ruko Galuh Mas Karawang',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/pintu-kaca.jpg',
-    desc: 'Pintu kaca tempered frameless untuk outlet komersial ruko Galuh Mas Karawang. Menghadirkan visibilitas display barang dagangan secara maksimal dari luar ruangan tanpa halangan bingkai.',
-    kusen: 'Frameless (Tanpa Kusen) dengan Lis U Stainless Bawah',
-    finishing: 'Stainless Steel SUS304 Hairline Mirror Polish',
-    kaca: 'Tempered Glass 12mm Asahimas SNI Kualitas Tinggi',
-    hardware: 'Floor Hinge Dekkson FH-84 Heavy-Duty 120kg, Patch Fitting PT-10/PT-20',
-    sealant: 'Silicone Clear Anti Jamur & Seal Karet Bawah Penahan Air',
-    volume: '2 Daun Kupu Tarung (L 1.8m x T 2.4m)',
-    solusi: 'Penanaman silinder floor hinge Dekkson FH-84 pada lantai granit dengan semen grouting anti susut agar stabil pada lalu lintas pengunjung tinggi.',
-    durasi: '2 Hari Kerja',
-    garansi: '24 Bulan Garansi Mesin Floor Hinge',
-    articleUrl: 'artikel/tips-memilih-kaca-tempered-dan-laminated-aman.html',
-    articleTitle: 'Tips Memilih Kaca Tempered & Safety Glass Toko'
-  },
-  'proj-03': {
-    title: 'Pintu Sliding Aluminium Kaca Akses Taman & Ruang Keluarga',
-    cat: 'Pintu Geser',
-    loc: 'Grand Taruma Karawang',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/pintu-sliding.jpg',
-    desc: 'Pintu sliding kaca connecting room taman belakang pada hunian 2 lantai Grand Taruma. Memungkinkan pencahayaan alami masuk leluasa dan sirkulasi angin segar mengalir ke seluruh lantai satu.',
-    kusen: 'Inkalum 3 Inch Profil Ramping Kokoh',
-    finishing: 'Anodized Dark Brown 18 Micron Tahan Gores',
-    kaca: 'Kaca Rayban Euro Grey 6mm Peredam Silau & Panas',
-    hardware: 'Roda Sliding Double Bearing Nylon & Flush Handle Lock Dekson',
-    sealant: 'Mohair Brush Seal (Bulu Peredam Debu) + Karet EPDM',
-    volume: '3 Daun Triple Track (L 2.7m x T 2.2m)',
-    solusi: 'Pemasangan rel triple track dengan lubang drainase air (weep holes) tersembunyi mencegah genangan air saat hujan lebat berangin kencang.',
-    durasi: '3 Hari Kerja',
-    garansi: '12 Bulan Resmi',
-    articleUrl: 'artikel/keunggulan-pintu-sliding-aluminium-rumah-minimalis.html',
-    articleTitle: 'Keunggulan Pintu Sliding Aluminium Rumah Minimalis'
-  },
-  'proj-04': {
-    title: 'Pintu Lipat (Bifold) Aluminium 4 Daun Teras Belakang',
-    cat: 'Desain Rumah',
-    loc: 'Summarecon Bekasi',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/pintu-sliding.jpg',
-    desc: 'Pemasangan folding door 4 daun pada area teras belakang hunian Summarecon Bekasi. Daun pintu dapat dilipat penuh ke sisi kiri dan kanan, menyatukan ruang makan dan area taman menjadi satu kesatuan megah.',
-    kusen: 'Dacon Heavy-Duty Folding Door Profile 4.5 Inch',
-    finishing: 'Powder Coating Sandblast Black Textur',
-    kaca: 'Tempered Glass 8mm SNI Safety Glass Kuat Benturan',
-    hardware: 'Rel Gantung Heavy-Duty + Rel Tanam Flush Threshold Stainless SUS304',
-    sealant: 'Double Weatherstrip Seal Anti Air Hujan & Tampias Badai',
-    volume: '4 Daun Lipat Bukaan Penuh (L 3.2m x T 2.4m)',
-    solusi: 'Sistem rel tanam flush-floor stainless SUS304 rata dengan lantai marmer teras sehingga aman bagi anak kecil dan lansia tanpa risiko tersandung.',
-    durasi: '4 Hari Kerja',
-    garansi: '18 Bulan Resmi Kelancaran Rel',
-    articleUrl: 'artikel/desain-pintu-lipat-bifold-aluminium-taman-belakang.html',
-    articleTitle: 'Desain & Panduan Pintu Lipat Bifold Teras Belakang'
-  },
-  'proj-05': {
-    title: 'Sekat Partisi Kaca Dapur Minimalis Fluted Moru Glass',
-    cat: 'Desain Rumah',
-    loc: 'Galuh Mas Karawang',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/partisi-aluminium.jpg',
-    desc: 'Penyekat kaca estetik antara dry kitchen dan wet kitchen. Menjaga aroma masakan tradisional dan uap minyak agar tidak menyebar ke ruang tamu keluarga, namun tetap mempertahankan kesan lapang.',
-    kusen: 'Slim-Frame Aluminium 1.5 Inch Estetik Minimalis',
-    finishing: 'Powder Coating Matte Black Anti Minyak',
-    kaca: 'Fluted / Ribbed Moru Glass 8mm (Kaca Bertekstur Garis Estetik)',
-    hardware: 'Pintu Geser Gantung Soft-Closing System (Tanpa Rel Lantai)',
-    sealant: 'Sealant Silikon Food-Grade Anti Jamur & Tahan Minyak',
-    volume: '2 Daun Geser Gantung + 2 Kaca Mati (L 2.4m x T 2.3m)',
-    solusi: 'Sistem rel atas gantung dengan peredam soft-closing hidraulik; lantai bebas rel bawah sehingga lantai dapur sangat mudah dipel dan higienis.',
-    durasi: '2 Hari Kerja',
-    garansi: '12 Bulan Resmi',
-    articleUrl: 'artikel/desain-sekat-partisi-kaca-dapur-minimalis.html',
-    articleTitle: 'Inspirasi Desain Partisi Kaca Dapur Minimalis Fluted Glass'
-  },
-  'proj-06': {
-    title: 'Fasad ACP Seven & Pintu Sensor Gerak Otomatis',
-    cat: 'Kanopi & Fasad',
-    loc: 'Jababeka Cikarang',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/jendela-kaca.jpg',
-    desc: 'Renovasi total tampak depan gedung klinik di Cikarang. Panel ACP memberikan tampilan modern, futuristik, dan mudah dibersihkan, sementara pintu otomatis memudahkan akses pasien darurat.',
-    kusen: 'Rangka Hollow Galvanis 40x40mm Anti Karat + Braket Besi Siku',
-    finishing: 'ACP Seven PVDF Exterior Grade Green & Signal White',
-    kaca: 'Kaca Tempered 12mm Asahimas SNI',
-    hardware: 'Mesin Otomatis Automatic Sliding Door Radar Sensor Dorma',
-    sealant: 'Silicone Sealant Neutral Weatherseal Warna Match Panel',
-    volume: 'Luas Fasad 65 m² + 1 Unit Pintu Otomatis 2 Daun',
-    solusi: 'Rangka hollow galvanis diproteksi ganda cat zinchromate anti korosi lingkungan industri Cikarang serta penyambungan nat ACP 8mm presisi.',
-    durasi: '7 Hari Kerja',
-    garansi: 'Garansi Panel 10 Tahun, Aksesoris 24 Bulan',
-    articleUrl: 'artikel/biaya-pasang-acp-seven-marks-fasad-karawang.html',
-    articleTitle: 'Biaya & Estimasi Pasang ACP Seven Fasad'
-  },
-  'proj-07': {
-    title: 'Kanopi Kaca Tempered Laminated Carport Modern',
-    cat: 'Kanopi Kaca',
-    loc: 'Summarecon Bekasi',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/shower-kaca.jpg',
-    desc: 'Pemasangan kanopi carport kaca pelindung mobil mewah dari panas terik dan hujan. Kaca laminated menjamin keamanan mutlak: jika terjadi benturan benda keras, kaca tidak akan rontok ke bawah.',
-    kusen: 'Rangka Hollow Besi Galvanis 50x100mm Tebal 2.3mm',
-    finishing: 'Epoxy Zinchromate Anti Karat + Polyurethane Matte Black',
-    kaca: 'Tempered Laminated Glass 5mm + 5mm PVB Clear 0.76mm',
-    hardware: 'Spider Fitting Stainless Steel SUS304 + Chemical Anchor Fischer',
-    sealant: 'Structural Glazing Sealant Dow Corning 795 UV-Proof',
-    volume: 'Bentangan Carport 4.5m x 5.0m (22.5 m²)',
-    solusi: 'Sistem kemiringan atap 8 derajat dengan talang air tersembunyi (concealed gutter) di dalam hollow rangka, bebas rembesan dan air mengalir deras.',
-    durasi: '5 Hari Kerja',
-    garansi: '24 Bulan Bebas Bocor & Pecah',
-    articleUrl: 'artikel/kanopi-kaca-aluminium.html',
-    articleTitle: 'Panduan Pemasangan Kanopi Kaca Tempered Carport'
-  },
-  'proj-08': {
-    title: 'Jendela Aluminium Jungkit (Casement) Akustik',
-    cat: 'Jendela Aluminium',
-    loc: 'Telukjambe Timur Karawang',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/jendela-aluminium.jpg',
-    desc: 'Pemasangan jendela kamar tidur lantai 2 yang menghadap jalan raya utama Telukjambe Karawang. Meredam deru kendaraan berat dan klakson secara signifikan sehingga tidur malam tenang dan nyaman.',
-    kusen: 'Inkalum 3 Inch Profil Khusus Casement dengan Sayap Kedap Air',
-    finishing: 'Powder Coating Dark Grey Metallic',
-    kaca: 'Double Laminated Glass 5mm+5mm Acoustic Interlayer',
-    hardware: 'Friction Stay Dekkson Heavy-Duty 16" Stainless 304 & Rambuncis Lock',
-    sealant: 'Expanding Polyurethane Foam Insulator + Silikon Netral UV',
-    volume: '4 Set Jendela Casement Ganda (L 1.2m x T 1.5m)',
-    solusi: 'Pemasangan expanding foam polyurethane di antara celah kusen dan dinding bata untuk memutus jembatan suara (sound bridging) dari jalan raya.',
-    durasi: '3 Hari Kerja',
-    garansi: '12 Bulan Resmi',
-    articleUrl: 'artikel/jendela-aluminium.html',
-    articleTitle: 'Panduan Memilih Jendela Aluminium Kedap Suara'
-  },
-  'proj-09': {
-    title: 'Shower Screen Kaca Frameless Kamar Mandi',
-    cat: 'Kamar Mandi',
-    loc: 'Grand Wisata Bekasi',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/shower-kaca.jpg',
-    desc: 'Penyekat walk-in shower minimalis ala hotel bintang 5. Membatasi cipratan air shower hanya di area basah, menjadikan kamar mandi lebih aman dari risiko terpeleset dan bebas lumut.',
-    kusen: 'Frameless Glass dengan Header Bracing Bar Penguat Atas',
-    finishing: 'Stainless Steel SUS304 Mirror Polish',
-    kaca: 'Kaca Tempered Clear 10mm SNI dengan Bevel Tepian Halus',
-    hardware: 'Glass Clip SUS304, Handle Towel Bar 2-in-1, PVC Water Retainer Strip',
-    sealant: 'Silicone Transparan Anti-Fungal (Anti Jamur Hitam)',
-    volume: 'Kaca Fixed 90cm + Pintu Swing 65cm (Tinggi 200cm)',
-    solusi: 'Pemberian seal magnetik pada pintu kaca dan magnetic sweep strip penahan air bawah, menjaga lantai kloset kering 100% bebas cipratan shower.',
-    durasi: '1 Hari Kerja',
-    garansi: '12 Bulan Resmi',
-    articleUrl: 'artikel/desain-kamar-mandi-partisi-kaca-walk-in-shower.html',
-    articleTitle: 'Desain Kamar Mandi Walk-In Shower & Pintu Frameless'
-  },
-  'proj-10': {
-    title: 'Pintu Kaca Kamar Mandi Motif Sandblast Buram',
-    cat: 'Kamar Mandi',
-    loc: 'Klari Karawang Timur',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/pintu-kamar-mandi.jpg',
-    desc: 'Solusi menggantikan pintu kayu lapuk akibat cipratan air harian di kamar mandi. Profil aluminium dan kaca tempered menjamin pintu tidak akan pernah memuai, melengkung, atau dimakan rayap.',
-    kusen: 'Aluminium Dacon 3 Inch Profil Pintu Khusus Kamar Mandi',
-    finishing: 'Powder Coating White Glossy Tahan Karat',
-    kaca: 'Tempered Glass 8mm Aksen Sandblast Acid-Etched Buram',
-    hardware: 'Engsel Stainless Steel SUS304 & Kunci Knob Silinder Khusus Toilet',
-    sealant: 'Sealant Silikon Sanitari Khusus Area Lembap',
-    volume: '1 Daun Pintu Kamar Mandi (L 70cm x T 200cm)',
-    solusi: 'Aplikasi sandblast teknik acid-etched langsung pada kaca tempered sehingga motif buram permanen, tidak mengelupas saat disiram air panas bersabun.',
-    durasi: '1 Hari Kerja',
-    garansi: '12 Bulan Resmi',
-    articleUrl: 'artikel/kaca-kamar-mandi.html',
-    articleTitle: 'Tips Memilih Kaca Kamar Mandi Awet & Anti Keropos'
-  },
-  'proj-11': {
-    title: 'Railing Tangga & Balkon Kaca Tempered Frameless',
-    cat: 'Railing Kaca',
-    loc: 'Grand Taruma Karawang',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/partisi-aluminium.jpg',
-    desc: 'Instalasi railing tangga kaca pada rumah hunian 2 lantai. Memberikan efek melayang yang memukau tanpa kisi-kisi besi penghalang pandangan, sekaligus aman bagi anak kecil.',
-    kusen: 'Frameless Spigot System (Penjepit Kaki Lantai Bebas Tiang)',
-    finishing: 'Stainless Steel SUS304 Solid Cast Satin Finish',
-    kaca: 'Tempered Glass 12mm SNI Flat Polished Rounded Edges',
-    hardware: 'Spigot Clamp Kotak Heavy-Duty 20cm dengan Dynabolt M12 Cor Beton',
-    sealant: 'Epoxy Anchor Grout + Rubber Gasket Pad',
-    volume: 'Panjang 11 Meter Lari (Balkon Lantai 2 & Void Tangga)',
-    solusi: 'Pemasangan klem spigot solid SUS304 dengan bor inti (core drill) ke dalam balok struktur beton lantai, kokoh menahan beban benturan samping hingga 150 kg.',
-    durasi: '3 Hari Kerja',
-    garansi: '24 Bulan Kekuatan Struktur',
-    articleUrl: 'artikel/desain-railing-balkon-tangga-kaca-frameless.html',
-    articleTitle: 'Desain Railing Tangga & Balkon Kaca Frameless'
-  },
-  'proj-12': {
-    title: 'Partisi Kaca Cleanroom Higienis & Pintu Airtight Pabrik',
-    cat: 'Partisi Pabrik',
-    loc: 'Suryacipta Ciampel',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/partisi-aluminium.jpg',
-    desc: 'Proyek fabrikasi dan perakitan partisi kaca ruangan steril di kawasan industri Suryacipta Karawang. Dilengkapi seal karet perapat khusus untuk menjaga perbedaan tekanan udara steril.',
-    kusen: 'Inkalum 4 Inch White Anodize Cleanroom Grade',
-    finishing: 'Powder Coating White Anti Bakteri & Debu',
-    kaca: 'Kaca Polos 8mm Clear Asahimas Modul Presisi',
-    hardware: 'Drop Seal Bawah Otomatis (Airtight Door Bottom) & Kunci Panic Exit',
-    sealant: 'Silicone Non-Outgassing Cleanroom Certified',
-    volume: 'Luas Partisi 85 m² (Tinggi 3.5 meter)',
-    solusi: 'Menggunakan sambungan profil lengkung coving aluminium pada sudut lantai dan dinding agar debu tidak mengendap dan mudah disanitasi standar ISO 14644.',
-    durasi: '6 Hari Kerja',
-    garansi: '12 Bulan Resmi',
-    articleUrl: 'artikel/partisi-kaca-kantor-cleanroom-pabrik-industri.html',
-    articleTitle: 'Standar Partisi Kaca Cleanroom & Pabrik Industri'
-  },
-  'proj-13': {
-    title: 'Jendela Sliding (Geser) Aluminium 4 Daun Ruang Tamu',
-    cat: 'Jendela Aluminium',
-    loc: 'Cikarang Baru Jababeka',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/jendela-aluminium.jpg',
-    desc: 'Pemasangan jendela sliding 4 daun pada fasad lantai 1 rumah tinggal di Cikarang. Dua daun tengah dapat dibuka ke samping kiri dan kanan untuk memaksimalkan aliran udara segar.',
-    kusen: 'Alexindo 3 Inch Double Track Sliding Window',
-    finishing: 'Powder Coating Matte Black',
-    kaca: 'Kaca Stopsol Euro Grey 6mm (Reflektif Panas Matahari)',
-    hardware: 'Roda Sliding Stainless Bearing & Crescent Lock Kunci Sabit Kencang',
-    sealant: 'Karet Gasket EPDM + Sealant Silikon Tahan UV Luar Ruang',
-    volume: 'Ukuran Lebar 3.0m x Tinggi 1.8m',
-    solusi: 'Kaca stopsol reflektif memantulkan panas inframerah hingga 55%, menjaga ruangan tetap sejuk tanpa membuat interior tampak gelap dari dalam.',
-    durasi: '2 Hari Kerja',
-    garansi: '12 Bulan Resmi',
-    articleUrl: 'artikel/jendela-aluminium.html',
-    articleTitle: 'Kelebihan Jendela Sliding 4 Daun Aluminium'
-  },
-  'proj-14': {
-    title: 'Pintu Aluminium Swing Modern Daun Panel Spandrel Full',
-    cat: 'Pintu Aluminium',
-    loc: 'Kota Baru Cikampek',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/pintu-aluminium.jpg',
-    desc: 'Pintu aluminium panel solid untuk akses belakang dan samping rumah di Cikampek. Bebas dari risiko pelapukan air hujan atau serangan rayap yang kerap merusak pintu kayu konvensional.',
-    kusen: 'Dacon 3 Inch Profil Tebal 1.2mm SNI',
-    finishing: 'Anodized Silver Natural CA (Clear Anodized)',
-    kaca: 'Kombinasi Panel Spandrel Aluminium Tebal 1.1mm Double Layer',
-    hardware: 'Lever Handle Dekson Silinder Komputer + 3 Pasang Engsel Stainless',
-    sealant: 'Karet Kusen Keliling Peredam Suara Tutup Pintu',
-    volume: '2 Unit Pintu Service (L 85cm x T 210cm)',
-    solusi: 'Konstruksi panel spandrel interlocking ganda yang kokoh, dilengkapi silinder kunci komputer kuningan tahan pembongkaran paksa.',
-    durasi: '2 Hari Kerja',
-    garansi: '12 Bulan Resmi',
-    articleUrl: 'artikel/pintu-aluminium.html',
-    articleTitle: 'Pintu Aluminium Spandrel: Solusi Pintu Bebas Lapuk'
-  },
-  'proj-15': {
-    title: 'Skylight Atap Kaca Tempered Void Tangga Rumah Tingkat',
-    cat: 'Kanopi & Fasad',
-    loc: 'Purwakarta Kota',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/jendela-kaca.jpg',
-    desc: 'Solusi penerangan alami untuk rumah bertingkat di Purwakarta yang tidak memiliki jendela samping. Atap skylight menghadirkan suasana interior yang hidup, cerah, dan bebas lembap.',
-    kusen: 'Profil Hollow Besi Galvanis 40x80mm + Jepitan Aluminium Eksterior',
-    finishing: 'Cat Duco Polyurethane Black Semigloss Anti Karat',
-    kaca: 'Tempered Laminated 6mm + 6mm PVB Solar Control',
-    hardware: 'Baut Stainless Steel SUS304 & Karet Bantalan Neoprene',
-    sealant: 'Structural Silicone Dow Corning 791 Weatherproofing',
-    volume: 'Dimensi Void 2.0m x 3.5m (7 m²)',
-    solusi: 'Kombinasi kaca laminated 6+6mm dengan seal ganda tahan tampias angin badai dan lapisan PVB penahan radiasi UV matahari 99%.',
-    durasi: '3 Hari Kerja',
-    garansi: '24 Bulan Garansi Bebas Bocor',
-    articleUrl: 'artikel/desain-skylight-kaca-tempered-atap-rumah.html',
-    articleTitle: 'Inspirasi Desain Skylight Kaca Void Tangga Rumah'
-  },
-  'proj-16': {
-    title: 'Pintu Kaca Aluminium Frame Putih Gaya Scandinavian',
-    cat: 'Desain Rumah',
-    loc: 'Harapan Indah Bekasi',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/pintu-kaca-putih.jpg',
-    desc: 'Pintu akses kamar tidur menuju balkon lantai 2 bernuansa Scandinavian di Harapan Indah Bekasi. Rangka putih bersih berpadu serasi dengan lantai vinyl motif kayu hangat.',
-    kusen: 'Alexindo 3 Inch Powder Coating White Glossy Oven',
-    finishing: 'Cat Oven Powder Coating Putih Bersih Anti Pudar',
-    kaca: 'Tempered Glass 8mm Asahimas Super Clear',
-    hardware: 'Engsel Casement Pivot Stainless & Handle Minimalis Slim',
-    sealant: 'Silicone Putih Bersih Tahan Jamur',
-    volume: '2 Daun Kupu Tarung (L 1.6m x T 2.3m)',
-    solusi: 'Finishing cat oven powder coating 80 mikron tahan gores dan tidak menguning di bawah paparan sinar matahari langsung.',
-    durasi: '2 Hari Kerja',
-    garansi: '12 Bulan Resmi',
-    articleUrl: 'artikel/tren-desain-interior-rumah-minimalis.html',
-    articleTitle: 'Tren Interior Scandinavian dengan Kusen Aluminium Putih'
-  },
-  'proj-17': {
-    title: 'Curtain Wall Kaca Fasad Gedung Ruko & Perkantoran 3 Lantai',
-    cat: 'Fasad Gedung',
-    loc: 'Subang Smartpolitan',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/jendela-kaca.jpg',
-    desc: 'Pengerjaan tampak luar gedung perkantoran 3 lantai di koridor industri Subang. Memadukan estetika modern megah sekaligus efisiensi energi dengan menolak hingga 65% panas matahari masuk.',
-    kusen: 'Mullion & Transom Aluminium 50x100mm Heavy-Gauge 2.0mm',
-    finishing: 'Anodized Dark Grey 20 Micron Tahan Polusi Ekstrem',
-    kaca: 'Kaca Reflective One-Way Stopsol Blue Green 8mm',
-    hardware: 'Anchor Bracket Baja Hot-Dip Galvanis ke Balok Beton Struktur',
-    sealant: 'Dow Corning 983 Two-Part Structural Glazing Sealant',
-    volume: 'Luas Fasad Gedung 140 m² (3 Lantai)',
-    solusi: 'Sistem structural glazing silicone 2 komponen yang teruji tahan gempa dan defleksi angin kencang bentang tinggi.',
-    durasi: '12 Hari Kerja',
-    garansi: '36 Bulan Garansi Resmi Struktur',
-    articleUrl: 'artikel/curtain-wall-aluminium-bangunan-komersial.html',
-    articleTitle: 'Spesifikasi & Pemasangan Curtain Wall Gedung'
-  },
-  'proj-18': {
-    title: 'Pintu Kaca Sliding Otomatis Sensor Gerak Minimarket & Apotek',
-    cat: 'Kaca Tempered',
-    loc: 'Kosambi Klari Karawang',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/pintu-kaca.jpg',
-    desc: 'Pemasangan pintu sliding otomatis untuk outlet apotek dan retail modern di Kosambi Karawang. Pintu terbuka mulus saat mendeteksi langkah kaki pelanggan, memberikan kenyamanan berbelanja berstandar modern.',
-    kusen: 'Header Track Aluminium Khusus Mesin Otomatis',
-    finishing: 'Anodized Silver Natural CA',
-    kaca: 'Tempered Glass 10mm SNI Edge Polished',
-    hardware: 'Mesin Otomatis DC Brushless Motor 24V + Microwave Radar Sensor',
-    sealant: 'Bulu Peredam Debu & Karet Seal Akustik',
-    volume: '1 Set Mesin Otomatis + 2 Daun Kaca (L 1.8m x T 2.2m)',
-    solusi: 'Dilengkapi safety photo-beam sensor di kedua sisi pintu untuk mencegah daun pintu menjepit anak kecil atau lansia saat melintas perlahan.',
-    durasi: '2 Hari Kerja',
-    garansi: '24 Bulan Mesin & Sensor Resmi',
-    articleUrl: 'artikel/pintu-kaca.html',
-    articleTitle: 'Aplikasi Pintu Kaca Sensor Otomatis Retail & Toko'
-  },
-  'proj-19': {
-    title: 'Pintu Lipat (Bifold) Aluminium 6 Daun Ruang Serbaguna & Garasi',
-    cat: 'Desain Rumah',
-    loc: 'Kota Bukit Indah Purwakarta',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/pintu-sliding.jpg',
-    desc: 'Sistem folding door 6 daun bukaan dua arah (3 lipat kiri, 3 lipat kanan) menggunakan profil Inkalum heavy-duty. Sangat fleksibel untuk menyatukan ruang serbaguna dengan garasi mobil saat acara keluarga besar.',
-    kusen: 'Inkalum Heavy-Duty Folding Profile 4.5 Inch',
-    finishing: 'Powder Coating Sandblast Grey Textur',
-    kaca: 'Kaca Tempered 8mm Asahimas SNI Kualitas Ekspor',
-    hardware: 'Rel Gantung Kapasitas 250kg + Engsel Stainless SUS304 Dekson',
-    sealant: 'Double Weatherstrip Mohair & EPDM Gasket',
-    volume: '6 Daun Lipat Bentangan 4.8m x Tinggi 2.5m',
-    solusi: 'Distribusi beban daun pintu bertumpu pada rel atas gantung struktural dengan bracket besi siku cor, memastikan daun pintu tetap ringan digeser tanpa turun.',
-    durasi: '5 Hari Kerja',
-    garansi: '24 Bulan Garansi Kelancaran Rel',
-    articleUrl: 'artikel/desain-pintu-lipat-bifold-aluminium-taman-belakang.html',
-    articleTitle: 'Panduan Desain Pintu Lipat Bifold Aluminium'
-  },
-  'proj-20': {
-    title: 'Partisi Kaca Akustik Double Glass & Louver Blinds Ruang Direksi',
-    cat: 'Partisi Kantor',
-    loc: 'GIIC Cikarang Pusat',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/partisi-aluminium.jpg',
-    desc: 'Partisi kedap suara berstandar internasional STC 42 dB dengan kaca ganda 6mm+6mm berongga udara 50mm, dilengkapi tirai venetian blinds horizontal terintegrasi di antara dua kaca yang diatur dengan magnet eksternal.',
-    kusen: 'Alexindo 4.5 Inch Custom Double Glass System',
-    finishing: 'Anodized Dark Brown 18 Mikron',
-    kaca: 'Double Glass 6mm Float Clear + 6mm Clear (Rongga 50mm)',
-    hardware: 'Magnetic Integrated Venetian Blinds + Lockset Mortise Dekson',
-    sealant: 'Double Acoustic Gasket EPDM + Dowsil Neutral Silicone',
-    volume: 'Luas Partisi 28 m² (Tinggi 3.0m x Panjang 9.3m)',
-    solusi: 'Tirai blinds berada di dalam rongga kedap udara sehingga 100% bebas dari debu selamanya tanpa perlu dibersihkan, menjamin privasi visual dan akustik dewan direksi.',
-    durasi: '4 Hari Kerja',
-    garansi: '18 Bulan Resmi',
-    articleUrl: 'artikel/partisi-kaca-kantor-cleanroom-pabrik-industri.html',
-    articleTitle: 'Solusi Akustik & Privasi Partisi Kaca Kantor Modern'
-  },
-  'proj-21': {
-    title: 'Pintu Utama Pivot Oversized Jumbo Rangka Aluminium Minimalis',
-    cat: 'Pintu Tempered',
-    loc: 'Resinda Karawang Barat',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/pintu-kaca.jpg',
-    desc: 'Pintu entrance utama bergaya megah kontemporer ukuran 1.4m x 2.8m berporos engsel pivot lantai Dekkson 200kg. Menghadirkan kesan pertama yang mewah bagi hunian kelas atas di kawasan Resinda Karawang.',
-    kusen: 'Dacon Heavy Duty Pivot Frame 4 Inch',
-    finishing: 'Powder Coating Jet Black Matte',
-    kaca: 'Tempered Glass 10mm Tinted Rayban Grey',
-    hardware: 'Engsel Pivot Lantai Dekkson 200kg + Pull Handle SUS304 1.8m + Smart Digital Lock',
-    sealant: 'Silicone Structural Glazing + Perimeter Gasket Tahan Air',
-    volume: '1 Unit Pintu Jumbo (Lebar 1.4m x Tinggi 2.8m)',
-    solusi: 'Engsel pivot diletakkan 25 cm dari tepi kusen untuk menghasilkan ayunan putar ergonomis yang seimbang dan ringan didorong meski bobot kaca mencapai 95 kg.',
-    durasi: '3 Hari Kerja',
-    garansi: '24 Bulan Resmi',
-    articleUrl: 'artikel/desain-fasad-rumah-minimalis-kusen-aluminium.html',
-    articleTitle: 'Desain Fasad Rumah & Pintu Utama Aluminium Modern'
-  },
-  'proj-22': {
-    title: 'Kanopi Kaca Tempered Laminated Teras Kolam Renang Cantilever',
-    cat: 'Kanopi Kaca',
-    loc: 'Galuh Mas Karawang',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/shower-kaca.jpg',
-    desc: 'Atap kanopi santai poolside semi-terbuka dengan kaca tempered laminated 5+5mm PVB grey peredam panas matahari. Menghadirkan area bersantai sejuk di tepi kolam renang tanpa takut sengatan terik siang.',
-    kusen: 'Kombinasi Balok Baja WF 150 & Hollow Galvanis 50x100mm',
-    finishing: 'Cat Duco Polyurethane Black Semigloss Anti Cuaca',
-    kaca: 'Tempered Laminated 5mm+5mm PVB Euro Grey 0.76mm',
-    hardware: 'Spider Fitting Stainless Steel SUS304 + Chemical Anchor M16',
-    sealant: 'Structural Silicone Dow Corning 795 UV Resistant',
-    volume: 'Luas Kanopi 18 m² (Panjang 6m x Lebar 3m Cantilever)',
-    solusi: 'Struktur kantilever tanpa tiang depan di tepi kolam renang sehingga akses berenang bebas hambatan dan estetika arsitektur tampak melayang elegan.',
-    durasi: '6 Hari Kerja',
-    garansi: '36 Bulan Bebas Bocor & Karat',
-    articleUrl: 'artikel/kanopi-kaca-aluminium.html',
-    articleTitle: 'Desain Kanopi Kaca Teras & Kolam Renang'
-  },
-  'proj-23': {
-    title: 'Etalase Kaca Aluminium & Rak Display Toko Perhiasan Emas',
-    cat: 'Komersial',
-    loc: 'Pasar Johar Karawang',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/pintu-kaca-putih.jpg',
-    desc: 'Pembuatan etalase display perhiasan emas dan batu mulia menggunakan kaca ultra-clear low-iron 8mm yang sangat jernih tanpa semburat kehijauan, memancarkan kilau emas asli secara maksimal.',
-    kusen: 'Profil Aluminium Khusus Etalase Round Corner Champagne Silver',
-    finishing: 'Anodized Satin Champagne Silver',
-    kaca: 'Ultra-Clear Low-Iron Glass 8mm Bevel Halus Tepi Kaca',
-    hardware: 'Kunci Camlock Push-to-Lock Keamanan Ganda + Rel Geser Kaca Roda Kuningan',
-    sealant: 'Clear UV Adhesive Bonding Lem Kaca Tanpa Sambungan Baut',
-    volume: 'Panjang Total 8 Meter Lari (Bentuk L Modul Modular)',
-    solusi: 'Dilengkapi kompartemen lampu LED strip 4000K daylight CRI>92 tersembunyi dengan diffuser aluminium, menciptakan pencahayaan merata tanpa pantulan silau mengganggu mata pembeli.',
-    durasi: '4 Hari Kerja',
-    garansi: '12 Bulan Resmi',
-    articleUrl: 'artikel/etalase-kaca.html',
-    articleTitle: 'Panduan Pembuatan Etalase Kaca Aluminium Komersial'
-  },
-  'proj-24': {
-    title: 'Jendela Pivot Aluminium Vertikal Putar 180° Ruang Tangga',
-    cat: 'Jendela Aluminium',
-    loc: 'Grand Wisata Bekasi',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/jendela-aluminium.jpg',
-    desc: 'Jendela vertikal dengan poros engsel tengah (center pivot) yang dapat berputar penuh 180 derajat. Memudahkan pembersihan sisi luar kaca dari dalam rumah lantai dua dan mengalirkan hembusan angin sejuk secara maksimal.',
-    kusen: 'Inkalum 3.5 Inch Custom Pivot Profile',
-    finishing: 'Powder Coating Anodic Bronze Tahan Cuaca',
-    kaca: 'Tempered Glass 8mm Stopsol One-Way Reflective',
-    hardware: 'Pivot Hinge Heavy-Duty Stainless 304 + Multi-point Lock Dekkson',
-    sealant: 'Perimeter Weatherstrip Karet EPDM Ganda Tahan Hujan Badai',
-    volume: '2 Unit Jendela Pivot Tinggi (Lebar 90cm x Tinggi 220cm)',
-    solusi: 'Sistem pengunci multi-point lock menekan daun jendela ke karet seal di 4 titik sekaligus, menghasilkan kekedapan air hujan ekstrem bahkan saat badai.',
-    durasi: '2 Hari Kerja',
-    garansi: '12 Bulan Resmi',
-    articleUrl: 'artikel/jendela-aluminium.html',
-    articleTitle: 'Keunggulan Jendela Pivot Aluminium untuk Rumah Tingkat'
-  },
-  'proj-25': {
-    title: 'Pintu Sliding Model Barn Door Industrial Kisi Kotak Hitam',
-    cat: 'Desain Rumah',
-    loc: 'Villa Permata Cikampek',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/pintu-sliding.jpg',
-    desc: 'Pintu geser gantung motif industrial barn door dengan kisi-kisi kotak grid aluminium matte black dan kaca es buram 6mm. Berfungsi sebagai pemisah elegan antara ruang makan dan area dapur bersih.',
-    kusen: 'Slim Aluminium Frame Black Doff dengan Lis Ornamen Grid Kotak',
-    finishing: 'Powder Coating Matte Black Tahan Minyak',
-    kaca: 'Kaca Es Frosted Tempered 6mm (Buram Penjaga Privasi)',
-    hardware: 'Rel Gantung Exposed Roller Stainless Black + Flush Handle + Soft Damper',
-    sealant: 'Silicone Transparan Sanitari Anti Jamur',
-    volume: '1 Daun Pintu Barn Door (Lebar 1.0m x Tinggi 2.2m)',
-    solusi: 'Sistem exposed roller gantung baja hitam dengan mekanisme soft-damper otomatis menutup pelan tanpa suara benturan keras, lantai bawah 100% bebas rel.',
-    durasi: '2 Hari Kerja',
-    garansi: '18 Bulan Resmi',
-    articleUrl: 'artikel/keunggulan-pintu-sliding-aluminium-rumah-minimalis.html',
-    articleTitle: 'Inspirasi Pintu Sliding Barn Door Industrial Rumah Modern'
-  },
-  'proj-26': {
-    title: 'Railing Balkon Kaca Tempered U-Channel Aluminium Tanam (Base Shoe)',
-    cat: 'Railing Kaca',
-    loc: 'Subang Smart City',
-    status: '✓ Selesai & Bergaransi',
-    image: 'assets/gallery/partisi-aluminium.jpg',
-    desc: 'Pagar pengaman balkon lantai 2 tanpa tiang sama sekali (totally frameless) dengan sistem base shoe profil aluminium U-channel struktural yang ditanam rata dengan lantai keramik, memberikan panorama pemandangan lepas 100%.',
-    kusen: 'Heavy Extruded Aluminium Base Shoe 100x120mm Tanam Angkur Baja',
-    finishing: 'Anodized Silver Natural + Tutup Lis Stainless SUS304 Rata Lantai',
-    kaca: 'Tempered Laminated 6mm+6mm SentryGlas Interlayer Ekstra Kaku',
-    hardware: 'Adjustable Glass Leveling Wedges + Slim Top Handrail SUS304 U-Channel',
-    sealant: 'Structural Silicone Dow Corning 795 + EPDM Edge Sealant',
-    volume: 'Panjang 14 Meter Lari Balkon Lantai 2',
-    solusi: 'Profil base shoe aluminium ditanam langsung ke balok dak cor beton sebelum finishing keramik, menghasilkan tampilan kaca keluar murni dari lantai tanpa baut terlihat.',
-    durasi: '4 Hari Kerja',
-    garansi: '36 Bulan Kekuatan Struktur',
-    articleUrl: 'artikel/desain-railing-balkon-tangga-kaca-frameless.html',
-    articleTitle: 'Pemasangan Railing Balkon Kaca Base Shoe Tanam Rata Lantai'
-  }
-};
-
-// Filter & Live Search Integration for Gallery
+// Gallery Controller & Project Detail Modal
 (function() {
+  const catalog = window.PROJECT_CATALOG || {};
+  const projects = catalog.projects || [{"id":"proj-01","slug":"partisi-kaca-aluminium-ruang-rapat-kiic-karawang","title":"Partisi Kaca Aluminium Ruang Rapat & Kantor Industri","serviceId":"aluminium-partition","rabConfigId":"rab-partition","calcServiceKey":"partisi","loc":"KIIC Karawang Barat","status":"✓ Selesai & Bergaransi","image":"assets/gallery/partisi-aluminium.jpg","imageIds":["img-proj-01-cover"],"desc":"Pemasangan partisi kaca modular ruang meeting eksekutif pada fasilitas manufaktur kawasan industri KIIC Karawang Barat. Memberikan kekedapan suara tinggi agar rapat internal tidak bocor ke area produksi.","specs":{"kusen":"Alexindo 4 Inch Profil Tebal 1.35mm SNI","finishing":"Powder Coating Matte Black UV-Resistance","kaca":"Kaca Polos Clear 8mm Asahimas Polished Edge","hardware":"Dekkson Patch Fitting & Engsel Heavy-Duty","sealant":"Dowsil Neutral Weatherseal Silicone + Karet EPDM Kedap Suara","volume":"Luas 32 m² (Tinggi 3.2m × Panjang 10m)","solusi":"Aplikasi double acoustic seal EPDM pada sambungan kusen dan dinding beton untuk meminimalisir kebisingan mesin pabrik masuk ke ruang rapat.","durasi":"3 Hari Kerja On-Site","garansi":"12 Bulan Garansi Kebocoran & Struktur"},"testimonialId":"testi-03","articleUrl":"artikel/partisi-kaca-kantor-cleanroom-pabrik-industri.html","articleTitle":"Panduan Partisi Kaca Kantor & Pabrik Industri"},{"id":"proj-02","slug":"pintu-kaca-tempered-frameless-ruko-galuh-mas","title":"Pintu Kaca Tempered Frameless Floor Hinge Toko & Showroom","serviceId":"tempered-door","rabConfigId":"rab-tempered-door","calcServiceKey":"pintu_tempered","loc":"Ruko Galuh Mas Karawang","status":"✓ Selesai & Bergaransi","image":"assets/gallery/pintu-kaca.jpg","imageIds":["img-proj-02-cover"],"desc":"Pintu kaca tempered frameless untuk outlet komersial ruko Galuh Mas Karawang. Menghadirkan visibilitas display barang dagangan secara maksimal dari luar ruangan tanpa halangan bingkai.","specs":{"kusen":"Frameless (Tanpa Kusen) dengan Lis U Stainless Bawah","finishing":"Stainless Steel SUS304 Hairline Mirror Polish","kaca":"Tempered Glass 12mm Asahimas SNI Kualitas Tinggi","hardware":"Floor Hinge Dekkson FH-84 Heavy-Duty 120kg, Patch Fitting PT-10/PT-20","sealant":"Silicone Clear Anti Jamur & Seal Karet Bawah Penahan Air","volume":"2 Daun Kupu Tarung (L 1.8m × T 2.4m)","solusi":"Penanaman silinder floor hinge Dekkson FH-84 pada lantai granit dengan semen grouting anti susut agar stabil pada lalu lintas pengunjung tinggi.","durasi":"2 Hari Kerja","garansi":"24 Bulan Garansi Mesin Floor Hinge"},"testimonialId":"testi-01","articleUrl":"artikel/tips-memilih-kaca-tempered-dan-laminated-aman.html","articleTitle":"Tips Memilih Kaca Tempered & Safety Glass Toko"},{"id":"proj-03","slug":"pintu-sliding-aluminium-grand-taruma","title":"Pintu Sliding Aluminium Kaca Akses Taman & Ruang Keluarga","serviceId":"aluminium-door","rabConfigId":"rab-door","calcServiceKey":"pintu","loc":"Grand Taruma Karawang","status":"✓ Selesai & Bergaransi","image":"assets/gallery/pintu-sliding.jpg","imageIds":["img-proj-03-cover"],"desc":"Pintu sliding kaca connecting room taman belakang pada hunian 2 lantai Grand Taruma. Memungkinkan pencahayaan alami masuk leluasa dan sirkulasi angin segar mengalir ke seluruh lantai satu.","specs":{"kusen":"Inkalum 3 Inch Profil Ramping Kokoh","finishing":"Anodized Dark Brown 18 Micron Tahan Gores","kaca":"Kaca Rayban Euro Grey 6mm Peredam Silau & Panas","hardware":"Roda Sliding Double Bearing Nylon & Flush Handle Lock Dekson","sealant":"Mohair Brush Seal (Bulu Peredam Debu) + Karet EPDM","volume":"3 Daun Triple Track (L 2.7m × T 2.2m)","solusi":"Pemasangan rel triple track dengan lubang drainase air (weep holes) tersembunyi mencegah genangan air saat hujan lebat berangin kencang.","durasi":"2 Hari Kerja","garansi":"12 Bulan Resmi Garansi Roda & Kusen"},"testimonialId":"testi-02","articleUrl":"artikel/rekomendasi-pintu-sliding-geser-minimalis.html","articleTitle":"Inspirasi Pintu Sliding Geser Hemat Ruang"},{"id":"proj-04","slug":"pintu-lipat-bifold-summarecon-bekasi","title":"Pintu Lipat (Bifold) Aluminium 4 Daun Teras Belakang","serviceId":"aluminium-bifold","rabConfigId":"rab-bifold","calcServiceKey":"bifold","loc":"Summarecon Bekasi","status":"✓ Selesai & Bergaransi","image":"assets/gallery/pintu-sliding.jpg","imageIds":["img-proj-04-cover"],"desc":"Konsep indoor-outdoor living dengan folding door 4 daun bukaan 100%, sistem rel tanam rata lantai dan kaca tempered 8mm aman untuk keluarga.","specs":{"kusen":"Alexindo Heavy Duty Bifold Profile 1.35mm","finishing":"Powder Coating White Arctic Glossy","kaca":"Tempered Glass 8mm SNI Safety Glazing","hardware":"Heavy Duty Suspended Top Track Roller & Stainless Flush Bolt","sealant":"Double Weatherstrip Karet Santoprene Kedap Suara","volume":"4 Daun (Lebar Bukaan 3.6m × Tinggi 2.4m)","solusi":"Penerapan bottom guide rail tanam rata lantai (flush floor threshold) sehingga tidak ada hambatan tersandung bagi lansia dan anak kecil.","durasi":"3 Hari Kerja","garansi":"24 Bulan Garansi Rel Gantung & Roda"},"testimonialId":"testi-06","articleUrl":"artikel/desain-pintu-lipat-aluminium-bifold-minimalis.html","articleTitle":"Desain Pintu Lipat Bifold Aluminium Modern"},{"id":"proj-05","slug":"sekat-partisi-dapur-moru-galuh-mas","title":"Sekat Partisi Kaca Dapur Minimalis Fluted Moru Glass","serviceId":"aluminium-partition","rabConfigId":"rab-partition","calcServiceKey":"partisi","loc":"Galuh Mas Karawang","status":"✓ Selesai & Bergaransi","image":"assets/gallery/partisi-aluminium.jpg","imageIds":["img-proj-05-cover"],"desc":"Sekat pemisah dapur bersih dan ruang makan menggunakan kaca bertekstur garis Moru (fluted glass). Menghalangi percikan minyak memasak dan bau dapur namun tetap meneruskan cahaya alami estetis.","specs":{"kusen":"Inkalum Slimline Minimalist Black Doff 3 Inch","finishing":"Powder Coating Sand Texture Black","kaca":"Fluted Glass (Kaca Moru Bergaris Estetik) 8mm Tempered","hardware":"Handle Tanam Minimalis & Engsel Soft-Closing SUS304","sealant":"Food-Grade Sanitary Neutral Silicone Anti Jamur","volume":"Luas 9.6 m² (L 3.2m × T 3.0m)","solusi":"Menggunakan silikon grade sanitasi khusus dapur yang anti jamur minyak dan mudah dibersihkan dengan sabun pembersih biasa.","durasi":"1 Hari Kerja On-Site","garansi":"12 Bulan Resmi"},"testimonialId":"testi-03","articleUrl":"artikel/partisi-kaca-ruangan-minimalis-estetik.html","articleTitle":"Inspirasi Partisi Kaca Ruangan Minimalis Estetik"},{"id":"proj-06","slug":"fasad-acp-seven-pintu-otomatis-jababeka","title":"Fasad ACP Seven & Pintu Sensor Gerak Otomatis","serviceId":"acp-facade","rabConfigId":"rab-acp","calcServiceKey":"acp","loc":"Jababeka Cikarang","status":"✓ Selesai & Bergaransi","image":"assets/gallery/fasad-acp-seven.svg","imageIds":["img-proj-06-cover"],"desc":"Transformasi fasad eksterior showroom komersial dengan penutup dinding ACP merek Seven garansi warna 10 tahun dan pintu sliding otomatis sensor microwave.","specs":{"kusen":"Rangka Hollow Galvanis 40×40×1.6mm + Braket Siku Baja","finishing":"Seven ACP PVDF 0.30mm Metallic Silver & Dark Grey","kaca":"Kaca Tempered Panasap Dark Blue 8mm Anti Panas","hardware":"Mesin Sliding Otomatis Dorma ES-200 Radar Microwave Sensor","sealant":"Dowsil Non-Staining Neutral Silicone Khusus Eksterior Gedung","volume":"Luas ACP 85 m² + 1 Unit Pintu Otomatis 2 Daun","solusi":"Pemasangan water drip flashing aluminium di atas kusen otomatis untuk mengalirkan air hujan lebat menjauh dari sensor inframerah pintu.","durasi":"7 Hari Kerja","garansi":"10 Tahun Garansi Warna ACP & 24 Bulan Mesin Pintu"},"testimonialId":"testi-09","articleUrl":"artikel/keunggulan-kusen-aluminium-dibanding-kayu.html","articleTitle":"Material Eksterior Modern Tahan Cuaca"},{"id":"proj-07","slug":"kanopi-kaca-carport-summarecon-bekasi","title":"Kanopi Kaca Tempered Laminated Carport Modern","serviceId":"glass-canopy","rabConfigId":"rab-canopy","calcServiceKey":"kanopi","loc":"Summarecon Bekasi","status":"✓ Selesai & Bergaransi","image":"assets/gallery/kanopi-kaca-carport.svg","imageIds":["img-proj-07-cover"],"desc":"Atap kanopi carport mobil mewah menggunakan kaca tempered 10mm dengan struktur hollow galvanis 100×50 tebal 2mm bebas tiang tengah mengganggu manuver kendaraan.","specs":{"kusen":"Baja Hollow Galvanis 100×50×2.0mm & 50×50×1.8mm","finishing":"Cat Dasar Epoxy Primer Anti Karat + Top Coat Polyurethane Hitam Doff","kaca":"Tempered Glass 10mm Clear SNI Asahimas Flat Polished Edge","hardware":"Dynabolt Anchor M12 Baja, Karet Bantalan EPDM & Spider Clamp SUS304","sealant":"Dowsil 795 Structural Weatherseal Glazing Sealant","volume":"Luas 24 m² (Panjang 6m × Lebar 4m)","solusi":"Kemiringan atap 5 derajat dengan talang air pipa hollow tersembunyi mengalir langsung ke saluran drainase depan tanpa cipratan ke mobil.","durasi":"4 Hari Kerja","garansi":"36 Bulan Garansi Kebocoran Sealant & Struktur"},"testimonialId":"testi-05","articleUrl":"artikel/tips-memilih-kanopi-kaca-tempered-carport.html","articleTitle":"Tips Memilih Kanopi Kaca Tempered Carport Awet"},{"id":"proj-08","slug":"jendela-aluminium-jungkit-casement-telukjambe","title":"Jendela Aluminium Jungkit (Casement) Akustik","serviceId":"aluminium-window","rabConfigId":"rab-window","calcServiceKey":"jendela","loc":"Telukjambe Timur Karawang","status":"✓ Selesai & Bergaransi","image":"assets/gallery/jendela-aluminium.jpg","imageIds":["img-proj-08-cover"],"desc":"Instalasi paket jendela casement buka samping dan jungkit awning pada hunian dekat jalan raya Telukjambe. Meredam kebisingan lalu lintas hingga 32 desibel.","specs":{"kusen":"Alexindo 4 Inch Profil Tebal 1.2mm Profil Khusus Kedap","finishing":"Powder Coating Ivory White High-Gloss","kaca":"Kaca Laminated Akustik 5+5mm PVB 0.76mm Sound Control","hardware":"Friction Stay Heavy-Duty Dekkson SUS304 14\" & Multi-Point Lock Handle","sealant":"Double EPDM Gasket Seal Keliling Daun Jendela","volume":"6 Daun Jendela Kamar Tidur & Ruang Kerja","solusi":"Penggunaan sistem multi-point lock lever yang menekan daun jendela rapat merata ke kusen 4 penjuru saat handle dikunci ke bawah.","durasi":"2 Hari Kerja","garansi":"24 Bulan Garansi Aksesoris Friction Stay"},"testimonialId":"testi-12","articleUrl":"artikel/tips-merawat-kusen-aluminium-tetap-mengkilap.html","articleTitle":"Perawatan Jendela Aluminium Casement"},{"id":"proj-09","slug":"shower-screen-kaca-frameless-grand-wisata","title":"Shower Screen Kaca Frameless Kamar Mandi","serviceId":"shower-glass","rabConfigId":"rab-shower","calcServiceKey":"shower","loc":"Grand Wisata Bekasi","status":"✓ Selesai & Bergaransi","image":"assets/gallery/shower-kaca.jpg","imageIds":["img-proj-09-cover"],"desc":"Penyekat area basah dan kering kamar mandi utama model pintu swing frameless kaca tempered 10mm. Menjaga lantai luar tetap kering dan higienis.","specs":{"kusen":"Frameless Glass-to-Wall Hinge System","finishing":"Chrome Mirror Polish Stainless Steel SUS304","kaca":"Tempered Glass 10mm Clear dengan Lapisan Nano Anti Kerak Air","hardware":"Engsel Shower 90° Glass-to-Wall Dekson SUS304 & Pipa Header Stabilizer","sealant":"Clear Silicone Sanitasi Khusus Anti Lumut & Jamur Hitam","volume":"Set L-Shape Sekat Kaca (100cm × 100cm × Tinggi 200cm)","solusi":"Dilengkapi strip magnetic door seal di bibir pintu dan lis aluminium penahan air (water barrier threshold) di lantai mencegah rembesan busa sabun.","durasi":"1 Hari Kerja On-Site","garansi":"12 Bulan Resmi Garansi Engsel & Seal"},"testimonialId":"testi-08","articleUrl":"artikel/kaca-kamar-mandi.html","articleTitle":"Panduan Sekat Kaca Kamar Mandi Mewah"},{"id":"proj-10","slug":"pintu-kaca-kamar-mandi-sandblast-klari","title":"Pintu Kaca Kamar Mandi Motif Sandblast Buram","serviceId":"shower-glass","rabConfigId":"rab-shower","calcServiceKey":"shower","loc":"Klari Karawang Timur","status":"✓ Selesai & Bergaransi","image":"assets/gallery/pintu-kamar-mandi.jpg","imageIds":["img-proj-10-cover"],"desc":"Pintu swing kamar mandi tahan cipratan air dengan motif sandblast buram gradasi modern. Tidak akan pernah keropos, berkarat, ataupun diserang rayap.","specs":{"kusen":"Aluminium 3 Inch Anti Karat Khusus Area Lembab","finishing":"Anodized Silver Satin 15 Micron","kaca":"Kaca Es Frosted Buram Sandblast Kimia 6mm SNI Asahimas","hardware":"Engsel Kupu Stainless 4 Inch & Lever Lockset Anti Karat","sealant":"Neutral Silicone Karet Santoprene","volume":"1 Daun Pintu Kamar Mandi (L 80cm × T 200cm)","solusi":"Menggunakan kaca sandblast etsa kimia yang tahan air dan tidak meninggalkan noda sidik jari jika tersentuh sabun mandi.","durasi":"1 Hari Kerja","garansi":"12 Bulan Resmi"},"testimonialId":"testi-08","articleUrl":"artikel/kaca-kamar-mandi.html","articleTitle":"Tips Memilih Kaca Kamar Mandi Awet & Anti Keropos"},{"id":"proj-11","slug":"railing-tangga-balkon-kaca-tempered-grand-taruma","title":"Railing Tangga & Balkon Kaca Tempered Frameless Spigot SUS304","serviceId":"glass-railing","rabConfigId":"rab-railing","calcServiceKey":"railing","loc":"Grand Taruma Karawang","status":"✓ Selesai & Bergaransi","image":"assets/gallery/railing-tangga-kaca.svg","imageIds":["img-proj-11-cover"],"desc":"Instalasi railing tangga kaca pada rumah hunian 2 lantai. Memberikan efek melayang yang memukau tanpa kisi-kisi besi penghalang pandangan, sekaligus sangat aman bagi anak kecil.","specs":{"kusen":"Frameless Spigot System (Penjepit Kaki Lantai Bebas Tiang)","finishing":"Stainless Steel SUS304 Solid Cast Satin Finish","kaca":"Tempered Glass 12mm SNI Flat Polished Rounded Edges","hardware":"Spigot Clamp Kotak Heavy-Duty 20cm dengan Dynabolt M12 Cor Beton","sealant":"Epoxy Anchor Grout + Rubber Gasket Pad","volume":"Panjang 11 Meter Lari (Balkon Lantai 2 & Void Tangga)","solusi":"Pemasangan klem spigot solid SUS304 dengan bor inti (core drill) ke dalam balok struktur beton lantai, kokoh menahan beban benturan samping hingga 150 kg.","durasi":"3 Hari Kerja","garansi":"24 Bulan Kekuatan Struktur"},"testimonialId":"testi-07","articleUrl":"artikel/desain-railing-balkon-tangga-kaca-frameless.html","articleTitle":"Desain Railing Tangga & Balkon Kaca Frameless"},{"id":"proj-12","slug":"partisi-cleanroom-pabrik-suryacipta","title":"Partisi Kaca Cleanroom Higienis & Pintu Airtight Pabrik","serviceId":"aluminium-partition","rabConfigId":"rab-partition","calcServiceKey":"partisi","loc":"Suryacipta Ciampel","status":"✓ Selesai & Bergaransi","image":"assets/gallery/partisi-aluminium.jpg","imageIds":["img-proj-12-cover"],"desc":"Instalasi partisi kaca ruang laboratorium uji kualitas (QA/QC) dan cleanroom industri komponen otomotif kawasan Suryacipta Karawang.","specs":{"kusen":"Aluminium Profil R-Shape Bebas Sudut Mati Debu","finishing":"Powder Coating White Anti Bakteri & Kimia Ringan","kaca":"Tempered Glass Clear 10mm Double Glass dengan Seal Kedap Gas","hardware":"Airtight Drop Seal Otomatis Bawah Pintu & Push-Pull Handle SUS304","sealant":"Cleanroom Grade Silicone Sealant Non-Offgassing","volume":"Luas Partisi 48 m² + 2 Set Pintu Airtight Swing","solusi":"Penerapan lis aluminium sudut melengkung cembung (curved coving) pada pertemuan lantai dan dinding partisi agar tidak ada penumpukan debu.","durasi":"5 Hari Kerja On-Site","garansi":"12 Bulan Garansi Kebocoran Udara"},"testimonialId":"testi-03","articleUrl":"artikel/partisi-kaca-kantor-cleanroom-pabrik-industri.html","articleTitle":"Standar Partisi Kaca Cleanroom Pabrik Industri"},{"id":"proj-13","slug":"jendela-sliding-aluminium-cikarang-baru","title":"Jendela Sliding (Geser) Aluminium 4 Daun Ruang Tamu","serviceId":"aluminium-window","rabConfigId":"rab-window","calcServiceKey":"jendela","loc":"Cikarang Baru Jababeka","status":"✓ Selesai & Bergaransi","image":"assets/gallery/jendela-aluminium.jpg","imageIds":["img-proj-13-cover"],"desc":"Bukaan jendela lebar 4 daun geser sentral menghadap taman depan. Ruangan menerima sirkulasi udara maksimal dengan view lanskap taman tanpa sekat masif.","specs":{"kusen":"Dacon 3 Inch Profil Ekonomis Berkualitas SNI","finishing":"Powder Coating Coklat Kayu Urat Halus (Woodgrain)","kaca":"Kaca Polos 5mm Clear SNI Asahimas","hardware":"Kunci Crescent Lock Tengah & Roda Tandem Bearing Stainless","sealant":"Karet Lis EPDM Tahan Panas Matahari","volume":"Dimensi L 2.8m × T 1.6m (2 Set Opening)","solusi":"Menggunakan roda sliding tandem bearing ganda sehingga daun jendela terasa sangat ringan digeser oleh anak-anak sekalipun.","durasi":"1 Hari Kerja","garansi":"12 Bulan Resmi"},"testimonialId":"testi-12","articleUrl":"artikel/tips-merawat-kusen-aluminium-tetap-mengkilap.html","articleTitle":"Keunggulan Jendela Geser Sliding Aluminium"},{"id":"proj-14","slug":"pintu-aluminium-swing-spandrel-cikampek","title":"Pintu Aluminium Swing Modern Daun Panel Spandrel Full","serviceId":"aluminium-door","rabConfigId":"rab-door","calcServiceKey":"pintu","loc":"Kota Baru Cikampek","status":"✓ Selesai & Bergaransi","image":"assets/gallery/pintu-aluminium.jpg","imageIds":["img-proj-14-cover"],"desc":"Pintu akses samping dan area servis rumah memakai panel spandrel aluminium double layer anti dobrakan, privasi 100% dan tahan air hujan.","specs":{"kusen":"Inkalum 3 Inch Tebal 1.1mm Kusen Siku Presisi","finishing":"Powder Coating Grey Charcoal Abu-Abu Tua Elegan","kaca":"Panel Spandrel Aluminium Double Wall Tebal Kokoh (Non-Kaca)","hardware":"Lockcase Mortise Lock Roller & Silinder Kunci Kuningan 3 Anak Kunci","sealant":"Karet Bantalan Peredam Suara Benturan Pintu","volume":"2 Unit Pintu Single Leaf (L 90cm × T 215cm)","solusi":"Konstruksi panel spandrel aluminium double wall yang padat memberikan isolasi termal terhadap terik matahari dan kokoh anti dobrakan.","durasi":"1 Hari Kerja","garansi":"12 Bulan Resmi"},"testimonialId":"testi-02","articleUrl":"artikel/rekomendasi-pintu-sliding-geser-minimalis.html","articleTitle":"Pilihan Pintu Aluminium Awet Bebas Rayap"},{"id":"proj-15","slug":"skylight-atap-kaca-purwakarta","title":"Skylight Atap Kaca Tempered Void Tangga Rumah Tingkat","serviceId":"glass-canopy","rabConfigId":"rab-canopy","calcServiceKey":"kanopi","loc":"Purwakarta Kota","status":"✓ Selesai & Bergaransi","image":"assets/gallery/kanopi-kaca-carport.svg","imageIds":["img-proj-15-cover"],"desc":"Atap penerangan alami (skylight) di atas void tangga tengah hunian 3 lantai. Menghemat pemakaian listrik lampu di siang hari secara signifikan.","specs":{"kusen":"Rangka Balok Besi Hollow 100×50×2.3mm Rangka Kaku","finishing":"Cat Duco Epoxy Heavy Primer + Polyurethane Putih Bersih","kaca":"Kaca Tempered Laminated 6+6mm PVB 0.76mm Safety Glass","hardware":"Plat Anchor Sambung Baja 8mm Dynabolt Ramset Beton","sealant":"Dowsil 795 Weatherseal Structural Glazing Silicone","volume":"Luas 12 m² (3.0m × 4.0m Bentang Void Tangga)","solusi":"Menggunakan kaca laminated safety glass 6+6mm, jika kaca terbentur batu sekalipun pecahannya tetap menempel pada lapisan film PVB tanpa jatuh ke bawah.","durasi":"3 Hari Kerja","garansi":"36 Bulan Garansi Kebocoran"},"testimonialId":"testi-05","articleUrl":"artikel/tips-memilih-kaca-tempered-dan-laminated-aman.html","articleTitle":"Keamanan Skylight Kaca Laminated Rumah Bertingkat"},{"id":"proj-16","slug":"pintu-kaca-frame-putih-harapan-indah","title":"Pintu Kaca Aluminium Frame Putih Gaya Scandinavian","serviceId":"aluminium-door","rabConfigId":"rab-door","calcServiceKey":"pintu","loc":"Harapan Indah Bekasi","status":"✓ Selesai & Bergaransi","image":"assets/gallery/pintu-kaca-putih.jpg","imageIds":["img-proj-16-cover"],"desc":"Pintu kaca frame putih dengan kisi ornamen kotak modern memadukan estetika Skandinavia terang dan bersih untuk akses ruang keluarga ke teras samping.","specs":{"kusen":"Alexindo 3 Inch Profil Lembut Presisi","finishing":"Powder Coating White Arctic Smooth Finish","kaca":"Kaca Polos Clear 6mm Asahimas Bebas Distorsi","hardware":"Engsel Stainless 4 Inch SUS304 & Kunci Lever Handle Minimalis Modern","sealant":"White Sanitary Silicone Sealant","volume":"1 Unit Pintu Swing Single (L 90cm × T 220cm)","solusi":"Finishing powder coating oven pabrik membuat cat putih tidak menguning meski terpapar sinar UV matahari bertahun-tahun.","durasi":"1 Hari Kerja","garansi":"12 Bulan Garansi Cat & Engsel"},"testimonialId":"testi-02","articleUrl":"artikel/keunggulan-kusen-aluminium-dibanding-kayu.html","articleTitle":"Tren Pintu Aluminium Putih Scandinavian"},{"id":"proj-17","slug":"curtain-wall-fasad-gedung-subang-smartpolitan","title":"Curtain Wall Kaca Fasad Gedung Ruko & Perkantoran 3 Lantai","serviceId":"curtain-wall","rabConfigId":"rab-curtain-wall","calcServiceKey":"curtain_wall","loc":"Subang Smartpolitan","status":"✓ Selesai & Bergaransi","image":"assets/gallery/curtain-wall-gedung.svg","imageIds":["img-proj-17-cover"],"desc":"Pemasangan dinding tirai kaca (curtain wall stick system) fasad depan ruko 3 lantai. Memberi kesan megah arsitektural modern penunjang citra profesional kantor.","specs":{"kusen":"Back Mullion Aluminium 150×50mm Tebal 2.0mm Heavy Duty","finishing":"Anodized Dark Brown 20 Micron Kualitas Gedung Tinggi","kaca":"Kaca Panasap Green Tinted 6mm Anti Panas Surya Asahimas","hardware":"Bracket Siku Jangkar Baja 8mm Hot-Dip Galvanized & Baut Grade 8.8","sealant":"Dow Corning Structural Glazing Silicone Sealant","volume":"Luas Fasad Kaca 120 m² (Bentang 3 Lantai)","solusi":"Pemasangan back mullion yang dijangkar ke balok tepi lantai dengan joint expansion fleksibel untuk mengantisipasi gempa mikro dan pergerakan termal gedung.","durasi":"14 Hari Kerja","garansi":"60 Bulan Garansi Struktural & Kebocoran"},"testimonialId":"testi-10","articleUrl":"artikel/tips-memilih-kaca-tempered-dan-laminated-aman.html","articleTitle":"Konstruksi Curtain Wall Gedung Komersial"},{"id":"proj-18","slug":"pintu-kaca-sliding-otomatis-sensor-kosambi","title":"Pintu Kaca Sliding Otomatis Sensor Gerak Minimarket & Apotek","serviceId":"tempered-door","rabConfigId":"rab-tempered-door","calcServiceKey":"pintu_tempered","loc":"Kosambi Klari Karawang","status":"✓ Selesai & Bergaransi","image":"assets/gallery/pintu-kaca.jpg","imageIds":["img-proj-18-cover"],"desc":"Instalasi pintu geser otomatis kaca tempered tanpa sentuh untuk pintu masuk apotek modern dan minimarket, mendukung kenyamanan pengunjung dan efisiensi AC ruangan.","specs":{"kusen":"Cover Box Aluminium Slimline Header Otomatis 12cm","finishing":"Natural Anodized Silver Hairline","kaca":"Tempered Glass Clear 10mm SNI Asahimas Flat Edges","hardware":"Drive Motor DC Brushless, Microcontroller Controller & 2 Radar Microwave","sealant":"Karet Lis Mohair Peredam Kebocoran AC","volume":"2 Daun Bi-Parting (Opening Bersih Lebar 1.8m × Tinggi 2.2m)","solusi":"Sistem safety beam sensor di ketinggian 40cm mencegah pintu menjepit pengunjung atau anak kecil yang sedang melintas di tengah opening.","durasi":"2 Hari Kerja","garansi":"24 Bulan Garansi Mesin Motor & Sensor"},"testimonialId":"testi-04","articleUrl":"artikel/tips-memilih-kaca-tempered-dan-laminated-aman.html","articleTitle":"Sistem Pintu Otomatis Sensor Komersial"},{"id":"proj-19","slug":"pintu-lipat-bifold-6-daun-kota-bukit-indah","title":"Pintu Lipat (Bifold) Aluminium 6 Daun Ruang Serbaguna & Garasi","serviceId":"aluminium-bifold","rabConfigId":"rab-bifold","calcServiceKey":"bifold","loc":"Kota Bukit Indah Purwakarta","status":"✓ Selesai & Bergaransi","image":"assets/gallery/pintu-sliding.jpg","imageIds":["img-proj-19-cover"],"desc":"Penyekat fleksibel aula serbaguna yang dapat dilipat ke sisi kiri dan kanan, membuka akses lapang tanpa tiang tengah saat ada acara keluarga besar.","specs":{"kusen":"Alexindo Heavy Duty Bifold 4 Inch Ketebalan 1.35mm","finishing":"Powder Coating Matte Grey Charcoal","kaca":"Kaca Tempered Clear 8mm SNI Safety Glazing","hardware":"Top Hanging Track SUS304 Kapasitas 250kg & Engsel Lipat Stainless","sealant":"Santoprene Double Gasket Seal Kedap Suara","volume":"6 Daun Lipat (Lebar Bukaan 5.4m × Tinggi 2.6m)","solusi":"Sistem rel gantung suspensi dengan penahan beban di balok atas beton, tidak membebani lantai dasar dan roda berputar whisper-quiet.","durasi":"4 Hari Kerja","garansi":"24 Bulan Garansi Sistem Lipat"},"testimonialId":"testi-06","articleUrl":"artikel/desain-pintu-lipat-aluminium-bifold-minimalis.html","articleTitle":"Aplikasi Pintu Bifold Lebar Garasi & Aula"},{"id":"proj-20","slug":"partisi-kaca-akustik-double-glass-giic-cikarang","title":"Partisi Kaca Akustik Double Glass & Louver Blinds Ruang Direksi","serviceId":"aluminium-partition","rabConfigId":"rab-partition","calcServiceKey":"partisi","loc":"GIIC Cikarang Pusat","status":"✓ Selesai & Bergaransi","image":"assets/gallery/partisi-aluminium.jpg","imageIds":["img-proj-20-cover"],"desc":"Ruang kerja direksi pabrik GIIC dengan partisi kaca ganda kedap suara tinggi dan tirai venetian blinds magnetik di dalam rongga kaca.","specs":{"kusen":"Aluminium Akustik Profil 4 Inch Tebal 1.4mm","finishing":"Anodized Black Matte 20 Micron","kaca":"Double Glass Unit (Tempered 6mm + Rongga Udara 12mm + Tempered 6mm)","hardware":"Magnetic Slider Pengontrol Tirai Venetian & Mortise Lockset Dekson","sealant":"Butyl Sealant + Desiccant Penyerap Kelembaban Rongga","volume":"Luas 26 m² (Tinggi 3.0m × Panjang 8.6m)","solusi":"Tirai venetian blinds terpasang di ruang hampa antar kaca sehingga tidak akan pernah kotor berdebu dan tidak membutuhkan pembersihan selamanya.","durasi":"4 Hari Kerja","garansi":"24 Bulan Resmi"},"testimonialId":"testi-03","articleUrl":"artikel/partisi-kaca-kantor-cleanroom-pabrik-industri.html","articleTitle":"Teknologi Partisi Akustik Ruang Direksi"},{"id":"proj-21","slug":"pintu-utama-pivot-oversized-resinda","title":"Pintu Utama Pivot Oversized Jumbo Rangka Aluminium Minimalis","serviceId":"tempered-door","rabConfigId":"rab-tempered-door","calcServiceKey":"pintu_tempered","loc":"Resinda Karawang Barat","status":"✓ Selesai & Bergaransi","image":"assets/gallery/pintu-kaca.jpg","imageIds":["img-proj-21-cover"],"desc":"Pintu masuk utama rumah mewah dengan sistem engsel putar pivot lantai offset. Daun pintu berukuran besar memberi sambutan megah saat dibuka.","specs":{"kusen":"Profil Kusen Aluminium Khusus Tebal 2.0mm Reinforced Steel Inside","finishing":"Powder Coating AkzoNobel Sand Black Metallic","kaca":"Kaca Tempered Grey Fluted 10mm Paduan Plat Spandrel Motif Kayu","hardware":"Heavy Duty Floor Pivot Hinge Dekkson 200kg + Smart Digital Door Lock","sealant":"Perimeter EPDM Seal Kedap Udara & Air Hujan","volume":"1 Daun Jumbo (Lebar 1.4m × Tinggi 2.8m)","solusi":"Titik tumpu engsel pivot berjarak 20cm dari tepi kusen memungkinkan daun pintu seberat 110 kg dapat didorong ringan hanya dengan satu jari.","durasi":"2 Hari Kerja","garansi":"24 Bulan Garansi Mesin Pivot"},"testimonialId":"testi-01","articleUrl":"artikel/tips-memilih-kaca-tempered-dan-laminated-aman.html","articleTitle":"Desain Pintu Pivot Modern Rumah Mewah"},{"id":"proj-22","slug":"kanopi-kaca-teras-kolam-renang-galuh-mas","title":"Kanopi Kaca Tempered Laminated Teras Kolam Renang Cantilever","serviceId":"glass-canopy","rabConfigId":"rab-canopy","calcServiceKey":"kanopi","loc":"Galuh Mas Karawang","status":"✓ Selesai & Bergaransi","image":"assets/gallery/kanopi-kaca-carport.svg","imageIds":["img-proj-22-cover"],"desc":"Kanopi kaca bening santai tepi kolam renang dengan sistem gantung kabel sling baja stainless SUS304 (cantilever) tanpa tiang penyangga di pinggir kolam.","specs":{"kusen":"Struktur Balok Baja WF 150 & Kabel Sling Baja Stainless SUS304 12mm","finishing":"Cat Dasar Epoxy Marine Grade + PU Top Coat Putih Cerah","kaca":"Tempered Laminated 5+5mm PVB Tinted Light Blue","hardware":"Turnbuckle Jarum Keras SUS304 & Spider Fitting 2 Arah","sealant":"Dowsil Neutral Structural Silicone","volume":"Luas 18 m² (Panjang 6m × Overhang Maju 3m)","solusi":"Sistem tarikan kabel sling baja SUS304 dari atas kolom beton menahan beban angin angkat (uplift wind load) dan bebas tiang bawah.","durasi":"3 Hari Kerja","garansi":"36 Bulan Garansi Struktur & Sealant"},"testimonialId":"testi-05","articleUrl":"artikel/tips-memilih-kanopi-kaca-tempered-carport.html","articleTitle":"Konstruksi Kanopi Kaca Kolam Renang"},{"id":"proj-23","slug":"etalase-kaca-toko-emas-pasar-johar","title":"Etalase Kaca Aluminium & Rak Display Toko Perhiasan Emas","serviceId":"aluminium-showcase","rabConfigId":"rab-showcase","calcServiceKey":"etalase","loc":"Pasar Johar Karawang","status":"✓ Selesai & Bergaransi","image":"assets/gallery/etalase-kaca-counter.svg","imageIds":["img-proj-23-cover"],"desc":"Pembuatan counter etalase perhiasan emas full kaca tempered dengan pencahayaan warm white LED strip tersembunyi dan sistem penguncian keamanan ganda.","specs":{"kusen":"Profil Aluminium Khusus Etalase Mewah Chamfered Edge","finishing":"Anodized Mirror Black Glossy","kaca":"Kaca Tempered Clear 8mm Extra Clear (Low Iron) Bebas Kehijauan","hardware":"Roda Rel Tanam Halus, Kunci Sentral Huben & Bracket Rak SUS304","sealant":"Clear UV-Curing Glue & Silicone Sanitasi","volume":"Set Counter Display (Panjang Total 6 Meter)","solusi":"Menggunakan kaca low-iron ekstra jernih agar kilau perhiasan emas dan berlian terlihat 100% akurat tanpa bias warna kehijauan kaca standar.","durasi":"4 Hari Fabrikasi Workshop + Pasang","garansi":"12 Bulan Resmi"},"testimonialId":"testi-11","articleUrl":"artikel/tips-merawat-kusen-aluminium-tetap-mengkilap.html","articleTitle":"Desain Etalase Display Komersial"},{"id":"proj-24","slug":"jendela-pivot-vertikal-grand-wisata","title":"Jendela Pivot Aluminium Vertikal Putar 180° Ruang Tangga","serviceId":"aluminium-window","rabConfigId":"rab-window","calcServiceKey":"jendela","loc":"Grand Wisata Bekasi","status":"✓ Selesai & Bergaransi","image":"assets/gallery/jendela-aluminium.jpg","imageIds":["img-proj-24-cover"],"desc":"Jendela aksen arsitektural void tangga yang dapat diputar 180 derajat untuk memudahkan pembersihan kaca sisi luar dari dalam rumah.","specs":{"kusen":"Alexindo 4 Inch Heavy Profile Siku Presisi","finishing":"Powder Coating Matte Black","kaca":"Tempered Glass 8mm Clear SNI Asahimas","hardware":"Engsel Pivot Vertikal Heavy Duty Stainless Steel SUS304 90kg","sealant":"EPDM Double Compression Bulb Gasket","volume":"2 Unit Jendela Tinggi (L 80cm × T 240cm)","solusi":"Sistem stopper multi-posisi memungkinkan jendela terkunci aman pada sudut bukaan 30° untuk sirkulasi angin tanpa risiko terbanting angin badai.","durasi":"2 Hari Kerja","garansi":"24 Bulan Resmi Garansi Engsel"},"testimonialId":"testi-12","articleUrl":"artikel/tips-merawat-kusen-aluminium-tetap-mengkilap.html","articleTitle":"Jendela Pivot Putar Desain Modern"},{"id":"proj-25","slug":"pintu-sliding-barn-door-cikampek","title":"Pintu Sliding Model Barn Door Industrial Kisi Kotak Hitam","serviceId":"aluminium-door","rabConfigId":"rab-door","calcServiceKey":"pintu","loc":"Villa Permata Cikampek","status":"✓ Selesai & Bergaransi","image":"assets/gallery/pintu-sliding.jpg","imageIds":["img-proj-25-cover"],"desc":"Pintu geser gaya industrial modern dengan lis kisi kotak aluminium hitam (french door style) untuk pemisah ruang kerja di rumah tinggal.","specs":{"kusen":"Inkalum Slim Grid Profile Black Doff","finishing":"Powder Coating Black Doff Sand Texture","kaca":"Kaca Clear Polos 5mm dengan Lis Ornamen Aluminium Tempel Presisi","hardware":"Roda Rel Gantung Exposed Track SUS304 & Handle Pipa Industrial 40cm","sealant":"Karet Lis Gasket Rapi Tanpa Noda Lem","volume":"1 Unit Barn Door (L 100cm × T 220cm)","solusi":"Roda gantung exposed industrial berbahan nilon karbon anti berisik saat digeser, memberi karakter visual kuat pada interior ruang.","durasi":"1 Hari Kerja On-Site","garansi":"12 Bulan Resmi"},"testimonialId":"testi-02","articleUrl":"artikel/rekomendasi-pintu-sliding-geser-minimalis.html","articleTitle":"Inspirasi Pintu Barn Door Industrial Aluminium"},{"id":"proj-26","slug":"railing-balkon-u-channel-subang","title":"Railing Balkon Kaca Tempered U-Channel Aluminium Tanam (Base Shoe)","serviceId":"glass-railing","rabConfigId":"rab-railing","calcServiceKey":"railing","loc":"Subang Smart City","status":"✓ Selesai & Bergaransi","image":"assets/gallery/railing-balkon-kaca.svg","imageIds":["img-proj-26-cover"],"desc":"Pagar balkon kaca tampilan bersih total tanpa tiang ataupun spigot bawah. Profil U-channel struktural ditanam rata permukaan keramik teras lantai 2.","specs":{"kusen":"Base Shoe U-Channel Aluminium Ekstrusi Heavy Duty 120×70mm Tanam","finishing":"Cover Cladding Stainless Steel Hairline SUS304 Rata Lantai","kaca":"Kaca Tempered Laminated 6+6mm PVB 1.52mm Extra Safety Glass","hardware":"Chemical Anchor Hilti HIT-RE 500 V3 & Baji Pengunci Kaca Presisi","sealant":"Epoxy Grout Struktural + Sealant Non-Sagging Tahan Cuaca","volume":"Panjang 14 Meter Lari Balkon Utama","solusi":"Pemasangan profil U-channel sebelum pengecoran screed keramik lantai balkon menghasilkan pemandangan lanskap tanpa batas (infinity view).","durasi":"4 Hari Kerja","garansi":"36 Bulan Garansi Struktural"},"testimonialId":"testi-07","articleUrl":"artikel/desain-railing-balkon-tangga-kaca-frameless.html","articleTitle":"Pemasangan Railing Balkon Kaca Base Shoe Tanam Rata Lantai"}];
+  const services = catalog.services || [{"id":"glass-canopy","calcKey":"kanopi","name":"Kanopi Kaca Tempered Carport / Teras","rabConfigId":"rab-canopy","category":"glass_canopy","priceModel":"glass_canopy","unit":"m²","unitName":"Meter Persegi (m²)","summaryLabel":"Rangka & Kaca:","guideText":"PILIH SISTEM STRUKTUR • PILIH JENIS KACA"},{"id":"glass-railing","calcKey":"railing","name":"Railing Tangga & Balkon Kaca Tempered","rabConfigId":"rab-railing","category":"glass_railing","priceModel":"glass_railing","unit":"m1","unitName":"Meter Lari (m1)","summaryLabel":"Sistem Railing:","guideText":"PILIH SISTEM RAILING (U-Channel, Spigot, Handrail SS304)"},{"id":"aluminium-partition","calcKey":"partisi","name":"Partisi Kaca Kantor & Sekat Ruangan Aluminium","rabConfigId":"rab-partition","category":"aluminium","priceModel":"aluminium_partition","unit":"m²","unitName":"Meter Persegi (m²)","summaryLabel":"Grade Partisi:","guideText":"Standard SNI 3\" vs Premium Heavy Duty 4\""},{"id":"aluminium-window","calcKey":"jendela","name":"Jendela Aluminium (Casement / Sliding)","rabConfigId":"rab-window","category":"aluminium","priceModel":"aluminium_window","unit":"m²","unitName":"Meter Persegi (m²)","summaryLabel":"Grade Jendela:","guideText":"Standard SNI vs Premium Alexindo Heavy Duty"},{"id":"aluminium-door","calcKey":"pintu","name":"Pintu Aluminium (Swing / Sliding Modern)","rabConfigId":"rab-door","category":"aluminium","priceModel":"aluminium_door","unit":"unit","unitName":"Unit Pintu","summaryLabel":"Tipe Bukaan:","guideText":"PILIH SISTEM PINTU: Swing, Sliding, atau Folding"},{"id":"shower-glass","calcKey":"shower","name":"Shower Screen Kaca Kamar Mandi","rabConfigId":"rab-shower","category":"glass_shower","priceModel":"glass_shower","unit":"unit","unitName":"Set Shower Screen","summaryLabel":"Sistem Shower:","guideText":"PILIH SISTEM SHOWER: Framed, Semi Frameless, Full Frameless"},{"id":"aluminium-profile","calcKey":"kusen","name":"Kusen Aluminium (Profil 3\" / 4\" SNI)","rabConfigId":"rab-profile","category":"aluminium","priceModel":"aluminium_profile","unit":"m1","unitName":"Meter Lari (m1)","summaryLabel":"Grade Kusen:","guideText":"Standar SNI 3\" vs Alexindo Heavy 4\""},{"id":"tempered-door","calcKey":"pintu_tempered","name":"Pintu Kaca Frameless Floor Hinge","rabConfigId":"rab-tempered-door","category":"glass_door","priceModel":"glass_door","unit":"unit","unitName":"Set Daun Pintu","summaryLabel":"Sistem Bukaan:","guideText":"PILIH SISTEM: Single Leaf 10/12mm vs Double Leaf Kupu Tarung"},{"id":"aluminium-bifold","calcKey":"bifold","name":"Pintu Lipat Bifold System Aluminium","rabConfigId":"rab-bifold","category":"aluminium","priceModel":"aluminium_bifold","unit":"daun","unitName":"Daun Pintu","summaryLabel":"Grade Bifold:","guideText":"Standard Inkalum vs Premium Alexindo Heavy 250kg"},{"id":"aluminium-showcase","calcKey":"etalase","name":"Etalase Kaca Toko & Display Counter","rabConfigId":"rab-showcase","category":"aluminium","priceModel":"aluminium_showcase","unit":"unit","unitName":"Unit Etalase","summaryLabel":"Spesifikasi Etalase:","guideText":"Standard Toko 1.5m vs Premium Display Full Kaca"},{"id":"acp-facade","calcKey":"acp","name":"Fasad ACP Aluminium Composite Panel","rabConfigId":"rab-acp","category":"facade_acp","priceModel":"acp_facade","unit":"m²","unitName":"Meter Persegi (m²)","summaryLabel":"Grade Panel ACP:","guideText":"Tipe cat PE Interior vs PVDF Outdoor 0.3mm vs Heavy Duty 0.5mm"},{"id":"curtain-wall","calcKey":"curtain_wall","name":"Curtain Wall Fasad Kaca Komersial","rabConfigId":"rab-curtain-wall","category":"curtain_wall","priceModel":"curtain_wall","unit":"m²","unitName":"Meter Persegi (m²)","summaryLabel":"Sistem Fasad:","guideText":"Stick System Panasap 6mm vs Reflective 8mm vs Semi-Unitized"}];
+  const testimonials = catalog.testimonials || [{"testimonialId":"testi-01","projectId":"proj-02","serviceId":"tempered-door","location":"Ruko Galuh Mas, Karawang Barat","author":"Bpk. Hendra Gunawan","role":"Owner Ruko Galuh Mas, Karawang Barat","quote":"Pengerjaan pintu kaca tempered frameless dan partisi sekat toko ruko kami di Galuh Mas sangat presisi dan tepat waktu. Mesin floor hinge Dekkson empuk dan aksesoris stainless 304 sangat kokoh.","rating":5,"date":"2026-01-14"},{"testimonialId":"testi-02","projectId":"proj-03","serviceId":"aluminium-door","location":"Perumahan Grand Taruma, Karawang","author":"Ibu Ratna Dewi","role":"Perumahan Grand Taruma, Karawang","quote":"Teknisi Sahabat Kaca sangat profesional membawa sampel profil Alexindo dan Inkalum saat survey gratis. Pintu sliding aluminium 3 daun taman belakang kami geserannya sangat halus dan kedap air hujan.","rating":5,"date":"2026-01-28"},{"testimonialId":"testi-03","projectId":"proj-01","serviceId":"aluminium-partition","location":"KIIC Karawang Barat","author":"Bpk. Agus Prasetyo","role":"Facility Manager Pabrik, KIIC Karawang","quote":"Standar industri yang sangat rapi. Pemasangan partisi sekat ruang meeting kantor pabrik kami di KIIC selesai sesuai standar K3, sambungan profil miter rapat, dan ruangan langsung kedap suara.","rating":5,"date":"2026-02-05"},{"testimonialId":"testi-04","projectId":"proj-18","serviceId":"tempered-door","location":"Telukjambe Timur, Karawang","author":"dr. Sinta Maharani","role":"Klinik Pratama Medika, Telukjambe Timur","quote":"Pemasangan pintu sliding kaca otomatis untuk klinik kami hasilnya sangat bersih dan higienis. Sensor gerak responsif dan buka-tutup sangat hening, pasien merasa sangat nyaman.","rating":5,"date":"2026-02-12"},{"testimonialId":"testi-05","projectId":"proj-07","serviceId":"glass-canopy","location":"Summarecon Bekasi","author":"Bpk. Dedi Kurniawan","role":"Residensial Summarecon Bekasi","quote":"Kanopi kaca tempered laminated untuk carport depan rumah sangat kokoh. Rangka pipa hollow galvanis dicat primer epoxy tebal dan sealant silikon Dowsil 795 rapi tanpa rembes hujan lebat.","rating":5,"date":"2026-02-20"},{"testimonialId":"testi-06","projectId":"proj-04","serviceId":"aluminium-bifold","location":"Summarecon Bekasi","author":"Ibu Maya Angelina","role":"Owner Cafe & Eatery, Bekasi","quote":"Pintu lipat bifold 4 daun untuk area semi-outdoor kafe kami sangat fungsional dan estetik. Bukaan 100% membuat sirkulasi udara lega dan harga transparan bersahabat.","rating":5,"date":"2026-03-02"},{"testimonialId":"testi-07","projectId":"proj-11","serviceId":"glass-railing","location":"Grand Taruma Karawang","author":"Bpk. Ir. Bambang Sugiarto","role":"Pemilik Hunian Grand Taruma Karawang","quote":"Instalasi railing tangga & balkon kaca tempered 12mm dengan klem spigot solid stainless SUS304 sangat kokoh. Dibor inti ke beton lantai balok, tidak goyang dan ruangan terlihat jauh lebih luas.","rating":5,"date":"2026-03-10"},{"testimonialId":"testi-08","projectId":"proj-09","serviceId":"shower-glass","location":"Grand Wisata Bekasi","author":"Ibu Cindy Claudia","role":"Residensial Grand Wisata Bekasi","quote":"Pemasangan shower screen kaca frameless 10mm kamar mandi utama hasilnya sangat rapi. Engsel kuningan lapis krom awet tahan lembab dan magnet door seal benar-benar kedap cipratan air.","rating":5,"date":"2026-03-15"},{"testimonialId":"testi-09","projectId":"proj-06","serviceId":"acp-facade","location":"Jababeka Cikarang","author":"Bpk. Wisnu Wardhana","role":"Kontraktor Showroom Komersial Jababeka","quote":"Fasad ACP Seven eksterior gedung showroom sangat presisi. Nat sealant silikon lurus rapi dan rangka hollow galvanis anti karat sangat kokoh menahan cuaca panas hujan.","rating":5,"date":"2026-03-22"},{"testimonialId":"testi-10","projectId":"proj-17","serviceId":"curtain-wall","location":"Subang Smartpolitan","author":"Bpk. Gunawan Wibisono","role":"Project Manager Ruko Subang","quote":"Curtain wall stick system kaca Panasap 6mm fasad gedung kantor 3 lantai selesai sesuai target schedule. Penolakan panas matahari efektif dan tampilan gedung terlihat megah berkelas.","rating":5,"date":"2026-03-29"},{"testimonialId":"testi-11","projectId":"proj-23","serviceId":"aluminium-showcase","location":"Pasar Johar Karawang","author":"Ibu Linda Susanti","role":"Owner Toko Perhiasan Emas Johar","quote":"Etalase custom rangka aluminium anodize tebal dan kaca tempered clear 8mm dengan lampu LED strip tersembunyi. Display cincin dan kalung jadi berkilau indah, kunci pengaman sangat mantap.","rating":5,"date":"2026-04-01"},{"testimonialId":"testi-12","projectId":"proj-08","serviceId":"aluminium-window","location":"Telukjambe Timur Karawang","author":"Bpk. Ahmad Fauzi","role":"Perumahan Telukjambe Timur Karawang","quote":"Jendela casement aluminium kedap suara jalan raya sangat signifikan. Karet EPDM dan friction stay stainless Dekkson tebal menutup sangat rapat tanpa getaran.","rating":5,"date":"2026-04-03"},{"testimonialId":"testi-general-01","projectId":null,"serviceId":"aluminium-profile","location":"Klari, Karawang","author":"Bpk. H. Rahmat","role":"Pelanggan Residensial Karawang","quote":"Pelayanan cepat dan transparan. Survey gratis ke rumah, tim ramah, dan estimasi biaya di web sama persis dengan tagihan akhir tanpa biaya siluman.","rating":5,"date":"2026-03-25"}];
+
   const filterBtns = document.querySelectorAll('.portfolio-filter button');
-  const searchInput = document.getElementById('gallerySearchInput');
   const cards = document.querySelectorAll('.portfolio-card-wrap');
+  const searchInput = document.getElementById('gallerySearchInput');
   let currentFilter = 'all';
 
+  // Strict Service ID Filter function
   function applyPortfolioFilterAndSearch() {
-    const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
+    const q = (searchInput ? searchInput.value : '').toLowerCase().trim();
 
     cards.forEach(card => {
-      const cat = card.dataset.category || '';
+      const cardServiceId = card.dataset.serviceId || '';
       const text = card.textContent.toLowerCase();
-      const matchCat = (currentFilter === 'all' || cat.split(' ').includes(currentFilter));
-      const matchSearch = (!query || text.includes(query));
 
-      if (matchCat && matchSearch) {
+      // Rule: project.serviceId === service.id
+      const matchService = (currentFilter === 'all') || (cardServiceId === currentFilter);
+      const matchSearch = (!q) || text.includes(q);
+
+      if (matchService && matchSearch) {
         card.style.display = '';
       } else {
         card.style.display = 'none';
@@ -1892,7 +1417,7 @@ const projectsData = {
       btn.classList.add('active');
       currentFilter = btn.dataset.filter;
       applyPortfolioFilterAndSearch();
-      
+
       const banner = document.getElementById('galleryContextBanner');
       if (banner && currentFilter === 'all') {
         banner.remove();
@@ -1904,18 +1429,27 @@ const projectsData = {
     searchInput.addEventListener('input', applyPortfolioFilterAndSearch);
   }
 
-  // Handle URL query parameters or hash on page load for context-aware filtering from /layanan
+  // Handle URL query parameters or hash on page load
   try {
     const urlParams = new URLSearchParams(window.location.search);
-    let filterParam = urlParams.get('filter') || urlParams.get('cat');
+    let filterParam = urlParams.get('filter') || urlParams.get('service') || urlParams.get('cat');
     const searchParam = urlParams.get('search') || urlParams.get('q');
-    
-    // Check hash fallback e.g. #pintu or #partisi
-    if (!filterParam && window.location.hash) {
-      const hashVal = window.location.hash.replace('#', '').trim();
-      if (['pintu', 'partisi', 'kaca-tempered', 'fasad-kanopi', 'jendela', 'kamar-mandi', 'railing', 'komersial', 'desain-rumah'].includes(hashVal)) {
-        filterParam = hashVal;
-      }
+    const projectParam = urlParams.get('project') || urlParams.get('id');
+
+    // Legacy Aliases Map
+    const legacyAliases = {
+      'railing': 'glass-railing',
+      'kanopi': 'glass-canopy',
+      'fasad-kanopi': 'glass-canopy',
+      'partisi': 'aluminium-partition',
+      'pintu': 'aluminium-door',
+      'jendela': 'aluminium-window',
+      'kamar-mandi': 'shower-glass',
+      'kaca-tempered': 'tempered-door'
+    };
+
+    if (filterParam && legacyAliases[filterParam]) {
+      filterParam = legacyAliases[filterParam];
     }
 
     if (searchParam && searchInput) {
@@ -1928,47 +1462,24 @@ const projectsData = {
         filterBtns.forEach(b => b.classList.remove('active'));
         targetBtn.classList.add('active');
         currentFilter = filterParam;
-
-        const filterParent = document.querySelector('.portfolio-filter');
-        if (filterParent && filterParent.parentNode) {
-          const banner = document.createElement('div');
-          banner.id = 'galleryContextBanner';
-          banner.style.cssText = 'background:#f0fdf4;border:1.5px solid #86efac;color:#166534;padding:14px 20px;border-radius:12px;margin:0 auto 24px;max-width:850px;display:flex;justify-content:space-between;align-items:center;font-size:14px;box-shadow:0 4px 14px rgba(22,101,52,0.08);flex-wrap:wrap;gap:10px;';
-          banner.innerHTML = `
-            <div style="display:flex;align-items:center;gap:10px;">
-              <span style="font-size:18px;">🔍</span>
-              <div>
-                <strong>Menampilkan Portofolio Terkait Layanan:</strong>
-                <span style="color:#0f172a;font-weight:700;margin-left:4px;">${targetBtn.textContent.trim()}</span>
-              </div>
-            </div>
-            <button type="button" style="background:#166534;color:#fff;border:none;padding:6px 14px;border-radius:8px;font-size:12.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;" onclick="window.resetGalleryFilter()">
-              <span>Tampilkan Semua Portofolio</span> <span>✕</span>
-            </button>
-          `;
-          filterParent.parentNode.insertBefore(banner, filterParent);
-        }
-
-        // Smooth scroll to gallery
-        setTimeout(() => {
-          const targetSection = document.getElementById('galleryContextBanner') || document.querySelector('.portfolio-filter');
-          if (targetSection) {
-            targetSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-        }, 150);
       }
     }
 
     applyPortfolioFilterAndSearch();
+
+    // Auto-open specific project modal if requested in URL
+    if (projectParam) {
+      setTimeout(() => {
+        openProjectDetailModal(projectParam);
+      }, 300);
+    }
   } catch (err) {
     console.warn('Gallery URL filter initialization note:', err);
   }
 
   window.resetGalleryFilter = function() {
     const allBtn = Array.from(filterBtns).find(b => b.dataset.filter === 'all');
-    if (allBtn) {
-      allBtn.click();
-    }
+    if (allBtn) allBtn.click();
     if (searchInput) {
       searchInput.value = '';
       applyPortfolioFilterAndSearch();
@@ -1976,122 +1487,152 @@ const projectsData = {
     const banner = document.getElementById('galleryContextBanner');
     if (banner) banner.remove();
   };
-})();
 
-// Project Detail Modal Handlers
-function openProjectDetailModal(projectId) {
-  const p = projectsData[projectId];
-  if (!p) return;
-
-  const modal = document.getElementById('projectDetailModal');
-  const img = document.getElementById('pdmImage');
-  const catBadge = document.getElementById('pdmCatBadge');
-  const locBadge = document.getElementById('pdmLocBadge');
-  const statusBadge = document.getElementById('pdmStatusBadge');
-  const title = document.getElementById('pdmTitle');
-  const desc = document.getElementById('pdmDesc');
-  const kusen = document.getElementById('pdmKusen');
-  const finishing = document.getElementById('pdmFinishing');
-  const kaca = document.getElementById('pdmKaca');
-  const hardware = document.getElementById('pdmHardware');
-  const sealant = document.getElementById('pdmSealant');
-  const volume = document.getElementById('pdmVolume');
-  const solusi = document.getElementById('pdmSolusi');
-  const durasi = document.getElementById('pdmDurasi');
-  const garansi = document.getElementById('pdmGaransi');
-  const waLink = document.getElementById('pdmWaLink');
-  const zoomBtn = document.getElementById('pdmZoomBtn');
-  const artWrap = document.getElementById('pdmArticleLinkWrap');
-  const artLink = document.getElementById('pdmArticleLink');
-  const artTitle = document.getElementById('pdmArticleTitle');
-
-  if (img) img.src = p.image;
-  if (catBadge) catBadge.textContent = p.cat;
-  if (locBadge) locBadge.textContent = p.loc;
-  if (statusBadge) statusBadge.textContent = p.status;
-  if (title) title.textContent = p.title;
-  if (desc) desc.textContent = p.desc;
-  if (kusen) kusen.textContent = p.kusen;
-  if (finishing) finishing.textContent = p.finishing;
-  if (kaca) kaca.textContent = p.kaca;
-  if (hardware) hardware.textContent = p.hardware;
-  if (sealant) sealant.textContent = p.sealant;
-  if (volume) volume.textContent = p.volume || '-';
-  if (solusi) solusi.textContent = p.solusi || '-';
-  if (durasi) durasi.textContent = p.durasi;
-  if (garansi) garansi.textContent = p.garansi;
-
-  if (artWrap && artLink && artTitle) {
-    if (p.articleUrl && p.articleTitle) {
-      artWrap.style.display = 'block';
-      artLink.href = p.articleUrl;
-      artTitle.textContent = p.articleTitle + ' →';
-    } else {
-      artWrap.style.display = 'none';
+  // Open Project Detail Modal
+  window.openProjectDetailModal = function(projectId) {
+    const p = projects.find(item => item.id === projectId);
+    if (!p) {
+      console.warn('Project not found for id:', projectId);
+      return;
     }
-  }
 
-  if (waLink) {
-    const waText = encodeURIComponent(`Halo Admin Sahabat Kaca Aluminium, saya melihat detail proyek "${p.title}" di ${p.loc} (${p.volume || ''}). Saya ingin konsultasi dan estimasi biaya untuk ukuran serupa.`);
-    waLink.href = `https://wa.me/6289637371166?text=${waText}`;
-  }
+    const s = services.find(srv => srv.id === p.serviceId) || {};
+    const modal = document.getElementById('projectDetailModal');
+    const img = document.getElementById('pdmImage');
+    const catBadge = document.getElementById('pdmCatBadge');
+    const locBadge = document.getElementById('pdmLocBadge');
+    const statusBadge = document.getElementById('pdmStatusBadge');
+    const title = document.getElementById('pdmTitle');
+    const desc = document.getElementById('pdmDesc');
+    const kusen = document.getElementById('pdmKusen');
+    const finishing = document.getElementById('pdmFinishing');
+    const kaca = document.getElementById('pdmKaca');
+    const hardware = document.getElementById('pdmHardware');
+    const sealant = document.getElementById('pdmSealant');
+    const volume = document.getElementById('pdmVolume');
+    const solusi = document.getElementById('pdmSolusi');
+    const durasi = document.getElementById('pdmDurasi');
+    const garansi = document.getElementById('pdmGaransi');
+    const rabCalcLink = document.getElementById('pdmRabCalcLink');
+    const waLink = document.getElementById('pdmWaLink');
+    const zoomBtn = document.getElementById('pdmZoomBtn');
+    const artWrap = document.getElementById('pdmArticleLinkWrap');
+    const artLink = document.getElementById('pdmArticleLink');
+    const artTitle = document.getElementById('pdmArticleTitle');
 
-  if (zoomBtn) {
-    zoomBtn.onclick = function() {
-      openPortfolioLightbox(p.image, p.title + ' - ' + p.loc);
-    };
-  }
+    // Testimonial elements
+    const testiWrap = document.getElementById('pdmTestimonialWrap');
+    const testiQuote = document.getElementById('pdmTestiQuote');
+    const testiAuthor = document.getElementById('pdmTestiAuthor');
+    const testiRating = document.getElementById('pdmTestiRating');
 
-  if (modal) {
-    modal.classList.add('show');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  }
-}
+    if (img) {
+      img.src = p.image;
+      img.alt = p.title;
+    }
+    if (catBadge) catBadge.textContent = s.name || p.serviceId;
+    if (locBadge) locBadge.textContent = p.loc;
+    if (statusBadge) statusBadge.textContent = p.status;
+    if (title) title.textContent = p.title;
+    if (desc) desc.textContent = p.desc;
+    if (kusen) kusen.textContent = p.specs.kusen || '-';
+    if (finishing) finishing.textContent = p.specs.finishing || '-';
+    if (kaca) kaca.textContent = p.specs.kaca || '-';
+    if (hardware) hardware.textContent = p.specs.hardware || '-';
+    if (sealant) sealant.textContent = p.specs.sealant || '-';
+    if (volume) volume.textContent = p.specs.volume || '-';
+    if (solusi) solusi.textContent = p.specs.solusi || '-';
+    if (durasi) durasi.textContent = p.specs.durasi || '-';
+    if (garansi) garansi.textContent = p.specs.garansi || '-';
 
-function closeProjectDetailModal() {
-  const modal = document.getElementById('projectDetailModal');
-  if (modal) {
-    modal.classList.remove('show');
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  }
-}
+    // Testimonial binding (rule: testimonial.projectId === project.id OR general for service)
+    const t = testimonials.find(item => item.projectId === p.id) ||
+              testimonials.find(item => item.serviceId === p.serviceId);
 
-// Fullscreen Lightbox Handlers
-function openPortfolioLightbox(imgSrc, title) {
-  if (typeof window.openGalleryViewerBySrc === 'function') {
-    window.openGalleryViewerBySrc(imgSrc, title);
-    return;
-  }
-  const lb = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lightboxImage');
-  const lbTitle = document.getElementById('lightboxTitle');
-  if (lb && lbImg) {
-    lbImg.src = imgSrc;
-    if (lbTitle) lbTitle.textContent = title || '';
-    lb.classList.add('show');
-    lb.setAttribute('aria-hidden', 'false');
-  }
-}
+    if (t && testiWrap && testiQuote && testiAuthor) {
+      testiWrap.style.display = 'block';
+      testiQuote.textContent = '"' + t.quote + '"';
+      testiAuthor.textContent = '— ' + t.author + ' (' + t.role + ')';
+      if (testiRating) testiRating.textContent = '★'.repeat(t.rating || 5);
+    } else if (testiWrap) {
+      testiWrap.style.display = 'none';
+    }
 
-function closePortfolioLightbox() {
-  if (typeof window.closeGalleryViewer === 'function') {
-    window.closeGalleryViewer();
-  }
-  const lb = document.getElementById('lightbox');
-  if (lb) {
-    lb.classList.remove('show');
-    lb.setAttribute('aria-hidden', 'true');
-  }
-}
+    // RAB Calculation Link (auto-opens correct service in calculator)
+    if (rabCalcLink) {
+      rabCalcLink.href = '/index.html#kalkulator-biaya?service=' + (p.calcServiceKey || 'kusen');
+    }
 
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    closeProjectDetailModal();
-    closePortfolioLightbox();
-  }
-});
+    // Article Link
+    if (artWrap && artLink && artTitle) {
+      if (p.articleUrl && p.articleTitle) {
+        artWrap.style.display = 'block';
+        artLink.href = p.articleUrl;
+        artTitle.textContent = p.articleTitle + ' →';
+      } else {
+        artWrap.style.display = 'none';
+      }
+    }
+
+    // WhatsApp Link
+    if (waLink) {
+      const waText = encodeURIComponent(`Halo Admin Sahabat Kaca Aluminium, saya melihat detail proyek "${p.title}" di ${p.loc} (${p.specs.volume || ''}). Saya ingin konsultasi dan estimasi biaya untuk ukuran serupa.`);
+      waLink.href = `https://wa.me/6289637371166?text=${waText}`;
+    }
+
+    if (zoomBtn) {
+      zoomBtn.onclick = function() {
+        openPortfolioLightbox(p.image, p.title + ' - ' + p.loc);
+      };
+    }
+
+    if (modal) {
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+  };
+
+  window.closeProjectDetailModal = function() {
+    const modal = document.getElementById('projectDetailModal');
+    if (modal) {
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+  };
+
+  window.openPortfolioLightbox = function(imgSrc, title) {
+    if (typeof window.openGalleryViewerBySrc === 'function') {
+      window.openGalleryViewerBySrc(imgSrc, title);
+      return;
+    }
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightboxImage');
+    const lbTitle = document.getElementById('lightboxTitle');
+    if (lb && lbImg) {
+      lbImg.src = imgSrc;
+      if (lbTitle) lbTitle.textContent = title || '';
+      lb.classList.add('show');
+      lb.setAttribute('aria-hidden', 'false');
+    }
+  };
+
+  window.closePortfolioLightbox = function() {
+    const lb = document.getElementById('lightbox');
+    if (lb) {
+      lb.classList.remove('show');
+      lb.setAttribute('aria-hidden', 'true');
+    }
+  };
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeProjectDetailModal();
+      closePortfolioLightbox();
+    }
+  });
+})();
 </script>
 <script src="script.js"></script>
 </body>

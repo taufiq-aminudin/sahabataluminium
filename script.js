@@ -6868,6 +6868,75 @@ const SERVICE_CATALOG = (window.pricingConfig && window.pricingConfig.services) 
       formula: activeOption.formula,
       regionName: transportConfig.name
     };
+
+    // Update Specification Comparison Table dynamically per service
+    updateSpecComparisonTable(serviceKey);
+  }
+
+  // Update comparison table dynamically according to selected service
+  function updateSpecComparisonTable(serviceKey) {
+    const config = SERVICE_CATALOG[serviceKey] || SERVICE_CATALOG.kusen;
+    const badge = document.getElementById('specContextServiceBadge');
+    if (badge) {
+      badge.textContent = config.label;
+    }
+
+    const table = document.getElementById('specComparisonTable');
+    if (!table || !config.options || config.options.length === 0) return;
+
+    const optA = config.options[0];
+    const optB = config.options.length > 1 ? config.options[1] : config.options[0];
+
+    const colStd = document.getElementById('thColStandard');
+    const colPrem = document.getElementById('thColPremium');
+    const tableStdRate = document.getElementById('tableStdRate');
+    const tablePremRate = document.getElementById('tablePremRate');
+    const btnPickStd = document.getElementById('btnPickStd');
+    const btnPickPrem = document.getElementById('btnPickPrem');
+
+    if (colStd && optA) {
+      const nameEl = colStd.querySelector('.th-tier-name');
+      const pitchEl = colStd.querySelector('.th-tier-pitch');
+      const badgeEl = colStd.querySelector('.th-tier-badge');
+      if (nameEl) nameEl.textContent = optA.badge || optA.name;
+      if (pitchEl) pitchEl.textContent = optA.name;
+      if (badgeEl) badgeEl.textContent = 'Pilihan Populer';
+      if (tableStdRate) tableStdRate.textContent = optA.rate;
+      if (btnPickStd) {
+        btnPickStd.onclick = () => window.selectCalcOption(optA.id);
+        const isSel = currentOptionId === optA.id;
+        btnPickStd.innerHTML = isSel ? '<span class="pick-icon">✓</span> <span class="pick-text">Sedang Dipilih</span>' : '<span class="pick-icon">👉</span> <span class="pick-text">Pilih Opsi Ini</span>';
+      }
+    }
+
+    if (colPrem && optB) {
+      const nameEl = colPrem.querySelector('.th-tier-name');
+      const pitchEl = colPrem.querySelector('.th-tier-pitch');
+      const badgeEl = colPrem.querySelector('.th-tier-badge');
+      if (nameEl) nameEl.textContent = optB.badge || optB.name;
+      if (pitchEl) pitchEl.textContent = optB.name;
+      if (badgeEl) badgeEl.textContent = config.options.length > 1 ? 'Grade Spesifikasi Tinggi' : 'Pilihan Alternatif';
+      if (tablePremRate) tablePremRate.textContent = optB.rate;
+      if (btnPickPrem) {
+        btnPickPrem.onclick = () => window.selectCalcOption(optB.id);
+        const isSel = currentOptionId === optB.id;
+        btnPickPrem.innerHTML = isSel ? '<span class="pick-icon">✓</span> <span class="pick-text">Sedang Dipilih</span>' : '<span class="pick-icon">⭐</span> <span class="pick-text">Pilih Opsi Ini</span>';
+      }
+    }
+
+    const dynamicFeatureName = document.getElementById('specDynamicFeatureName');
+    const dynamicStdVal = document.getElementById('specDynamicStdVal');
+    const dynamicPremVal = document.getElementById('specDynamicPremVal');
+
+    if (dynamicFeatureName) {
+      dynamicFeatureName.textContent = `Sistem & Material: ${config.label}`;
+    }
+    if (dynamicStdVal && optA) {
+      dynamicStdVal.innerHTML = `<strong>${optA.name}</strong><div class="spec-note">${optA.desc}</div>`;
+    }
+    if (dynamicPremVal && optB) {
+      dynamicPremVal.innerHTML = `<strong>${optB.name}</strong><div class="spec-note">${optB.desc}</div>`;
+    }
   }
 
   // Public methods
@@ -7188,10 +7257,68 @@ const SERVICE_CATALOG = (window.pricingConfig && window.pricingConfig.services) 
 
     // Initial render
     if (serviceSelect) {
-      currentServiceKey = serviceSelect.value || 'kusen';
+      // Check URL query parameters or hash for pre-selected service
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        let sParam = urlParams.get('service') || urlParams.get('calc') || urlParams.get('id');
+
+        if (!sParam && window.location.hash.includes('service=')) {
+          const hashPart = window.location.hash.split('?')[1] || window.location.hash.split('&')[1];
+          if (hashPart) {
+            const hashParams = new URLSearchParams(hashPart);
+            sParam = hashParams.get('service');
+          }
+        }
+
+        const canonicalMap = {
+          'glass-canopy': 'kanopi',
+          'kanopi': 'kanopi',
+          'glass-railing': 'railing',
+          'railing': 'railing',
+          'aluminium-partition': 'partisi',
+          'partisi': 'partisi',
+          'aluminium-window': 'jendela',
+          'jendela': 'jendela',
+          'aluminium-door': 'pintu',
+          'pintu': 'pintu',
+          'shower-glass': 'shower',
+          'shower': 'shower',
+          'aluminium-profile': 'kusen',
+          'kusen': 'kusen',
+          'tempered-door': 'pintu_tempered',
+          'pintu_tempered': 'pintu_tempered',
+          'aluminium-bifold': 'bifold',
+          'bifold': 'bifold',
+          'aluminium-showcase': 'etalase',
+          'etalase': 'etalase',
+          'acp-facade': 'acp',
+          'acp': 'acp',
+          'curtain-wall': 'curtain_wall',
+          'curtain_wall': 'curtain_wall'
+        };
+
+        if (sParam && canonicalMap[sParam]) {
+          const targetKey = canonicalMap[sParam];
+          serviceSelect.value = targetKey;
+          currentServiceKey = targetKey;
+          setTimeout(() => {
+            const calcSection = document.getElementById('kalkulator-biaya');
+            if (calcSection) {
+              calcSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 300);
+        } else {
+          currentServiceKey = serviceSelect.value || 'kusen';
+        }
+      } catch (e) {
+        currentServiceKey = serviceSelect.value || 'kusen';
+      }
     }
     const initConfig = SERVICE_CATALOG[currentServiceKey] || SERVICE_CATALOG.kusen;
     currentOptionId = initConfig.options[0].id;
+    if (qtyInput) {
+      qtyInput.value = initConfig.defaultQty;
+    }
 
     updatePresetsForService(currentServiceKey);
     renderOptionCards(currentServiceKey);

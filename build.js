@@ -68,6 +68,7 @@ const staticFiles = [
   'artikel-seo.css',
   'print.css',
   'pricingConfig.js',
+  'projectCatalog.js',
   'script.js',
   'sitemap.xml',
   'sitemap-nonwww.xml',

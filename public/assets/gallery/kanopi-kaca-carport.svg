@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#334155" />
+    </linearGradient>
+    <linearGradient id="steelGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="50%" stop-color="#334155" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="canopyGlass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(186, 230, 253, 0.45)" />
+      <stop offset="40%" stop-color="rgba(125, 211, 252, 0.25)" />
+      <stop offset="100%" stop-color="rgba(56, 189, 248, 0.35)" />
+    </linearGradient>
+    <linearGradient id="glassSheen" x1="0" y1="0" x2="1" y2="0.6">
+      <stop offset="0%" stop-color="rgba(255, 255, 255, 0.5)" />
+      <stop offset="50%" stop-color="rgba(255, 255, 255, 0.1)" />
+      <stop offset="100%" stop-color="rgba(255, 255, 255, 0)" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background / Modern House Facade -->
+  <rect width="800" height="600" fill="url(#skyGrad)" />
+  <rect x="0" y="380" width="800" height="220" fill="#1e293b" />
+  <!-- Carport Pavers / Floor -->
+  <path d="M 0,460 L 800,460 L 800,600 L 0,600 Z" fill="#0f172a" />
+  <line x1="0" y1="520" x2="800" y2="520" stroke="#334155" stroke-width="1.5" />
+  <line x1="150" y1="460" x2="80" y2="600" stroke="#334155" stroke-width="1" />
+  <line x1="350" y1="460" x2="300" y2="600" stroke="#334155" stroke-width="1" />
+  <line x1="550" y1="460" x2="520" y2="600" stroke="#334155" stroke-width="1" />
+  <line x1="720" y1="460" x2="710" y2="600" stroke="#334155" stroke-width="1" />
+
+  <!-- House Wall & Concrete Beam Anchor -->
+  <rect x="0" y="100" width="800" height="240" fill="#cbd5e1" opacity="0.15" />
+  <rect x="0" y="180" width="800" height="40" fill="#475569" opacity="0.4" />
+
+  <!-- Steel Posts (Hollow 100x50x2mm) -->
+  <rect x="120" y="240" width="22" height="240" fill="url(#steelGrad)" rx="2" />
+  <rect x="680" y="220" width="22" height="260" fill="url(#steelGrad)" rx="2" />
+  <!-- Base Plates with Dynabolts -->
+  <rect x="110" y="475" width="42" height="8" fill="#475569" rx="1" />
+  <rect x="670" y="475" width="42" height="8" fill="#475569" rx="1" />
+
+  <!-- Main Rafter Beams (Pitched Perspective) -->
+  <polygon points="40,190 760,160 760,185 40,215" fill="url(#steelGrad)" />
+  <polygon points="120,240 700,220 700,238 120,258" fill="url(#steelGrad)" />
+
+  <!-- Cross Beams / Purlins -->
+  <polygon points="40,205 130,248 130,256 40,213" fill="#334155" />
+  <polygon points="220,198 290,242 290,250 220,206" fill="#334155" />
+  <polygon points="400,190 450,235 450,243 400,198" fill="#334155" />
+  <polygon points="580,183 610,228 610,236 580,191" fill="#334155" />
+  <polygon points="760,175 700,220 700,228 760,183" fill="#334155" />
+
+  <!-- Tempered Glass Canopy Sheets (4 Big Panels with Polished Joint Lines) -->
+  <!-- Panel 1 -->
+  <polygon points="40,190 220,183 290,242 120,253" fill="url(#canopyGlass)" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+  <polygon points="42,192 120,189 160,246 122,251" fill="url(#glassSheen)" />
+
+  <!-- Panel 2 -->
+  <polygon points="222,183 400,175 450,235 292,242" fill="url(#canopyGlass)" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+  <polygon points="224,185 300,181 330,238 294,240" fill="url(#glassSheen)" />
+
+  <!-- Panel 3 -->
+  <polygon points="402,175 580,168 610,228 452,235" fill="url(#canopyGlass)" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+  <polygon points="404,177 470,174 490,231 454,233" fill="url(#glassSheen)" />
+
+  <!-- Panel 4 -->
+  <polygon points="582,168 760,160 700,220 612,228" fill="url(#canopyGlass)" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+  <polygon points="584,170 640,167 650,223 614,226" fill="url(#glassSheen)" />
+
+  <!-- Gutter System / Talang Air Depan -->
+  <polygon points="115,252 705,228 705,242 115,266" fill="#1e293b" stroke="#475569" stroke-width="1.5" />
+
+  <!-- Spider Fittings / Glass Clamps Detail -->
+  <circle cx="120" cy="245" r="4.5" fill="#e2e8f0" stroke="#0f172a" stroke-width="1.5" />
+  <circle cx="290" cy="239" r="4.5" fill="#e2e8f0" stroke="#0f172a" stroke-width="1.5" />
+  <circle cx="450" cy="232" r="4.5" fill="#e2e8f0" stroke="#0f172a" stroke-width="1.5" />
+  <circle cx="610" cy="225" r="4.5" fill="#e2e8f0" stroke="#0f172a" stroke-width="1.5" />
+  <circle cx="700" cy="220" r="4.5" fill="#e2e8f0" stroke="#0f172a" stroke-width="1.5" />
+
+  <!-- Architecture Spec Pill Tag in Vector -->
+  <g transform="translate(30, 480)">
+    <rect width="270" height="70" rx="8" fill="rgba(15, 23, 42, 0.85)" stroke="#38bdf8" stroke-width="1.5" />
+    <text x="16" y="26" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="700" letter-spacing="1">KANOPI KACA TEMPERED 10MM</text>
+    <text x="16" y="44" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="600">Rangka Hollow Galvanis 100×50</text>
+    <text x="16" y="59" fill="#94a3b8" font-family="sans-serif" font-size="11">Sealant Netral Struktural Dowsil 795</text>
+  </g>
+</svg>

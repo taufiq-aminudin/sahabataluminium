@@ -1078,7 +1078,7 @@ for (const key of Object.keys(services)) {
 // Browser global registration if loaded via <script> tag
 // ------------------------------------------------------------------------------
 if (typeof window !== 'undefined') {
-  window.pricingConfig = {
+  const unifiedConfig = {
     services,
     constants: {
       KANOPI_PRICE_RANGES,
@@ -1095,8 +1095,15 @@ if (typeof window !== 'undefined') {
       CURTAIN_WALL_PRICE_RANGES,
       REGIONAL_TRANSPORT_ESTIMATES,
       WASTE_FACTORS
+    },
+    benchmarks: {
+      region: 'Karawang, Cikarang, Bekasi & Jabodetabek (Retail Supplier Benchmark)',
+      transport: REGIONAL_TRANSPORT_ESTIMATES,
+      wasteFactors: WASTE_FACTORS
     }
   };
+  window.pricingConfig = unifiedConfig;
+  window.PRICING_CONFIG = unifiedConfig;
 }
 
 export default services;

@@ -1717,6 +1717,12 @@ export const projects = [
   }
 ];
 
+export const TOTAL_PROJECTS = 26;
+export const VERIFIED_PROJECTS_COUNT = 6;
+export const UNVERIFIED_PROJECTS_COUNT = 20;
+export const TOTAL_SERVICES = 12;
+export const TOTAL_TESTIMONIALS = 13;
+
 // Helper Lookups
 export function getProjectById(id) {
   return projects.find(p => p.id === id) || null;
@@ -1738,9 +1744,32 @@ export function getTestimonialsByServiceId(serviceId) {
   return testimonials.filter(t => t.serviceId === serviceId);
 }
 
+export function getVerifiedProjects() {
+  return projects.filter(p => p.hasVerifiedPhoto);
+}
+
+export function getUnverifiedProjects() {
+  return projects.filter(p => !p.hasVerifiedPhoto);
+}
+
+export function getMasterStats() {
+  return {
+    totalProjects: TOTAL_PROJECTS,
+    verifiedProjectsCount: VERIFIED_PROJECTS_COUNT,
+    unverifiedProjectsCount: UNVERIFIED_PROJECTS_COUNT,
+    totalServices: TOTAL_SERVICES,
+    totalTestimonials: TOTAL_TESTIMONIALS
+  };
+}
+
 // Browser Global Registration
 if (typeof window !== 'undefined') {
   window.PROJECT_CATALOG = {
+    TOTAL_PROJECTS,
+    VERIFIED_PROJECTS_COUNT,
+    UNVERIFIED_PROJECTS_COUNT,
+    TOTAL_SERVICES,
+    TOTAL_TESTIMONIALS,
     services,
     projects,
     images,
@@ -1749,11 +1778,19 @@ if (typeof window !== 'undefined') {
     getServiceById,
     getImageById,
     getTestimonialsByProjectId,
-    getTestimonialsByServiceId
+    getTestimonialsByServiceId,
+    getVerifiedProjects,
+    getUnverifiedProjects,
+    getMasterStats
   };
 }
 
 export default {
+  TOTAL_PROJECTS,
+  VERIFIED_PROJECTS_COUNT,
+  UNVERIFIED_PROJECTS_COUNT,
+  TOTAL_SERVICES,
+  TOTAL_TESTIMONIALS,
   services,
   projects,
   images,
@@ -1762,5 +1799,8 @@ export default {
   getServiceById,
   getImageById,
   getTestimonialsByProjectId,
-  getTestimonialsByServiceId
+  getTestimonialsByServiceId,
+  getVerifiedProjects,
+  getUnverifiedProjects,
+  getMasterStats
 };

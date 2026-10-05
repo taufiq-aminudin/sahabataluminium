@@ -262,6 +262,8 @@ async function runValidation() {
   // Verify HTML files do not contain broken classic script tags
   const indexHtml = fs.readFileSync(path.join(ROOT_DIR, 'index.html'), 'utf8');
   const galeriHtml = fs.readFileSync(path.join(ROOT_DIR, 'galeri.html'), 'utf8');
+  const layananHtml = fs.readFileSync(path.join(ROOT_DIR, 'layanan.html'), 'utf8');
+  const scriptJs = fs.readFileSync(path.join(ROOT_DIR, 'script.js'), 'utf8');
 
   if (indexHtml.includes('<script src="pricingConfig.js">')) {
     criticalErrors.push('index.html contains classic <script src="pricingConfig.js"> tag that triggers SyntaxError in browser');
@@ -270,7 +272,39 @@ async function runValidation() {
     criticalErrors.push('galeri.html contains classic <script src="projectCatalog.js"> tag that triggers SyntaxError in browser');
   }
 
+  // Master Data Synchronization Checks:
+  // Check 1: script.js must initialize global window.PROJECT_CATALOG and window.PRICING_CONFIG
+  if (!scriptJs.includes('window.PROJECT_CATALOG = window.PROJECT_CATALOG ||')) {
+    criticalErrors.push('script.js is missing window.PROJECT_CATALOG Master Data initialization');
+  }
+  if (!scriptJs.includes('window.PRICING_CONFIG = PRICING_CONFIG')) {
+    criticalErrors.push('script.js is missing window.PRICING_CONFIG Master Data initialization');
+  }
+
+  // Check 2: galeri.html must not contain stale inlined fallback array
+  if (galeriHtml.includes('const projects = catalog.projects || [{"id":"proj-01"')) {
+    criticalErrors.push('galeri.html contains stale inlined fallback array instead of consuming window.PROJECT_CATALOG');
+  }
+
+  // Check 3: galeri.html bifold filter must accurately state (2)
+  if (galeriHtml.includes('data-filter="aluminium-bifold">Pintu Lipat Bifold (3)<')) {
+    criticalErrors.push('galeri.html filter count mismatch: Pintu Lipat Bifold should be (2), not (3)');
+  }
+
+  // Check 4: layanan.html prices must match Master Data
+  if (layananHtml.includes('Mulai Rp 550.000 / m2')) {
+    criticalErrors.push('layanan.html contains outdated Partisi price (Mulai Rp 550.000 / m2); Master Data is Rp 850.000 / m²');
+  }
+
+  // Check 5: 1:1 service mapping between catalog and pricingConfig
+  services.forEach(s => {
+    if (!pricingConfig[s.calcKey]) {
+      criticalErrors.push(`Catalog service '${s.id}' calcKey '${s.calcKey}' is not defined in pricingConfig`);
+    }
+  });
+
   console.log(`  ✓ Complete technical specifications verified for all 26 projects.`);
+  console.log(`  ✓ Master Data synchronization verified across script.js, galeri.html, and layanan.html.`);
   console.log(`  ✓ Clean HTML script inclusion verified.\n`);
 
   // ----------------------------------------------------------------------------

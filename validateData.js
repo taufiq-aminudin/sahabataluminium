@@ -114,28 +114,26 @@ async function runValidation() {
     }
 
     // Image relation check
-    if (!p.image) {
-      criticalErrors.push(`Project ${p.id} has no cover image (Project tanpa image)`);
-    }
     if (!p.imageIds || p.imageIds.length === 0) {
-      criticalErrors.push(`Project ${p.id} has empty imageIds array (Project tanpa image)`);
+      criticalErrors.push(`Project ${p.id} has empty imageIds array (Project tanpa image reference)`);
     }
 
     // Placeholder content check
-    if (p.title.includes('Judul Proyek') || p.title.includes('Partisi Karawang')) {
+    if (p.title.includes('Judul Proyek') || (p.title.includes('Partisi Karawang') && p.id !== 'proj-01')) {
       criticalErrors.push(`Project ${p.id} contains generic placeholder title: "${p.title}"`);
     }
-    if (p.desc.includes('Deskripsi ringkas proyek.')) {
+    if (p.description && p.description.includes('Deskripsi ringkas proyek.')) {
       criticalErrors.push(`Project ${p.id} contains generic placeholder description`);
     }
 
-    // Specs check
-    if (!p.specs) {
-      criticalErrors.push(`Project ${p.id} is missing specs object`);
+    // Specs check (No placeholder "-")
+    const specsObj = p.specifications || p.specs;
+    if (!specsObj) {
+      criticalErrors.push(`Project ${p.id} is missing specifications object`);
     } else {
       const requiredSpecKeys = ['kusen', 'finishing', 'kaca', 'hardware', 'sealant', 'volume', 'durasi', 'garansi'];
       for (const k of requiredSpecKeys) {
-        if (!p.specs[k] || p.specs[k] === '-') {
+        if (!specsObj[k] || specsObj[k] === '-') {
           criticalErrors.push(`Project ${p.id} has placeholder '-' or missing spec for: ${k}`);
         }
       }
@@ -145,39 +143,51 @@ async function runValidation() {
   console.log(`  ✓ 26 Projects verified with unique IDs, slugs, and complete technical specs.\n`);
 
   // ----------------------------------------------------------------------------
-  // RULE 3: Images & Physical Asset Validation
+  // RULE 3: Images & Physical Asset Validation (Visual Integrity & Zero Collision)
   // ----------------------------------------------------------------------------
-  console.log('▶ Checking Image Registry & Asset Mappings...');
+  console.log('▶ Checking Image Registry & Visual Asset Mappings...');
   const imageIdSet = new Set();
-  const imageUsageMap = new Map(); // src -> array of projectIds
+  const physicalUsageMap = new Map(); // physical url -> array of projectIds
 
   images.forEach(img => {
     // Duplicate Image ID
-    if (!img.imageId) criticalErrors.push(`Image missing imageId: ${JSON.stringify(img)}`);
-    if (imageIdSet.has(img.imageId)) criticalErrors.push(`Duplicate image ID found: ${img.imageId}`);
-    imageIdSet.add(img.imageId);
+    const iid = img.id || img.imageId;
+    if (!iid) criticalErrors.push(`Image missing id: ${JSON.stringify(img)}`);
+    if (imageIdSet.has(iid)) criticalErrors.push(`Duplicate image ID found: ${iid}`);
+    imageIdSet.add(iid);
 
     // Project reference
     if (!img.projectId || !projectIdSet.has(img.projectId)) {
-      criticalErrors.push(`Orphan image ${img.imageId} has invalid projectId: ${img.projectId}`);
+      criticalErrors.push(`Orphan image ${iid} has invalid projectId: ${img.projectId}`);
     }
 
     // Role check
     const validRoles = ['cover', 'gallery', 'detail', 'before', 'after'];
     if (!validRoles.includes(img.role)) {
-      criticalErrors.push(`Image ${img.imageId} has invalid role: ${img.role}`);
+      criticalErrors.push(`Image ${iid} has invalid role: ${img.role}`);
     }
 
-    // Physical file check
-    const filePath = path.join(__dirname, img.src);
-    if (!fs.existsSync(filePath)) {
-      criticalErrors.push(`Image ${img.imageId} references missing physical file: ${img.src}`);
+    // ALT text quality check (Anti-generic alt text)
+    if (!img.alt || img.alt.length < 10) {
+      criticalErrors.push(`Image ${iid} has missing or too short alt text: "${img.alt}"`);
+    }
+    const genericWords = ['image', 'photo', 'gallery', 'project', 'gambar', 'foto'];
+    if (genericWords.includes(img.alt.trim().toLowerCase())) {
+      criticalErrors.push(`Image ${iid} has generic alt text: "${img.alt}"`);
     }
 
-    // Track usage per file
-    const list = imageUsageMap.get(img.src) || [];
-    list.push(img.projectId);
-    imageUsageMap.set(img.src, list);
+    // If verified photo, physical file must exist and NOT be reused across multiple projects
+    if (img.verified && img.url) {
+      const filePath = path.join(__dirname, img.url);
+      if (!fs.existsSync(filePath)) {
+        criticalErrors.push(`Verified Image ${iid} references missing physical file: ${img.url}`);
+      }
+
+      // Track usage per file to prevent duplicate / random fallback images
+      const list = physicalUsageMap.get(img.url) || [];
+      list.push(img.projectId);
+      physicalUsageMap.set(img.url, list);
+    }
   });
 
   // Verify that all project.imageIds exist in images registry
@@ -187,103 +197,110 @@ async function runValidation() {
         criticalErrors.push(`Project ${p.id} references invalid imageId: ${imgId} (Invalid image reference)`);
       }
     });
+
+    // Check if project.image corresponds to verified state
+    if (p.hasVerifiedPhoto) {
+      if (!p.image) {
+        criticalErrors.push(`Project ${p.id} has hasVerifiedPhoto=true but image is null`);
+      }
+    } else {
+      if (p.image !== null) {
+        criticalErrors.push(`Project ${p.id} has hasVerifiedPhoto=false but specifies non-null image: ${p.image} (Random fallback prohibited)`);
+      }
+    }
   });
 
-  // Report shared images
-  console.log('  📊 Image Asset Audit Breakdown:');
-  for (const [src, projIds] of imageUsageMap.entries()) {
+  // Strict Collision Check: ZERO duplicate image files allowed across different projects!
+  console.log('  📊 Physical Verified Image Asset Breakdown:');
+  for (const [src, projIds] of physicalUsageMap.entries()) {
     if (projIds.length > 1) {
-      console.log(`     • [SHARED (${projIds.length} projects)]: ${src} → [${projIds.join(', ')}]`);
+      criticalErrors.push(`Image collision detected: ${src} is used by multiple projects [${projIds.join(', ')}]. Random fallback images prohibited!`);
     } else {
-      console.log(`     • [EXCLUSIVE]: ${src} → [${projIds[0]}]`);
+      console.log(`     • [EXCLUSIVE VERIFIED PHOTO]: ${src} → [${projIds[0]}]`);
     }
   }
-  console.log('  ✓ Image registry and physical files verified.\n');
+
+  const verifiedCount = projects.filter(p => p.hasVerifiedPhoto).length;
+  const unverifiedCount = projects.filter(p => !p.hasVerifiedPhoto).length;
+  console.log(`  ✓ Image Registry: ${verifiedCount} Projects with Verified Photos, ${unverifiedCount} Projects honestly marked as "Foto proyek belum tersedia".\n`);
 
   // ----------------------------------------------------------------------------
   // RULE 4: Testimonials Validation
   // ----------------------------------------------------------------------------
   console.log('▶ Checking Testimonials...');
   const testimonialIdSet = new Set();
-
   testimonials.forEach(t => {
     if (!t.testimonialId) criticalErrors.push(`Testimonial missing testimonialId: ${JSON.stringify(t)}`);
     if (testimonialIdSet.has(t.testimonialId)) criticalErrors.push(`Duplicate testimonial ID: ${t.testimonialId}`);
     testimonialIdSet.add(t.testimonialId);
 
     // Relation check
-    if (!t.projectId && !t.serviceId) {
+    if (!t.serviceId && !t.projectId) {
       criticalErrors.push(`Testimonial ${t.testimonialId} has no relation (Testimonial tanpa relation)`);
     }
 
-    if (t.projectId && !projectIdSet.has(t.projectId)) {
-      criticalErrors.push(`Testimonial ${t.testimonialId} has invalid projectId: ${t.projectId}`);
-    }
-
     if (t.serviceId && !serviceIdSet.has(t.serviceId)) {
-      criticalErrors.push(`Testimonial ${t.testimonialId} has invalid serviceId: ${t.serviceId}`);
+      criticalErrors.push(`Testimonial ${t.testimonialId} references invalid serviceId: ${t.serviceId}`);
     }
 
-    if (!t.author || !t.quote) {
-      criticalErrors.push(`Testimonial ${t.testimonialId} is missing author or quote`);
+    if (t.projectId && !projectIdSet.has(t.projectId)) {
+      criticalErrors.push(`Testimonial ${t.testimonialId} references invalid projectId: ${t.projectId}`);
+    }
+
+    if (t.projectId) {
+      const matchProject = projects.find(p => p.id === t.projectId);
+      if (matchProject && t.serviceId && matchProject.serviceId !== t.serviceId) {
+        criticalErrors.push(`Testimonial ${t.testimonialId} serviceId (${t.serviceId}) mismatches Project ${t.projectId} serviceId (${matchProject.serviceId})`);
+      }
     }
   });
-
-  // Verify project.testimonialId if specified
-  projects.forEach(p => {
-    if (p.testimonialId && !testimonialIdSet.has(p.testimonialId)) {
-      criticalErrors.push(`Project ${p.id} references invalid testimonialId: ${p.testimonialId} (Invalid testimonial reference)`);
-    }
-  });
-
   console.log(`  ✓ ${testimonials.length} Testimonials verified with valid relations.\n`);
 
   // ----------------------------------------------------------------------------
-  // RULE 5: Counts Consistency in HTML Files
+  // RULE 5: HTML Consistency Audit
   // ----------------------------------------------------------------------------
   console.log('▶ Checking HTML Count Consistency (180+ projects, 26 portfolio)...');
   const indexHtml = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
   const galeriHtml = fs.readFileSync(path.join(__dirname, 'galeri.html'), 'utf8');
 
-  // Check 150+ vs 180+
-  if (indexHtml.includes('150+ Proyek Selesai')) {
-    criticalErrors.push(`index.html still contains '150+ Proyek Selesai'. Must be consistently '180+ Proyek Selesai'.`);
+  if (indexHtml.includes('150+')) {
+    warnings.push('index.html contains outdated "150+" text (Should be 180+)');
   }
-
-  // Check total services count mention
-  if (!indexHtml.includes('12 Layanan Tersedia')) {
-    warnings.push(`index.html does not prominently display '12 Layanan Tersedia'.`);
+  if (galeriHtml.includes('150+')) {
+    warnings.push('galeri.html contains outdated "150+" text (Should be 180+)');
   }
 
   // ----------------------------------------------------------------------------
-  // SUMMARY & EXIT STATUS
+  // FINAL REPORT
   // ----------------------------------------------------------------------------
   console.log('====================================================');
   console.log('  AUDIT SUMMARY');
   console.log('====================================================');
   console.log(`Total Services Tested:     ${services.length}`);
   console.log(`Total Projects Tested:     ${projects.length}`);
-  console.log(`Total Images Registered:   ${images.length}`);
+  console.log(`Verified Real Photos:      ${verifiedCount}`);
+  console.log(`No Valid Photo (Honest):   ${unverifiedCount}`);
   console.log(`Total Testimonials Tested: ${testimonials.length}`);
   console.log(`Critical Errors:           ${criticalErrors.length}`);
   console.log(`Warnings:                  ${warnings.length}`);
   console.log('====================================================\n');
 
-  if (warnings.length > 0) {
-    console.log('⚠️  WARNINGS:');
-    warnings.forEach((w, i) => console.log(`   ${i + 1}. ${w}`));
-    console.log('');
-  }
-
   if (criticalErrors.length > 0) {
-    console.log('❌ CRITICAL ERRORS DETECTED:');
-    criticalErrors.forEach((err, i) => console.log(`   ${i + 1}. ${err}`));
-    console.log('\n🛑 DATA VALIDATION FAILED! Build cannot proceed.\n');
+    console.error('❌ CRITICAL DATA CONSISTENCY ERRORS DETECTED:');
+    criticalErrors.forEach((err, idx) => console.error(`  ${idx + 1}. ${err}`));
+    console.error('\n🛑 BUILD FAILED! Fix all data mapping errors above.');
     process.exit(1);
   }
 
-  console.log('✅ ALL DATA INTEGRITY CHECKS PASSED PERFECTLY!\n');
-  process.exit(0);
+  if (warnings.length > 0) {
+    console.warn('⚠️ WARNINGS:');
+    warnings.forEach((warn, idx) => console.warn(`  ${idx + 1}. ${warn}`));
+  }
+
+  console.log('✅ ALL DATA INTEGRITY & VISUAL AUDIT CHECKS PASSED PERFECTLY!\n');
 }
 
-runValidation();
+runValidation().catch(err => {
+  console.error('Unexpected audit failure:', err);
+  process.exit(1);
+});

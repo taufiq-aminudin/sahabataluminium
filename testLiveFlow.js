@@ -39,10 +39,9 @@ testProjectIds.forEach(id => {
     throw new Error(`Service ${p.serviceId} not found for project ${id}!`);
   }
 
-  // Check image
+  // Check image: either authentic verified file on disk or honestly null ("Foto proyek belum tersedia")
   const imgFile = p.image;
-  const imgExists = fs.existsSync(imgFile);
-  const isImageValid = imgExists && !imgFile.includes('placeholder');
+  const isImageValid = imgFile === null || (typeof imgFile === 'string' && fs.existsSync(imgFile) && !imgFile.includes('placeholder'));
 
   // Check specs
   const specs = p.specs;
@@ -64,8 +63,8 @@ testProjectIds.forEach(id => {
 
   // Check RAB calculation link
   const rabLink = `/index.html#kalkulator-biaya?service=${p.calcServiceKey}`;
-  const rabService = PRICING_CONFIG.services[p.calcServiceKey];
-  const isRabValid = typeof rabService.formula === 'function';
+  const rabService = pricingServices[p.calcServiceKey];
+  const isRabValid = rabService && typeof rabService.formula === 'function';
 
   // Execute RAB formula to ensure calculations work flawlessly
   const rabSample = rabService.formula(s.unit === 'm²' ? 18 : (s.unit === 'm1' ? 12 : 2));

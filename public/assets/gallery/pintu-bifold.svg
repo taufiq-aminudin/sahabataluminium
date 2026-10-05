@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="wallBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="100%" stop-color="#e2e8f0" />
+    </linearGradient>
+    <linearGradient id="patioBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#86efac" />
+      <stop offset="50%" stop-color="#4ade80" />
+      <stop offset="100%" stop-color="#22c55e" />
+    </linearGradient>
+    <linearGradient id="frameDark" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#334155" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="glassBifold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(224, 242, 254, 0.45)" />
+      <stop offset="50%" stop-color="rgba(186, 230, 253, 0.25)" />
+      <stop offset="100%" stop-color="rgba(125, 211, 252, 0.4)" />
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(255, 255, 255, 0)" />
+      <stop offset="48%" stop-color="rgba(255, 255, 255, 0.05)" />
+      <stop offset="50%" stop-color="rgba(255, 255, 255, 0.45)" />
+      <stop offset="52%" stop-color="rgba(255, 255, 255, 0.05)" />
+      <stop offset="100%" stop-color="rgba(255, 255, 255, 0)" />
+    </linearGradient>
+    <linearGradient id="trackMetal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#64748b" />
+      <stop offset="50%" stop-color="#cbd5e1" />
+      <stop offset="100%" stop-color="#475569" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Interior Room -->
+  <rect width="800" height="600" fill="url(#wallBg)" />
+
+  <!-- Wooden Parquet Floor Inside -->
+  <rect x="0" y="480" width="800" height="120" fill="#78350f" opacity="0.8" />
+  <line x1="0" y1="510" x2="800" y2="510" stroke="#451a03" stroke-width="1.5" />
+  <line x1="0" y1="540" x2="800" y2="540" stroke="#451a03" stroke-width="1.5" />
+  <line x1="0" y1="570" x2="800" y2="570" stroke="#451a03" stroke-width="1.5" />
+
+  <!-- Outdoor Patio Garden View Through Opening -->
+  <rect x="70" y="70" width="660" height="410" fill="url(#patioBg)" opacity="0.65" />
+  <!-- Distant stone wall/patio stones -->
+  <rect x="70" y="380" width="660" height="100" fill="#94a3b8" opacity="0.5" />
+
+  <!-- Outer Heavy-Duty Aluminium Frame (4" Alexindo Profile) -->
+  <rect x="60" y="60" width="680" height="425" fill="none" stroke="url(#frameDark)" stroke-width="16" rx="2" />
+
+  <!-- Top Hanging Track (Rel Gantung Tandem Roller Heavy Duty) -->
+  <rect x="60" y="60" width="680" height="18" fill="url(#trackMetal)" />
+  <rect x="68" y="64" width="664" height="4" fill="#1e293b" />
+
+  <!-- Bottom Flush Guide Track (Rel Tanam Rata Lantai) -->
+  <rect x="60" y="475" width="680" height="12" fill="url(#trackMetal)" />
+  <line x1="60" y1="481" x2="740" y2="481" stroke="#0f172a" stroke-width="3" />
+
+  <!-- 4-Panel Bifold Door Folding Configuration (1 Left, 3 Folded to Right) -->
+  
+  <!-- Panel 1 (Closed flush left) -->
+  <g id="panel1">
+    <rect x="72" y="76" width="155" height="398" fill="url(#frameDark)" rx="2" />
+    <rect x="86" y="90" width="127" height="370" fill="url(#glassBifold)" stroke="#38bdf8" stroke-width="0.8" />
+    <rect x="86" y="90" width="127" height="370" fill="url(#sheen)" />
+    <!-- Handle & Mortise Lock -->
+    <rect x="212" y="270" width="6" height="38" fill="#e2e8f0" rx="2" />
+    <circle cx="215" cy="265" r="3" fill="#cbd5e1" />
+  </g>
+
+  <!-- Panel 2 (Folded angle / perspective) -->
+  <g id="panel2">
+    <!-- Main sash -->
+    <polygon points="230,76 360,95 360,455 230,474" fill="url(#frameDark)" />
+    <polygon points="242,92 348,107 348,443 242,458" fill="url(#glassBifold)" stroke="#38bdf8" stroke-width="0.8" />
+    <polygon points="242,92 348,107 348,443 242,458" fill="url(#sheen)" />
+    <!-- Stainless Hinge Connection -->
+    <rect x="227" y="140" width="6" height="24" fill="#e2e8f0" rx="1" />
+    <rect x="227" y="270" width="6" height="24" fill="#e2e8f0" rx="1" />
+    <rect x="227" y="400" width="6" height="24" fill="#e2e8f0" rx="1" />
+  </g>
+
+  <!-- Panel 3 (Opposite fold angle) -->
+  <g id="panel3">
+    <polygon points="360,95 470,78 470,472 360,455" fill="#1e293b" />
+    <polygon points="372,109 458,94 458,456 372,441" fill="url(#glassBifold)" stroke="#38bdf8" stroke-width="0.8" />
+    <polygon points="372,109 458,94 458,456 372,441" fill="url(#sheen)" />
+    <!-- Center Guide Roller Carriage at Top Track -->
+    <circle cx="360" cy="69" r="6" fill="#f8fafc" stroke="#475569" stroke-width="2" />
+  </g>
+
+  <!-- Panel 4 (Right folded flat against frame) -->
+  <g id="panel4">
+    <polygon points="470,78 575,100 575,450 470,472" fill="url(#frameDark)" />
+    <polygon points="482,94 563,112 563,438 482,456" fill="url(#glassBifold)" stroke="#38bdf8" stroke-width="0.8" />
+    <polygon points="482,94 563,112 563,438 482,456" fill="url(#sheen)" />
+    <!-- Pull Ring / Flush D-Handle -->
+    <rect x="480" y="275" width="4" height="25" fill="#f1f5f9" rx="1" />
+    <!-- Stainless Hinge Connection -->
+    <rect x="468" y="140" width="5" height="24" fill="#e2e8f0" rx="1" />
+    <rect x="468" y="270" width="5" height="24" fill="#e2e8f0" rx="1" />
+    <rect x="468" y="400" width="5" height="24" fill="#e2e8f0" rx="1" />
+  </g>
+
+  <!-- High-end architectural watermark badge -->
+  <g transform="translate(480, 520)">
+    <rect width="250" height="52" rx="8" fill="#072e3b" opacity="0.9" />
+    <text x="14" y="22" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#5eead4">SISTEM PINTU LIPAT BIFOLD</text>
+    <text x="14" y="38" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5" fill="#e2e8f0">Rel Gantung Heavy Duty • 4-6 Daun Fleksibel</text>
+  </g>
+</svg>

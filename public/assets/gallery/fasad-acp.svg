@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="skyBldg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#e0f2fe" />
+    </linearGradient>
+    <linearGradient id="acpSilver" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="50%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#cbd5e1" />
+    </linearGradient>
+    <linearGradient id="acpDark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#334155" />
+      <stop offset="50%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="glassTint" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(14, 165, 233, 0.6)" />
+      <stop offset="100%" stop-color="rgba(3, 105, 161, 0.8)" />
+    </linearGradient>
+  </defs>
+
+  <!-- Sky background -->
+  <rect width="800" height="600" fill="url(#skyBldg)" />
+
+  <!-- Commercial Building Structure -->
+  <!-- Ground Pavement -->
+  <rect x="0" y="500" width="800" height="100" fill="#334155" />
+
+  <!-- Main Facade Wall covered in ACP Seven Panels -->
+  <rect x="60" y="60" width="680" height="440" fill="url(#acpSilver)" stroke="#94a3b8" stroke-width="2" />
+
+  <!-- ACP Panel Grid Grooves (Sealant Lines 10mm) -->
+  <!-- Horizontal Joints -->
+  <line x1="60" y1="140" x2="740" y2="140" stroke="#475569" stroke-width="3" />
+  <line x1="60" y1="220" x2="740" y2="220" stroke="#475569" stroke-width="3" />
+  <line x1="60" y1="300" x2="740" y2="300" stroke="#475569" stroke-width="3" />
+  <line x1="60" y1="380" x2="740" y2="380" stroke="#475569" stroke-width="3" />
+
+  <!-- Vertical Joints -->
+  <line x1="180" y1="60" x2="180" y2="380" stroke="#475569" stroke-width="3" />
+  <line x1="300" y1="60" x2="300" y2="380" stroke="#475569" stroke-width="3" />
+  <line x1="500" y1="60" x2="500" y2="380" stroke="#475569" stroke-width="3" />
+  <line x1="620" y1="60" x2="620" y2="380" stroke="#475569" stroke-width="3" />
+
+  <!-- Accent ACP Dark Panels (Upper Eyebrow & Columns) -->
+  <rect x="60" y="60" width="680" height="40" fill="url(#acpDark)" />
+  <rect x="60" y="100" width="60" height="400" fill="url(#acpDark)" />
+  <rect x="680" y="100" width="60" height="400" fill="url(#acpDark)" />
+
+  <!-- Commercial Entrance Ribbon Windows / Fixed Glass Ribbon -->
+  <rect x="180" y="150" width="440" height="130" fill="url(#glassTint)" stroke="#0f172a" stroke-width="4" />
+  <!-- Window Mullions -->
+  <line x1="290" y1="150" x2="290" y2="280" stroke="#0f172a" stroke-width="5" />
+  <line x1="400" y1="150" x2="400" y2="280" stroke="#0f172a" stroke-width="5" />
+  <line x1="510" y1="150" x2="510" y2="280" stroke="#0f172a" stroke-width="5" />
+
+  <!-- Ground Floor Entrance: Automatic Sensor Sliding Glass Doors -->
+  <rect x="250" y="320" width="300" height="180" fill="rgba(14, 165, 233, 0.4)" stroke="#0f172a" stroke-width="6" />
+  <!-- Glass Door Leaves -->
+  <line x1="400" y1="320" x2="400" y2="500" stroke="#0f172a" stroke-width="4" />
+  <!-- Header Sensor Box -->
+  <rect x="245" y="310" width="310" height="16" fill="url(#acpDark)" rx="2" />
+  <circle cx="400" cy="318" r="4" fill="#22c55e" />
+
+  <!-- Canopy Porch Overhang -->
+  <polygon points="200,310 600,310 640,325 160,325" fill="#475569" />
+
+  <!-- Architecture Spec Pill Tag in Vector -->
+  <g transform="translate(30, 480)">
+    <rect width="280" height="70" rx="8" fill="rgba(15, 23, 42, 0.9)" stroke="#38bdf8" stroke-width="1.5" />
+    <text x="16" y="26" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="700" letter-spacing="1">FASAD ACP SEVEN PVDF 0.3MM</text>
+    <text x="16" y="44" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="600">Eksterior Tahan Cuaca & Siku Baja</text>
+    <text x="16" y="59" fill="#94a3b8" font-family="sans-serif" font-size="11">Rangka Hollow Galvanis 40×40 Anti Karat</text>
+  </g>
+</svg>

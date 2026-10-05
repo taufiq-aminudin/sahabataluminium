@@ -380,6 +380,7 @@ ${getHeader('layanan', 2)}
       </h2>
       <p style="color:var(--muted);font-size:15px;line-height:1.7;">
         Kami menyediakan beragam opsi konfigurasi sesuai kebutuhan arsitektur dan fungsional ruangan Anda.
+        <br><span style="font-size:12.5px;color:#64748b;display:inline-block;margin-top:6px;">*Harga indikatif / rough budget. Harga final menyesuaikan ukuran, desain, material, hardware, kondisi lokasi, tingkat kesulitan pemasangan, dan hasil survey.</span>
       </p>
     </div>
 

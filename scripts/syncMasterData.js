@@ -240,24 +240,24 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
 
   // Synchronize servicesDetailData in layanan.html modal:
   layananContent = layananContent.replace(
-    "pricing: 'Standard 3\" Rp 85.000 - Rp 110.000 / m1 terpasang rapi • Alexindo 4\" Rp 135.000 - Rp 175.000 / m1',",
-    "pricing: 'Standard 3\" Rp 85.000 – Rp 110.000 / m1 • Premium 4\" Alexindo Rp 135.000 – Rp 165.000 / m1',",
+    /pricing:\s*['"]Standard 3"[^'"]+['"],?/,
+    "pricing: 'Standard 3\" Rp 212.500 – Rp 275.000 / m1 • Premium 4\" Alexindo Rp 337.500 – Rp 412.500 / m1',",
   );
   layananContent = layananContent.replace(
-    "pricing: 'Pintu mulai Rp 1.250.000 - Rp 1.650.000 / unit • Jendela mulai Rp 550.000 - Rp 750.000 / unit',",
-    "pricing: 'Pintu Swing mulai Rp 2.000.000 – Rp 2.800.000 / unit • Sliding Rp 2.500.000 – Rp 3.500.000 • Jendela Casement Rp 850.000 – Rp 1.050.000 / m²',",
+    /pricing:\s*['"]Pintu (?:mulai|Swing)[^'"]+['"],?/,
+    "pricing: 'Pintu Swing mulai Rp 5.000.000 – Rp 7.000.000 / unit • Sliding Rp 6.250.000 – Rp 8.750.000 • Jendela Casement Rp 1.625.000 – Rp 2.375.000 / daun',",
   );
   layananContent = layananContent.replace(
-    "pricing: 'Pintu Tempered Floor Hinge mulai Rp 2.900.000 - Rp 3.800.000 • Shower Screen mulai Rp 1.650.000 - Rp 2.300.000',",
-    "pricing: 'Pintu Tempered 10mm mulai Rp 3.250.000 – Rp 3.850.000 / unit • Shower Screen mulai Rp 1.500.000 – Rp 2.000.000 / unit',",
+    /pricing:\s*['"]Pintu Tempered[^'"]+['"],?/,
+    "pricing: 'Pintu Tempered 10mm mulai Rp 8.125.000 – Rp 9.625.000 / unit • Shower Screen mulai Rp 3.750.000 – Rp 5.000.000 / unit',",
   );
   layananContent = layananContent.replace(
-    "pricing: 'Mulai Rp 550.000 - Rp 950.000 / m2 terpasang',",
-    "pricing: 'Standard 3\" Rp 850.000 – Rp 1.050.000 / m² • Premium 4\" Alexindo Rp 1.100.000 – Rp 1.350.000 / m²',",
+    /pricing:\s*['"](?:Mulai|Standard 3")[^'"]*\/ m2?[^'"]*['"],?/,
+    "pricing: 'Standard 3\" Rp 2.125.000 – Rp 2.625.000 / m² • Premium 4\" Alexindo Rp 2.750.000 – Rp 3.375.000 / m²',",
   );
   layananContent = layananContent.replace(
-    "pricing: 'Kanopi mulai Rp 1.25jt/m2 • Railing mulai Rp 1.15jt/m1',",
-    "pricing: 'Kanopi Tempered mulai Rp 1.550.000 – Rp 1.750.000 / m² • Railing Kaca mulai Rp 2.200.000 – Rp 2.500.000 / m1',",
+    /pricing:\s*['"]Kanopi[^'"]+['"],?/,
+    "pricing: 'Kanopi Tempered mulai Rp 3.875.000 – Rp 4.375.000 / m² • Railing Kaca mulai Rp 5.500.000 – Rp 6.250.000 / m1',",
   );
 
   fs.writeFileSync(layananPath, layananContent, 'utf8');
@@ -290,11 +290,11 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
   // Ensure tableStdRate and tablePremRate match pricingConfig
   indexContent = indexContent.replace(
     /<span class="th-tier-price" id="tableStdRate">[^<]+<\/span>/,
-    '<span class="th-tier-price" id="tableStdRate">Rp 85.000 – Rp 110.000 / m1</span>'
+    '<span class="th-tier-price" id="tableStdRate">Rp 212.500 – Rp 275.000 / m1</span>'
   );
   indexContent = indexContent.replace(
     /<span class="th-tier-price" id="tablePremRate">[^<]+<\/span>/,
-    '<span class="th-tier-price" id="tablePremRate">Rp 135.000 – Rp 165.000 / m1</span>'
+    '<span class="th-tier-price" id="tablePremRate">Rp 337.500 – Rp 412.500 / m1</span>'
   );
 
   fs.writeFileSync(indexPath, indexContent, 'utf8');

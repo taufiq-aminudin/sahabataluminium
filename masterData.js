@@ -50,16 +50,16 @@ function factory() {
         'assets/gallery/jendela-aluminium.jpg',
         'assets/gallery/pintu-aluminium.jpg'
       ],
-      priceStarting: 'Mulai Rp 85.000 / m1',
+      priceStarting: 'Mulai Rp 212.500 / m1',
       priceUnit: 'm1',
-      priceRange: 'Rp 85.000 – Rp 165.000 / m1',
+      priceRange: 'Rp 212.500 – Rp 412.500 / m1',
       warranty: '18 Bulan Resmi',
       summary: 'Pembuatan & pasang kusen jendela, pintu profil 3 & 4 inch. Siku miter 45° presisi, anti rayap & lapuk seumur hidup.',
       description: 'Fabrikasi dan pemasangan kusen aluminium presisi standar SNI untuk rumah tinggal, ruko, gedung perkantoran, dan pabrik industri di Karawang. Menggunakan profil aluminium pilihan Alexindo, Inkalum, dan Dacon dengan potongan sudut miter 45 derajat dobel spigot anti renggang dan karet EPDM kedap cuaca.',
       models: [
-        { name: 'Kusen Profil 3 Inch (Standard)', desc: 'Ukuran 7.6 x 3.8 cm, sangat hemat tempat untuk kamar dan sekat rumah tinggal.', rate: 'Rp 85.000 - Rp 110.000 / m1' },
-        { name: 'Kusen Profil 4 Inch (Heavy Duty)', desc: 'Ukuran 10.1 x 4.4 cm, kokoh dan gagah untuk pintu utama, ruko, fasad, dan bukaan tinggi.', rate: 'Rp 135.000 - Rp 165.000 / m1' },
-        { name: 'Kusen Finishing Serat Kayu (Wood Grain)', desc: 'Tampilan alami urat kayu berpadu ketahanan aluminium anti rayap seumur hidup.', rate: 'Rp 145.000 - Rp 175.000 / m1' }
+        { name: 'Kusen Profil 3 Inch (Standard)', desc: 'Ukuran 7.6 x 3.8 cm, sangat hemat tempat untuk kamar dan sekat rumah tinggal.', rate: 'Rp 212.500 – Rp 275.000 / m1' },
+        { name: 'Kusen Profil 4 Inch (Heavy Duty)', desc: 'Ukuran 10.1 x 4.4 cm, kokoh dan gagah untuk pintu utama, ruko, fasad, dan bukaan tinggi.', rate: 'Rp 337.500 – Rp 412.500 / m1' },
+        { name: 'Kusen Finishing Serat Kayu (Wood Grain)', desc: 'Tampilan alami urat kayu berpadu ketahanan aluminium anti rayap seumur hidup.', rate: 'Rp 362.500 – Rp 437.500 / m1' }
       ],
       materials: [
         'Alexindo Tebal 1.15 - 1.35 mm (Premium Grade)',
@@ -104,16 +104,16 @@ function factory() {
         'assets/gallery/pintu-sliding.jpg',
         'assets/gallery/pintu-kaca-putih.jpg'
       ],
-      priceStarting: 'Mulai Rp 1.250.000 / unit',
+      priceStarting: 'Mulai Rp 3.125.000 / unit',
       priceUnit: 'unit',
-      priceRange: 'Rp 1.250.000 – Rp 3.500.000+ / unit',
+      priceRange: 'Rp 3.125.000 – Rp 8.750.000+ / unit',
       warranty: '24 Bulan Resmi',
       summary: 'Pintu sliding geser rel gantung, pintu swing kupu tarung, dan pintu lipat bifold taman belakang. Rel SUS304 anti anjlok.',
       description: 'Pemasangan pintu aluminium modern dengan berbagai pilihan sistem bukaan: sliding geser rel gantung senyap, swing satu daun maupun kupu tarung dua daun, hingga sistem pintu lipat bifold opening 100%. Didukung hardware Dekkson stainless SUS304 anti karat dan roda nilon heavy-duty tahan beban.',
       models: [
-        { name: 'Pintu Sliding Geser (1 - 4 Daun)', desc: 'Rel gantung atas tanpa rel bawah atau rel tanam stainless rata lantai.', rate: 'Rp 1.500.000 - Rp 2.500.000 / unit' },
-        { name: 'Pintu Swing Kupu Tarung & Single', desc: 'Pintu bukaan ayun dengan lockset multi-point dan handle panjang modern.', rate: 'Rp 1.250.000 - Rp 2.000.000 / unit' },
-        { name: 'Pintu Lipat Bifold (3 - 8 Daun)', desc: 'Bukaan maksimal 100% menghubungkan ruang keluarga dengan taman belakang.', rate: 'Rp 1.850.000 - Rp 2.400.000 / daun' }
+        { name: 'Pintu Sliding Geser (1 - 4 Daun)', desc: 'Rel gantung atas tanpa rel bawah atau rel tanam stainless rata lantai.', rate: 'Rp 3.750.000 – Rp 6.250.000 / unit' },
+        { name: 'Pintu Swing Kupu Tarung & Single', desc: 'Pintu bukaan ayun dengan lockset multi-point dan handle panjang modern.', rate: 'Rp 3.125.000 – Rp 5.000.000 / unit' },
+        { name: 'Pintu Lipat Bifold (3 - 8 Daun)', desc: 'Bukaan maksimal 100% menghubungkan ruang keluarga dengan taman belakang.', rate: 'Rp 4.625.000 – Rp 6.000.000 / daun' }
       ],
       materials: [
         'Profil Daun Pintu Aluminium Ekstrusi Lebar 8-10 cm Tebal 1.2-1.4 mm',
@@ -158,16 +158,16 @@ function factory() {
         'assets/gallery/jendela-sliding.jpg',
         'assets/gallery/jendela-kaca.jpg'
       ],
-      priceStarting: 'Mulai Rp 550.000 / daun',
+      priceStarting: 'Mulai Rp 1.375.000 / daun',
       priceUnit: 'daun',
-      priceRange: 'Rp 550.000 – Rp 1.400.000 / daun',
+      priceRange: 'Rp 1.375.000 – Rp 3.500.000 / daun',
       warranty: '24 Bulan Resmi',
       summary: 'Jendela casement buka samping, sliding geser hemat ruang, dan jungkit awning. Kedap suara dan anti rembesan air hujan.',
       description: 'Fabrikasi jendela aluminium modern tahan cuaca ekstrem dan kedap suara untuk hunian serta perkantoran di Karawang. Pilihan model casement buka samping yang rapat, jendela jungkit atas (awning) aman saat hujan gerimis, dan jendela sliding praktis hemat ruang.',
       models: [
-        { name: 'Jendela Casement (Buka Samping)', desc: 'Tingkat kekedapan tertinggi dengan engsel friction stay dan grendel rambuncis rapat.', rate: 'Rp 650.000 - Rp 950.000 / daun' },
-        { name: 'Jendela Jungkit / Awning Window', desc: 'Bukaan dorong bawah keluar, sirkulasi udara tetap aman saat hujan rintik-rintik.', rate: 'Rp 550.000 - Rp 850.000 / daun' },
-        { name: 'Jendela Sliding Geser Horizontal', desc: 'Sistem geser dua atau empat daun yang tidak memakan area teras luar maupun gorden.', rate: 'Rp 700.000 - Rp 1.100.000 / set' }
+        { name: 'Jendela Casement (Buka Samping)', desc: 'Tingkat kekedapan tertinggi dengan engsel friction stay dan grendel rambuncis rapat.', rate: 'Rp 1.625.000 – Rp 2.375.000 / daun' },
+        { name: 'Jendela Jungkit / Awning Window', desc: 'Bukaan dorong bawah keluar, sirkulasi udara tetap aman saat hujan rintik-rintik.', rate: 'Rp 1.375.000 – Rp 2.125.000 / daun' },
+        { name: 'Jendela Sliding Geser Horizontal', desc: 'Sistem geser dua atau empat daun yang tidak memakan area teras luar maupun gorden.', rate: 'Rp 1.750.000 – Rp 2.750.000 / set' }
       ],
       materials: [
         'Kusen Jendela Aluminium Profil SNI Tebal 1.15 mm',
@@ -211,16 +211,16 @@ function factory() {
         'assets/gallery/pintu-kaca.jpg',
         'assets/gallery/pintu-kaca-putih.jpg'
       ],
-      priceStarting: 'Paket Mulai Rp 2.900.000 / daun',
+      priceStarting: 'Paket Mulai Rp 7.250.000 / daun',
       priceUnit: 'daun',
-      priceRange: 'Rp 2.900.000 – Rp 5.250.000 / daun',
+      priceRange: 'Rp 7.250.000 – Rp 13.125.000 / daun',
       warranty: '36 Bulan Hidrolik Floor Hinge',
       summary: 'Pintu kaca frameless floor hinge Dekkson/Dorma untuk ruko, kantor, bank & kafe. Desain mewah & garansi hidrolik engsel.',
       description: 'Pemasangan pintu kaca frameless floor hinge bersertifikat SNI kaca tempered 10mm & 12mm Asahimas. Sangat cocok untuk entrance toko ruko, kantor perbankan, lobi hotel, kafe, dan showroom di Karawang. Dilengkapi mesin engsel tanam lantai Dekkson/Dorma dengan katup oli hidrolik stabil anti hentak.',
       models: [
-        { name: 'Pintu Frameless Single Leaf (1 Daun)', desc: 'Ukuran standar 90x210-240 cm dengan patch fitting SUS304 dan floor hinge.', rate: 'Rp 3.250.000 - Rp 3.850.000 / paket' },
-        { name: 'Pintu Frameless Double Leaf (Kupu Tarung)', desc: 'Dua daun bukaan lebar 180-200 cm untuk akses utama ruko, bank, dan kantor.', rate: 'Rp 6.500.000 - Rp 7.500.000 / paket' },
-        { name: 'Pintu Kaca Sliding Otomatis Sensor', desc: 'Dilengkapi motor gerak otomatis microwave radar sensor minimarket & apotek.', rate: 'Rp 14.500.000 - Rp 18.000.000 / set' }
+        { name: 'Pintu Frameless Single Leaf (1 Daun)', desc: 'Ukuran standar 90x210-240 cm dengan patch fitting SUS304 dan floor hinge.', rate: 'Rp 8.125.000 – Rp 9.625.000 / paket' },
+        { name: 'Pintu Frameless Double Leaf (Kupu Tarung)', desc: 'Dua daun bukaan lebar 180-200 cm untuk akses utama ruko, bank, dan kantor.', rate: 'Rp 16.250.000 – Rp 18.750.000 / paket' },
+        { name: 'Pintu Kaca Sliding Otomatis Sensor', desc: 'Dilengkapi motor gerak otomatis microwave radar sensor minimarket & apotek.', rate: 'Rp 36.250.000 – Rp 45.000.000 / set' }
       ],
       materials: [
         'Kaca Tempered Clear 10mm atau 12mm SNI Asahimas (Safety Glass)',
@@ -264,16 +264,16 @@ function factory() {
         'assets/gallery/partisi-aluminium.jpg',
         'assets/gallery/jendela-kaca.jpg'
       ],
-      priceStarting: 'Mulai Rp 550.000 / m2',
+      priceStarting: 'Mulai Rp 1.375.000 / m²',
       priceUnit: 'm²',
-      priceRange: 'Rp 550.000 – Rp 1.350.000 / m²',
+      priceRange: 'Rp 1.375.000 – Rp 3.375.000 / m²',
       warranty: '24 Bulan Resmi',
       summary: 'Sekat kaca ruang rapat, kantor staff, cleanroom pabrik Karawang. Akustik kedap suara & stiker sandblast.',
       description: 'Spesialis instalasi sekat partisi kaca kantor, ruang rapat, laboratorium cleanroom pabrik industri KIIC & Suryacipta Karawang, hingga sekat dapur minimalis perumahan. Menghadirkan kesan ruangan lapang, mewah, pencahayaan alami optimal, serta insulasi suara rapat internal yang terjaga.',
       models: [
-        { name: 'Partisi Full Glass Frameless Office', desc: 'Panel kaca tempered 10/12mm dengan U-channel aluminium tanam minimalis.', rate: 'Rp 750.000 - Rp 1.150.000 / m²' },
-        { name: 'Partisi Kusen Aluminium 4" Modul Kotak', desc: 'Rangka kusen Alexindo 4 inch dengan panel kaca 8mm & pintu swing/sliding.', rate: 'Rp 550.000 - Rp 950.000 / m²' },
-        { name: 'Partisi Dapur Moru Glass / Fluted', desc: 'Sekat dapur basah dan kering dengan motif kaca garis tekstur elegan modern.', rate: 'Rp 850.000 - Rp 1.250.000 / m²' }
+        { name: 'Partisi Full Glass Frameless Office', desc: 'Panel kaca tempered 10/12mm dengan U-channel aluminium tanam minimalis.', rate: 'Rp 1.875.000 – Rp 2.875.000 / m²' },
+        { name: 'Partisi Kusen Aluminium 4" Modul Kotak', desc: 'Rangka kusen Alexindo 4 inch dengan panel kaca 8mm & pintu swing/sliding.', rate: 'Rp 1.375.000 – Rp 2.375.000 / m²' },
+        { name: 'Partisi Dapur Moru Glass / Fluted', desc: 'Sekat dapur basah dan kering dengan motif kaca garis tekstur elegan modern.', rate: 'Rp 2.125.000 – Rp 3.125.000 / m²' }
       ],
       materials: [
         'Kusen Aluminium Alexindo / Inkalum 3 & 4 Inch Finishing Black/Silver/White',
@@ -316,16 +316,16 @@ function factory() {
         'assets/gallery/kanopi-kaca.jpg',
         'assets/gallery/kanopi-kaca-carport.svg'
       ],
-      priceStarting: 'Mulai Rp 1.250.000 / m2',
+      priceStarting: 'Mulai Rp 3.125.000 / m²',
       priceUnit: 'm²',
-      priceRange: 'Rp 1.250.000 – Rp 2.800.000 / m²',
+      priceRange: 'Rp 3.125.000 – Rp 7.000.000 / m²',
       warranty: '36 Bulan Struktur & 12 Bulan Sealant',
       summary: 'Kanopi atap kaca tempered 8–10mm & laminated 5+5mm. Rangka besi hollow galvanis tebal 2mm anti karat & anti bocor.',
       description: 'Pemasangan kanopi atap kaca tempered dan laminated untuk carport mobil rumah mewah, teras belakang, koridor kanopi ruko, dan skylight void tangga di Karawang. Struktur rangka besi hollow galvanis tebal 2 mm dilapisi cat epoxy anti karat dan lem sealant struktural tahan radiasi matahari.',
       models: [
-        { name: 'Kanopi Carport Kaca Tempered 10mm', desc: 'Atap kaca bening/rayban tebal 10mm dengan rangka hollow 100x50x2mm.', rate: 'Rp 1.550.000 - Rp 1.850.000 / m²' },
-        { name: 'Kanopi Kaca Tempered Laminated 5+5mm', desc: 'Safety glass ganda film PVB 0.76mm anti-jatuh jika kaca retak.', rate: 'Rp 2.100.000 - Rp 2.800.000 / m²' },
-        { name: 'Skylight Void Atap Rumah Modern', desc: 'Penerangan alami di atas tangga atau taman indoor tanpa resiko tempias.', rate: 'Rp 1.650.000 - Rp 2.200.000 / m²' }
+        { name: 'Kanopi Carport Kaca Tempered 10mm', desc: 'Atap kaca bening/rayban tebal 10mm dengan rangka hollow 100x50x2mm.', rate: 'Rp 3.875.000 – Rp 4.625.000 / m²' },
+        { name: 'Kanopi Kaca Tempered Laminated 5+5mm', desc: 'Safety glass ganda film PVB 0.76mm anti-jatuh jika kaca retak.', rate: 'Rp 5.250.000 – Rp 7.000.000 / m²' },
+        { name: 'Skylight Void Atap Rumah Modern', desc: 'Penerangan alami di atas tangga atau taman indoor tanpa resiko tempias.', rate: 'Rp 4.125.000 – Rp 5.500.000 / m²' }
       ],
       materials: [
         'Kaca Tempered 8mm / 10mm / Tempered Laminated 5+5mm PVB Interlayer',
@@ -368,16 +368,16 @@ function factory() {
         'assets/gallery/shower-kaca.jpg',
         'assets/gallery/pintu-kamar-mandi.jpg'
       ],
-      priceStarting: 'Paket Mulai Rp 1.650.000 / unit',
+      priceStarting: 'Paket Mulai Rp 4.125.000 / unit',
       priceUnit: 'unit',
-      priceRange: 'Rp 1.650.000 – Rp 3.500.000 / unit',
+      priceRange: 'Rp 4.125.000 – Rp 8.750.000 / unit',
       warranty: '24 Bulan Resmi',
       summary: 'Sekat walk-in shower & pintu swing kamar mandi kaca tempered 10mm. Kamar mandi tetap kering, bersih & higienis.',
       description: 'Pemasangan sekat kaca pembatas area basah dan kering (dry bathroom) untuk kamar mandi hotel dan rumah tinggal modern di Karawang. Menggunakan kaca tempered 10mm anti jamur dengan hardware engsel kaca-ke-dinding (glass to wall) dan klem stainless SUS304 anti karat dari air sabun.',
       models: [
-        { name: 'Sekat Shower Walk-In Fixed (Tanpa Pintu)', desc: 'Satu panel kaca mati tempered 10mm dengan header rod stabilizer ke dinding.', rate: 'Rp 1.650.000 - Rp 2.200.000 / paket' },
-        { name: 'Shower Box L-Shape Sudut (Pintu Swing)', desc: 'Model sudut 90 derajat kombinasi kaca mati dan pintu ayun dengan seal magnetik.', rate: 'Rp 3.200.000 - Rp 4.200.000 / paket' },
-        { name: 'Shower Screen Geser / Sliding Glass', desc: 'Cocok untuk kamar mandi mungil dengan rel sliding gantung stainless minimalis.', rate: 'Rp 2.800.000 - Rp 3.800.000 / paket' }
+        { name: 'Sekat Shower Walk-In Fixed (Tanpa Pintu)', desc: 'Satu panel kaca mati tempered 10mm dengan header rod stabilizer ke dinding.', rate: 'Rp 4.125.000 – Rp 5.500.000 / paket' },
+        { name: 'Shower Box L-Shape Sudut (Pintu Swing)', desc: 'Model sudut 90 derajat kombinasi kaca mati dan pintu ayun dengan seal magnetik.', rate: 'Rp 8.000.000 – Rp 10.500.000 / paket' },
+        { name: 'Shower Screen Geser / Sliding Glass', desc: 'Cocok untuk kamar mandi mungil dengan rel sliding gantung stainless minimalis.', rate: 'Rp 7.000.000 – Rp 9.500.000 / paket' }
       ],
       materials: [
         'Kaca Tempered Clear 10mm SNI Asahimas Flat Polished Edge',
@@ -420,16 +420,16 @@ function factory() {
         'assets/gallery/etalase-kaca.jpg',
         'assets/gallery/etalase-kaca-counter.svg'
       ],
-      priceStarting: 'Mulai Rp 850.000',
+      priceStarting: 'Mulai Rp 2.125.000 / unit',
       priceUnit: 'unit',
-      priceRange: 'Rp 850.000 – Rp 3.500.000 / unit',
+      priceRange: 'Rp 2.125.000 – Rp 8.750.000 / unit',
       warranty: '12 Bulan Resmi',
       summary: 'Pembuatan etalase konter HP, display toko emas, etalase warung makan/kue & lemari tas custom. Rangka kuat & roda rem.',
       description: 'Pembuatan aneka etalase kaca custom rangka profil aluminium untuk toko kelontong, konter handphone, display toko emas, lemari display tas/sepatu, hingga etalase warung makanan di Karawang. Dibuat dengan presisi tinggi, kaca bening kokoh, rak bertingkat, dan roda putar 360 derajat dengan kunci rem.',
       models: [
-        { name: 'Etalase Konter HP & Aksesoris', desc: 'Tinggi 1 meter dengan rak kaca bertingkat, pintu geser rel kunci, dan laci kasir.', rate: 'Rp 850.000 - Rp 1.500.000 / unit' },
-        { name: 'Etalase Display Toko Emas / Perhiasan', desc: 'Full kaca tempered flat dengan lampu LED strip warm white tanam premium.', rate: 'Rp 2.000.000 - Rp 3.500.000 / unit' },
-        { name: 'Etalase Warung Makan / Makanan Bersih', desc: 'Kaca penutup higienis anti lalat dan debu dengan ventilasi sirkulasi udara.', rate: 'Rp 950.000 - Rp 1.800.000 / unit' }
+        { name: 'Etalase Konter HP & Aksesoris', desc: 'Tinggi 1 meter dengan rak kaca bertingkat, pintu geser rel kunci, dan laci kasir.', rate: 'Rp 2.125.000 – Rp 3.750.000 / unit' },
+        { name: 'Etalase Display Toko Emas / Perhiasan', desc: 'Full kaca tempered flat dengan lampu LED strip warm white tanam premium.', rate: 'Rp 5.000.000 – Rp 8.750.000 / unit' },
+        { name: 'Etalase Warung Makan / Makanan Bersih', desc: 'Kaca penutup higienis anti lalat dan debu dengan ventilasi sirkulasi udara.', rate: 'Rp 2.375.000 – Rp 4.500.000 / unit' }
       ],
       materials: [
         'Rangka Aluminium Profil Hollow & Siku Tebal Kokoh Tahan Beban',
@@ -456,6 +456,181 @@ function factory() {
         }
       ],
       portfolioIds: ['proj-23']
+    },
+    {
+      id: 'railing-kaca',
+      calcKey: 'railing',
+      order: 9,
+      slug: 'railing-kaca',
+      name: 'Railing Kaca Tempered',
+      title: 'Jasa Pasang Railing Kaca Tempered Karawang (Tangga & Balkon Frameless)',
+      shortTitle: 'Railing Kaca',
+      badge: 'Tangga & Balkon SUS304',
+      image: 'assets/gallery/railing-tangga-kaca.svg',
+      imageAlt: 'Jasa Pasang Railing Kaca Tempered Karawang Balkon Void Stainless SUS304',
+      galleryImages: [
+        'assets/gallery/railing-tangga-kaca.svg',
+        'assets/gallery/railing-balkon-kaca.svg'
+      ],
+      priceStarting: 'Mulai Rp 5.500.000 / m1',
+      priceUnit: 'm1',
+      priceRange: 'Rp 5.500.000 – Rp 7.500.000 / m1',
+      warranty: '36 Bulan Resmi',
+      summary: 'Railing tangga void minimalis & balkon kaca tempered frameless sistem base shoe tanam atau spigot SUS304 padat.',
+      description: 'Fabrikasi dan pemasangan railing kaca tempered balkon dan void tangga untuk hunian mewah, kantor, kafe, dan showroom di Karawang. Menggunakan kaca tempered tebal 10mm atau 12mm Asahimas dengan pilihan sistem base tanam U-Channel profil aluminium tersembunyi rata lantai, spigot klem solid stainless SUS304, atau tiang baluster handrail atas.',
+      models: [
+        { name: 'Sistem U-Channel Base Tanam + Tempered 12 mm', desc: 'Base shoe aluminium/stainless ditanam rata keramik dengan cover cladding estetis.', rate: 'Rp 5.500.000 – Rp 6.250.000 / m1' },
+        { name: 'Sistem Spigot Clamp Solid SUS304 + Tempered 12 mm', desc: 'Dudukan klem cor SUS304 padat 2 titik per meter dengan dynabolt stainless kuat.', rate: 'Rp 6.250.000 – Rp 7.500.000 / m1' },
+        { name: 'Tiang Baluster + Handrail SUS304 + Tempered 10 mm', desc: 'Kombinasi tiang kokoh dan pipa pegangan tangan stainless minimalis ergonomis.', rate: 'Rp 6.000.000 – Rp 7.250.000 / m1' }
+      ],
+      materials: [
+        'Kaca Tempered Clear 10mm / 12mm SNI Asahimas Flat Edge Bevel',
+        'Spigot Clamp Stainless Steel SUS304 Solid Padat Anti Karat',
+        'Base Shoe U-Channel Aluminium Heavy-Duty Tanam Rata Lantai',
+        'Chemical Anchor Fischer / Hilti untuk Ikatan Beton Solid',
+        'Handrail Profil Stainless SUS304 / Aluminium Wood Finish'
+      ],
+      specifications: {
+        dimensi: 'Tinggi standar balkon 100-110 cm | Railing tangga 90-100 cm sudut custom',
+        ketebalan: '10 mm atau 12 mm Full Tempered Polished Edge',
+        sistemFiksasi: 'Chemical anchor tanam beton mutu tinggi beban geser 4.5 kN',
+        keamanan: 'Mampu menahan beban dorong horizontal sesuai standar keselamatan gedung',
+        garansi: 'Garansi kekokohan struktur fiksasi 36 bulan'
+      },
+      faq: [
+        {
+          q: 'Apakah railing kaca balkon aman dari resiko pecah dan jatuh?',
+          a: 'Sangat aman. Kami menggunakan kaca tempered SNI tebal 12mm yang 5 kali lebih kuat dari kaca biasa serta diangkur dengan dynabolt stainless atau chemical anchor ke cor dak beton.'
+        },
+        {
+          q: 'Apakah sistem spigot stainless bisa berkarat di area balkon terbuka?',
+          a: 'Tidak. Spigot kami menggunakan bahan Stainless Steel SUS304 murni padat (solid casting) yang terbukti tahan hujan, panas, dan kelembapan ekstrem tanpa korosi.'
+        }
+      ],
+      portfolioIds: ['proj-11']
+    },
+    {
+      id: 'pintu-lipat-bifold',
+      calcKey: 'bifold',
+      order: 10,
+      slug: 'pintu-lipat-bifold',
+      name: 'Pintu Lipat Bifold System',
+      title: 'Jasa Pasang Pintu Lipat Bifold Aluminium Karawang',
+      shortTitle: 'Pintu Bifold',
+      badge: 'Bukaan Maksimal 100%',
+      image: 'assets/gallery/pintu-bifold.svg',
+      imageAlt: 'Jasa Pasang Pintu Lipat Bifold Aluminium Karawang Penyekat Taman',
+      galleryImages: ['assets/gallery/pintu-bifold.svg'],
+      priceStarting: 'Mulai Rp 7.000.000 / daun',
+      priceUnit: 'daun',
+      priceRange: 'Rp 7.000.000 – Rp 12.000.000 / daun',
+      warranty: '24 Bulan Resmi',
+      summary: 'Pintu lipat aluminium 3 s/d 8 daun membuka fleksibel 100% tanpa sekat ruang keluarga ke taman belakang.',
+      description: 'Pintu lipat bifold multi-daun dengan rel gantung heavy-duty dan roda bearing nilon senyap. Memberikan bukaan penuh fleksibel untuk menghubungkan area ruang tamu dengan kolam renang atau taman terbuka.',
+      models: [
+        { name: 'Bifold Standard Track (Inkalum 1.1 mm)', desc: 'Sistem rel gantung standar hunian untuk bukaan 3-5 daun.', rate: 'Rp 7.000.000 – Rp 8.750.000 / daun' },
+        { name: 'Bifold Heavy-Duty Panoramic (Alexindo 1.3 mm)', desc: 'Profil arsitektural tebal kapasitas roda 250kg daun kaca tinggi.', rate: 'Rp 8.750.000 – Rp 12.000.000 / daun' }
+      ],
+      materials: [
+        'Profil Daun Lipat Aluminium Lebar 8-10 cm Tebal 1.2-1.4 mm',
+        'Rel Gantung Atas Heavy-Duty & Flush Bottom Track Stainless',
+        'Kaca Tempered 8mm Clear / Moru Fluted Glass'
+      ],
+      specifications: {
+        dimensi: 'Lebar daun 60-90 cm, tinggi hingga 280 cm',
+        ketebalan: '1.2 s/d 1.4 mm',
+        garansi: '24 bulan aksesoris rel dan engsel lipat'
+      },
+      faq: [
+        {
+          q: 'Berapa jumlah daun maksimal untuk pintu bifold?',
+          a: 'Bisa dibuat mulai dari 3 daun hingga 8 daun lipat, dengan konfigurasi buka satu arah atau buka dua arah ke kiri dan ke kanan.'
+        }
+      ],
+      portfolioIds: ['proj-06', 'proj-17']
+    },
+    {
+      id: 'fasad-acp',
+      calcKey: 'acp',
+      order: 11,
+      slug: 'fasad-acp',
+      name: 'Fasad ACP Aluminium Composite Panel',
+      title: 'Jasa Pasang ACP Aluminium Composite Panel Karawang & Cikarang',
+      shortTitle: 'Fasad ACP',
+      badge: 'Gedung & Ruko Modern',
+      image: 'assets/gallery/fasad-acp.svg',
+      imageAlt: 'Jasa Pasang Fasad ACP Aluminium Karawang Seven Marks PVDF Eksterior',
+      galleryImages: ['assets/gallery/fasad-acp.svg'],
+      priceStarting: 'Mulai Rp 1.625.000 / m²',
+      priceUnit: 'm²',
+      priceRange: 'Rp 1.625.000 – Rp 4.125.000 / m²',
+      warranty: '60 Bulan Garansi Warna PVDF',
+      summary: 'Cladding fasad gedung perkantoran, ruko, pom bensin & showroom dengan material ACP tahan cuaca anti pudar.',
+      description: 'Pemasangan ACP (Aluminium Composite Panel) merek Seven, Marks, dan Alustar untuk peremajaan fasad ruko dan gedung kantor industri Karawang. Rangka hollow galvanis las kuat dengan sambungan sealant neutral weatherseal rapi.',
+      models: [
+        { name: 'ACP Interior PE 0.21 mm (Seven / Marks)', desc: 'Khusus partisi, pilar dan dekorasi interior kantor.', rate: 'Rp 1.625.000 – Rp 2.125.000 / m²' },
+        { name: 'ACP Eksterior PVDF 0.30 mm SNI Tahan Cuaca', desc: 'Standar fasad ruko luar anti pudar sinar matahari.', rate: 'Rp 2.125.000 – Rp 2.875.000 / m²' },
+        { name: 'ACP Heavy-Duty PVDF 0.50 mm (Gedung & High-Rise)', desc: 'Panel tebal premium tahan terpaan angin kencang bentang tinggi.', rate: 'Rp 3.125.000 – Rp 4.125.000 / m²' }
+      ],
+      materials: [
+        'Lembar ACP Seven / Marks Tebal Total 4 mm (Skin Aluminium 0.30-0.50 mm)',
+        'Rangka Besi Hollow Galvanis 40x40x1.6 mm / 40x20x1.4 mm',
+        'Neutral Weatherseal Silicone Dowsil 791 Anti UV & Rembes'
+      ],
+      specifications: {
+        dimensi: 'Modul panel lembar 122 x 244 cm / 122 x 488 cm',
+        coating: 'PVDF (Polyvinylidene Fluoride) 3-layer coating',
+        garansi: 'Garansi pudar warna hingga 10 tahun pabrikan'
+      },
+      faq: [
+        {
+          q: 'Berapa lama daya tahan warna panel ACP eksterior?',
+          a: 'ACP dengan lapisan coating PVDF memiliki ketahanan warna lebih dari 10-15 tahun terhadap paparan sinar ultraviolet dan hujan asam perkotaan.'
+        }
+      ],
+      portfolioIds: ['proj-25']
+    },
+    {
+      id: 'curtain-wall',
+      calcKey: 'curtain_wall',
+      order: 12,
+      slug: 'curtain-wall',
+      name: 'Curtain Wall Fasad Kaca Komersial',
+      title: 'Jasa Pasang Curtain Wall Kaca Gedung Karawang & KIIC',
+      shortTitle: 'Curtain Wall',
+      badge: 'Fasad Gedung Bertingkat',
+      image: 'assets/gallery/curtain-wall.svg',
+      imageAlt: 'Jasa Pasang Curtain Wall Fasad Kaca Gedung Karawang KIIC Modern',
+      galleryImages: ['assets/gallery/curtain-wall.svg'],
+      priceStarting: 'Mulai Rp 4.000.000 / m²',
+      priceUnit: 'm²',
+      priceRange: 'Rp 4.000.000 – Rp 8.125.000 / m²',
+      warranty: '60 Bulan Struktur & 24 Bulan Sealant',
+      summary: 'Dinding kaca struktural gedung bertingkat, ruko modern & showroom dengan rangka mullion aluminium heavy-duty.',
+      description: 'Instalasi curtain wall stick system dan semi-unitized untuk fasad gedung perkantoran pabrik KIIC Karawang dan ruko bertingkat. Menggunakan kaca Stopsol reflective atau Panasap tempered untuk efisiensi pendingin ruangan.',
+      models: [
+        { name: 'Stick System Back Mullion + Panasap 6 mm Tinted', desc: 'Rangka mullion profil aluminium tebal dengan kaca penahan panas matahari.', rate: 'Rp 4.000.000 – Rp 4.750.000 / m²' },
+        { name: 'Stick System + Tempered Reflective / Stopsol 8 mm', desc: 'Kaca one-way reflektif memantulkan panas dan menjaga privasi siang hari.', rate: 'Rp 4.625.000 – Rp 6.125.000 / m²' },
+        { name: 'Semi-Unitized High-Rise + Low-E 10 mm Tempered', desc: 'Sistem fasad modern gedung bertingkat insulasi termal maksimal.', rate: 'Rp 6.250.000 – Rp 8.125.000 / m²' }
+      ],
+      materials: [
+        'Profil Mullion & Transom Aluminium Alexindo / YKK Arsitektural Tebal 2.0-3.0 mm',
+        'Kaca Tempered Panasap 6mm/8mm atau Kaca Reflektif Stopsol Asahimas',
+        'Bracket Baja Siku Galvanis & Dynabolt Heavy Anchor M16',
+        'Structural Glazing Sealant Dowsil 983 / Dowsil 795'
+      ],
+      specifications: {
+        dimensi: 'Ketinggian bentang hingga 30+ meter dengan perhitungan wind-load',
+        insulasiPanas: 'Shading coefficient 0.45 menurunkan beban AC ruangan hingga 35%',
+        garansi: 'Garansi struktur 5 tahun & garansi kebocoran seal 2 tahun'
+      },
+      faq: [
+        {
+          q: 'Apakah curtain wall tahan terhadap hembusan angin kencang gedung tinggi?',
+          a: 'Tentu. Tim engineer kami menghitung kekuatan momen inersia balok mullion vertikal dan ketebalan kaca berdasarkan analisis beban angin (wind load calculation) standar SNI.'
+        }
+      ],
+      portfolioIds: ['proj-26']
     }
   ];
 
@@ -465,7 +640,41 @@ function factory() {
   }
 
   function getServiceById(id) {
-    return SERVICES.find(s => s.id === id || s.calcKey === id || s.slug === id);
+    if (!id) return null;
+    const lower = String(id).toLowerCase().trim();
+    const aliasMap = {
+      'glass-railing': 'railing-kaca',
+      'railing': 'railing-kaca',
+      'railing-tangga': 'railing-kaca',
+      'railing_kaca': 'railing-kaca',
+      'glass-canopy': 'kanopi-kaca-tempered',
+      'kanopi': 'kanopi-kaca-tempered',
+      'kanopi-kaca': 'kanopi-kaca-tempered',
+      'aluminium-partition': 'partisi-kaca-aluminium',
+      'partisi': 'partisi-kaca-aluminium',
+      'partisi-kaca': 'partisi-kaca-aluminium',
+      'aluminium-window': 'jendela-aluminium',
+      'jendela': 'jendela-aluminium',
+      'aluminium-door': 'pintu-aluminium',
+      'pintu': 'pintu-aluminium',
+      'shower-glass': 'shower-kaca',
+      'shower': 'shower-kaca',
+      'aluminium-profile': 'kusen-aluminium',
+      'kusen': 'kusen-aluminium',
+      'tempered-door': 'pintu-kaca-tempered',
+      'pintu_tempered': 'pintu-kaca-tempered',
+      'pintu-kaca': 'pintu-kaca-tempered',
+      'aluminium-bifold': 'pintu-lipat-bifold',
+      'bifold': 'pintu-lipat-bifold',
+      'aluminium-showcase': 'etalase-kaca',
+      'etalase': 'etalase-kaca',
+      'acp-facade': 'fasad-acp',
+      'acp': 'fasad-acp',
+      'curtain-wall': 'curtain-wall',
+      'curtain_wall': 'curtain-wall'
+    };
+    const targetId = aliasMap[lower] || lower;
+    return SERVICES.find(s => s.id === targetId || s.calcKey === targetId || s.slug === targetId || s.id === lower || s.calcKey === lower || s.slug === lower) || null;
   }
 
   function getServiceBySlug(slug) {

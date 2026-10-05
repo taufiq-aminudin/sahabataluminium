@@ -7791,51 +7791,1861 @@ window.getProjectById = window.PROJECT_CATALOG.getProjectById;
 window.getServiceById = window.PROJECT_CATALOG.getServiceById;
 
 // Master Pricing Configuration Object
+/* ==============================================================================
+ * MASTER DATA SYNCHRONIZATION (Single Source of Truth)
+ * Services: 12 | Projects: 26 (Verified: 6, Pending: 20)
+ * ============================================================================== */
+window.PROJECT_CATALOG = window.PROJECT_CATALOG || {
+  "TOTAL_PROJECTS": 26,
+  "VERIFIED_PROJECTS_COUNT": 6,
+  "UNVERIFIED_PROJECTS_COUNT": 20,
+  "TOTAL_SERVICES": 12,
+  "TOTAL_TESTIMONIALS": 13,
+  "services": [
+    {
+      "id": "glass-canopy",
+      "calcKey": "kanopi",
+      "name": "Kanopi Kaca Tempered Carport / Teras",
+      "rabConfigId": "rab-canopy",
+      "category": "glass_canopy",
+      "priceModel": "glass_canopy",
+      "unit": "m²",
+      "unitName": "Meter Persegi (m²)",
+      "summaryLabel": "Rangka & Kaca:",
+      "guideText": "PILIH SISTEM STRUKTUR • PILIH JENIS KACA"
+    },
+    {
+      "id": "glass-railing",
+      "calcKey": "railing",
+      "name": "Railing Tangga & Balkon Kaca Tempered",
+      "rabConfigId": "rab-railing",
+      "category": "glass_railing",
+      "priceModel": "glass_railing",
+      "unit": "m1",
+      "unitName": "Meter Lari (m1)",
+      "summaryLabel": "Sistem Railing:",
+      "guideText": "PILIH SISTEM RAILING (U-Channel, Spigot, Handrail SS304)"
+    },
+    {
+      "id": "aluminium-partition",
+      "calcKey": "partisi",
+      "name": "Partisi Kaca Kantor & Sekat Ruangan Aluminium",
+      "rabConfigId": "rab-partition",
+      "category": "aluminium",
+      "priceModel": "aluminium_partition",
+      "unit": "m²",
+      "unitName": "Meter Persegi (m²)",
+      "summaryLabel": "Grade Partisi:",
+      "guideText": "Standard SNI 3\" vs Premium Heavy Duty 4\""
+    },
+    {
+      "id": "aluminium-window",
+      "calcKey": "jendela",
+      "name": "Jendela Aluminium (Casement / Sliding)",
+      "rabConfigId": "rab-window",
+      "category": "aluminium",
+      "priceModel": "aluminium_window",
+      "unit": "m²",
+      "unitName": "Meter Persegi (m²)",
+      "summaryLabel": "Grade Jendela:",
+      "guideText": "Standard SNI vs Premium Alexindo Heavy Duty"
+    },
+    {
+      "id": "aluminium-door",
+      "calcKey": "pintu",
+      "name": "Pintu Aluminium (Swing / Sliding Modern)",
+      "rabConfigId": "rab-door",
+      "category": "aluminium",
+      "priceModel": "aluminium_door",
+      "unit": "unit",
+      "unitName": "Unit Pintu",
+      "summaryLabel": "Tipe Bukaan:",
+      "guideText": "PILIH SISTEM PINTU: Swing, Sliding, atau Folding"
+    },
+    {
+      "id": "shower-glass",
+      "calcKey": "shower",
+      "name": "Shower Screen Kaca Kamar Mandi",
+      "rabConfigId": "rab-shower",
+      "category": "glass_shower",
+      "priceModel": "glass_shower",
+      "unit": "unit",
+      "unitName": "Set Shower Screen",
+      "summaryLabel": "Sistem Shower:",
+      "guideText": "PILIH SISTEM SHOWER: Framed, Semi Frameless, Full Frameless"
+    },
+    {
+      "id": "aluminium-profile",
+      "calcKey": "kusen",
+      "name": "Kusen Aluminium (Profil 3\" / 4\" SNI)",
+      "rabConfigId": "rab-profile",
+      "category": "aluminium",
+      "priceModel": "aluminium_profile",
+      "unit": "m1",
+      "unitName": "Meter Lari (m1)",
+      "summaryLabel": "Grade Kusen:",
+      "guideText": "Standar SNI 3\" vs Alexindo Heavy 4\""
+    },
+    {
+      "id": "tempered-door",
+      "calcKey": "pintu_tempered",
+      "name": "Pintu Kaca Frameless Floor Hinge",
+      "rabConfigId": "rab-tempered-door",
+      "category": "glass_door",
+      "priceModel": "glass_door",
+      "unit": "unit",
+      "unitName": "Set Daun Pintu",
+      "summaryLabel": "Sistem Bukaan:",
+      "guideText": "PILIH SISTEM: Single Leaf 10/12mm vs Double Leaf Kupu Tarung"
+    },
+    {
+      "id": "aluminium-bifold",
+      "calcKey": "bifold",
+      "name": "Pintu Lipat Bifold System Aluminium",
+      "rabConfigId": "rab-bifold",
+      "category": "aluminium",
+      "priceModel": "aluminium_bifold",
+      "unit": "daun",
+      "unitName": "Daun Pintu",
+      "summaryLabel": "Grade Bifold:",
+      "guideText": "Standard Inkalum vs Premium Alexindo Heavy 250kg"
+    },
+    {
+      "id": "aluminium-showcase",
+      "calcKey": "etalase",
+      "name": "Etalase Kaca Toko & Display Counter",
+      "rabConfigId": "rab-showcase",
+      "category": "aluminium",
+      "priceModel": "aluminium_showcase",
+      "unit": "unit",
+      "unitName": "Unit Etalase",
+      "summaryLabel": "Spesifikasi Etalase:",
+      "guideText": "Standard Toko 1.5m vs Premium Display Full Kaca"
+    },
+    {
+      "id": "acp-facade",
+      "calcKey": "acp",
+      "name": "Fasad ACP Aluminium Composite Panel",
+      "rabConfigId": "rab-acp",
+      "category": "facade_acp",
+      "priceModel": "acp_facade",
+      "unit": "m²",
+      "unitName": "Meter Persegi (m²)",
+      "summaryLabel": "Grade Panel ACP:",
+      "guideText": "Tipe cat PE Interior vs PVDF Outdoor 0.3mm vs Heavy Duty 0.5mm"
+    },
+    {
+      "id": "curtain-wall",
+      "calcKey": "curtain_wall",
+      "name": "Curtain Wall Fasad Kaca Komersial",
+      "rabConfigId": "rab-curtain-wall",
+      "category": "curtain_wall",
+      "priceModel": "curtain_wall",
+      "unit": "m²",
+      "unitName": "Meter Persegi (m²)",
+      "summaryLabel": "Sistem Fasad:",
+      "guideText": "Stick System Panasap 6mm vs Reflective 8mm vs Semi-Unitized"
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-01",
+      "slug": "partisi-kaca-aluminium-ruang-rapat-kiic-karawang",
+      "title": "Partisi Kaca Aluminium Ruang Rapat & Kantor Industri",
+      "serviceId": "aluminium-partition",
+      "rabConfigId": "rab-partition",
+      "calcServiceKey": "partisi",
+      "location": "KIIC Karawang Barat",
+      "loc": "KIIC Karawang Barat",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Partisi kaca aluminium ruang rapat kantor industri KIIC Karawang Barat",
+      "imageIds": [
+        "img-proj-01-cover"
+      ],
+      "description": "Pemasangan partisi kaca modular ruang meeting eksekutif pada fasilitas manufaktur kawasan industri KIIC Karawang Barat. Memberikan kekedapan suara tinggi agar rapat internal tidak bocor ke area produksi.",
+      "desc": "Pemasangan partisi kaca modular ruang meeting eksekutif pada fasilitas manufaktur kawasan industri KIIC Karawang Barat. Memberikan kekedapan suara tinggi agar rapat internal tidak bocor ke area produksi.",
+      "specifications": {
+        "kusen": "Alexindo 4 Inch Profil Tebal 1.35mm SNI",
+        "finishing": "Powder Coating Matte Black UV-Resistance",
+        "kaca": "Kaca Polos Clear 8mm Asahimas Polished Edge",
+        "hardware": "Dekkson Patch Fitting & Engsel Heavy-Duty",
+        "sealant": "Dowsil Neutral Weatherseal Silicone + Karet EPDM Kedap Suara",
+        "volume": "Luas 32 m² (Tinggi 3.2m × Panjang 10m)",
+        "solusi": "Aplikasi double acoustic seal EPDM pada sambungan kusen dan dinding beton untuk meminimalisir kebisingan mesin pabrik masuk ke ruang rapat.",
+        "durasi": "3 Hari Kerja On-Site",
+        "garansi": "12 Bulan Garansi Kebocoran & Struktur"
+      },
+      "specs": {
+        "kusen": "Alexindo 4 Inch Profil Tebal 1.35mm SNI",
+        "finishing": "Powder Coating Matte Black UV-Resistance",
+        "kaca": "Kaca Polos Clear 8mm Asahimas Polished Edge",
+        "hardware": "Dekkson Patch Fitting & Engsel Heavy-Duty",
+        "sealant": "Dowsil Neutral Weatherseal Silicone + Karet EPDM Kedap Suara",
+        "volume": "Luas 32 m² (Tinggi 3.2m × Panjang 10m)",
+        "solusi": "Aplikasi double acoustic seal EPDM pada sambungan kusen dan dinding beton untuk meminimalisir kebisingan mesin pabrik masuk ke ruang rapat.",
+        "durasi": "3 Hari Kerja On-Site",
+        "garansi": "12 Bulan Garansi Kebocoran & Struktur"
+      },
+      "testimonialId": "testi-03",
+      "articleUrl": "artikel/partisi-kaca-kantor-cleanroom-pabrik-industri.html",
+      "articleTitle": "Panduan Partisi Kaca Kantor & Pabrik Industri"
+    },
+    {
+      "id": "proj-02",
+      "slug": "pintu-kaca-tempered-frameless-ruko-galuh-mas",
+      "title": "Pintu Kaca Tempered Frameless Floor Hinge Toko & Showroom",
+      "serviceId": "tempered-door",
+      "rabConfigId": "rab-tempered-door",
+      "calcServiceKey": "pintu_tempered",
+      "location": "Ruko Galuh Mas Karawang",
+      "loc": "Ruko Galuh Mas Karawang",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": true,
+      "image": "assets/gallery/pintu-kaca.jpg",
+      "imageAlt": "Pintu kaca tempered frameless floor hinge toko Ruko Galuh Mas Karawang",
+      "imageIds": [
+        "img-proj-02-cover"
+      ],
+      "description": "Pintu kaca tempered frameless untuk outlet komersial ruko Galuh Mas Karawang. Menghadirkan visibilitas display barang dagangan secara maksimal dari luar ruangan tanpa halangan bingkai.",
+      "desc": "Pintu kaca tempered frameless untuk outlet komersial ruko Galuh Mas Karawang. Menghadirkan visibilitas display barang dagangan secara maksimal dari luar ruangan tanpa halangan bingkai.",
+      "specifications": {
+        "kusen": "Frameless (Tanpa Kusen) dengan Lis U Stainless Bawah",
+        "finishing": "Stainless Steel SUS304 Hairline Mirror Polish",
+        "kaca": "Tempered Glass 12mm Asahimas SNI Kualitas Tinggi",
+        "hardware": "Floor Hinge Dekkson FH-84 Heavy-Duty 120kg, Patch Fitting PT-10/PT-20",
+        "sealant": "Silicone Clear Anti Jamur & Seal Karet Bawah Penahan Air",
+        "volume": "2 Daun Kupu Tarung (L 1.8m × T 2.4m)",
+        "solusi": "Penanaman silinder floor hinge Dekkson FH-84 pada lantai granit dengan semen grouting anti susut agar stabil pada lalu lintas pengunjung tinggi.",
+        "durasi": "2 Hari Kerja",
+        "garansi": "24 Bulan Garansi Mesin Floor Hinge"
+      },
+      "specs": {
+        "kusen": "Frameless (Tanpa Kusen) dengan Lis U Stainless Bawah",
+        "finishing": "Stainless Steel SUS304 Hairline Mirror Polish",
+        "kaca": "Tempered Glass 12mm Asahimas SNI Kualitas Tinggi",
+        "hardware": "Floor Hinge Dekkson FH-84 Heavy-Duty 120kg, Patch Fitting PT-10/PT-20",
+        "sealant": "Silicone Clear Anti Jamur & Seal Karet Bawah Penahan Air",
+        "volume": "2 Daun Kupu Tarung (L 1.8m × T 2.4m)",
+        "solusi": "Penanaman silinder floor hinge Dekkson FH-84 pada lantai granit dengan semen grouting anti susut agar stabil pada lalu lintas pengunjung tinggi.",
+        "durasi": "2 Hari Kerja",
+        "garansi": "24 Bulan Garansi Mesin Floor Hinge"
+      },
+      "testimonialId": "testi-01",
+      "articleUrl": "artikel/tips-memilih-kaca-tempered-dan-laminated-aman.html",
+      "articleTitle": "Tips Memilih Kaca Tempered & Safety Glass Toko"
+    },
+    {
+      "id": "proj-03",
+      "slug": "pintu-sliding-aluminium-grand-taruma",
+      "title": "Pintu Sliding Aluminium Kaca Akses Taman & Ruang Keluarga",
+      "serviceId": "aluminium-door",
+      "rabConfigId": "rab-door",
+      "calcServiceKey": "pintu",
+      "location": "Grand Taruma Karawang",
+      "loc": "Grand Taruma Karawang",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Pintu sliding aluminium kaca akses taman Grand Taruma Karawang",
+      "imageIds": [
+        "img-proj-03-cover"
+      ],
+      "description": "Pintu sliding kaca connecting room taman belakang pada hunian 2 lantai Grand Taruma. Memungkinkan pencahayaan alami masuk leluasa dan sirkulasi angin segar mengalir ke seluruh lantai satu.",
+      "desc": "Pintu sliding kaca connecting room taman belakang pada hunian 2 lantai Grand Taruma. Memungkinkan pencahayaan alami masuk leluasa dan sirkulasi angin segar mengalir ke seluruh lantai satu.",
+      "specifications": {
+        "kusen": "Inkalum 3 Inch Profil Ramping Kokoh",
+        "finishing": "Anodized Dark Brown 18 Micron Tahan Gores",
+        "kaca": "Kaca Rayban Euro Grey 6mm Peredam Silau & Panas",
+        "hardware": "Roda Sliding Double Bearing Nylon & Flush Handle Lock Dekson",
+        "sealant": "Mohair Brush Seal (Bulu Peredam Debu) + Karet EPDM",
+        "volume": "3 Daun Triple Track (L 2.7m × T 2.2m)",
+        "solusi": "Pemasangan rel triple track dengan lubang drainase air (weep holes) tersembunyi mencegah genangan air saat hujan lebat berangin kencang.",
+        "durasi": "2 Hari Kerja",
+        "garansi": "12 Bulan Resmi Garansi Roda & Kusen"
+      },
+      "specs": {
+        "kusen": "Inkalum 3 Inch Profil Ramping Kokoh",
+        "finishing": "Anodized Dark Brown 18 Micron Tahan Gores",
+        "kaca": "Kaca Rayban Euro Grey 6mm Peredam Silau & Panas",
+        "hardware": "Roda Sliding Double Bearing Nylon & Flush Handle Lock Dekson",
+        "sealant": "Mohair Brush Seal (Bulu Peredam Debu) + Karet EPDM",
+        "volume": "3 Daun Triple Track (L 2.7m × T 2.2m)",
+        "solusi": "Pemasangan rel triple track dengan lubang drainase air (weep holes) tersembunyi mencegah genangan air saat hujan lebat berangin kencang.",
+        "durasi": "2 Hari Kerja",
+        "garansi": "12 Bulan Resmi Garansi Roda & Kusen"
+      },
+      "testimonialId": "testi-02",
+      "articleUrl": "artikel/rekomendasi-pintu-sliding-geser-minimalis.html",
+      "articleTitle": "Inspirasi Pintu Sliding Geser Hemat Ruang"
+    },
+    {
+      "id": "proj-04",
+      "slug": "pintu-lipat-bifold-summarecon-bekasi",
+      "title": "Pintu Lipat (Bifold) Aluminium 4 Daun Teras Belakang",
+      "serviceId": "aluminium-bifold",
+      "rabConfigId": "rab-bifold",
+      "calcServiceKey": "bifold",
+      "location": "Summarecon Bekasi",
+      "loc": "Summarecon Bekasi",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Pintu lipat bifold aluminium 4 daun Summarecon Bekasi",
+      "imageIds": [
+        "img-proj-04-cover"
+      ],
+      "description": "Konsep indoor-outdoor living dengan folding door 4 daun bukaan 100%, sistem rel tanam rata lantai dan kaca tempered 8mm aman untuk keluarga.",
+      "desc": "Konsep indoor-outdoor living dengan folding door 4 daun bukaan 100%, sistem rel tanam rata lantai dan kaca tempered 8mm aman untuk keluarga.",
+      "specifications": {
+        "kusen": "Alexindo Heavy Duty Bifold Profile 1.35mm",
+        "finishing": "Powder Coating White Arctic Glossy",
+        "kaca": "Tempered Glass 8mm SNI Safety Glazing",
+        "hardware": "Heavy Duty Suspended Top Track Roller & Stainless Flush Bolt",
+        "sealant": "Double Weatherstrip Karet Santoprene Kedap Suara",
+        "volume": "4 Daun (Lebar Bukaan 3.6m × Tinggi 2.4m)",
+        "solusi": "Penerapan bottom guide rail tanam rata lantai (flush floor threshold) sehingga tidak ada hambatan tersandung bagi lansia dan anak kecil.",
+        "durasi": "3 Hari Kerja",
+        "garansi": "24 Bulan Garansi Rel Gantung & Roda"
+      },
+      "specs": {
+        "kusen": "Alexindo Heavy Duty Bifold Profile 1.35mm",
+        "finishing": "Powder Coating White Arctic Glossy",
+        "kaca": "Tempered Glass 8mm SNI Safety Glazing",
+        "hardware": "Heavy Duty Suspended Top Track Roller & Stainless Flush Bolt",
+        "sealant": "Double Weatherstrip Karet Santoprene Kedap Suara",
+        "volume": "4 Daun (Lebar Bukaan 3.6m × Tinggi 2.4m)",
+        "solusi": "Penerapan bottom guide rail tanam rata lantai (flush floor threshold) sehingga tidak ada hambatan tersandung bagi lansia dan anak kecil.",
+        "durasi": "3 Hari Kerja",
+        "garansi": "24 Bulan Garansi Rel Gantung & Roda"
+      },
+      "testimonialId": "testi-06",
+      "articleUrl": "artikel/desain-pintu-lipat-aluminium-bifold-minimalis.html",
+      "articleTitle": "Desain Pintu Lipat Bifold Aluminium Modern"
+    },
+    {
+      "id": "proj-05",
+      "slug": "sekat-partisi-dapur-moru-galuh-mas",
+      "title": "Sekat Partisi Kaca Dapur Minimalis Fluted Moru Glass",
+      "serviceId": "aluminium-partition",
+      "rabConfigId": "rab-partition",
+      "calcServiceKey": "partisi",
+      "location": "Galuh Mas Karawang",
+      "loc": "Galuh Mas Karawang",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Sekat partisi kaca dapur moru glass Galuh Mas Karawang",
+      "imageIds": [
+        "img-proj-05-cover"
+      ],
+      "description": "Sekat pemisah dapur bersih dan ruang makan menggunakan kaca bertekstur garis Moru (fluted glass). Menghalangi percikan minyak memasak dan bau dapur namun tetap meneruskan cahaya alami estetis.",
+      "desc": "Sekat pemisah dapur bersih dan ruang makan menggunakan kaca bertekstur garis Moru (fluted glass). Menghalangi percikan minyak memasak dan bau dapur namun tetap meneruskan cahaya alami estetis.",
+      "specifications": {
+        "kusen": "Inkalum Slimline Minimalist Black Doff 3 Inch",
+        "finishing": "Powder Coating Sand Texture Black",
+        "kaca": "Fluted Glass (Kaca Moru Bergaris Estetik) 8mm Tempered",
+        "hardware": "Handle Tanam Minimalis & Engsel Soft-Closing SUS304",
+        "sealant": "Food-Grade Sanitary Neutral Silicone Anti Jamur",
+        "volume": "Luas 9.6 m² (L 3.2m × T 3.0m)",
+        "solusi": "Menggunakan silikon grade sanitasi khusus dapur yang anti jamur minyak dan mudah dibersihkan dengan sabun pembersih biasa.",
+        "durasi": "1 Hari Kerja On-Site",
+        "garansi": "12 Bulan Resmi"
+      },
+      "specs": {
+        "kusen": "Inkalum Slimline Minimalist Black Doff 3 Inch",
+        "finishing": "Powder Coating Sand Texture Black",
+        "kaca": "Fluted Glass (Kaca Moru Bergaris Estetik) 8mm Tempered",
+        "hardware": "Handle Tanam Minimalis & Engsel Soft-Closing SUS304",
+        "sealant": "Food-Grade Sanitary Neutral Silicone Anti Jamur",
+        "volume": "Luas 9.6 m² (L 3.2m × T 3.0m)",
+        "solusi": "Menggunakan silikon grade sanitasi khusus dapur yang anti jamur minyak dan mudah dibersihkan dengan sabun pembersih biasa.",
+        "durasi": "1 Hari Kerja On-Site",
+        "garansi": "12 Bulan Resmi"
+      },
+      "testimonialId": "testi-03",
+      "articleUrl": "artikel/partisi-kaca-ruangan-minimalis-estetik.html",
+      "articleTitle": "Inspirasi Partisi Kaca Ruangan Minimalis Estetik"
+    },
+    {
+      "id": "proj-06",
+      "slug": "fasad-acp-seven-pintu-otomatis-jababeka",
+      "title": "Fasad ACP Seven & Pintu Sensor Gerak Otomatis",
+      "serviceId": "acp-facade",
+      "rabConfigId": "rab-acp",
+      "calcServiceKey": "acp",
+      "location": "Jababeka Cikarang",
+      "loc": "Jababeka Cikarang",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Fasad ACP Seven dan pintu otomatis sensor Jababeka Cikarang",
+      "imageIds": [
+        "img-proj-06-cover"
+      ],
+      "description": "Transformasi fasad eksterior showroom komersial dengan penutup dinding ACP merek Seven garansi warna 10 tahun dan pintu sliding otomatis sensor microwave.",
+      "desc": "Transformasi fasad eksterior showroom komersial dengan penutup dinding ACP merek Seven garansi warna 10 tahun dan pintu sliding otomatis sensor microwave.",
+      "specifications": {
+        "kusen": "Rangka Hollow Galvanis 40×40×1.6mm + Braket Siku Baja",
+        "finishing": "Seven ACP PVDF 0.30mm Metallic Silver & Dark Grey",
+        "kaca": "Kaca Tempered Panasap Dark Blue 8mm Anti Panas",
+        "hardware": "Mesin Sliding Otomatis Dorma ES-200 Radar Microwave Sensor",
+        "sealant": "Dowsil Non-Staining Neutral Silicone Khusus Eksterior Gedung",
+        "volume": "Luas ACP 85 m² + 1 Unit Pintu Otomatis 2 Daun",
+        "solusi": "Pemasangan water drip flashing aluminium di atas kusen otomatis untuk mengalirkan air hujan lebat menjauh dari sensor inframerah pintu.",
+        "durasi": "7 Hari Kerja",
+        "garansi": "10 Tahun Garansi Warna ACP & 24 Bulan Mesin Pintu"
+      },
+      "specs": {
+        "kusen": "Rangka Hollow Galvanis 40×40×1.6mm + Braket Siku Baja",
+        "finishing": "Seven ACP PVDF 0.30mm Metallic Silver & Dark Grey",
+        "kaca": "Kaca Tempered Panasap Dark Blue 8mm Anti Panas",
+        "hardware": "Mesin Sliding Otomatis Dorma ES-200 Radar Microwave Sensor",
+        "sealant": "Dowsil Non-Staining Neutral Silicone Khusus Eksterior Gedung",
+        "volume": "Luas ACP 85 m² + 1 Unit Pintu Otomatis 2 Daun",
+        "solusi": "Pemasangan water drip flashing aluminium di atas kusen otomatis untuk mengalirkan air hujan lebat menjauh dari sensor inframerah pintu.",
+        "durasi": "7 Hari Kerja",
+        "garansi": "10 Tahun Garansi Warna ACP & 24 Bulan Mesin Pintu"
+      },
+      "testimonialId": "testi-09",
+      "articleUrl": "artikel/keunggulan-kusen-aluminium-dibanding-kayu.html",
+      "articleTitle": "Material Eksterior Modern Tahan Cuaca"
+    },
+    {
+      "id": "proj-07",
+      "slug": "kanopi-kaca-carport-summarecon-bekasi",
+      "title": "Kanopi Kaca Tempered Laminated Carport Modern",
+      "serviceId": "glass-canopy",
+      "rabConfigId": "rab-canopy",
+      "calcServiceKey": "kanopi",
+      "location": "Summarecon Bekasi",
+      "loc": "Summarecon Bekasi",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Kanopi kaca tempered laminated carport Summarecon Bekasi",
+      "imageIds": [
+        "img-proj-07-cover"
+      ],
+      "description": "Atap kanopi carport mobil mewah menggunakan kaca tempered 10mm dengan struktur hollow galvanis 100×50 tebal 2mm bebas tiang tengah mengganggu manuver kendaraan.",
+      "desc": "Atap kanopi carport mobil mewah menggunakan kaca tempered 10mm dengan struktur hollow galvanis 100×50 tebal 2mm bebas tiang tengah mengganggu manuver kendaraan.",
+      "specifications": {
+        "kusen": "Baja Hollow Galvanis 100×50×2.0mm & 50×50×1.8mm",
+        "finishing": "Cat Dasar Epoxy Primer Anti Karat + Top Coat Polyurethane Hitam Doff",
+        "kaca": "Tempered Glass 10mm Clear SNI Asahimas Flat Polished Edge",
+        "hardware": "Dynabolt Anchor M12 Baja, Karet Bantalan EPDM & Spider Clamp SUS304",
+        "sealant": "Dowsil 795 Structural Weatherseal Glazing Sealant",
+        "volume": "Luas 24 m² (Panjang 6m × Lebar 4m)",
+        "solusi": "Kemiringan atap 5 derajat dengan talang air pipa hollow tersembunyi mengalir langsung ke saluran drainase depan tanpa cipratan ke mobil.",
+        "durasi": "4 Hari Kerja",
+        "garansi": "36 Bulan Garansi Kebocoran Sealant & Struktur"
+      },
+      "specs": {
+        "kusen": "Baja Hollow Galvanis 100×50×2.0mm & 50×50×1.8mm",
+        "finishing": "Cat Dasar Epoxy Primer Anti Karat + Top Coat Polyurethane Hitam Doff",
+        "kaca": "Tempered Glass 10mm Clear SNI Asahimas Flat Polished Edge",
+        "hardware": "Dynabolt Anchor M12 Baja, Karet Bantalan EPDM & Spider Clamp SUS304",
+        "sealant": "Dowsil 795 Structural Weatherseal Glazing Sealant",
+        "volume": "Luas 24 m² (Panjang 6m × Lebar 4m)",
+        "solusi": "Kemiringan atap 5 derajat dengan talang air pipa hollow tersembunyi mengalir langsung ke saluran drainase depan tanpa cipratan ke mobil.",
+        "durasi": "4 Hari Kerja",
+        "garansi": "36 Bulan Garansi Kebocoran Sealant & Struktur"
+      },
+      "testimonialId": "testi-05",
+      "articleUrl": "artikel/tips-memilih-kanopi-kaca-tempered-carport.html",
+      "articleTitle": "Tips Memilih Kanopi Kaca Tempered Carport Awet"
+    },
+    {
+      "id": "proj-08",
+      "slug": "jendela-aluminium-jungkit-casement-telukjambe",
+      "title": "Jendela Aluminium Jungkit (Casement) Akustik",
+      "serviceId": "aluminium-window",
+      "rabConfigId": "rab-window",
+      "calcServiceKey": "jendela",
+      "location": "Telukjambe Timur Karawang",
+      "loc": "Telukjambe Timur Karawang",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": true,
+      "image": "assets/gallery/jendela-aluminium.jpg",
+      "imageAlt": "Jendela aluminium jungkit casement kedap suara Telukjambe Karawang",
+      "imageIds": [
+        "img-proj-08-cover"
+      ],
+      "description": "Instalasi paket jendela casement buka samping dan jungkit awning pada hunian dekat jalan raya Telukjambe. Meredam kebisingan lalu lintas hingga 32 desibel.",
+      "desc": "Instalasi paket jendela casement buka samping dan jungkit awning pada hunian dekat jalan raya Telukjambe. Meredam kebisingan lalu lintas hingga 32 desibel.",
+      "specifications": {
+        "kusen": "Alexindo 4 Inch Profil Tebal 1.2mm Profil Khusus Kedap",
+        "finishing": "Powder Coating Ivory White High-Gloss",
+        "kaca": "Kaca Laminated Akustik 5+5mm PVB 0.76mm Sound Control",
+        "hardware": "Friction Stay Heavy-Duty Dekkson SUS304 14\" & Multi-Point Lock Handle",
+        "sealant": "Double EPDM Gasket Seal Keliling Daun Jendela",
+        "volume": "6 Daun Jendela Kamar Tidur & Ruang Kerja",
+        "solusi": "Penggunaan sistem multi-point lock lever yang menekan daun jendela rapat merata ke kusen 4 penjuru saat handle dikunci ke bawah.",
+        "durasi": "2 Hari Kerja",
+        "garansi": "24 Bulan Garansi Aksesoris Friction Stay"
+      },
+      "specs": {
+        "kusen": "Alexindo 4 Inch Profil Tebal 1.2mm Profil Khusus Kedap",
+        "finishing": "Powder Coating Ivory White High-Gloss",
+        "kaca": "Kaca Laminated Akustik 5+5mm PVB 0.76mm Sound Control",
+        "hardware": "Friction Stay Heavy-Duty Dekkson SUS304 14\" & Multi-Point Lock Handle",
+        "sealant": "Double EPDM Gasket Seal Keliling Daun Jendela",
+        "volume": "6 Daun Jendela Kamar Tidur & Ruang Kerja",
+        "solusi": "Penggunaan sistem multi-point lock lever yang menekan daun jendela rapat merata ke kusen 4 penjuru saat handle dikunci ke bawah.",
+        "durasi": "2 Hari Kerja",
+        "garansi": "24 Bulan Garansi Aksesoris Friction Stay"
+      },
+      "testimonialId": "testi-12",
+      "articleUrl": "artikel/tips-merawat-kusen-aluminium-tetap-mengkilap.html",
+      "articleTitle": "Perawatan Jendela Aluminium Casement"
+    },
+    {
+      "id": "proj-09",
+      "slug": "shower-screen-kaca-frameless-grand-wisata",
+      "title": "Shower Screen Kaca Frameless Kamar Mandi",
+      "serviceId": "shower-glass",
+      "rabConfigId": "rab-shower",
+      "calcServiceKey": "shower",
+      "location": "Grand Wisata Bekasi",
+      "loc": "Grand Wisata Bekasi",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": true,
+      "image": "assets/gallery/shower-kaca.jpg",
+      "imageAlt": "Shower screen kaca frameless tempered 10mm Grand Wisata Bekasi",
+      "imageIds": [
+        "img-proj-09-cover"
+      ],
+      "description": "Penyekat area basah dan kering kamar mandi utama model pintu swing frameless kaca tempered 10mm. Menjaga lantai luar tetap kering dan higienis.",
+      "desc": "Penyekat area basah dan kering kamar mandi utama model pintu swing frameless kaca tempered 10mm. Menjaga lantai luar tetap kering dan higienis.",
+      "specifications": {
+        "kusen": "Frameless Glass-to-Wall Hinge System",
+        "finishing": "Chrome Mirror Polish Stainless Steel SUS304",
+        "kaca": "Tempered Glass 10mm Clear dengan Lapisan Nano Anti Kerak Air",
+        "hardware": "Engsel Shower 90° Glass-to-Wall Dekson SUS304 & Pipa Header Stabilizer",
+        "sealant": "Clear Silicone Sanitasi Khusus Anti Lumut & Jamur Hitam",
+        "volume": "Set L-Shape Sekat Kaca (100cm × 100cm × Tinggi 200cm)",
+        "solusi": "Dilengkapi strip magnetic door seal di bibir pintu dan lis aluminium penahan air (water barrier threshold) di lantai mencegah rembesan busa sabun.",
+        "durasi": "1 Hari Kerja On-Site",
+        "garansi": "12 Bulan Resmi Garansi Engsel & Seal"
+      },
+      "specs": {
+        "kusen": "Frameless Glass-to-Wall Hinge System",
+        "finishing": "Chrome Mirror Polish Stainless Steel SUS304",
+        "kaca": "Tempered Glass 10mm Clear dengan Lapisan Nano Anti Kerak Air",
+        "hardware": "Engsel Shower 90° Glass-to-Wall Dekson SUS304 & Pipa Header Stabilizer",
+        "sealant": "Clear Silicone Sanitasi Khusus Anti Lumut & Jamur Hitam",
+        "volume": "Set L-Shape Sekat Kaca (100cm × 100cm × Tinggi 200cm)",
+        "solusi": "Dilengkapi strip magnetic door seal di bibir pintu dan lis aluminium penahan air (water barrier threshold) di lantai mencegah rembesan busa sabun.",
+        "durasi": "1 Hari Kerja On-Site",
+        "garansi": "12 Bulan Resmi Garansi Engsel & Seal"
+      },
+      "testimonialId": "testi-08",
+      "articleUrl": "artikel/kaca-kamar-mandi.html",
+      "articleTitle": "Panduan Sekat Kaca Kamar Mandi Mewah"
+    },
+    {
+      "id": "proj-10",
+      "slug": "pintu-kaca-kamar-mandi-sandblast-klari",
+      "title": "Pintu Kaca Kamar Mandi Motif Sandblast Buram",
+      "serviceId": "shower-glass",
+      "rabConfigId": "rab-shower",
+      "calcServiceKey": "shower",
+      "location": "Klari Karawang Timur",
+      "loc": "Klari Karawang Timur",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": true,
+      "image": "assets/gallery/pintu-kamar-mandi.jpg",
+      "imageAlt": "Pintu aluminium kamar mandi kaca sandblast buram Klari Karawang",
+      "imageIds": [
+        "img-proj-10-cover"
+      ],
+      "description": "Pintu swing kamar mandi tahan cipratan air dengan motif sandblast buram gradasi modern. Tidak akan pernah keropos, berkarat, ataupun diserang rayap.",
+      "desc": "Pintu swing kamar mandi tahan cipratan air dengan motif sandblast buram gradasi modern. Tidak akan pernah keropos, berkarat, ataupun diserang rayap.",
+      "specifications": {
+        "kusen": "Aluminium 3 Inch Anti Karat Khusus Area Lembab",
+        "finishing": "Anodized Silver Satin 15 Micron",
+        "kaca": "Kaca Es Frosted Buram Sandblast Kimia 6mm SNI Asahimas",
+        "hardware": "Engsel Kupu Stainless 4 Inch & Lever Lockset Anti Karat",
+        "sealant": "Neutral Silicone Karet Santoprene",
+        "volume": "1 Daun Pintu Kamar Mandi (L 80cm × T 200cm)",
+        "solusi": "Menggunakan kaca sandblast etsa kimia yang tahan air dan tidak meninggalkan noda sidik jari jika tersentuh sabun mandi.",
+        "durasi": "1 Hari Kerja",
+        "garansi": "12 Bulan Resmi"
+      },
+      "specs": {
+        "kusen": "Aluminium 3 Inch Anti Karat Khusus Area Lembab",
+        "finishing": "Anodized Silver Satin 15 Micron",
+        "kaca": "Kaca Es Frosted Buram Sandblast Kimia 6mm SNI Asahimas",
+        "hardware": "Engsel Kupu Stainless 4 Inch & Lever Lockset Anti Karat",
+        "sealant": "Neutral Silicone Karet Santoprene",
+        "volume": "1 Daun Pintu Kamar Mandi (L 80cm × T 200cm)",
+        "solusi": "Menggunakan kaca sandblast etsa kimia yang tahan air dan tidak meninggalkan noda sidik jari jika tersentuh sabun mandi.",
+        "durasi": "1 Hari Kerja",
+        "garansi": "12 Bulan Resmi"
+      },
+      "testimonialId": "testi-08",
+      "articleUrl": "artikel/kaca-kamar-mandi.html",
+      "articleTitle": "Tips Memilih Kaca Kamar Mandi Awet & Anti Keropos"
+    },
+    {
+      "id": "proj-11",
+      "slug": "railing-tangga-balkon-kaca-tempered-grand-taruma",
+      "title": "Railing Tangga & Balkon Kaca Tempered Frameless Spigot SUS304",
+      "serviceId": "glass-railing",
+      "rabConfigId": "rab-railing",
+      "calcServiceKey": "railing",
+      "location": "Grand Taruma Karawang",
+      "loc": "Grand Taruma Karawang",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Railing kaca tempered 12mm spigot Grand Taruma Karawang",
+      "imageIds": [
+        "img-proj-11-cover"
+      ],
+      "description": "Instalasi railing tangga kaca pada rumah hunian 2 lantai. Memberikan efek melayang yang memukau tanpa kisi-kisi besi penghalang pandangan, sekaligus sangat aman bagi anak kecil.",
+      "desc": "Instalasi railing tangga kaca pada rumah hunian 2 lantai. Memberikan efek melayang yang memukau tanpa kisi-kisi besi penghalang pandangan, sekaligus sangat aman bagi anak kecil.",
+      "specifications": {
+        "kusen": "Frameless Spigot System (Penjepit Kaki Lantai Bebas Tiang)",
+        "finishing": "Stainless Steel SUS304 Solid Cast Satin Finish",
+        "kaca": "Tempered Glass 12mm SNI Flat Polished Rounded Edges",
+        "hardware": "Spigot Clamp Kotak Heavy-Duty 20cm dengan Dynabolt M12 Cor Beton",
+        "sealant": "Epoxy Anchor Grout + Rubber Gasket Pad",
+        "volume": "Panjang 11 Meter Lari (Balkon Lantai 2 & Void Tangga)",
+        "solusi": "Pemasangan klem spigot solid SUS304 dengan bor inti (core drill) ke dalam balok struktur beton lantai, kokoh menahan beban benturan samping hingga 150 kg.",
+        "durasi": "3 Hari Kerja",
+        "garansi": "24 Bulan Kekuatan Struktur"
+      },
+      "specs": {
+        "kusen": "Frameless Spigot System (Penjepit Kaki Lantai Bebas Tiang)",
+        "finishing": "Stainless Steel SUS304 Solid Cast Satin Finish",
+        "kaca": "Tempered Glass 12mm SNI Flat Polished Rounded Edges",
+        "hardware": "Spigot Clamp Kotak Heavy-Duty 20cm dengan Dynabolt M12 Cor Beton",
+        "sealant": "Epoxy Anchor Grout + Rubber Gasket Pad",
+        "volume": "Panjang 11 Meter Lari (Balkon Lantai 2 & Void Tangga)",
+        "solusi": "Pemasangan klem spigot solid SUS304 dengan bor inti (core drill) ke dalam balok struktur beton lantai, kokoh menahan beban benturan samping hingga 150 kg.",
+        "durasi": "3 Hari Kerja",
+        "garansi": "24 Bulan Kekuatan Struktur"
+      },
+      "testimonialId": "testi-07",
+      "articleUrl": "artikel/desain-railing-balkon-tangga-kaca-frameless.html",
+      "articleTitle": "Desain Railing Tangga & Balkon Kaca Frameless"
+    },
+    {
+      "id": "proj-12",
+      "slug": "partisi-cleanroom-pabrik-suryacipta",
+      "title": "Partisi Kaca Cleanroom Higienis & Pintu Airtight Pabrik",
+      "serviceId": "aluminium-partition",
+      "rabConfigId": "rab-partition",
+      "calcServiceKey": "partisi",
+      "location": "Suryacipta Ciampel",
+      "loc": "Suryacipta Ciampel",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Partisi kaca cleanroom pabrik Suryacipta Ciampel Karawang",
+      "imageIds": [
+        "img-proj-12-cover"
+      ],
+      "description": "Instalasi partisi kaca ruang laboratorium uji kualitas (QA/QC) dan cleanroom industri komponen otomotif kawasan Suryacipta Karawang.",
+      "desc": "Instalasi partisi kaca ruang laboratorium uji kualitas (QA/QC) dan cleanroom industri komponen otomotif kawasan Suryacipta Karawang.",
+      "specifications": {
+        "kusen": "Aluminium Profil R-Shape Bebas Sudut Mati Debu",
+        "finishing": "Powder Coating White Anti Bakteri & Kimia Ringan",
+        "kaca": "Tempered Glass Clear 10mm Double Glass dengan Seal Kedap Gas",
+        "hardware": "Airtight Drop Seal Otomatis Bawah Pintu & Push-Pull Handle SUS304",
+        "sealant": "Cleanroom Grade Silicone Sealant Non-Offgassing",
+        "volume": "Luas Partisi 48 m² + 2 Set Pintu Airtight Swing",
+        "solusi": "Penerapan lis aluminium sudut melengkung cembung (curved coving) pada pertemuan lantai dan dinding partisi agar tidak ada penumpukan debu.",
+        "durasi": "5 Hari Kerja On-Site",
+        "garansi": "12 Bulan Garansi Kebocoran Udara"
+      },
+      "specs": {
+        "kusen": "Aluminium Profil R-Shape Bebas Sudut Mati Debu",
+        "finishing": "Powder Coating White Anti Bakteri & Kimia Ringan",
+        "kaca": "Tempered Glass Clear 10mm Double Glass dengan Seal Kedap Gas",
+        "hardware": "Airtight Drop Seal Otomatis Bawah Pintu & Push-Pull Handle SUS304",
+        "sealant": "Cleanroom Grade Silicone Sealant Non-Offgassing",
+        "volume": "Luas Partisi 48 m² + 2 Set Pintu Airtight Swing",
+        "solusi": "Penerapan lis aluminium sudut melengkung cembung (curved coving) pada pertemuan lantai dan dinding partisi agar tidak ada penumpukan debu.",
+        "durasi": "5 Hari Kerja On-Site",
+        "garansi": "12 Bulan Garansi Kebocoran Udara"
+      },
+      "testimonialId": "testi-03",
+      "articleUrl": "artikel/partisi-kaca-kantor-cleanroom-pabrik-industri.html",
+      "articleTitle": "Standar Partisi Kaca Cleanroom Pabrik Industri"
+    },
+    {
+      "id": "proj-13",
+      "slug": "jendela-sliding-aluminium-cikarang-baru",
+      "title": "Jendela Sliding (Geser) Aluminium 4 Daun Ruang Tamu",
+      "serviceId": "aluminium-window",
+      "rabConfigId": "rab-window",
+      "calcServiceKey": "jendela",
+      "location": "Cikarang Baru Jababeka",
+      "loc": "Cikarang Baru Jababeka",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Jendela sliding geser 4 daun Cikarang Baru Jababeka",
+      "imageIds": [
+        "img-proj-13-cover"
+      ],
+      "description": "Bukaan jendela lebar 4 daun geser sentral menghadap taman depan. Ruangan menerima sirkulasi udara maksimal dengan view lanskap taman tanpa sekat masif.",
+      "desc": "Bukaan jendela lebar 4 daun geser sentral menghadap taman depan. Ruangan menerima sirkulasi udara maksimal dengan view lanskap taman tanpa sekat masif.",
+      "specifications": {
+        "kusen": "Dacon 3 Inch Profil Ekonomis Berkualitas SNI",
+        "finishing": "Powder Coating Coklat Kayu Urat Halus (Woodgrain)",
+        "kaca": "Kaca Polos 5mm Clear SNI Asahimas",
+        "hardware": "Kunci Crescent Lock Tengah & Roda Tandem Bearing Stainless",
+        "sealant": "Karet Lis EPDM Tahan Panas Matahari",
+        "volume": "Dimensi L 2.8m × T 1.6m (2 Set Opening)",
+        "solusi": "Menggunakan roda sliding tandem bearing ganda sehingga daun jendela terasa sangat ringan digeser oleh anak-anak sekalipun.",
+        "durasi": "1 Hari Kerja",
+        "garansi": "12 Bulan Resmi"
+      },
+      "specs": {
+        "kusen": "Dacon 3 Inch Profil Ekonomis Berkualitas SNI",
+        "finishing": "Powder Coating Coklat Kayu Urat Halus (Woodgrain)",
+        "kaca": "Kaca Polos 5mm Clear SNI Asahimas",
+        "hardware": "Kunci Crescent Lock Tengah & Roda Tandem Bearing Stainless",
+        "sealant": "Karet Lis EPDM Tahan Panas Matahari",
+        "volume": "Dimensi L 2.8m × T 1.6m (2 Set Opening)",
+        "solusi": "Menggunakan roda sliding tandem bearing ganda sehingga daun jendela terasa sangat ringan digeser oleh anak-anak sekalipun.",
+        "durasi": "1 Hari Kerja",
+        "garansi": "12 Bulan Resmi"
+      },
+      "testimonialId": "testi-12",
+      "articleUrl": "artikel/tips-merawat-kusen-aluminium-tetap-mengkilap.html",
+      "articleTitle": "Keunggulan Jendela Geser Sliding Aluminium"
+    },
+    {
+      "id": "proj-14",
+      "slug": "pintu-aluminium-swing-spandrel-cikampek",
+      "title": "Pintu Aluminium Swing Modern Daun Panel Spandrel Full",
+      "serviceId": "aluminium-door",
+      "rabConfigId": "rab-door",
+      "calcServiceKey": "pintu",
+      "location": "Kota Baru Cikampek",
+      "loc": "Kota Baru Cikampek",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": true,
+      "image": "assets/gallery/pintu-aluminium.jpg",
+      "imageAlt": "Pintu aluminium swing panel spandrel full Cikampek Karawang",
+      "imageIds": [
+        "img-proj-14-cover"
+      ],
+      "description": "Pintu akses samping dan area servis rumah memakai panel spandrel aluminium double layer anti dobrakan, privasi 100% dan tahan air hujan.",
+      "desc": "Pintu akses samping dan area servis rumah memakai panel spandrel aluminium double layer anti dobrakan, privasi 100% dan tahan air hujan.",
+      "specifications": {
+        "kusen": "Inkalum 3 Inch Tebal 1.1mm Kusen Siku Presisi",
+        "finishing": "Powder Coating Grey Charcoal Abu-Abu Tua Elegan",
+        "kaca": "Panel Spandrel Aluminium Double Wall Tebal Kokoh (Non-Kaca)",
+        "hardware": "Lockcase Mortise Lock Roller & Silinder Kunci Kuningan 3 Anak Kunci",
+        "sealant": "Karet Bantalan Peredam Suara Benturan Pintu",
+        "volume": "2 Unit Pintu Single Leaf (L 90cm × T 215cm)",
+        "solusi": "Konstruksi panel spandrel aluminium double wall yang padat memberikan isolasi termal terhadap terik matahari dan kokoh anti dobrakan.",
+        "durasi": "1 Hari Kerja",
+        "garansi": "12 Bulan Resmi"
+      },
+      "specs": {
+        "kusen": "Inkalum 3 Inch Tebal 1.1mm Kusen Siku Presisi",
+        "finishing": "Powder Coating Grey Charcoal Abu-Abu Tua Elegan",
+        "kaca": "Panel Spandrel Aluminium Double Wall Tebal Kokoh (Non-Kaca)",
+        "hardware": "Lockcase Mortise Lock Roller & Silinder Kunci Kuningan 3 Anak Kunci",
+        "sealant": "Karet Bantalan Peredam Suara Benturan Pintu",
+        "volume": "2 Unit Pintu Single Leaf (L 90cm × T 215cm)",
+        "solusi": "Konstruksi panel spandrel aluminium double wall yang padat memberikan isolasi termal terhadap terik matahari dan kokoh anti dobrakan.",
+        "durasi": "1 Hari Kerja",
+        "garansi": "12 Bulan Resmi"
+      },
+      "testimonialId": "testi-02",
+      "articleUrl": "artikel/rekomendasi-pintu-sliding-geser-minimalis.html",
+      "articleTitle": "Pilihan Pintu Aluminium Awet Bebas Rayap"
+    },
+    {
+      "id": "proj-15",
+      "slug": "skylight-atap-kaca-purwakarta",
+      "title": "Skylight Atap Kaca Tempered Void Tangga Rumah Tingkat",
+      "serviceId": "glass-canopy",
+      "rabConfigId": "rab-canopy",
+      "calcServiceKey": "kanopi",
+      "location": "Purwakarta Kota",
+      "loc": "Purwakarta Kota",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Skylight atap kaca tempered void tangga Purwakarta Kota",
+      "imageIds": [
+        "img-proj-15-cover"
+      ],
+      "description": "Atap penerangan alami (skylight) di atas void tangga tengah hunian 3 lantai. Menghemat pemakaian listrik lampu di siang hari secara signifikan.",
+      "desc": "Atap penerangan alami (skylight) di atas void tangga tengah hunian 3 lantai. Menghemat pemakaian listrik lampu di siang hari secara signifikan.",
+      "specifications": {
+        "kusen": "Rangka Balok Besi Hollow 100×50×2.3mm Rangka Kaku",
+        "finishing": "Cat Duco Epoxy Heavy Primer + Polyurethane Putih Bersih",
+        "kaca": "Kaca Tempered Laminated 6+6mm PVB 0.76mm Safety Glass",
+        "hardware": "Plat Anchor Sambung Baja 8mm Dynabolt Ramset Beton",
+        "sealant": "Dowsil 795 Weatherseal Structural Glazing Silicone",
+        "volume": "Luas 12 m² (3.0m × 4.0m Bentang Void Tangga)",
+        "solusi": "Menggunakan kaca laminated safety glass 6+6mm, jika kaca terbentur batu sekalipun pecahannya tetap menempel pada lapisan film PVB tanpa jatuh ke bawah.",
+        "durasi": "3 Hari Kerja",
+        "garansi": "36 Bulan Garansi Kebocoran"
+      },
+      "specs": {
+        "kusen": "Rangka Balok Besi Hollow 100×50×2.3mm Rangka Kaku",
+        "finishing": "Cat Duco Epoxy Heavy Primer + Polyurethane Putih Bersih",
+        "kaca": "Kaca Tempered Laminated 6+6mm PVB 0.76mm Safety Glass",
+        "hardware": "Plat Anchor Sambung Baja 8mm Dynabolt Ramset Beton",
+        "sealant": "Dowsil 795 Weatherseal Structural Glazing Silicone",
+        "volume": "Luas 12 m² (3.0m × 4.0m Bentang Void Tangga)",
+        "solusi": "Menggunakan kaca laminated safety glass 6+6mm, jika kaca terbentur batu sekalipun pecahannya tetap menempel pada lapisan film PVB tanpa jatuh ke bawah.",
+        "durasi": "3 Hari Kerja",
+        "garansi": "36 Bulan Garansi Kebocoran"
+      },
+      "testimonialId": "testi-05",
+      "articleUrl": "artikel/tips-memilih-kaca-tempered-dan-laminated-aman.html",
+      "articleTitle": "Keamanan Skylight Kaca Laminated Rumah Bertingkat"
+    },
+    {
+      "id": "proj-16",
+      "slug": "pintu-kaca-frame-putih-harapan-indah",
+      "title": "Pintu Kaca Aluminium Frame Putih Gaya Scandinavian",
+      "serviceId": "aluminium-door",
+      "rabConfigId": "rab-door",
+      "calcServiceKey": "pintu",
+      "location": "Harapan Indah Bekasi",
+      "loc": "Harapan Indah Bekasi",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": true,
+      "image": "assets/gallery/pintu-kaca-putih.jpg",
+      "imageAlt": "Pintu kaca aluminium frame putih scandinavian Harapan Indah Bekasi",
+      "imageIds": [
+        "img-proj-16-cover"
+      ],
+      "description": "Pintu kaca frame putih dengan kisi ornamen kotak modern memadukan estetika Skandinavia terang dan bersih untuk akses ruang keluarga ke teras samping.",
+      "desc": "Pintu kaca frame putih dengan kisi ornamen kotak modern memadukan estetika Skandinavia terang dan bersih untuk akses ruang keluarga ke teras samping.",
+      "specifications": {
+        "kusen": "Alexindo 3 Inch Profil Lembut Presisi",
+        "finishing": "Powder Coating White Arctic Smooth Finish",
+        "kaca": "Kaca Polos Clear 6mm Asahimas Bebas Distorsi",
+        "hardware": "Engsel Stainless 4 Inch SUS304 & Kunci Lever Handle Minimalis Modern",
+        "sealant": "White Sanitary Silicone Sealant",
+        "volume": "1 Unit Pintu Swing Single (L 90cm × T 220cm)",
+        "solusi": "Finishing powder coating oven pabrik membuat cat putih tidak menguning meski terpapar sinar UV matahari bertahun-tahun.",
+        "durasi": "1 Hari Kerja",
+        "garansi": "12 Bulan Garansi Cat & Engsel"
+      },
+      "specs": {
+        "kusen": "Alexindo 3 Inch Profil Lembut Presisi",
+        "finishing": "Powder Coating White Arctic Smooth Finish",
+        "kaca": "Kaca Polos Clear 6mm Asahimas Bebas Distorsi",
+        "hardware": "Engsel Stainless 4 Inch SUS304 & Kunci Lever Handle Minimalis Modern",
+        "sealant": "White Sanitary Silicone Sealant",
+        "volume": "1 Unit Pintu Swing Single (L 90cm × T 220cm)",
+        "solusi": "Finishing powder coating oven pabrik membuat cat putih tidak menguning meski terpapar sinar UV matahari bertahun-tahun.",
+        "durasi": "1 Hari Kerja",
+        "garansi": "12 Bulan Garansi Cat & Engsel"
+      },
+      "testimonialId": "testi-02",
+      "articleUrl": "artikel/keunggulan-kusen-aluminium-dibanding-kayu.html",
+      "articleTitle": "Tren Pintu Aluminium Putih Scandinavian"
+    },
+    {
+      "id": "proj-17",
+      "slug": "curtain-wall-fasad-gedung-subang-smartpolitan",
+      "title": "Curtain Wall Kaca Fasad Gedung Ruko & Perkantoran 3 Lantai",
+      "serviceId": "curtain-wall",
+      "rabConfigId": "rab-curtain-wall",
+      "calcServiceKey": "curtain_wall",
+      "location": "Subang Smartpolitan",
+      "loc": "Subang Smartpolitan",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Curtain wall fasad kaca ruko gedung 3 lantai Subang Smartpolitan",
+      "imageIds": [
+        "img-proj-17-cover"
+      ],
+      "description": "Pemasangan dinding tirai kaca (curtain wall stick system) fasad depan ruko 3 lantai. Memberi kesan megah arsitektural modern penunjang citra profesional kantor.",
+      "desc": "Pemasangan dinding tirai kaca (curtain wall stick system) fasad depan ruko 3 lantai. Memberi kesan megah arsitektural modern penunjang citra profesional kantor.",
+      "specifications": {
+        "kusen": "Back Mullion Aluminium 150×50mm Tebal 2.0mm Heavy Duty",
+        "finishing": "Anodized Dark Brown 20 Micron Kualitas Gedung Tinggi",
+        "kaca": "Kaca Panasap Green Tinted 6mm Anti Panas Surya Asahimas",
+        "hardware": "Bracket Siku Jangkar Baja 8mm Hot-Dip Galvanized & Baut Grade 8.8",
+        "sealant": "Dow Corning Structural Glazing Silicone Sealant",
+        "volume": "Luas Fasad Kaca 120 m² (Bentang 3 Lantai)",
+        "solusi": "Pemasangan back mullion yang dijangkar ke balok tepi lantai dengan joint expansion fleksibel untuk mengantisipasi gempa mikro dan pergerakan termal gedung.",
+        "durasi": "14 Hari Kerja",
+        "garansi": "60 Bulan Garansi Struktural & Kebocoran"
+      },
+      "specs": {
+        "kusen": "Back Mullion Aluminium 150×50mm Tebal 2.0mm Heavy Duty",
+        "finishing": "Anodized Dark Brown 20 Micron Kualitas Gedung Tinggi",
+        "kaca": "Kaca Panasap Green Tinted 6mm Anti Panas Surya Asahimas",
+        "hardware": "Bracket Siku Jangkar Baja 8mm Hot-Dip Galvanized & Baut Grade 8.8",
+        "sealant": "Dow Corning Structural Glazing Silicone Sealant",
+        "volume": "Luas Fasad Kaca 120 m² (Bentang 3 Lantai)",
+        "solusi": "Pemasangan back mullion yang dijangkar ke balok tepi lantai dengan joint expansion fleksibel untuk mengantisipasi gempa mikro dan pergerakan termal gedung.",
+        "durasi": "14 Hari Kerja",
+        "garansi": "60 Bulan Garansi Struktural & Kebocoran"
+      },
+      "testimonialId": "testi-10",
+      "articleUrl": "artikel/tips-memilih-kaca-tempered-dan-laminated-aman.html",
+      "articleTitle": "Konstruksi Curtain Wall Gedung Komersial"
+    },
+    {
+      "id": "proj-18",
+      "slug": "pintu-kaca-sliding-otomatis-sensor-kosambi",
+      "title": "Pintu Kaca Sliding Otomatis Sensor Gerak Minimarket & Apotek",
+      "serviceId": "tempered-door",
+      "rabConfigId": "rab-tempered-door",
+      "calcServiceKey": "pintu_tempered",
+      "location": "Kosambi Klari Karawang",
+      "loc": "Kosambi Klari Karawang",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Pintu kaca sliding otomatis sensor gerak apotek Kosambi Klari",
+      "imageIds": [
+        "img-proj-18-cover"
+      ],
+      "description": "Instalasi pintu geser otomatis kaca tempered tanpa sentuh untuk pintu masuk apotek modern dan minimarket, mendukung kenyamanan pengunjung dan efisiensi AC ruangan.",
+      "desc": "Instalasi pintu geser otomatis kaca tempered tanpa sentuh untuk pintu masuk apotek modern dan minimarket, mendukung kenyamanan pengunjung dan efisiensi AC ruangan.",
+      "specifications": {
+        "kusen": "Cover Box Aluminium Slimline Header Otomatis 12cm",
+        "finishing": "Natural Anodized Silver Hairline",
+        "kaca": "Tempered Glass Clear 10mm SNI Asahimas Flat Edges",
+        "hardware": "Drive Motor DC Brushless, Microcontroller Controller & 2 Radar Microwave",
+        "sealant": "Karet Lis Mohair Peredam Kebocoran AC",
+        "volume": "2 Daun Bi-Parting (Opening Bersih Lebar 1.8m × Tinggi 2.2m)",
+        "solusi": "Sistem safety beam sensor di ketinggian 40cm mencegah pintu menjepit pengunjung atau anak kecil yang sedang melintas di tengah opening.",
+        "durasi": "2 Hari Kerja",
+        "garansi": "24 Bulan Garansi Mesin Motor & Sensor"
+      },
+      "specs": {
+        "kusen": "Cover Box Aluminium Slimline Header Otomatis 12cm",
+        "finishing": "Natural Anodized Silver Hairline",
+        "kaca": "Tempered Glass Clear 10mm SNI Asahimas Flat Edges",
+        "hardware": "Drive Motor DC Brushless, Microcontroller Controller & 2 Radar Microwave",
+        "sealant": "Karet Lis Mohair Peredam Kebocoran AC",
+        "volume": "2 Daun Bi-Parting (Opening Bersih Lebar 1.8m × Tinggi 2.2m)",
+        "solusi": "Sistem safety beam sensor di ketinggian 40cm mencegah pintu menjepit pengunjung atau anak kecil yang sedang melintas di tengah opening.",
+        "durasi": "2 Hari Kerja",
+        "garansi": "24 Bulan Garansi Mesin Motor & Sensor"
+      },
+      "testimonialId": "testi-04",
+      "articleUrl": "artikel/tips-memilih-kaca-tempered-dan-laminated-aman.html",
+      "articleTitle": "Sistem Pintu Otomatis Sensor Komersial"
+    },
+    {
+      "id": "proj-19",
+      "slug": "pintu-lipat-bifold-6-daun-kota-bukit-indah",
+      "title": "Pintu Lipat (Bifold) Aluminium 6 Daun Ruang Serbaguna & Garasi",
+      "serviceId": "aluminium-bifold",
+      "rabConfigId": "rab-bifold",
+      "calcServiceKey": "bifold",
+      "location": "Kota Bukit Indah Purwakarta",
+      "loc": "Kota Bukit Indah Purwakarta",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Pintu lipat bifold aluminium 6 daun Kota Bukit Indah Purwakarta",
+      "imageIds": [
+        "img-proj-19-cover"
+      ],
+      "description": "Penyekat fleksibel aula serbaguna yang dapat dilipat ke sisi kiri dan kanan, membuka akses lapang tanpa tiang tengah saat ada acara keluarga besar.",
+      "desc": "Penyekat fleksibel aula serbaguna yang dapat dilipat ke sisi kiri dan kanan, membuka akses lapang tanpa tiang tengah saat ada acara keluarga besar.",
+      "specifications": {
+        "kusen": "Alexindo Heavy Duty Bifold 4 Inch Ketebalan 1.35mm",
+        "finishing": "Powder Coating Matte Grey Charcoal",
+        "kaca": "Kaca Tempered Clear 8mm SNI Safety Glazing",
+        "hardware": "Top Hanging Track SUS304 Kapasitas 250kg & Engsel Lipat Stainless",
+        "sealant": "Santoprene Double Gasket Seal Kedap Suara",
+        "volume": "6 Daun Lipat (Lebar Bukaan 5.4m × Tinggi 2.6m)",
+        "solusi": "Sistem rel gantung suspensi dengan penahan beban di balok atas beton, tidak membebani lantai dasar dan roda berputar whisper-quiet.",
+        "durasi": "4 Hari Kerja",
+        "garansi": "24 Bulan Garansi Sistem Lipat"
+      },
+      "specs": {
+        "kusen": "Alexindo Heavy Duty Bifold 4 Inch Ketebalan 1.35mm",
+        "finishing": "Powder Coating Matte Grey Charcoal",
+        "kaca": "Kaca Tempered Clear 8mm SNI Safety Glazing",
+        "hardware": "Top Hanging Track SUS304 Kapasitas 250kg & Engsel Lipat Stainless",
+        "sealant": "Santoprene Double Gasket Seal Kedap Suara",
+        "volume": "6 Daun Lipat (Lebar Bukaan 5.4m × Tinggi 2.6m)",
+        "solusi": "Sistem rel gantung suspensi dengan penahan beban di balok atas beton, tidak membebani lantai dasar dan roda berputar whisper-quiet.",
+        "durasi": "4 Hari Kerja",
+        "garansi": "24 Bulan Garansi Sistem Lipat"
+      },
+      "testimonialId": "testi-06",
+      "articleUrl": "artikel/desain-pintu-lipat-aluminium-bifold-minimalis.html",
+      "articleTitle": "Aplikasi Pintu Bifold Lebar Garasi & Aula"
+    },
+    {
+      "id": "proj-20",
+      "slug": "partisi-kaca-akustik-double-glass-giic-cikarang",
+      "title": "Partisi Kaca Akustik Double Glass & Louver Blinds Ruang Direksi",
+      "serviceId": "aluminium-partition",
+      "rabConfigId": "rab-partition",
+      "calcServiceKey": "partisi",
+      "location": "GIIC Cikarang Pusat",
+      "loc": "GIIC Cikarang Pusat",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Partisi kaca akustik double glass GIIC Cikarang Pusat",
+      "imageIds": [
+        "img-proj-20-cover"
+      ],
+      "description": "Ruang kerja direksi pabrik GIIC dengan partisi kaca ganda kedap suara tinggi dan tirai venetian blinds magnetik di dalam rongga kaca.",
+      "desc": "Ruang kerja direksi pabrik GIIC dengan partisi kaca ganda kedap suara tinggi dan tirai venetian blinds magnetik di dalam rongga kaca.",
+      "specifications": {
+        "kusen": "Aluminium Akustik Profil 4 Inch Tebal 1.4mm",
+        "finishing": "Anodized Black Matte 20 Micron",
+        "kaca": "Double Glass Unit (Tempered 6mm + Rongga Udara 12mm + Tempered 6mm)",
+        "hardware": "Magnetic Slider Pengontrol Tirai Venetian & Mortise Lockset Dekson",
+        "sealant": "Butyl Sealant + Desiccant Penyerap Kelembaban Rongga",
+        "volume": "Luas 26 m² (Tinggi 3.0m × Panjang 8.6m)",
+        "solusi": "Tirai venetian blinds terpasang di ruang hampa antar kaca sehingga tidak akan pernah kotor berdebu dan tidak membutuhkan pembersihan selamanya.",
+        "durasi": "4 Hari Kerja",
+        "garansi": "24 Bulan Resmi"
+      },
+      "specs": {
+        "kusen": "Aluminium Akustik Profil 4 Inch Tebal 1.4mm",
+        "finishing": "Anodized Black Matte 20 Micron",
+        "kaca": "Double Glass Unit (Tempered 6mm + Rongga Udara 12mm + Tempered 6mm)",
+        "hardware": "Magnetic Slider Pengontrol Tirai Venetian & Mortise Lockset Dekson",
+        "sealant": "Butyl Sealant + Desiccant Penyerap Kelembaban Rongga",
+        "volume": "Luas 26 m² (Tinggi 3.0m × Panjang 8.6m)",
+        "solusi": "Tirai venetian blinds terpasang di ruang hampa antar kaca sehingga tidak akan pernah kotor berdebu dan tidak membutuhkan pembersihan selamanya.",
+        "durasi": "4 Hari Kerja",
+        "garansi": "24 Bulan Resmi"
+      },
+      "testimonialId": "testi-03",
+      "articleUrl": "artikel/partisi-kaca-kantor-cleanroom-pabrik-industri.html",
+      "articleTitle": "Teknologi Partisi Akustik Ruang Direksi"
+    },
+    {
+      "id": "proj-21",
+      "slug": "pintu-utama-pivot-oversized-resinda",
+      "title": "Pintu Utama Pivot Oversized Jumbo Rangka Aluminium Minimalis",
+      "serviceId": "tempered-door",
+      "rabConfigId": "rab-tempered-door",
+      "calcServiceKey": "pintu_tempered",
+      "location": "Resinda Karawang Barat",
+      "loc": "Resinda Karawang Barat",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Pintu utama pivot oversized jumbo Resinda Karawang Barat",
+      "imageIds": [
+        "img-proj-21-cover"
+      ],
+      "description": "Pintu masuk utama rumah mewah dengan sistem engsel putar pivot lantai offset. Daun pintu berukuran besar memberi sambutan megah saat dibuka.",
+      "desc": "Pintu masuk utama rumah mewah dengan sistem engsel putar pivot lantai offset. Daun pintu berukuran besar memberi sambutan megah saat dibuka.",
+      "specifications": {
+        "kusen": "Profil Kusen Aluminium Khusus Tebal 2.0mm Reinforced Steel Inside",
+        "finishing": "Powder Coating AkzoNobel Sand Black Metallic",
+        "kaca": "Kaca Tempered Grey Fluted 10mm Paduan Plat Spandrel Motif Kayu",
+        "hardware": "Heavy Duty Floor Pivot Hinge Dekkson 200kg + Smart Digital Door Lock",
+        "sealant": "Perimeter EPDM Seal Kedap Udara & Air Hujan",
+        "volume": "1 Daun Jumbo (Lebar 1.4m × Tinggi 2.8m)",
+        "solusi": "Titik tumpu engsel pivot berjarak 20cm dari tepi kusen memungkinkan daun pintu seberat 110 kg dapat didorong ringan hanya dengan satu jari.",
+        "durasi": "2 Hari Kerja",
+        "garansi": "24 Bulan Garansi Mesin Pivot"
+      },
+      "specs": {
+        "kusen": "Profil Kusen Aluminium Khusus Tebal 2.0mm Reinforced Steel Inside",
+        "finishing": "Powder Coating AkzoNobel Sand Black Metallic",
+        "kaca": "Kaca Tempered Grey Fluted 10mm Paduan Plat Spandrel Motif Kayu",
+        "hardware": "Heavy Duty Floor Pivot Hinge Dekkson 200kg + Smart Digital Door Lock",
+        "sealant": "Perimeter EPDM Seal Kedap Udara & Air Hujan",
+        "volume": "1 Daun Jumbo (Lebar 1.4m × Tinggi 2.8m)",
+        "solusi": "Titik tumpu engsel pivot berjarak 20cm dari tepi kusen memungkinkan daun pintu seberat 110 kg dapat didorong ringan hanya dengan satu jari.",
+        "durasi": "2 Hari Kerja",
+        "garansi": "24 Bulan Garansi Mesin Pivot"
+      },
+      "testimonialId": "testi-01",
+      "articleUrl": "artikel/tips-memilih-kaca-tempered-dan-laminated-aman.html",
+      "articleTitle": "Desain Pintu Pivot Modern Rumah Mewah"
+    },
+    {
+      "id": "proj-22",
+      "slug": "kanopi-kaca-teras-kolam-renang-galuh-mas",
+      "title": "Kanopi Kaca Tempered Laminated Teras Kolam Renang Cantilever",
+      "serviceId": "glass-canopy",
+      "rabConfigId": "rab-canopy",
+      "calcServiceKey": "kanopi",
+      "location": "Galuh Mas Karawang",
+      "loc": "Galuh Mas Karawang",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Kanopi kaca kolam renang cantilever Galuh Mas Karawang",
+      "imageIds": [
+        "img-proj-22-cover"
+      ],
+      "description": "Kanopi kaca bening santai tepi kolam renang dengan sistem gantung kabel sling baja stainless SUS304 (cantilever) tanpa tiang penyangga di pinggir kolam.",
+      "desc": "Kanopi kaca bening santai tepi kolam renang dengan sistem gantung kabel sling baja stainless SUS304 (cantilever) tanpa tiang penyangga di pinggir kolam.",
+      "specifications": {
+        "kusen": "Struktur Balok Baja WF 150 & Kabel Sling Baja Stainless SUS304 12mm",
+        "finishing": "Cat Dasar Epoxy Marine Grade + PU Top Coat Putih Cerah",
+        "kaca": "Tempered Laminated 5+5mm PVB Tinted Light Blue",
+        "hardware": "Turnbuckle Jarum Keras SUS304 & Spider Fitting 2 Arah",
+        "sealant": "Dowsil Neutral Structural Silicone",
+        "volume": "Luas 18 m² (Panjang 6m × Overhang Maju 3m)",
+        "solusi": "Sistem tarikan kabel sling baja SUS304 dari atas kolom beton menahan beban angin angkat (uplift wind load) dan bebas tiang bawah.",
+        "durasi": "3 Hari Kerja",
+        "garansi": "36 Bulan Garansi Struktur & Sealant"
+      },
+      "specs": {
+        "kusen": "Struktur Balok Baja WF 150 & Kabel Sling Baja Stainless SUS304 12mm",
+        "finishing": "Cat Dasar Epoxy Marine Grade + PU Top Coat Putih Cerah",
+        "kaca": "Tempered Laminated 5+5mm PVB Tinted Light Blue",
+        "hardware": "Turnbuckle Jarum Keras SUS304 & Spider Fitting 2 Arah",
+        "sealant": "Dowsil Neutral Structural Silicone",
+        "volume": "Luas 18 m² (Panjang 6m × Overhang Maju 3m)",
+        "solusi": "Sistem tarikan kabel sling baja SUS304 dari atas kolom beton menahan beban angin angkat (uplift wind load) dan bebas tiang bawah.",
+        "durasi": "3 Hari Kerja",
+        "garansi": "36 Bulan Garansi Struktur & Sealant"
+      },
+      "testimonialId": "testi-05",
+      "articleUrl": "artikel/tips-memilih-kanopi-kaca-tempered-carport.html",
+      "articleTitle": "Konstruksi Kanopi Kaca Kolam Renang"
+    },
+    {
+      "id": "proj-23",
+      "slug": "etalase-kaca-toko-emas-pasar-johar",
+      "title": "Etalase Kaca Aluminium & Rak Display Toko Perhiasan Emas",
+      "serviceId": "aluminium-showcase",
+      "rabConfigId": "rab-showcase",
+      "calcServiceKey": "etalase",
+      "location": "Pasar Johar Karawang",
+      "loc": "Pasar Johar Karawang",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Etalase kaca display perhiasan emas Pasar Johar Karawang",
+      "imageIds": [
+        "img-proj-23-cover"
+      ],
+      "description": "Pembuatan counter etalase perhiasan emas full kaca tempered dengan pencahayaan warm white LED strip tersembunyi dan sistem penguncian keamanan ganda.",
+      "desc": "Pembuatan counter etalase perhiasan emas full kaca tempered dengan pencahayaan warm white LED strip tersembunyi dan sistem penguncian keamanan ganda.",
+      "specifications": {
+        "kusen": "Profil Aluminium Khusus Etalase Mewah Chamfered Edge",
+        "finishing": "Anodized Mirror Black Glossy",
+        "kaca": "Kaca Tempered Clear 8mm Extra Clear (Low Iron) Bebas Kehijauan",
+        "hardware": "Roda Rel Tanam Halus, Kunci Sentral Huben & Bracket Rak SUS304",
+        "sealant": "Clear UV-Curing Glue & Silicone Sanitasi",
+        "volume": "Set Counter Display (Panjang Total 6 Meter)",
+        "solusi": "Menggunakan kaca low-iron ekstra jernih agar kilau perhiasan emas dan berlian terlihat 100% akurat tanpa bias warna kehijauan kaca standar.",
+        "durasi": "4 Hari Fabrikasi Workshop + Pasang",
+        "garansi": "12 Bulan Resmi"
+      },
+      "specs": {
+        "kusen": "Profil Aluminium Khusus Etalase Mewah Chamfered Edge",
+        "finishing": "Anodized Mirror Black Glossy",
+        "kaca": "Kaca Tempered Clear 8mm Extra Clear (Low Iron) Bebas Kehijauan",
+        "hardware": "Roda Rel Tanam Halus, Kunci Sentral Huben & Bracket Rak SUS304",
+        "sealant": "Clear UV-Curing Glue & Silicone Sanitasi",
+        "volume": "Set Counter Display (Panjang Total 6 Meter)",
+        "solusi": "Menggunakan kaca low-iron ekstra jernih agar kilau perhiasan emas dan berlian terlihat 100% akurat tanpa bias warna kehijauan kaca standar.",
+        "durasi": "4 Hari Fabrikasi Workshop + Pasang",
+        "garansi": "12 Bulan Resmi"
+      },
+      "testimonialId": "testi-11",
+      "articleUrl": "artikel/tips-merawat-kusen-aluminium-tetap-mengkilap.html",
+      "articleTitle": "Desain Etalase Display Komersial"
+    },
+    {
+      "id": "proj-24",
+      "slug": "jendela-pivot-vertikal-grand-wisata",
+      "title": "Jendela Pivot Aluminium Vertikal Putar 180° Ruang Tangga",
+      "serviceId": "aluminium-window",
+      "rabConfigId": "rab-window",
+      "calcServiceKey": "jendela",
+      "location": "Grand Wisata Bekasi",
+      "loc": "Grand Wisata Bekasi",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Jendela pivot vertikal putar 180 derajat Grand Wisata Bekasi",
+      "imageIds": [
+        "img-proj-24-cover"
+      ],
+      "description": "Jendela aksen arsitektural void tangga yang dapat diputar 180 derajat untuk memudahkan pembersihan kaca sisi luar dari dalam rumah.",
+      "desc": "Jendela aksen arsitektural void tangga yang dapat diputar 180 derajat untuk memudahkan pembersihan kaca sisi luar dari dalam rumah.",
+      "specifications": {
+        "kusen": "Alexindo 4 Inch Heavy Profile Siku Presisi",
+        "finishing": "Powder Coating Matte Black",
+        "kaca": "Tempered Glass 8mm Clear SNI Asahimas",
+        "hardware": "Engsel Pivot Vertikal Heavy Duty Stainless Steel SUS304 90kg",
+        "sealant": "EPDM Double Compression Bulb Gasket",
+        "volume": "2 Unit Jendela Tinggi (L 80cm × T 240cm)",
+        "solusi": "Sistem stopper multi-posisi memungkinkan jendela terkunci aman pada sudut bukaan 30° untuk sirkulasi angin tanpa risiko terbanting angin badai.",
+        "durasi": "2 Hari Kerja",
+        "garansi": "24 Bulan Resmi Garansi Engsel"
+      },
+      "specs": {
+        "kusen": "Alexindo 4 Inch Heavy Profile Siku Presisi",
+        "finishing": "Powder Coating Matte Black",
+        "kaca": "Tempered Glass 8mm Clear SNI Asahimas",
+        "hardware": "Engsel Pivot Vertikal Heavy Duty Stainless Steel SUS304 90kg",
+        "sealant": "EPDM Double Compression Bulb Gasket",
+        "volume": "2 Unit Jendela Tinggi (L 80cm × T 240cm)",
+        "solusi": "Sistem stopper multi-posisi memungkinkan jendela terkunci aman pada sudut bukaan 30° untuk sirkulasi angin tanpa risiko terbanting angin badai.",
+        "durasi": "2 Hari Kerja",
+        "garansi": "24 Bulan Resmi Garansi Engsel"
+      },
+      "testimonialId": "testi-12",
+      "articleUrl": "artikel/tips-merawat-kusen-aluminium-tetap-mengkilap.html",
+      "articleTitle": "Jendela Pivot Putar Desain Modern"
+    },
+    {
+      "id": "proj-25",
+      "slug": "pintu-sliding-barn-door-cikampek",
+      "title": "Pintu Sliding Model Barn Door Industrial Kisi Kotak Hitam",
+      "serviceId": "aluminium-door",
+      "rabConfigId": "rab-door",
+      "calcServiceKey": "pintu",
+      "location": "Villa Permata Cikampek",
+      "loc": "Villa Permata Cikampek",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Pintu sliding barn door industrial kisi hitam Cikampek",
+      "imageIds": [
+        "img-proj-25-cover"
+      ],
+      "description": "Pintu geser gaya industrial modern dengan lis kisi kotak aluminium hitam (french door style) untuk pemisah ruang kerja di rumah tinggal.",
+      "desc": "Pintu geser gaya industrial modern dengan lis kisi kotak aluminium hitam (french door style) untuk pemisah ruang kerja di rumah tinggal.",
+      "specifications": {
+        "kusen": "Inkalum Slim Grid Profile Black Doff",
+        "finishing": "Powder Coating Black Doff Sand Texture",
+        "kaca": "Kaca Clear Polos 5mm dengan Lis Ornamen Aluminium Tempel Presisi",
+        "hardware": "Roda Rel Gantung Exposed Track SUS304 & Handle Pipa Industrial 40cm",
+        "sealant": "Karet Lis Gasket Rapi Tanpa Noda Lem",
+        "volume": "1 Unit Barn Door (L 100cm × T 220cm)",
+        "solusi": "Roda gantung exposed industrial berbahan nilon karbon anti berisik saat digeser, memberi karakter visual kuat pada interior ruang.",
+        "durasi": "1 Hari Kerja On-Site",
+        "garansi": "12 Bulan Resmi"
+      },
+      "specs": {
+        "kusen": "Inkalum Slim Grid Profile Black Doff",
+        "finishing": "Powder Coating Black Doff Sand Texture",
+        "kaca": "Kaca Clear Polos 5mm dengan Lis Ornamen Aluminium Tempel Presisi",
+        "hardware": "Roda Rel Gantung Exposed Track SUS304 & Handle Pipa Industrial 40cm",
+        "sealant": "Karet Lis Gasket Rapi Tanpa Noda Lem",
+        "volume": "1 Unit Barn Door (L 100cm × T 220cm)",
+        "solusi": "Roda gantung exposed industrial berbahan nilon karbon anti berisik saat digeser, memberi karakter visual kuat pada interior ruang.",
+        "durasi": "1 Hari Kerja On-Site",
+        "garansi": "12 Bulan Resmi"
+      },
+      "testimonialId": "testi-02",
+      "articleUrl": "artikel/rekomendasi-pintu-sliding-geser-minimalis.html",
+      "articleTitle": "Inspirasi Pintu Barn Door Industrial Aluminium"
+    },
+    {
+      "id": "proj-26",
+      "slug": "railing-balkon-u-channel-subang",
+      "title": "Railing Balkon Kaca Tempered U-Channel Aluminium Tanam (Base Shoe)",
+      "serviceId": "glass-railing",
+      "rabConfigId": "rab-railing",
+      "calcServiceKey": "railing",
+      "location": "Subang Smart City",
+      "loc": "Subang Smart City",
+      "status": "✓ Selesai & Bergaransi",
+      "hasVerifiedPhoto": false,
+      "image": null,
+      "imageAlt": "Railing balkon kaca tempered u-channel tanam Subang Smart City",
+      "imageIds": [
+        "img-proj-26-cover"
+      ],
+      "description": "Pagar balkon kaca tampilan bersih total tanpa tiang ataupun spigot bawah. Profil U-channel struktural ditanam rata permukaan keramik teras lantai 2.",
+      "desc": "Pagar balkon kaca tampilan bersih total tanpa tiang ataupun spigot bawah. Profil U-channel struktural ditanam rata permukaan keramik teras lantai 2.",
+      "specifications": {
+        "kusen": "Base Shoe U-Channel Aluminium Ekstrusi Heavy Duty 120×70mm Tanam",
+        "finishing": "Cover Cladding Stainless Steel Hairline SUS304 Rata Lantai",
+        "kaca": "Kaca Tempered Laminated 6+6mm PVB 1.52mm Extra Safety Glass",
+        "hardware": "Chemical Anchor Hilti HIT-RE 500 V3 & Baji Pengunci Kaca Presisi",
+        "sealant": "Epoxy Grout Struktural + Sealant Non-Sagging Tahan Cuaca",
+        "volume": "Panjang 14 Meter Lari Balkon Utama",
+        "solusi": "Pemasangan profil U-channel sebelum pengecoran screed keramik lantai balkon menghasilkan pemandangan lanskap tanpa batas (infinity view).",
+        "durasi": "4 Hari Kerja",
+        "garansi": "36 Bulan Garansi Struktural"
+      },
+      "specs": {
+        "kusen": "Base Shoe U-Channel Aluminium Ekstrusi Heavy Duty 120×70mm Tanam",
+        "finishing": "Cover Cladding Stainless Steel Hairline SUS304 Rata Lantai",
+        "kaca": "Kaca Tempered Laminated 6+6mm PVB 1.52mm Extra Safety Glass",
+        "hardware": "Chemical Anchor Hilti HIT-RE 500 V3 & Baji Pengunci Kaca Presisi",
+        "sealant": "Epoxy Grout Struktural + Sealant Non-Sagging Tahan Cuaca",
+        "volume": "Panjang 14 Meter Lari Balkon Utama",
+        "solusi": "Pemasangan profil U-channel sebelum pengecoran screed keramik lantai balkon menghasilkan pemandangan lanskap tanpa batas (infinity view).",
+        "durasi": "4 Hari Kerja",
+        "garansi": "36 Bulan Garansi Struktural"
+      },
+      "testimonialId": "testi-07",
+      "articleUrl": "artikel/desain-railing-balkon-tangga-kaca-frameless.html",
+      "articleTitle": "Pemasangan Railing Balkon Kaca Base Shoe Tanam Rata Lantai"
+    }
+  ],
+  "images": [
+    {
+      "id": "img-proj-02-cover",
+      "imageId": "img-proj-02-cover",
+      "projectId": "proj-02",
+      "url": "assets/gallery/pintu-kaca.jpg",
+      "src": "assets/gallery/pintu-kaca.jpg",
+      "type": "photo",
+      "role": "cover",
+      "alt": "Pintu kaca tempered frameless floor hinge toko Ruko Galuh Mas Karawang",
+      "verified": true,
+      "status": "VERIFIED"
+    },
+    {
+      "id": "img-proj-08-cover",
+      "imageId": "img-proj-08-cover",
+      "projectId": "proj-08",
+      "url": "assets/gallery/jendela-aluminium.jpg",
+      "src": "assets/gallery/jendela-aluminium.jpg",
+      "type": "photo",
+      "role": "cover",
+      "alt": "Jendela aluminium jungkit casement kedap suara Telukjambe Karawang",
+      "verified": true,
+      "status": "VERIFIED"
+    },
+    {
+      "id": "img-proj-09-cover",
+      "imageId": "img-proj-09-cover",
+      "projectId": "proj-09",
+      "url": "assets/gallery/shower-kaca.jpg",
+      "src": "assets/gallery/shower-kaca.jpg",
+      "type": "photo",
+      "role": "cover",
+      "alt": "Shower screen kaca frameless tempered 10mm Grand Wisata Bekasi",
+      "verified": true,
+      "status": "VERIFIED"
+    },
+    {
+      "id": "img-proj-10-cover",
+      "imageId": "img-proj-10-cover",
+      "projectId": "proj-10",
+      "url": "assets/gallery/pintu-kamar-mandi.jpg",
+      "src": "assets/gallery/pintu-kamar-mandi.jpg",
+      "type": "photo",
+      "role": "cover",
+      "alt": "Pintu aluminium kamar mandi kaca sandblast buram Klari Karawang",
+      "verified": true,
+      "status": "VERIFIED"
+    },
+    {
+      "id": "img-proj-14-cover",
+      "imageId": "img-proj-14-cover",
+      "projectId": "proj-14",
+      "url": "assets/gallery/pintu-aluminium.jpg",
+      "src": "assets/gallery/pintu-aluminium.jpg",
+      "type": "photo",
+      "role": "cover",
+      "alt": "Pintu aluminium swing panel spandrel full Cikampek Karawang",
+      "verified": true,
+      "status": "VERIFIED"
+    },
+    {
+      "id": "img-proj-16-cover",
+      "imageId": "img-proj-16-cover",
+      "projectId": "proj-16",
+      "url": "assets/gallery/pintu-kaca-putih.jpg",
+      "src": "assets/gallery/pintu-kaca-putih.jpg",
+      "type": "photo",
+      "role": "cover",
+      "alt": "Pintu kaca aluminium frame putih scandinavian Harapan Indah Bekasi",
+      "verified": true,
+      "status": "VERIFIED"
+    },
+    {
+      "id": "img-proj-01-cover",
+      "imageId": "img-proj-01-cover",
+      "projectId": "proj-01",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Partisi kaca aluminium ruang rapat kantor industri KIIC Karawang Barat",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-03-cover",
+      "imageId": "img-proj-03-cover",
+      "projectId": "proj-03",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Pintu sliding aluminium kaca akses taman Grand Taruma Karawang",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-04-cover",
+      "imageId": "img-proj-04-cover",
+      "projectId": "proj-04",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Pintu lipat bifold aluminium 4 daun Summarecon Bekasi",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-05-cover",
+      "imageId": "img-proj-05-cover",
+      "projectId": "proj-05",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Sekat partisi kaca dapur moru glass Galuh Mas Karawang",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-06-cover",
+      "imageId": "img-proj-06-cover",
+      "projectId": "proj-06",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Fasad ACP Seven dan pintu otomatis sensor Jababeka Cikarang",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-07-cover",
+      "imageId": "img-proj-07-cover",
+      "projectId": "proj-07",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Kanopi kaca tempered laminated carport Summarecon Bekasi",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-11-cover",
+      "imageId": "img-proj-11-cover",
+      "projectId": "proj-11",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Railing kaca tempered 12mm spigot Grand Taruma Karawang",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-12-cover",
+      "imageId": "img-proj-12-cover",
+      "projectId": "proj-12",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Partisi kaca cleanroom pabrik Suryacipta Ciampel Karawang",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-13-cover",
+      "imageId": "img-proj-13-cover",
+      "projectId": "proj-13",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Jendela sliding geser 4 daun Cikarang Baru Jababeka",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-15-cover",
+      "imageId": "img-proj-15-cover",
+      "projectId": "proj-15",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Skylight atap kaca tempered void tangga Purwakarta Kota",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-17-cover",
+      "imageId": "img-proj-17-cover",
+      "projectId": "proj-17",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Curtain wall fasad kaca ruko gedung 3 lantai Subang Smartpolitan",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-18-cover",
+      "imageId": "img-proj-18-cover",
+      "projectId": "proj-18",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Pintu kaca sliding otomatis sensor gerak apotek Kosambi Klari",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-19-cover",
+      "imageId": "img-proj-19-cover",
+      "projectId": "proj-19",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Pintu lipat bifold aluminium 6 daun Kota Bukit Indah Purwakarta",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-20-cover",
+      "imageId": "img-proj-20-cover",
+      "projectId": "proj-20",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Partisi kaca akustik double glass GIIC Cikarang Pusat",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-21-cover",
+      "imageId": "img-proj-21-cover",
+      "projectId": "proj-21",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Pintu utama pivot oversized jumbo Resinda Karawang Barat",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-22-cover",
+      "imageId": "img-proj-22-cover",
+      "projectId": "proj-22",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Kanopi kaca kolam renang cantilever Galuh Mas Karawang",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-23-cover",
+      "imageId": "img-proj-23-cover",
+      "projectId": "proj-23",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Etalase kaca display perhiasan emas Pasar Johar Karawang",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-24-cover",
+      "imageId": "img-proj-24-cover",
+      "projectId": "proj-24",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Jendela pivot vertikal putar 180 derajat Grand Wisata Bekasi",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-25-cover",
+      "imageId": "img-proj-25-cover",
+      "projectId": "proj-25",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Pintu sliding barn door industrial kisi hitam Cikampek",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    },
+    {
+      "id": "img-proj-26-cover",
+      "imageId": "img-proj-26-cover",
+      "projectId": "proj-26",
+      "url": null,
+      "src": null,
+      "type": "none",
+      "role": "cover",
+      "alt": "Railing balkon kaca tempered u-channel tanam Subang Smart City",
+      "verified": false,
+      "status": "NO_VALID_IMAGE"
+    }
+  ],
+  "testimonials": [
+    {
+      "testimonialId": "testi-01",
+      "projectId": "proj-02",
+      "serviceId": "tempered-door",
+      "location": "Ruko Galuh Mas, Karawang Barat",
+      "author": "Bpk. Hendra Gunawan",
+      "role": "Owner Ruko Galuh Mas, Karawang Barat",
+      "quote": "Pengerjaan pintu kaca tempered frameless dan partisi sekat toko ruko kami di Galuh Mas sangat presisi dan tepat waktu. Mesin floor hinge Dekkson empuk dan aksesoris stainless 304 sangat kokoh.",
+      "rating": 5,
+      "date": "2026-01-14"
+    },
+    {
+      "testimonialId": "testi-02",
+      "projectId": "proj-03",
+      "serviceId": "aluminium-door",
+      "location": "Perumahan Grand Taruma, Karawang",
+      "author": "Ibu Ratna Dewi",
+      "role": "Perumahan Grand Taruma, Karawang",
+      "quote": "Teknisi Sahabat Kaca sangat profesional membawa sampel profil Alexindo dan Inkalum saat survey gratis. Pintu sliding aluminium 3 daun taman belakang kami geserannya sangat halus dan kedap air hujan.",
+      "rating": 5,
+      "date": "2026-01-28"
+    },
+    {
+      "testimonialId": "testi-03",
+      "projectId": "proj-01",
+      "serviceId": "aluminium-partition",
+      "location": "KIIC Karawang Barat",
+      "author": "Bpk. Agus Prasetyo",
+      "role": "Facility Manager Pabrik, KIIC Karawang",
+      "quote": "Standar industri yang sangat rapi. Pemasangan partisi sekat ruang meeting kantor pabrik kami di KIIC selesai sesuai standar K3, sambungan profil miter rapat, dan ruangan langsung kedap suara.",
+      "rating": 5,
+      "date": "2026-02-05"
+    },
+    {
+      "testimonialId": "testi-04",
+      "projectId": "proj-18",
+      "serviceId": "tempered-door",
+      "location": "Telukjambe Timur, Karawang",
+      "author": "dr. Sinta Maharani",
+      "role": "Klinik Pratama Medika, Telukjambe Timur",
+      "quote": "Pemasangan pintu sliding kaca otomatis untuk klinik kami hasilnya sangat bersih dan higienis. Sensor gerak responsif dan buka-tutup sangat hening, pasien merasa sangat nyaman.",
+      "rating": 5,
+      "date": "2026-02-12"
+    },
+    {
+      "testimonialId": "testi-05",
+      "projectId": "proj-07",
+      "serviceId": "glass-canopy",
+      "location": "Summarecon Bekasi",
+      "author": "Bpk. Dedi Kurniawan",
+      "role": "Residensial Summarecon Bekasi",
+      "quote": "Kanopi kaca tempered laminated untuk carport depan rumah sangat kokoh. Rangka pipa hollow galvanis dicat primer epoxy tebal dan sealant silikon Dowsil 795 rapi tanpa rembes hujan lebat.",
+      "rating": 5,
+      "date": "2026-02-20"
+    },
+    {
+      "testimonialId": "testi-06",
+      "projectId": "proj-04",
+      "serviceId": "aluminium-bifold",
+      "location": "Summarecon Bekasi",
+      "author": "Ibu Maya Angelina",
+      "role": "Owner Cafe & Eatery, Bekasi",
+      "quote": "Pintu lipat bifold 4 daun untuk area semi-outdoor kafe kami sangat fungsional dan estetik. Bukaan 100% membuat sirkulasi udara lega dan harga transparan bersahabat.",
+      "rating": 5,
+      "date": "2026-03-02"
+    },
+    {
+      "testimonialId": "testi-07",
+      "projectId": "proj-11",
+      "serviceId": "glass-railing",
+      "location": "Grand Taruma Karawang",
+      "author": "Bpk. Ir. Bambang Sugiarto",
+      "role": "Pemilik Hunian Grand Taruma Karawang",
+      "quote": "Instalasi railing tangga & balkon kaca tempered 12mm dengan klem spigot solid stainless SUS304 sangat kokoh. Dibor inti ke beton lantai balok, tidak goyang dan ruangan terlihat jauh lebih luas.",
+      "rating": 5,
+      "date": "2026-03-10"
+    },
+    {
+      "testimonialId": "testi-08",
+      "projectId": "proj-09",
+      "serviceId": "shower-glass",
+      "location": "Grand Wisata Bekasi",
+      "author": "Ibu Cindy Claudia",
+      "role": "Residensial Grand Wisata Bekasi",
+      "quote": "Pemasangan shower screen kaca frameless 10mm kamar mandi utama hasilnya sangat rapi. Engsel kuningan lapis krom awet tahan lembab dan magnet door seal benar-benar kedap cipratan air.",
+      "rating": 5,
+      "date": "2026-03-15"
+    },
+    {
+      "testimonialId": "testi-09",
+      "projectId": "proj-06",
+      "serviceId": "acp-facade",
+      "location": "Jababeka Cikarang",
+      "author": "Bpk. Wisnu Wardhana",
+      "role": "Kontraktor Showroom Komersial Jababeka",
+      "quote": "Fasad ACP Seven eksterior gedung showroom sangat presisi. Nat sealant silikon lurus rapi dan rangka hollow galvanis anti karat sangat kokoh menahan cuaca panas hujan.",
+      "rating": 5,
+      "date": "2026-03-22"
+    },
+    {
+      "testimonialId": "testi-10",
+      "projectId": "proj-17",
+      "serviceId": "curtain-wall",
+      "location": "Subang Smartpolitan",
+      "author": "Bpk. Gunawan Wibisono",
+      "role": "Project Manager Ruko Subang",
+      "quote": "Curtain wall stick system kaca Panasap 6mm fasad gedung kantor 3 lantai selesai sesuai target schedule. Penolakan panas matahari efektif dan tampilan gedung terlihat megah berkelas.",
+      "rating": 5,
+      "date": "2026-03-29"
+    },
+    {
+      "testimonialId": "testi-11",
+      "projectId": "proj-23",
+      "serviceId": "aluminium-showcase",
+      "location": "Pasar Johar Karawang",
+      "author": "Ibu Linda Susanti",
+      "role": "Owner Toko Perhiasan Emas Johar",
+      "quote": "Etalase custom rangka aluminium anodize tebal dan kaca tempered clear 8mm dengan lampu LED strip tersembunyi. Display cincin dan kalung jadi berkilau indah, kunci pengaman sangat mantap.",
+      "rating": 5,
+      "date": "2026-04-01"
+    },
+    {
+      "testimonialId": "testi-12",
+      "projectId": "proj-08",
+      "serviceId": "aluminium-window",
+      "location": "Telukjambe Timur Karawang",
+      "author": "Bpk. Ahmad Fauzi",
+      "role": "Perumahan Telukjambe Timur Karawang",
+      "quote": "Jendela casement aluminium kedap suara jalan raya sangat signifikan. Karet EPDM dan friction stay stainless Dekkson tebal menutup sangat rapat tanpa getaran.",
+      "rating": 5,
+      "date": "2026-04-03"
+    },
+    {
+      "testimonialId": "testi-general-01",
+      "projectId": null,
+      "serviceId": "aluminium-profile",
+      "location": "Klari, Karawang",
+      "author": "Bpk. H. Rahmat",
+      "role": "Pelanggan Residensial Karawang",
+      "quote": "Pelayanan cepat dan transparan. Survey gratis ke rumah, tim ramah, dan estimasi biaya di web sama persis dengan tagihan akhir tanpa biaya siluman.",
+      "rating": 5,
+      "date": "2026-03-25"
+    }
+  ]
+};
+
+// Attach catalog lookup helpers
+window.PROJECT_CATALOG.getProjectById = function(id) {
+  return (window.PROJECT_CATALOG.projects || []).find(p => p.id === id) || null;
+};
+window.PROJECT_CATALOG.getServiceById = function(id) {
+  return (window.PROJECT_CATALOG.services || []).find(s => s.id === id || s.calcKey === id) || null;
+};
+window.PROJECT_CATALOG.getImageById = function(id) {
+  return (window.PROJECT_CATALOG.images || []).find(img => img.id === id || img.imageId === id) || null;
+};
+window.PROJECT_CATALOG.getTestimonialsByProjectId = function(projectId) {
+  return (window.PROJECT_CATALOG.testimonials || []).filter(t => t.projectId === projectId);
+};
+window.PROJECT_CATALOG.getTestimonialsByServiceId = function(serviceId) {
+  return (window.PROJECT_CATALOG.testimonials || []).filter(t => t.serviceId === serviceId);
+};
+window.PROJECT_CATALOG.getVerifiedProjects = function() {
+  return (window.PROJECT_CATALOG.projects || []).filter(p => p.hasVerifiedPhoto);
+};
+window.PROJECT_CATALOG.getUnverifiedProjects = function() {
+  return (window.PROJECT_CATALOG.projects || []).filter(p => !p.hasVerifiedPhoto);
+};
+window.PROJECT_CATALOG.getMasterStats = function() {
+  return {
+    totalProjects: window.PROJECT_CATALOG.TOTAL_PROJECTS || 26,
+    verifiedProjectsCount: window.PROJECT_CATALOG.VERIFIED_PROJECTS_COUNT || 6,
+    unverifiedProjectsCount: window.PROJECT_CATALOG.UNVERIFIED_PROJECTS_COUNT || 20,
+    totalServices: window.PROJECT_CATALOG.TOTAL_SERVICES || 12,
+    totalTestimonials: window.PROJECT_CATALOG.TOTAL_TESTIMONIALS || 13
+  };
+};
+
+// Global shortcuts for window
+window.getProjectById = window.PROJECT_CATALOG.getProjectById;
+window.getServiceById = window.PROJECT_CATALOG.getServiceById;
+
+// Master Pricing Configuration Object
 const PRICING_CONFIG = {
   "services": {
     "kanopi": {
       "id": "kanopi",
+      "serviceId": "kanopi",
+      "serviceName": "Kanopi Kaca Tempered",
       "label": "Kanopi Kaca Tempered Carport / Teras",
       "category": "glass_canopy",
       "priceModel": "glass_canopy",
       "unit": "m²",
       "unitName": "Meter Persegi (m²)",
-      "minOrderValue": 7500000,
+      "calculationType": "m2",
+      "priceMin": 3875000,
+      "priceMax": 8500000,
+      "standardPriceMin": 3875000,
+      "standardPriceMax": 4375000,
+      "premiumPriceMin": 4250000,
+      "premiumPriceMax": 4750000,
+      "specification": "Rangka Hollow Galvanis 100×50 tebal 2mm + Kaca Tempered Clear 8mm/10mm SNI Asahimas & Sealant Dowsil 795",
+      "minOrderValue": 18750000,
       "wasteFactor": 0.05,
       "priceRanges": {
         "hollow_tempered_8": {
           "name": "Rangka Hollow Galvanis 100×50 + Tempered 8 mm",
-          "min": 1550000,
-          "max": 1750000,
-          "target": 1650000,
+          "min": 3875000,
+          "max": 4375000,
+          "target": 4125000,
           "unit": "m²"
         },
         "hollow_tempered_10": {
-          "name": "Rangka Hollow 100×50×2 mm + Tempered Clear 10 mm (Target TEST 1)",
-          "min": 1700000,
-          "max": 1900000,
-          "target": 1800000,
+          "name": "Rangka Hollow 100×50×2 mm + Tempered Clear 10 mm (Target Carport Standar)",
+          "min": 4250000,
+          "max": 4750000,
+          "target": 4500000,
           "unit": "m²"
         },
         "wf_tempered_12": {
           "name": "Rangka Baja WF 150 / Double Hollow + Tempered 12 mm",
-          "min": 1800000,
-          "max": 2000000,
-          "target": 1900000,
+          "min": 4500000,
+          "max": 5000000,
+          "target": 4750000,
           "unit": "m²"
         },
         "stainless_tempered": {
           "name": "Rangka Stainless Steel SUS304 + Tempered 10/12 mm",
-          "min": 2600000,
-          "max": 3400000,
-          "target": 2950000,
+          "min": 6500000,
+          "max": 8500000,
+          "target": 7375000,
           "unit": "m²"
         },
         "laminated_canopy": {
           "name": "Struktur Rangka + Tempered Laminated 5+5 mm PVB",
-          "min": 2200000,
-          "max": 2800000,
-          "target": 2450000,
+          "min": 5500000,
+          "max": 7000000,
+          "target": 6125000,
           "unit": "m²"
         }
       },
@@ -7856,10 +9666,10 @@ const PRICING_CONFIG = {
           "name": "Rangka Hollow Galvanis 100×50 + Tempered 8 mm",
           "badge": "Hollow 100×50 + Temp 8mm",
           "desc": "Kaca Tempered Clear 8mm SNI Asahimas, rangka pipa hollow galvanis anti-karat 100×50×2 mm, cat dasar epoxy primer & finish polyurethane, bantalan karet EPDM & sealant Dowsil 795.",
-          "minRate": 1550000,
-          "maxRate": 1750000,
-          "targetRate": 1650000,
-          "rate": "Rp 1.550.000 – Rp 1.750.000 / m²",
+          "minRate": 3875000,
+          "maxRate": 4375000,
+          "targetRate": 4125000,
+          "rate": "Rp 3.875.000 – Rp 4.375.000 / m²",
           "leadTime": "5–7 Hari Kerja",
           "formula": "(Luas m² × Tarif) + Rangka Hollow 100×50 + Tempered 8mm + Bracket Dynabolt + Sealant Dowsil + Fabrikasi + Pasang",
           "rabRatios": {
@@ -7875,24 +9685,24 @@ const PRICING_CONFIG = {
         },
         {
           "id": "hollow_tempered_10",
-          "name": "Rangka Hollow 100×50×2 mm + Tempered Clear 10 mm (Target TEST 1)",
-          "badge": "Target Standar Carport (TEST 1)",
+          "name": "Rangka Hollow 100×50×2 mm + Tempered Clear 10 mm (Target Carport Standar)",
+          "badge": "Target Standar Carport",
           "desc": "Kaca Tempered Clear 10mm SNI Asahimas, struktur hollow galvanis 100×50×2 mm bentang rigid, plat anchor baja, sealant weatherseal netral struktural Dowsil 795.",
-          "minRate": 1700000,
-          "maxRate": 1900000,
-          "targetRate": 1800000,
-          "rate": "Rp 1.700.000 – Rp 1.900.000 / m²",
+          "minRate": 4250000,
+          "maxRate": 4750000,
+          "targetRate": 4500000,
+          "rate": "Rp 4.250.000 – Rp 4.750.000 / m²",
           "leadTime": "6–8 Hari Kerja",
-          "formula": "18 m² × Rp 1.800.000 = Rp 32.400.000 (Kaca 11.7M + Rangka 6.3M + Hardware 2M + Sealant 900k + Fabrikasi 3.6M + Pasang 4.5M + Transport 1.2M + Margin 2.2M)",
+          "formula": "Luas m² × Tarif + Kaca Tempered 10mm + Rangka Hollow 100×50×2mm + Sealant Struktural + Pasang",
           "rabRatios": {
-            "kaca": 0.3611111111111111,
-            "struktur": 0.19444444444444445,
-            "hardware": 0.06172839506172839,
-            "sealant": 0.027777777777777776,
-            "fabrikasi": 0.1111111111111111,
-            "pasang": 0.1388888888888889,
-            "transport": 0.037037037037037035,
-            "margin": 0.06790123456790123
+            "kaca": 0.36,
+            "struktur": 0.2,
+            "hardware": 0.06,
+            "sealant": 0.03,
+            "fabrikasi": 0.11,
+            "pasang": 0.14,
+            "transport": 0.03,
+            "margin": 0.07
           }
         },
         {
@@ -7900,10 +9710,10 @@ const PRICING_CONFIG = {
           "name": "Rangka Baja WF 150 / Double Hollow + Tempered 12 mm",
           "badge": "Heavy Duty WF 150",
           "desc": "Kaca Tempered Clear 12mm tebal anti lendut, struktur balok baja profil WF 150 / double hollow 100×50 heavy tanpa tiang tengah, plat sambung anchor baja tebal 10mm.",
-          "minRate": 1800000,
-          "maxRate": 2000000,
-          "targetRate": 1900000,
-          "rate": "Rp 1.800.000 – Rp 2.000.000 / m²",
+          "minRate": 4500000,
+          "maxRate": 5000000,
+          "targetRate": 4750000,
+          "rate": "Rp 4.500.000 – Rp 5.000.000 / m²",
           "leadTime": "7–10 Hari Kerja",
           "formula": "(Luas m² × Tarif) + Baja WF 150 + Tempered 12mm + Plat Anchor Baja + Sealant Weatherseal + Alat Berat/Crane + Pasang",
           "rabRatios": {
@@ -7922,10 +9732,10 @@ const PRICING_CONFIG = {
           "name": "Rangka Stainless Steel SUS304 + Tempered 10/12 mm",
           "badge": "Stainless SUS304 Anti Karat",
           "desc": "Struktur pipa kotak/bulat Stainless Steel SUS304 kilap/hairline anti karat seumur hidup, kaca Tempered 10mm/12mm, bracket spider clamp SUS304 presisi.",
-          "minRate": 2600000,
-          "maxRate": 3400000,
-          "targetRate": 2950000,
-          "rate": "Rp 2.600.000 – Rp 3.400.000 / m²",
+          "minRate": 6500000,
+          "maxRate": 8500000,
+          "targetRate": 7375000,
+          "rate": "Rp 6.500.000 – Rp 8.500.000 / m²",
           "leadTime": "10–14 Hari Kerja",
           "formula": "(Luas m² × Tarif) + Rangka Stainless SUS304 + Tempered 10/12mm + Spider Clamp SUS304 + Polishing + Sealant + Pasang",
           "rabRatios": {
@@ -7944,10 +9754,10 @@ const PRICING_CONFIG = {
           "name": "Struktur Rangka + Tempered Laminated 5+5 mm PVB",
           "badge": "Maximum Safety PVB",
           "desc": "Kaca Tempered Laminated 5+5mm (kaca tetap utuh terikat interlayer PVB 0.76mm jika retak benturan ekstrem), struktur rangka baja hollow galvanis tebal.",
-          "minRate": 2200000,
-          "maxRate": 2800000,
-          "targetRate": 2450000,
-          "rate": "Rp 2.200.000 – Rp 2.800.000+ / m²",
+          "minRate": 5500000,
+          "maxRate": 7000000,
+          "targetRate": 6125000,
+          "rate": "Rp 5.500.000 – Rp 7.000.000 / m²",
           "leadTime": "8–12 Hari Kerja",
           "formula": "(Luas m² × Tarif) + Rangka Baja + Tempered Laminated 5+5 PVB + Sealant Struktural + Scaffolding + Pasang",
           "rabRatios": {
@@ -7965,40 +9775,50 @@ const PRICING_CONFIG = {
     },
     "railing": {
       "id": "railing",
+      "serviceId": "railing",
+      "serviceName": "Railing Kaca Tempered",
       "label": "Railing Tangga & Balkon Kaca Tempered",
       "category": "glass_railing",
       "priceModel": "glass_railing",
       "unit": "m1",
       "unitName": "Meter Lari (m1)",
-      "minOrderValue": 5500000,
+      "calculationType": "m1",
+      "priceMin": 5500000,
+      "priceMax": 7500000,
+      "standardPriceMin": 5500000,
+      "standardPriceMax": 6250000,
+      "premiumPriceMin": 6250000,
+      "premiumPriceMax": 7500000,
+      "specification": "Sistem U-Channel Base Tanam / Spigot Clamp Solid SUS304 + Tempered 10mm/12mm SNI Asahimas",
+      "minOrderValue": 13750000,
       "wasteFactor": 0.05,
       "priceRanges": {
         "uchannel_ss304": {
-          "name": "Sistem U-Channel Base Tanam + Tempered 12 mm (Target TEST 2)",
-          "min": 2200000,
-          "max": 2500000,
-          "target": 2400000,
+          "name": "Sistem U-Channel Base Tanam + Tempered 12 mm",
+          "min": 5500000,
+          "max": 6250000,
+          "target": 6000000,
           "unit": "m1"
         },
         "spigot_ss304": {
           "name": "Sistem Spigot Clamp Solid SUS304 + Tempered 12 mm",
-          "min": 2500000,
-          "max": 3000000,
-          "target": 2750000,
+          "min": 6250000,
+          "max": 7500000,
+          "target": 6875000,
           "unit": "m1"
         },
         "handrail_ss304": {
           "name": "Tiang Baluster + Handrail SUS304 + Tempered 10 mm",
-          "min": 2400000,
-          "max": 2900000,
-          "target": 2650000,
+          "min": 6000000,
+          "max": 7250000,
+          "target": 6625000,
           "unit": "m1"
         },
         "railing_tangga": {
           "name": "Railing Tangga Custom Void + Tempered 10/12 mm",
-          "min": 2500000,
-          "max": 3000000,
-          "target": 2750000,
+          "min": 6250000,
+          "max": 7500000,
+          "target": 6875000,
           "unit": "m1"
         }
       },
@@ -8016,15 +9836,15 @@ const PRICING_CONFIG = {
       "options": [
         {
           "id": "uchannel_ss304",
-          "name": "Sistem U-Channel Base Tanam + Tempered 12 mm (Target TEST 2)",
-          "badge": "U-Channel SS304 Tanam (TEST 2)",
+          "name": "Sistem U-Channel Base Tanam + Tempered 12 mm",
+          "badge": "U-Channel SS304 Tanam (Standard)",
           "desc": "Kaca Tempered 12mm SNI Asahimas, base shoe profil aluminium/stainless SUS304 tanam rata lantai marmer/keramik dengan chemical anchor Fischer/Hilti, cover cladding samping estetik.",
-          "minRate": 2200000,
-          "maxRate": 2500000,
-          "targetRate": 2400000,
-          "rate": "Rp 2.200.000 – Rp 2.500.000 / m1",
+          "minRate": 5500000,
+          "maxRate": 6250000,
+          "targetRate": 6000000,
+          "rate": "Rp 5.500.000 – Rp 6.250.000 / m1",
           "leadTime": "6–9 Hari Kerja",
-          "formula": "18 m¹ × Rp 2.400.000 = Rp 43.200.000 (Base U-Channel + Kaca Tempered 12mm + Chemical Anchor + Sealant EPDM + Pasang Presisi)",
+          "formula": "Panjang m1 × Tarif + Base U-Channel + Kaca Tempered 12mm + Chemical Anchor + Sealant EPDM + Pasang Presisi",
           "rabRatios": {
             "kaca": 0.35,
             "struktur": 0.24,
@@ -8039,12 +9859,12 @@ const PRICING_CONFIG = {
         {
           "id": "spigot_ss304",
           "name": "Sistem Spigot Clamp Solid SUS304 + Tempered 12 mm",
-          "badge": "Spigot SS304 Solid 2 Titik/m",
+          "badge": "Spigot SS304 Solid 2 Titik/m (Premium)",
           "desc": "Kaca Tempered 12mm SNI, dudukan spigot bulat/kotak cor Stainless SUS304 padat (2 unit per meter), dynabolt M12 beton, tampilan minimalis murni tanpa tiang atas.",
-          "minRate": 2500000,
-          "maxRate": 3000000,
-          "targetRate": 2750000,
-          "rate": "Rp 2.500.000 – Rp 3.000.000 / m1",
+          "minRate": 6250000,
+          "maxRate": 7500000,
+          "targetRate": 6875000,
+          "rate": "Rp 6.250.000 – Rp 7.500.000 / m1",
           "leadTime": "5–8 Hari Kerja",
           "formula": "(Panjang m1 × Tarif) + Kaca Tempered 12mm + 2 Spigot SUS304 Solid/m + Dynabolt Stainless + Setting Laser + Pasang",
           "rabRatios": {
@@ -8063,10 +9883,10 @@ const PRICING_CONFIG = {
           "name": "Tiang Baluster + Handrail SUS304 + Tempered 10 mm",
           "badge": "Handrail SS304 Safety",
           "desc": "Kaca Tempered 10mm SNI, tiang baluster pipa bulat/kotak SUS304, handrail pegangan stainless 2\" atau kayu kamper/jati atas kaca, sangat ramah anak & lansia.",
-          "minRate": 2400000,
-          "maxRate": 2900000,
-          "targetRate": 2650000,
-          "rate": "Rp 2.400.000 – Rp 2.900.000 / m1",
+          "minRate": 6000000,
+          "maxRate": 7250000,
+          "targetRate": 6625000,
+          "rate": "Rp 6.000.000 – Rp 7.250.000 / m1",
           "leadTime": "5–8 Hari Kerja",
           "formula": "(Panjang m1 × Tarif) + Kaca Tempered 10mm + Tiang Baluster SUS304 + Handrail Pipa 2\" + Bracket Klem Kaca + Pasang",
           "rabRatios": {
@@ -8083,12 +9903,12 @@ const PRICING_CONFIG = {
         {
           "id": "railing_tangga",
           "name": "Railing Tangga Custom Void + Tempered 10/12 mm",
-          "badge": "Railing Tangga Presisi",
+          "badge": "Railing Tangga Presisi Bevel",
           "desc": "Kaca Tempered 10mm/12mm custom bevel mengikuti sudut derajat kemiringan trap anak tangga (akurasi laser), pin standoff void / tiang miring SUS304.",
-          "minRate": 2500000,
-          "maxRate": 3000000,
-          "targetRate": 2750000,
-          "rate": "Rp 2.500.000 – Rp 3.000.000 / m1",
+          "minRate": 6250000,
+          "maxRate": 7500000,
+          "targetRate": 6875000,
+          "rate": "Rp 6.250.000 – Rp 7.500.000 / m1",
           "leadTime": "7–12 Hari Kerja",
           "formula": "(Panjang m1 × Tarif) + Mal Triplek Sudut Trap + Kaca Tempered Custom Bevel + Hardware Tangga SUS304 + Pasang Khusus",
           "rabRatios": {
@@ -8106,32 +9926,42 @@ const PRICING_CONFIG = {
     },
     "partisi": {
       "id": "partisi",
+      "serviceId": "partisi",
+      "serviceName": "Partisi Kaca Aluminium",
       "label": "Partisi Kaca Kantor & Sekat Ruangan Aluminium",
       "category": "aluminium",
       "priceModel": "aluminium_partition",
       "unit": "m²",
       "unitName": "Meter Persegi (m²)",
-      "minOrderValue": 3500000,
+      "calculationType": "m2",
+      "priceMin": 2125000,
+      "priceMax": 3375000,
+      "standardPriceMin": 2125000,
+      "standardPriceMax": 2625000,
+      "premiumPriceMin": 2750000,
+      "premiumPriceMax": 3375000,
+      "specification": "Standard SNI 3\" (Dacon/Inkalum + Kaca 5 mm) vs Premium Grade 4\" (Alexindo/Forta + Kaca 6/8 mm)",
+      "minOrderValue": 8750000,
       "wasteFactor": 0.08,
       "priceRanges": {
         "standard": {
           "name": "Standard SNI 3 Inch (Dacon/Inkalum + Kaca 5 mm)",
-          "min": 850000,
-          "max": 1050000,
-          "target": 950000,
+          "min": 2125000,
+          "max": 2625000,
+          "target": 2375000,
           "unit": "m²"
         },
         "premium": {
           "name": "Premium Grade 4 Inch (Alexindo/Forta + Kaca 6/8 mm)",
-          "min": 1100000,
-          "max": 1350000,
-          "target": 1250000,
+          "min": 2750000,
+          "max": 3375000,
+          "target": 3125000,
           "unit": "m²"
         }
       },
       "summaryLabel": "Grade Partisi:",
       "step2Label": "2. Pilih Grade Profil & Kaca Partisi",
-      "guideText": "Standard SNI 3\" vs Premium Heavy Duty 4\" (TEST 3)",
+      "guideText": "Standard SNI 3\" vs Premium Heavy Duty 4\"",
       "defaultQty": 16.8,
       "presets": [
         8,
@@ -8144,14 +9974,14 @@ const PRICING_CONFIG = {
         {
           "id": "standard",
           "name": "Standard SNI 3 Inch (Dacon/Inkalum + Kaca 5 mm)",
-          "badge": "Standard SNI 3\" (TEST 3)",
+          "badge": "Standard SNI 3\"",
           "desc": "Kusen aluminium 3\" tebal 0.9–1.0mm (Dacon/Inkalum), kaca clear polos 5mm SNI, karet EPDM lis keliling, sealant netral kedap suara kantor.",
-          "minRate": 850000,
-          "maxRate": 1050000,
-          "targetRate": 950000,
-          "rate": "Rp 850.000 – Rp 1.050.000 / m²",
+          "minRate": 2125000,
+          "maxRate": 2625000,
+          "targetRate": 2375000,
+          "rate": "Rp 2.125.000 – Rp 2.625.000 / m²",
           "leadTime": "3–5 Hari Kerja",
-          "formula": "16,8 m² × Rp 950.000 = Rp 15.960.000 (Kusen 3\" + Kaca 5mm + Karet EPDM + Sealant + Sekrup Fisher + Jasa Pasang Presisi)",
+          "formula": "Luas m² × Tarif + Kusen 3\" + Kaca 5mm + Karet EPDM + Sealant + Sekrup Fisher + Jasa Pasang Presisi",
           "rabRatios": {
             "kaca": 0.28,
             "struktur": 0.3,
@@ -8166,14 +9996,14 @@ const PRICING_CONFIG = {
         {
           "id": "premium",
           "name": "Premium Grade 4 Inch (Alexindo/Forta + Kaca 6/8 mm)",
-          "badge": "Alexindo 4\" Heavy (TEST 3)",
+          "badge": "Alexindo 4\" Heavy",
           "desc": "Kusen aluminium 4\" tebal 1.1–1.3mm profil tebal rigid (Alexindo/Forta), kaca clear/riben 6mm / tempered 8mm, peredam suara kantor akustik lebih hening.",
-          "minRate": 1100000,
-          "maxRate": 1350000,
-          "targetRate": 1250000,
-          "rate": "Rp 1.100.000 – Rp 1.350.000 / m²",
+          "minRate": 2750000,
+          "maxRate": 3375000,
+          "targetRate": 3125000,
+          "rate": "Rp 2.750.000 – Rp 3.375.000 / m²",
           "leadTime": "4–7 Hari Kerja",
-          "formula": "16,8 m² × Rp 1.250.000 = Rp 21.000.000 (Kusen 4\" Alexindo + Kaca 6mm/8mm + Sealant Akustik + Bracket Baja + Pasang Presisi)",
+          "formula": "Luas m² × Tarif + Kusen 4\" Alexindo + Kaca 6mm/8mm + Sealant Akustik + Bracket Baja + Pasang Presisi",
           "rabRatios": {
             "kaca": 0.32,
             "struktur": 0.28,
@@ -8189,32 +10019,42 @@ const PRICING_CONFIG = {
     },
     "jendela": {
       "id": "jendela",
+      "serviceId": "jendela",
+      "serviceName": "Jendela Aluminium",
       "label": "Jendela Aluminium (Casement / Sliding)",
       "category": "aluminium",
       "priceModel": "aluminium_window",
       "unit": "m²",
       "unitName": "Meter Persegi (m²)",
-      "minOrderValue": 1800000,
+      "calculationType": "m2",
+      "priceMin": 2125000,
+      "priceMax": 3500000,
+      "standardPriceMin": 2125000,
+      "standardPriceMax": 2625000,
+      "premiumPriceMin": 2750000,
+      "premiumPriceMax": 3500000,
+      "specification": "Standard SNI Casement 3\" + Kaca 5mm vs Premium Alexindo 4\" + Kaca Panasap/Dekkson",
+      "minOrderValue": 4500000,
       "wasteFactor": 0.08,
       "priceRanges": {
         "standard": {
           "name": "Standard SNI (Casement 3\" + Kaca 5 mm)",
-          "min": 850000,
-          "max": 1050000,
-          "target": 950000,
+          "min": 2125000,
+          "max": 2625000,
+          "target": 2375000,
           "unit": "m²"
         },
         "premium": {
           "name": "Premium Grade (Casement 4\" Alexindo + Kaca Panasap/Dekkson)",
-          "min": 1100000,
-          "max": 1400000,
-          "target": 1250000,
+          "min": 2750000,
+          "max": 3500000,
+          "target": 3125000,
           "unit": "m²"
         }
       },
       "summaryLabel": "Grade Jendela:",
       "step2Label": "2. Pilih Grade Profil & Aksesoris Jendela",
-      "guideText": "Standard SNI vs Premium Alexindo Heavy Duty (TEST 4)",
+      "guideText": "Standard SNI vs Premium Alexindo Heavy Duty",
       "defaultQty": 10,
       "presets": [
         3,
@@ -8227,14 +10067,14 @@ const PRICING_CONFIG = {
         {
           "id": "standard",
           "name": "Standard SNI (Casement 3\" + Kaca 5 mm)",
-          "badge": "Inkalum / Dacon 3\" (TEST 4)",
+          "badge": "Inkalum / Dacon 3\"",
           "desc": "Profil kusen & daun 3\" tebal 1.0mm, kaca clear 5mm SNI, friction stay stainless 12\", kunci rambuncis zinc alloy, weatherstrip bulu & karet kedap air hujan.",
-          "minRate": 850000,
-          "maxRate": 1050000,
-          "targetRate": 950000,
-          "rate": "Rp 850.000 – Rp 1.050.000 / m²",
+          "minRate": 2125000,
+          "maxRate": 2625000,
+          "targetRate": 2375000,
+          "rate": "Rp 2.125.000 – Rp 2.625.000 / m²",
           "leadTime": "3–5 Hari Kerja",
-          "formula": "10 m² × Rp 950.000 = Rp 9.500.000 (Kusen + Daun Casement + Kaca 5mm + Friction Stay + Rambuncis + Pasang)",
+          "formula": "Luas m² × Tarif + Kusen + Daun Casement + Kaca 5mm + Friction Stay + Rambuncis + Pasang",
           "rabRatios": {
             "kaca": 0.25,
             "struktur": 0.34,
@@ -8249,14 +10089,14 @@ const PRICING_CONFIG = {
         {
           "id": "premium",
           "name": "Premium Grade (Casement 4\" Alexindo + Kaca Panasap/Dekkson)",
-          "badge": "Alexindo 4\" SUS304 (TEST 4)",
+          "badge": "Alexindo 4\" SUS304",
           "desc": "Profil heavy duty 4\" tebal 1.2mm Alexindo, kaca Panasap tolak panas / Euro Grey 5mm, friction stay heavy duty Dekkson SUS304, multi-point lock lever hening.",
-          "minRate": 1100000,
-          "maxRate": 1400000,
-          "targetRate": 1250000,
-          "rate": "Rp 1.100.000 – Rp 1.400.000 / m²",
+          "minRate": 2750000,
+          "maxRate": 3500000,
+          "targetRate": 3125000,
+          "rate": "Rp 2.750.000 – Rp 3.500.000 / m²",
           "leadTime": "4–6 Hari Kerja",
-          "formula": "10 m² × Rp 1.250.000 = Rp 12.500.000 (Kusen 4\" Alexindo + Kaca Panasap + Multi-point Lock Dekkson + Weatherseal + Pasang)",
+          "formula": "Luas m² × Tarif + Kusen 4\" Alexindo + Kaca Panasap + Multi-point Lock Dekkson + Weatherseal + Pasang",
           "rabRatios": {
             "kaca": 0.28,
             "struktur": 0.33,
@@ -8272,39 +10112,49 @@ const PRICING_CONFIG = {
     },
     "pintu": {
       "id": "pintu",
+      "serviceId": "pintu",
+      "serviceName": "Pintu Aluminium",
       "label": "Pintu Aluminium (Swing / Sliding / Folding Modern)",
       "category": "aluminium",
       "priceModel": "aluminium_door",
       "unit": "unit",
       "unitName": "Unit Pintu",
-      "minOrderValue": 2000000,
+      "calculationType": "unit",
+      "priceMin": 5000000,
+      "priceMax": 12500000,
+      "standardPriceMin": 5000000,
+      "standardPriceMax": 7000000,
+      "premiumPriceMin": 6250000,
+      "premiumPriceMax": 8750000,
+      "specification": "Pintu Aluminium Swing 1 Daun Modern Komplit vs Sliding Silent Roller vs Folding Multi-Leaf",
+      "minOrderValue": 5000000,
       "wasteFactor": 0.08,
       "priceRanges": {
         "swing": {
           "name": "Pintu Aluminium Swing 1 Daun Modern Komplit",
-          "min": 2000000,
-          "max": 2800000,
-          "target": 2350000,
+          "min": 5000000,
+          "max": 7000000,
+          "target": 5875000,
           "unit": "unit"
         },
         "sliding": {
           "name": "Pintu Aluminium Sliding Geser (Silent Roller Rail)",
-          "min": 2500000,
-          "max": 3500000,
-          "target": 2850000,
+          "min": 6250000,
+          "max": 8750000,
+          "target": 7125000,
           "unit": "unit"
         },
         "folding": {
           "name": "Pintu Aluminium Folding / Lipat (per unit opening)",
-          "min": 3500000,
-          "max": 5000000,
-          "target": 4200000,
+          "min": 8750000,
+          "max": 12500000,
+          "target": 10500000,
           "unit": "unit"
         }
       },
       "summaryLabel": "Tipe Bukaan:",
       "step2Label": "2. Pilih Tipe Bukaan Pintu Aluminium",
-      "guideText": "PILIH SISTEM PINTU: Swing, Sliding, atau Folding (TEST 5)",
+      "guideText": "PILIH SISTEM PINTU: Swing, Sliding, atau Folding",
       "defaultQty": 1,
       "presets": [
         1,
@@ -8317,12 +10167,12 @@ const PRICING_CONFIG = {
         {
           "id": "swing",
           "name": "Pintu Aluminium Swing 1 Daun Modern Komplit",
-          "badge": "Swing 1 Daun Modern (TEST 5)",
+          "badge": "Swing 1 Daun Modern (Standard)",
           "desc": "1 Unit pintu swing buka dorong/tarik lengkap kusen 3\"/4\", panel kaca clear 5mm / spandrel dobel aluminium, engsel tebal stainless 4\", lockset mortise lock lever handle awet.",
-          "minRate": 2000000,
-          "maxRate": 2800000,
-          "targetRate": 2350000,
-          "rate": "Rp 2.000.000 – Rp 2.800.000 / unit",
+          "minRate": 5000000,
+          "maxRate": 7000000,
+          "targetRate": 5875000,
+          "rate": "Rp 5.000.000 – Rp 7.000.000 / unit",
           "leadTime": "3–5 Hari Kerja",
           "formula": "Kusen 3\" + Daun Pintu + Kaca 5mm / Spandrel + Mortise Lockset + Engsel Stainless + Jasa Pasang",
           "rabRatios": {
@@ -8339,12 +10189,12 @@ const PRICING_CONFIG = {
         {
           "id": "sliding",
           "name": "Pintu Aluminium Sliding Geser (Silent Roller Rail)",
-          "badge": "Sliding Silent Roller (TEST 5)",
+          "badge": "Sliding Silent Roller (Premium)",
           "desc": "1 Unit pintu geser hemat ruang, rel gantung / rel bawah aluminium presisi, roda bearing roller hening anti-anjlok, kunci hook lock tanam, stopper peredam benturan.",
-          "minRate": 2500000,
-          "maxRate": 3500000,
-          "targetRate": 2850000,
-          "rate": "Rp 2.500.000 – Rp 3.500.000 / unit",
+          "minRate": 6250000,
+          "maxRate": 8750000,
+          "targetRate": 7125000,
+          "rate": "Rp 6.250.000 – Rp 8.750.000 / unit",
           "leadTime": "4–6 Hari Kerja",
           "formula": "Kusen Pintu + Daun Sliding + Rel Atas Bawah + Roller Bearing + Kunci Hook Lock Tanam + Sealant + Pasang",
           "rabRatios": {
@@ -8361,12 +10211,12 @@ const PRICING_CONFIG = {
         {
           "id": "folding",
           "name": "Pintu Aluminium Folding / Lipat (per unit opening)",
-          "badge": "Folding Multi-Leaf",
+          "badge": "Folding Multi-Leaf (Heavy)",
           "desc": "Sistem pintu lipat bukaan penuh teras/taman, rel gantung heavy duty, engsel kupu-kupu lipat, flush bolt tanam pengunci atas bawah antar daun.",
-          "minRate": 3500000,
-          "maxRate": 5000000,
-          "targetRate": 4200000,
-          "rate": "Rp 3.500.000 – Rp 5.000.000+ / unit",
+          "minRate": 8750000,
+          "maxRate": 12500000,
+          "targetRate": 10500000,
+          "rate": "Rp 8.750.000 – Rp 12.500.000 / unit",
           "leadTime": "5–8 Hari Kerja",
           "formula": "Daun Pintu Lipat + Rel Gantung Heavy + Engsel Lipat SUS304 + Flush Bolt + Kaca 5mm + Pasang Presisi",
           "rabRatios": {
@@ -8384,33 +10234,43 @@ const PRICING_CONFIG = {
     },
     "shower": {
       "id": "shower",
+      "serviceId": "shower",
+      "serviceName": "Shower Kaca",
       "label": "Shower Screen Kaca Kamar Mandi",
       "category": "glass_shower",
       "priceModel": "glass_shower",
       "unit": "unit",
       "unitName": "Set Shower Screen",
-      "minOrderValue": 1800000,
+      "calculationType": "unit",
+      "priceMin": 3750000,
+      "priceMax": 8750000,
+      "standardPriceMin": 3750000,
+      "standardPriceMax": 5000000,
+      "premiumPriceMin": 5000000,
+      "premiumPriceMax": 7000000,
+      "specification": "Framed Shower Screen vs Semi Frameless 8mm vs Full Frameless 10mm SUS304",
+      "minOrderValue": 4500000,
       "wasteFactor": 0.05,
       "priceRanges": {
         "framed": {
           "name": "Framed Shower Screen (Bingkai Aluminium Keliling)",
-          "min": 1500000,
-          "max": 2000000,
-          "target": 1750000,
+          "min": 3750000,
+          "max": 5000000,
+          "target": 4375000,
           "unit": "unit"
         },
         "semi_frameless": {
           "name": "Semi Frameless Shower Screen (U-Channel + Header Track)",
-          "min": 2000000,
-          "max": 2800000,
-          "target": 2350000,
+          "min": 5000000,
+          "max": 7000000,
+          "target": 5875000,
           "unit": "unit"
         },
         "frameless": {
           "name": "Full Frameless Shower Screen (Tempered 10 mm SUS304)",
-          "min": 2500000,
-          "max": 3500000,
-          "target": 2950000,
+          "min": 6250000,
+          "max": 8750000,
+          "target": 7375000,
           "unit": "unit"
         }
       },
@@ -8429,12 +10289,12 @@ const PRICING_CONFIG = {
         {
           "id": "framed",
           "name": "Framed Shower Screen (Bingkai Aluminium Keliling)",
-          "badge": "Framed Ekonomis",
+          "badge": "Framed Ekonomis (Standard)",
           "desc": "Frame aluminium anodize tahan lembab keliling, kaca tempered 6mm / kaca es buram moru, door seal magnet kedap percikan air, handle knop minimalis.",
-          "minRate": 1500000,
-          "maxRate": 2000000,
-          "targetRate": 1750000,
-          "rate": "Rp 1.500.000 – Rp 2.000.000 / unit",
+          "minRate": 3750000,
+          "maxRate": 5000000,
+          "targetRate": 4375000,
+          "rate": "Rp 3.750.000 – Rp 5.000.000 / unit",
           "leadTime": "3–4 Hari Kerja",
           "formula": "Frame Aluminium Shower + Kaca Tempered 6mm + Karet Seal Magnet + Engsel Pivot + Pasang",
           "rabRatios": {
@@ -8453,10 +10313,10 @@ const PRICING_CONFIG = {
           "name": "Semi Frameless Shower Screen (U-Channel + Header Track)",
           "badge": "Semi Frameless 8mm",
           "desc": "Kaca Tempered 8mm SNI Asahimas, sekat mati dengan U-channel aluminium tipis dinding & lantai, pintu swing engsel kaca-ke-tembok kuningan lapis chrome.",
-          "minRate": 2000000,
-          "maxRate": 2800000,
-          "targetRate": 2350000,
-          "rate": "Rp 2.000.000 – Rp 2.800.000 / unit",
+          "minRate": 5000000,
+          "maxRate": 7000000,
+          "targetRate": 5875000,
+          "rate": "Rp 5.000.000 – Rp 7.000.000 / unit",
           "leadTime": "3–5 Hari Kerja",
           "formula": "Kaca Tempered 8mm + U-Channel Dinding + Engsel Glass-to-Wall + Handle Handuk L + Sealant Anti Jamur",
           "rabRatios": {
@@ -8473,12 +10333,12 @@ const PRICING_CONFIG = {
         {
           "id": "frameless",
           "name": "Full Frameless Shower Screen (Tempered 10 mm SUS304)",
-          "badge": "Luxury Frameless 10mm",
+          "badge": "Luxury Frameless 10mm (Premium)",
           "desc": "Kaca Tempered 10mm murni frameless bebas bingkai, 2 engsel kuningan SUS304 chrome duty 50kg, pipa stabilizer stainless atas kaca, magnetic seal air 100% kedap.",
-          "minRate": 2500000,
-          "maxRate": 3500000,
-          "targetRate": 2950000,
-          "rate": "Rp 2.500.000 – Rp 3.500.000 / unit",
+          "minRate": 6250000,
+          "maxRate": 8750000,
+          "targetRate": 7375000,
+          "rate": "Rp 6.250.000 – Rp 8.750.000 / unit",
           "leadTime": "4–6 Hari Kerja",
           "formula": "Kaca Tempered 10mm Bevel + Engsel SUS304 + Pipa Stabilizer SUS304 + Handle Handuk L + Sealant Dowsil Sanitasi",
           "rabRatios": {
@@ -8496,26 +10356,36 @@ const PRICING_CONFIG = {
     },
     "kusen": {
       "id": "kusen",
+      "serviceId": "kusen",
+      "serviceName": "Kusen Aluminium",
       "label": "Kusen Aluminium (Profil 3\" / 4\" SNI)",
       "category": "aluminium",
       "priceModel": "aluminium_profile",
       "unit": "m1",
       "unitName": "Meter Lari (m1)",
-      "minOrderValue": 1500000,
+      "calculationType": "m1",
+      "priceMin": 212500,
+      "priceMax": 412500,
+      "standardPriceMin": 212500,
+      "standardPriceMax": 275000,
+      "premiumPriceMin": 337500,
+      "premiumPriceMax": 412500,
+      "specification": "Profil 3\" Standard (Dacon/Inkalum 0.9-1.0mm) vs Profil 4\" Heavy Duty (Alexindo/Alcomexindo 1.1-1.3mm)",
+      "minOrderValue": 3750000,
       "wasteFactor": 0.08,
       "priceRanges": {
         "standard": {
           "name": "Standard SNI 3 Inch (Dacon / Inkalum)",
-          "min": 85000,
-          "max": 110000,
-          "target": 100000,
+          "min": 212500,
+          "max": 275000,
+          "target": 250000,
           "unit": "m1"
         },
         "premium": {
           "name": "Premium Grade 4 Inch (Alexindo / Alcomexindo)",
-          "min": 135000,
-          "max": 165000,
-          "target": 150000,
+          "min": 337500,
+          "max": 412500,
+          "target": 375000,
           "unit": "m1"
         }
       },
@@ -8534,12 +10404,12 @@ const PRICING_CONFIG = {
         {
           "id": "standard",
           "name": "Standard SNI 3 Inch (Dacon / Inkalum)",
-          "badge": "Dacon / Inkalum 3\"",
+          "badge": "Dacon / Inkalum 3\" (Standard)",
           "desc": "Profil batangan 3\" tebal 0.9–1.0mm, anodize/powder coating standar, perakitan siku miter 45° presisi, sekrup fisher baja + sealant netral.",
-          "minRate": 85000,
-          "maxRate": 110000,
-          "targetRate": 100000,
-          "rate": "Rp 85.000 – Rp 110.000 / m1",
+          "minRate": 212500,
+          "maxRate": 275000,
+          "targetRate": 250000,
+          "rate": "Rp 212.500 – Rp 275.000 / m1",
           "leadTime": "2–4 Hari Kerja",
           "formula": "(Panjang m1 × Tarif) + Sekrup Fisher + Sealant Neutral + Upah Tukang Presisi + Cutting Waste 8%",
           "rabRatios": {
@@ -8556,12 +10426,12 @@ const PRICING_CONFIG = {
         {
           "id": "premium",
           "name": "Premium Grade 4 Inch (Alexindo / Alcomexindo)",
-          "badge": "Alexindo 4\" Heavy",
+          "badge": "Alexindo 4\" Heavy (Premium)",
           "desc": "Profil batangan 4\" tebal 1.1–1.3mm kekakuan tinggi, bentangan lebar kokoh, powder coating tahan luntur cuaca eksterior, sealant struktural.",
-          "minRate": 135000,
-          "maxRate": 165000,
-          "targetRate": 150000,
-          "rate": "Rp 135.000 – Rp 165.000 / m1",
+          "minRate": 337500,
+          "maxRate": 412500,
+          "targetRate": 375000,
+          "rate": "Rp 337.500 – Rp 412.500 / m1",
           "leadTime": "3–5 Hari Kerja",
           "formula": "(Panjang m1 × Tarif) + Sekrup Fisher Heavy + Sealant Weatherseal + Upah Pasang + Cutting Waste 8%",
           "rabRatios": {
@@ -8579,33 +10449,43 @@ const PRICING_CONFIG = {
     },
     "pintu_tempered": {
       "id": "pintu_tempered",
+      "serviceId": "pintu_tempered",
+      "serviceName": "Pintu Kaca Tempered",
       "label": "Pintu Kaca Frameless Floor Hinge",
       "category": "glass_door",
       "priceModel": "glass_door",
       "unit": "unit",
       "unitName": "Set Daun Pintu",
-      "minOrderValue": 3500000,
+      "calculationType": "unit",
+      "priceMin": 8125000,
+      "priceMax": 23500000,
+      "standardPriceMin": 8125000,
+      "standardPriceMax": 9625000,
+      "premiumPriceMin": 10500000,
+      "premiumPriceMax": 13125000,
+      "specification": "Single Leaf Tempered 10mm/12mm BTS 84 vs Dorma BTS 75V vs Double Leaf",
+      "minOrderValue": 8750000,
       "wasteFactor": 0.05,
       "priceRanges": {
         "single_10": {
           "name": "Single Leaf Tempered 10 mm + Mesin BTS 84",
-          "min": 3250000,
-          "max": 3850000,
-          "target": 3500000,
+          "min": 8125000,
+          "max": 9625000,
+          "target": 8750000,
           "unit": "unit"
         },
         "single_12": {
           "name": "Single Leaf Tempered 12 mm + Floor Hinge Dorma BTS 75V",
-          "min": 4200000,
-          "max": 5250000,
-          "target": 4650000,
+          "min": 10500000,
+          "max": 13125000,
+          "target": 11625000,
           "unit": "unit"
         },
         "double_12": {
           "name": "Double Leaf (Kupu Tarung) Tempered 12 mm + Dorma",
-          "min": 7800000,
-          "max": 9400000,
-          "target": 8500000,
+          "min": 19500000,
+          "max": 23500000,
+          "target": 21250000,
           "unit": "unit"
         }
       },
@@ -8626,10 +10506,10 @@ const PRICING_CONFIG = {
           "name": "Single Leaf Tempered 10 mm + Mesin BTS 84",
           "badge": "Single 10mm Standard",
           "desc": "Kaca Tempered 10mm SNI Asahimas, mesin floor hinge Dekkson BTS 84 tanam lantai beton, top patch fitting SUS304, pull handle stainless 60cm, kunci silinder bawah.",
-          "minRate": 3250000,
-          "maxRate": 3850000,
-          "targetRate": 3500000,
-          "rate": "Rp 3.250.000 – Rp 3.850.000 / unit",
+          "minRate": 8125000,
+          "maxRate": 9625000,
+          "targetRate": 8750000,
+          "rate": "Rp 8.125.000 – Rp 9.625.000 / unit",
           "leadTime": "3–5 Hari Kerja",
           "formula": "Kaca Tempered 10mm + Mesin Floor Hinge BTS 84 + Patch Fitting + Pull Handle 60cm + Pasang",
           "rabRatios": {
@@ -8646,12 +10526,12 @@ const PRICING_CONFIG = {
         {
           "id": "single_12",
           "name": "Single Leaf Tempered 12 mm + Floor Hinge Dorma BTS 75V",
-          "badge": "Dorma BTS 75V Heavy",
+          "badge": "Dorma BTS 75V Heavy (Premium)",
           "desc": "Kaca Tempered 12mm kokoh anti getar, mesin floor hinge Dorma BTS 75V standar gedung komersial, patch fitting SUS304 heavy, pull handle 80cm elegan.",
-          "minRate": 4200000,
-          "maxRate": 5250000,
-          "targetRate": 4650000,
-          "rate": "Rp 4.200.000 – Rp 5.250.000 / unit",
+          "minRate": 10500000,
+          "maxRate": 13125000,
+          "targetRate": 11625000,
+          "rate": "Rp 10.500.000 – Rp 13.125.000 / unit",
           "leadTime": "4–6 Hari Kerja",
           "formula": "Kaca Tempered 12mm + Mesin Floor Hinge Dorma BTS 75V + Patch Fitting Heavy + Pull Handle 80cm + Pasang",
           "rabRatios": {
@@ -8670,10 +10550,10 @@ const PRICING_CONFIG = {
           "name": "Double Leaf (Kupu Tarung) Tempered 12 mm + Dorma",
           "badge": "Lobby 2 Daun Kupu Tarung",
           "desc": "2 daun pintu kaca tempered 12mm (opening 180×220cm), 2 unit mesin floor hinge independen, 4 set patch fitting SUS304, 2 pasang pull handle 80cm, kunci sentral lantai.",
-          "minRate": 7800000,
-          "maxRate": 9400000,
-          "targetRate": 8500000,
-          "rate": "Rp 7.800.000 – Rp 9.400.000 / unit",
+          "minRate": 19500000,
+          "maxRate": 23500000,
+          "targetRate": 21250000,
+          "rate": "Rp 19.500.000 – Rp 23.500.000 / unit",
           "leadTime": "5–8 Hari Kerja",
           "formula": "2 Daun Kaca Tempered 12mm + 2 Mesin Floor Hinge + 4 Patch Fitting + 2 Handle 80cm + Central Lock + Pasang",
           "rabRatios": {
@@ -8691,26 +10571,36 @@ const PRICING_CONFIG = {
     },
     "bifold": {
       "id": "bifold",
+      "serviceId": "bifold",
+      "serviceName": "Pintu Lipat Bifold System",
       "label": "Pintu Lipat Bifold System Aluminium",
       "category": "aluminium",
       "priceModel": "aluminium_bifold",
       "unit": "daun",
       "unitName": "Daun Pintu",
-      "minOrderValue": 5000000,
+      "calculationType": "unit",
+      "priceMin": 7000000,
+      "priceMax": 12000000,
+      "standardPriceMin": 7000000,
+      "standardPriceMax": 8750000,
+      "premiumPriceMin": 8750000,
+      "premiumPriceMax": 12000000,
+      "specification": "Bifold Standard Track (Inkalum 1.1mm) vs Heavy Duty Panoramic 250kg (Alexindo 1.3mm)",
+      "minOrderValue": 12500000,
       "wasteFactor": 0.08,
       "priceRanges": {
         "standard": {
           "name": "Bifold Standard Track (Inkalum 1.1 mm)",
-          "min": 2800000,
-          "max": 3500000,
-          "target": 3150000,
+          "min": 7000000,
+          "max": 8750000,
+          "target": 7875000,
           "unit": "daun"
         },
         "premium": {
           "name": "Bifold Heavy-Duty Panoramic (Alexindo 1.3 mm / 250 kg)",
-          "min": 3500000,
-          "max": 4800000,
-          "target": 4100000,
+          "min": 8750000,
+          "max": 12000000,
+          "target": 10250000,
           "unit": "daun"
         }
       },
@@ -8729,12 +10619,12 @@ const PRICING_CONFIG = {
         {
           "id": "standard",
           "name": "Bifold Standard Track (Inkalum 1.1 mm)",
-          "badge": "Inkalum SNI",
+          "badge": "Inkalum SNI (Standard)",
           "desc": "Profil aluminium tebal 1.1mm, kaca clear 5mm, rel gantung atas & guide rel bawah bantalan roller bearing tahan beban 120kg, engsel lipat antar daun.",
-          "minRate": 2800000,
-          "maxRate": 3500000,
-          "targetRate": 3150000,
-          "rate": "Rp 2.800.000 – Rp 3.500.000 / daun",
+          "minRate": 7000000,
+          "maxRate": 8750000,
+          "targetRate": 7875000,
+          "rate": "Rp 7.000.000 – Rp 8.750.000 / daun",
           "leadTime": "5–7 Hari Kerja",
           "formula": "(Jumlah Daun × Tarif) + Rel Gantung + Roller Bearing + Flush Bolt + Kaca 5mm + Pasang",
           "rabRatios": {
@@ -8751,12 +10641,12 @@ const PRICING_CONFIG = {
         {
           "id": "premium",
           "name": "Bifold Heavy-Duty Panoramic (Alexindo 1.3 mm / 250 kg)",
-          "badge": "Alexindo Heavy 250kg",
+          "badge": "Alexindo Heavy 250kg (Premium)",
           "desc": "Profil Alexindo 1.3mm ekstra kaku, kaca tempered 6–8mm, rel gantung heavy duty suspended tahan 250kg buka tutup sangat halus (whisper quiet), flush floor threshold.",
-          "minRate": 3500000,
-          "maxRate": 4800000,
-          "targetRate": 4100000,
-          "rate": "Rp 3.500.000 – Rp 4.800.000 / daun",
+          "minRate": 8750000,
+          "maxRate": 12000000,
+          "targetRate": 10250000,
+          "rate": "Rp 8.750.000 – Rp 12.000.000 / daun",
           "leadTime": "7–10 Hari Kerja",
           "formula": "(Jumlah Daun × Tarif) + Rel Heavy Duty 250kg + Engsel SUS304 + Kaca Tempered + Flush Threshold + Pasang",
           "rabRatios": {
@@ -8774,26 +10664,36 @@ const PRICING_CONFIG = {
     },
     "etalase": {
       "id": "etalase",
+      "serviceId": "etalase",
+      "serviceName": "Etalase Kaca",
       "label": "Etalase Kaca Toko & Display Counter",
       "category": "aluminium",
       "priceModel": "aluminium_showcase",
       "unit": "unit",
       "unitName": "Unit Etalase",
-      "minOrderValue": 1200000,
+      "calculationType": "unit",
+      "priceMin": 3000000,
+      "priceMax": 8750000,
+      "standardPriceMin": 3000000,
+      "standardPriceMax": 4125000,
+      "premiumPriceMin": 5000000,
+      "premiumPriceMax": 8750000,
+      "specification": "Etalase Counter Toko Standar 1.5m vs Showcase Premium Full Tempered LED",
+      "minOrderValue": 3000000,
       "wasteFactor": 0.08,
       "priceRanges": {
         "standard": {
           "name": "Etalase Counter Toko Standar 1.5 Meter",
-          "min": 1200000,
-          "max": 1650000,
-          "target": 1450000,
+          "min": 3000000,
+          "max": 4125000,
+          "target": 3625000,
           "unit": "unit"
         },
         "premium": {
           "name": "Display Showcase Premium Full Kaca Tempered + LED",
-          "min": 2000000,
-          "max": 3500000,
-          "target": 2750000,
+          "min": 5000000,
+          "max": 8750000,
+          "target": 6875000,
           "unit": "unit"
         }
       },
@@ -8814,10 +10714,10 @@ const PRICING_CONFIG = {
           "name": "Etalase Counter Toko Standar 1.5 Meter",
           "badge": "Standard Counter 1.5m",
           "desc": "Ukuran P150 × L50 × T100 cm, frame aluminium silver hollow etalase, kaca polos 5mm SNI, 2 susun rak kaca, pintu geser sliding dengan kunci gergaji, roda rem 2\".",
-          "minRate": 1200000,
-          "maxRate": 1650000,
-          "targetRate": 1450000,
-          "rate": "Rp 1.200.000 – Rp 1.650.000 / unit",
+          "minRate": 3000000,
+          "maxRate": 4125000,
+          "targetRate": 3625000,
+          "rate": "Rp 3.000.000 – Rp 4.125.000 / unit",
           "leadTime": "3–5 Hari Kerja",
           "formula": "Rangka Hollow Etalase + Kaca 5mm + Roda Rem + Kunci Huben + Perakitan Workshop",
           "rabRatios": {
@@ -8834,12 +10734,12 @@ const PRICING_CONFIG = {
         {
           "id": "premium",
           "name": "Display Showcase Premium Full Kaca Tempered + LED",
-          "badge": "Boutique Display + LED",
+          "badge": "Boutique Display + LED (Premium)",
           "desc": "Frame aluminium anodize hitam doff / champagne profil tebal, kaca tempered 6mm tahan gores, lampu LED strip tersembunyi warm/white, kunci sentral keamanan.",
-          "minRate": 2000000,
-          "maxRate": 3500000,
-          "targetRate": 2750000,
-          "rate": "Rp 2.000.000 – Rp 3.500.000 / unit",
+          "minRate": 5000000,
+          "maxRate": 8750000,
+          "targetRate": 6875000,
+          "rate": "Rp 5.000.000 – Rp 8.750.000 / unit",
           "leadTime": "5–7 Hari Kerja",
           "formula": "Rangka Anodize Hitam + Kaca Tempered 6mm + LED Strip Hidden + Kunci Sentral + Fabrikasi",
           "rabRatios": {
@@ -8857,33 +10757,43 @@ const PRICING_CONFIG = {
     },
     "acp": {
       "id": "acp",
+      "serviceId": "acp",
+      "serviceName": "Fasad ACP Aluminium Composite Panel",
       "label": "Fasad ACP Aluminium Composite Panel",
       "category": "facade_acp",
       "priceModel": "acp_facade",
       "unit": "m²",
       "unitName": "Meter Persegi (m²)",
-      "minOrderValue": 5000000,
+      "calculationType": "m2",
+      "priceMin": 1625000,
+      "priceMax": 4125000,
+      "standardPriceMin": 1625000,
+      "standardPriceMax": 2125000,
+      "premiumPriceMin": 2125000,
+      "premiumPriceMax": 2875000,
+      "specification": "ACP Interior PE 0.21mm vs Eksterior PVDF 0.30mm vs Heavy Duty 0.50mm (Seven / Marks)",
+      "minOrderValue": 12500000,
       "wasteFactor": 0.08,
       "priceRanges": {
         "interior_pe": {
           "name": "ACP Interior PE 0.21 mm (Seven / Marks)",
-          "min": 650000,
-          "max": 850000,
-          "target": 750000,
+          "min": 1625000,
+          "max": 2125000,
+          "target": 1875000,
           "unit": "m²"
         },
         "exterior_pvdf": {
           "name": "ACP Eksterior PVDF 0.30 mm SNI Tahan Cuaca",
-          "min": 850000,
-          "max": 1150000,
-          "target": 950000,
+          "min": 2125000,
+          "max": 2875000,
+          "target": 2375000,
           "unit": "m²"
         },
         "heavy_duty_pvdf": {
           "name": "ACP Heavy-Duty PVDF 0.50 mm (Gedung & High-Rise)",
-          "min": 1250000,
-          "max": 1650000,
-          "target": 1450000,
+          "min": 3125000,
+          "max": 4125000,
+          "target": 3625000,
           "unit": "m²"
         }
       },
@@ -8902,12 +10812,12 @@ const PRICING_CONFIG = {
         {
           "id": "interior_pe",
           "name": "ACP Interior PE 0.21 mm (Seven / Marks)",
-          "badge": "Seven Interior PE",
+          "badge": "Seven Interior PE (Standard)",
           "desc": "Tebal panel 4mm, skin aluminium 0.21mm cat Polyester (PE) untuk dekorasi dinding lobi, resepsionis, cover kolom/pilar & interior toko.",
-          "minRate": 650000,
-          "maxRate": 850000,
-          "targetRate": 750000,
-          "rate": "Rp 650.000 – Rp 850.000 / m²",
+          "minRate": 1625000,
+          "maxRate": 2125000,
+          "targetRate": 1875000,
+          "rate": "Rp 1.625.000 – Rp 2.125.000 / m²",
           "leadTime": "4–7 Hari Kerja",
           "formula": "Panel ACP PE + Rangka Hollow 2×4 + Baut Sekrup + Sealant Interior + Pasang",
           "rabRatios": {
@@ -8924,12 +10834,12 @@ const PRICING_CONFIG = {
         {
           "id": "exterior_pvdf",
           "name": "ACP Eksterior PVDF 0.30 mm SNI Tahan Cuaca",
-          "badge": "Seven Outdoor PVDF",
+          "badge": "Seven Outdoor PVDF (Premium)",
           "desc": "Tebal 4mm skin aluminium 0.30mm coating PVDF tahan panas matahari & hujan garansi warna 10 tahun, rangka hollow galvanis 40×40 anti karat, sealant non-staining.",
-          "minRate": 850000,
-          "maxRate": 1150000,
-          "targetRate": 950000,
-          "rate": "Rp 850.000 – Rp 1.150.000 / m²",
+          "minRate": 2125000,
+          "maxRate": 2875000,
+          "targetRate": 2375000,
+          "rate": "Rp 2.125.000 – Rp 2.875.000 / m²",
           "leadTime": "6–9 Hari Kerja",
           "formula": "Panel ACP PVDF 0.3mm + Rangka Hollow Galvanis 40×40 + Siku Breket + Baut Rivet + Sealant Non-Staining + Pasang",
           "rabRatios": {
@@ -8946,12 +10856,12 @@ const PRICING_CONFIG = {
         {
           "id": "heavy_duty_pvdf",
           "name": "ACP Heavy-Duty PVDF 0.50 mm (Gedung & High-Rise)",
-          "badge": "Alucobond / Alcopan Grade",
+          "badge": "Alucobond / Alcopan Grade (Heavy)",
           "desc": "Tebal 4mm skin aluminium 0.50mm cat PVDF kualitas gedung komersial/showroom, rangka besi hollow galvanis tebal 1.6mm + scaffolding kerja aman.",
-          "minRate": 1250000,
-          "maxRate": 1650000,
-          "targetRate": 1450000,
-          "rate": "Rp 1.250.000 – Rp 1.650.000 / m²",
+          "minRate": 3125000,
+          "maxRate": 4125000,
+          "targetRate": 3625000,
+          "rate": "Rp 3.125.000 – Rp 4.125.000 / m²",
           "leadTime": "8–14 Hari Kerja",
           "formula": "Panel Heavy PVDF 0.5mm + Rangka Hollow 40×40 1.6mm + Braket Siku + Sealant Dow Corning + Scaffolding + Pasang",
           "rabRatios": {
@@ -8969,33 +10879,43 @@ const PRICING_CONFIG = {
     },
     "curtain_wall": {
       "id": "curtain_wall",
+      "serviceId": "curtain_wall",
+      "serviceName": "Curtain Wall Fasad Kaca Komersial",
       "label": "Curtain Wall Fasad Kaca Komersial",
       "category": "curtain_wall",
       "priceModel": "curtain_wall",
       "unit": "m²",
       "unitName": "Meter Persegi (m²)",
-      "minOrderValue": 15000000,
+      "calculationType": "m2",
+      "priceMin": 4000000,
+      "priceMax": 8125000,
+      "standardPriceMin": 4000000,
+      "standardPriceMax": 4750000,
+      "premiumPriceMin": 4625000,
+      "premiumPriceMax": 6125000,
+      "specification": "Stick System Mullion + Panasap 6mm Tinted vs Tempered Stopsol 8mm vs Semi-Unitized High-Rise",
+      "minOrderValue": 37500000,
       "wasteFactor": 0.05,
       "priceRanges": {
         "stick_panasap": {
           "name": "Stick System Back Mullion + Panasap 6 mm Tinted",
-          "min": 1600000,
-          "max": 1900000,
-          "target": 1750000,
+          "min": 4000000,
+          "max": 4750000,
+          "target": 4375000,
           "unit": "m²"
         },
         "stick_tempered8": {
           "name": "Stick System + Tempered Reflective / Stopsol 8 mm",
-          "min": 1850000,
-          "max": 2450000,
-          "target": 2150000,
+          "min": 4625000,
+          "max": 6125000,
+          "target": 5375000,
           "unit": "m²"
         },
         "semi_unitized": {
           "name": "Semi-Unitized High-Rise + Low-E 10 mm Tempered",
-          "min": 2500000,
-          "max": 3250000,
-          "target": 2850000,
+          "min": 6250000,
+          "max": 8125000,
+          "target": 7125000,
           "unit": "m²"
         }
       },
@@ -9014,12 +10934,12 @@ const PRICING_CONFIG = {
         {
           "id": "stick_panasap",
           "name": "Stick System Back Mullion + Panasap 6 mm Tinted",
-          "badge": "Ruko & Gedung Kantor",
+          "badge": "Ruko & Gedung Kantor (Standard)",
           "desc": "Rangka mullion aluminium 150mm tebal 1.5mm, kaca Panasap Green / Dark Blue 6mm penolak panas surya, structural sealant Dow Corning, siku baja anchor.",
-          "minRate": 1600000,
-          "maxRate": 1900000,
-          "targetRate": 1750000,
-          "rate": "Rp 1.600.000 – Rp 1.900.000 / m²",
+          "minRate": 4000000,
+          "maxRate": 4750000,
+          "targetRate": 4375000,
+          "rate": "Rp 4.000.000 – Rp 4.750.000 / m²",
           "leadTime": "10–15 Hari Kerja",
           "formula": "Rangka Mullion 150mm + Kaca Panasap 6mm + Structural Silicone + Siku Baja Anchor + Pasang",
           "rabRatios": {
@@ -9036,12 +10956,12 @@ const PRICING_CONFIG = {
         {
           "id": "stick_tempered8",
           "name": "Stick System + Tempered Reflective / Stopsol 8 mm",
-          "badge": "Showroom & Facade 8mm",
+          "badge": "Showroom & Facade 8mm (Premium)",
           "desc": "Rangka mullion aluminium heavy duty 150×50mm tebal 2.0mm, kaca Tempered One-Way Reflective / Stopsol 8mm privasi tinggi & pantul panas optimal.",
-          "minRate": 1850000,
-          "maxRate": 2450000,
-          "targetRate": 2150000,
-          "rate": "Rp 1.850.000 – Rp 2.450.000 / m²",
+          "minRate": 4625000,
+          "maxRate": 6125000,
+          "targetRate": 5375000,
+          "rate": "Rp 4.625.000 – Rp 6.125.000 / m²",
           "leadTime": "12–18 Hari Kerja",
           "formula": "Mullion Heavy 2.0mm + Kaca Tempered Stopsol 8mm + Braket WF Anchor + Sealant Struktural + Pasang",
           "rabRatios": {
@@ -9058,12 +10978,12 @@ const PRICING_CONFIG = {
         {
           "id": "semi_unitized",
           "name": "Semi-Unitized High-Rise + Low-E 10 mm Tempered",
-          "badge": "Green Building Low-E",
+          "badge": "Green Building Low-E (Heavy Duty)",
           "desc": "Kaca Tempered Low-E 10mm hemat energi AC, fabrikasi panel modul semi-unitized presisi workshop, bracket jangkar baja siku 8mm tebal, scaffolding/gondola.",
-          "minRate": 2500000,
-          "maxRate": 3250000,
-          "targetRate": 2850000,
-          "rate": "Rp 2.500.000 – Rp 3.250.000 / m²",
+          "minRate": 6250000,
+          "maxRate": 8125000,
+          "targetRate": 7125000,
+          "rate": "Rp 6.250.000 – Rp 8.125.000 / m²",
           "leadTime": "15–25 Hari Kerja",
           "formula": "Fabrikasi Modul Semi-Unitized + Kaca Tempered Low-E 10mm + Bracket Jangkar Baja 8mm + Gondola + Pasang",
           "rabRatios": {
@@ -9084,307 +11004,307 @@ const PRICING_CONFIG = {
     "KANOPI_PRICE_RANGES": {
       "hollow_tempered_8": {
         "name": "Rangka Hollow Galvanis 100×50 + Tempered 8 mm",
-        "min": 1550000,
-        "max": 1750000,
-        "target": 1650000,
+        "min": 3875000,
+        "max": 4375000,
+        "target": 4125000,
         "unit": "m²"
       },
       "hollow_tempered_10": {
-        "name": "Rangka Hollow 100×50×2 mm + Tempered Clear 10 mm (Target TEST 1)",
-        "min": 1700000,
-        "max": 1900000,
-        "target": 1800000,
+        "name": "Rangka Hollow 100×50×2 mm + Tempered Clear 10 mm (Target Carport Standar)",
+        "min": 4250000,
+        "max": 4750000,
+        "target": 4500000,
         "unit": "m²"
       },
       "wf_tempered_12": {
         "name": "Rangka Baja WF 150 / Double Hollow + Tempered 12 mm",
-        "min": 1800000,
-        "max": 2000000,
-        "target": 1900000,
+        "min": 4500000,
+        "max": 5000000,
+        "target": 4750000,
         "unit": "m²"
       },
       "stainless_tempered": {
         "name": "Rangka Stainless Steel SUS304 + Tempered 10/12 mm",
-        "min": 2600000,
-        "max": 3400000,
-        "target": 2950000,
+        "min": 6500000,
+        "max": 8500000,
+        "target": 7375000,
         "unit": "m²"
       },
       "laminated_canopy": {
         "name": "Struktur Rangka + Tempered Laminated 5+5 mm PVB",
-        "min": 2200000,
-        "max": 2800000,
-        "target": 2450000,
+        "min": 5500000,
+        "max": 7000000,
+        "target": 6125000,
         "unit": "m²"
       }
     },
     "RAILING_PRICE_RANGES": {
       "uchannel_ss304": {
-        "name": "Sistem U-Channel Base Tanam + Tempered 12 mm (Target TEST 2)",
-        "min": 2200000,
-        "max": 2500000,
-        "target": 2400000,
+        "name": "Sistem U-Channel Base Tanam + Tempered 12 mm",
+        "min": 5500000,
+        "max": 6250000,
+        "target": 6000000,
         "unit": "m1"
       },
       "spigot_ss304": {
         "name": "Sistem Spigot Clamp Solid SUS304 + Tempered 12 mm",
-        "min": 2500000,
-        "max": 3000000,
-        "target": 2750000,
+        "min": 6250000,
+        "max": 7500000,
+        "target": 6875000,
         "unit": "m1"
       },
       "handrail_ss304": {
         "name": "Tiang Baluster + Handrail SUS304 + Tempered 10 mm",
-        "min": 2400000,
-        "max": 2900000,
-        "target": 2650000,
+        "min": 6000000,
+        "max": 7250000,
+        "target": 6625000,
         "unit": "m1"
       },
       "railing_tangga": {
         "name": "Railing Tangga Custom Void + Tempered 10/12 mm",
-        "min": 2500000,
-        "max": 3000000,
-        "target": 2750000,
+        "min": 6250000,
+        "max": 7500000,
+        "target": 6875000,
         "unit": "m1"
       }
     },
     "PARTISI_PRICE_RANGES": {
       "standard": {
         "name": "Standard SNI 3 Inch (Dacon/Inkalum + Kaca 5 mm)",
-        "min": 850000,
-        "max": 1050000,
-        "target": 950000,
+        "min": 2125000,
+        "max": 2625000,
+        "target": 2375000,
         "unit": "m²"
       },
       "premium": {
         "name": "Premium Grade 4 Inch (Alexindo/Forta + Kaca 6/8 mm)",
-        "min": 1100000,
-        "max": 1350000,
-        "target": 1250000,
+        "min": 2750000,
+        "max": 3375000,
+        "target": 3125000,
         "unit": "m²"
       }
     },
     "JENDELA_PRICE_RANGES": {
       "standard": {
         "name": "Standard SNI (Casement 3\" + Kaca 5 mm)",
-        "min": 850000,
-        "max": 1050000,
-        "target": 950000,
+        "min": 2125000,
+        "max": 2625000,
+        "target": 2375000,
         "unit": "m²"
       },
       "premium": {
         "name": "Premium Grade (Casement 4\" Alexindo + Kaca Panasap/Dekkson)",
-        "min": 1100000,
-        "max": 1400000,
-        "target": 1250000,
+        "min": 2750000,
+        "max": 3500000,
+        "target": 3125000,
         "unit": "m²"
       }
     },
     "PINTU_PRICE_RANGES": {
       "swing": {
         "name": "Pintu Aluminium Swing 1 Daun Modern Komplit",
-        "min": 2000000,
-        "max": 2800000,
-        "target": 2350000,
+        "min": 5000000,
+        "max": 7000000,
+        "target": 5875000,
         "unit": "unit"
       },
       "sliding": {
         "name": "Pintu Aluminium Sliding Geser (Silent Roller Rail)",
-        "min": 2500000,
-        "max": 3500000,
-        "target": 2850000,
+        "min": 6250000,
+        "max": 8750000,
+        "target": 7125000,
         "unit": "unit"
       },
       "folding": {
         "name": "Pintu Aluminium Folding / Lipat (per unit opening)",
-        "min": 3500000,
-        "max": 5000000,
-        "target": 4200000,
+        "min": 8750000,
+        "max": 12500000,
+        "target": 10500000,
         "unit": "unit"
       }
     },
     "SHOWER_PRICE_RANGES": {
       "framed": {
         "name": "Framed Shower Screen (Bingkai Aluminium Keliling)",
-        "min": 1500000,
-        "max": 2000000,
-        "target": 1750000,
+        "min": 3750000,
+        "max": 5000000,
+        "target": 4375000,
         "unit": "unit"
       },
       "semi_frameless": {
         "name": "Semi Frameless Shower Screen (U-Channel + Header Track)",
-        "min": 2000000,
-        "max": 2800000,
-        "target": 2350000,
+        "min": 5000000,
+        "max": 7000000,
+        "target": 5875000,
         "unit": "unit"
       },
       "frameless": {
         "name": "Full Frameless Shower Screen (Tempered 10 mm SUS304)",
-        "min": 2500000,
-        "max": 3500000,
-        "target": 2950000,
+        "min": 6250000,
+        "max": 8750000,
+        "target": 7375000,
         "unit": "unit"
       }
     },
     "KUSEN_PRICE_RANGES": {
       "standard": {
         "name": "Standard SNI 3 Inch (Dacon / Inkalum)",
-        "min": 85000,
-        "max": 110000,
-        "target": 100000,
+        "min": 212500,
+        "max": 275000,
+        "target": 250000,
         "unit": "m1"
       },
       "premium": {
         "name": "Premium Grade 4 Inch (Alexindo / Alcomexindo)",
-        "min": 135000,
-        "max": 165000,
-        "target": 150000,
+        "min": 337500,
+        "max": 412500,
+        "target": 375000,
         "unit": "m1"
       }
     },
     "PINTU_TEMPERED_PRICE_RANGES": {
       "single_10": {
         "name": "Single Leaf Tempered 10 mm + Mesin BTS 84",
-        "min": 3250000,
-        "max": 3850000,
-        "target": 3500000,
+        "min": 8125000,
+        "max": 9625000,
+        "target": 8750000,
         "unit": "unit"
       },
       "single_12": {
         "name": "Single Leaf Tempered 12 mm + Floor Hinge Dorma BTS 75V",
-        "min": 4200000,
-        "max": 5250000,
-        "target": 4650000,
+        "min": 10500000,
+        "max": 13125000,
+        "target": 11625000,
         "unit": "unit"
       },
       "double_12": {
         "name": "Double Leaf (Kupu Tarung) Tempered 12 mm + Dorma",
-        "min": 7800000,
-        "max": 9400000,
-        "target": 8500000,
+        "min": 19500000,
+        "max": 23500000,
+        "target": 21250000,
         "unit": "unit"
       }
     },
     "BIFOLD_PRICE_RANGES": {
       "standard": {
         "name": "Bifold Standard Track (Inkalum 1.1 mm)",
-        "min": 2800000,
-        "max": 3500000,
-        "target": 3150000,
+        "min": 7000000,
+        "max": 8750000,
+        "target": 7875000,
         "unit": "daun"
       },
       "premium": {
         "name": "Bifold Heavy-Duty Panoramic (Alexindo 1.3 mm / 250 kg)",
-        "min": 3500000,
-        "max": 4800000,
-        "target": 4100000,
+        "min": 8750000,
+        "max": 12000000,
+        "target": 10250000,
         "unit": "daun"
       }
     },
     "ETALASE_PRICE_RANGES": {
       "standard": {
         "name": "Etalase Counter Toko Standar 1.5 Meter",
-        "min": 1200000,
-        "max": 1650000,
-        "target": 1450000,
+        "min": 3000000,
+        "max": 4125000,
+        "target": 3625000,
         "unit": "unit"
       },
       "premium": {
         "name": "Display Showcase Premium Full Kaca Tempered + LED",
-        "min": 2000000,
-        "max": 3500000,
-        "target": 2750000,
+        "min": 5000000,
+        "max": 8750000,
+        "target": 6875000,
         "unit": "unit"
       }
     },
     "ACP_PRICE_RANGES": {
       "interior_pe": {
         "name": "ACP Interior PE 0.21 mm (Seven / Marks)",
-        "min": 650000,
-        "max": 850000,
-        "target": 750000,
+        "min": 1625000,
+        "max": 2125000,
+        "target": 1875000,
         "unit": "m²"
       },
       "exterior_pvdf": {
         "name": "ACP Eksterior PVDF 0.30 mm SNI Tahan Cuaca",
-        "min": 850000,
-        "max": 1150000,
-        "target": 950000,
+        "min": 2125000,
+        "max": 2875000,
+        "target": 2375000,
         "unit": "m²"
       },
       "heavy_duty_pvdf": {
         "name": "ACP Heavy-Duty PVDF 0.50 mm (Gedung & High-Rise)",
-        "min": 1250000,
-        "max": 1650000,
-        "target": 1450000,
+        "min": 3125000,
+        "max": 4125000,
+        "target": 3625000,
         "unit": "m²"
       }
     },
     "CURTAIN_WALL_PRICE_RANGES": {
       "stick_panasap": {
         "name": "Stick System Back Mullion + Panasap 6 mm Tinted",
-        "min": 1600000,
-        "max": 1900000,
-        "target": 1750000,
+        "min": 4000000,
+        "max": 4750000,
+        "target": 4375000,
         "unit": "m²"
       },
       "stick_tempered8": {
         "name": "Stick System + Tempered Reflective / Stopsol 8 mm",
-        "min": 1850000,
-        "max": 2450000,
-        "target": 2150000,
+        "min": 4625000,
+        "max": 6125000,
+        "target": 5375000,
         "unit": "m²"
       },
       "semi_unitized": {
         "name": "Semi-Unitized High-Rise + Low-E 10 mm Tempered",
-        "min": 2500000,
-        "max": 3250000,
-        "target": 2850000,
+        "min": 6250000,
+        "max": 8125000,
+        "target": 7125000,
         "unit": "m²"
       }
     },
     "REGIONAL_TRANSPORT_ESTIMATES": {
       "karawang": {
         "name": "Karawang (Basis Workshop: Klari, Telukjambe, KIIC)",
-        "min": 300000,
-        "max": 500000,
-        "default": 400000
+        "min": 750000,
+        "max": 1250000,
+        "default": 1000000
       },
       "cikampek": {
         "name": "Cikampek & Jatisari (Karawang Timur)",
-        "min": 400000,
-        "max": 600000,
-        "default": 500000
+        "min": 1000000,
+        "max": 1500000,
+        "default": 1250000
       },
       "cikarang": {
         "name": "Cikarang (Lippo, Jababeka, Delta Mas, MM2100)",
-        "min": 500000,
-        "max": 750000,
-        "default": 600000
+        "min": 1250000,
+        "max": 1875000,
+        "default": 1500000
       },
       "bekasi": {
         "name": "Bekasi (Kota & Kabupaten, Tambun, Cibitung)",
-        "min": 700000,
-        "max": 1000000,
-        "default": 850000
+        "min": 1750000,
+        "max": 2500000,
+        "default": 2125000
       },
       "jakarta": {
         "name": "DKI Jakarta (Pusat, Selatan, Timur, Barat, Utara)",
-        "min": 900000,
-        "max": 1500000,
-        "default": 1200000
+        "min": 2250000,
+        "max": 3750000,
+        "default": 3000000
       },
       "depok_tangerang": {
         "name": "Depok, Tangerang & Tangerang Selatan",
-        "min": 1000000,
-        "max": 1800000,
-        "default": 1350000
+        "min": 2500000,
+        "max": 4500000,
+        "default": 3375000
       },
       "bogor": {
         "name": "Bogor (Kota & Kabupaten)",
-        "min": 1000000,
-        "max": 1800000,
-        "default": 1350000
+        "min": 2500000,
+        "max": 4500000,
+        "default": 3375000
       }
     },
     "WASTE_FACTORS": {
@@ -9398,45 +11318,45 @@ const PRICING_CONFIG = {
     "transport": {
       "karawang": {
         "name": "Karawang (Basis Workshop: Klari, Telukjambe, KIIC)",
-        "min": 300000,
-        "max": 500000,
-        "default": 400000
+        "min": 750000,
+        "max": 1250000,
+        "default": 1000000
       },
       "cikampek": {
         "name": "Cikampek & Jatisari (Karawang Timur)",
-        "min": 400000,
-        "max": 600000,
-        "default": 500000
+        "min": 1000000,
+        "max": 1500000,
+        "default": 1250000
       },
       "cikarang": {
         "name": "Cikarang (Lippo, Jababeka, Delta Mas, MM2100)",
-        "min": 500000,
-        "max": 750000,
-        "default": 600000
+        "min": 1250000,
+        "max": 1875000,
+        "default": 1500000
       },
       "bekasi": {
         "name": "Bekasi (Kota & Kabupaten, Tambun, Cibitung)",
-        "min": 700000,
-        "max": 1000000,
-        "default": 850000
+        "min": 1750000,
+        "max": 2500000,
+        "default": 2125000
       },
       "jakarta": {
         "name": "DKI Jakarta (Pusat, Selatan, Timur, Barat, Utara)",
-        "min": 900000,
-        "max": 1500000,
-        "default": 1200000
+        "min": 2250000,
+        "max": 3750000,
+        "default": 3000000
       },
       "depok_tangerang": {
         "name": "Depok, Tangerang & Tangerang Selatan",
-        "min": 1000000,
-        "max": 1800000,
-        "default": 1350000
+        "min": 2500000,
+        "max": 4500000,
+        "default": 3375000
       },
       "bogor": {
         "name": "Bogor (Kota & Kabupaten)",
-        "min": 1000000,
-        "max": 1800000,
-        "default": 1350000
+        "min": 2500000,
+        "max": 4500000,
+        "default": 3375000
       }
     },
     "wasteFactors": {
@@ -9451,6 +11371,101 @@ window.PRICING_CONFIG = PRICING_CONFIG;
 const SERVICE_CATALOG = PRICING_CONFIG.services;
 
 (function initCostCalculatorWidget() {
+  const ALIAS_MAP = {
+    'railing': 'railing',
+    'railing-kaca': 'railing',
+    'railing-tangga': 'railing',
+    'railing-balkon': 'railing',
+    'glass-railing': 'railing',
+    'railing-kaca-tempered': 'railing',
+    'railing-stainless': 'railing',
+    'railing_kaca': 'railing',
+    'railing_tangga': 'railing',
+
+    'kanopi': 'kanopi',
+    'kanopi-kaca': 'kanopi',
+    'kanopi-kaca-tempered': 'kanopi',
+    'glass-canopy': 'kanopi',
+    'canopy': 'kanopi',
+    'kanopi_kaca': 'kanopi',
+
+    'kusen': 'kusen',
+    'kusen-aluminium': 'kusen',
+    'aluminium-profile': 'kusen',
+    'kusen_aluminium': 'kusen',
+
+    'pintu': 'pintu',
+    'pintu-aluminium': 'pintu',
+    'aluminium-door': 'pintu',
+    'pintu_aluminium': 'pintu',
+
+    'jendela': 'jendela',
+    'jendela-aluminium': 'jendela',
+    'aluminium-window': 'jendela',
+    'jendela_aluminium': 'jendela',
+    'jendela-casement': 'jendela',
+    'jendela-sliding': 'jendela',
+
+    'pintu-tempered': 'pintu_tempered',
+    'pintu_tempered': 'pintu_tempered',
+    'tempered-door': 'pintu_tempered',
+    'pintu-kaca': 'pintu_tempered',
+    'pintu-kaca-tempered': 'pintu_tempered',
+    'pintu_kaca_tempered': 'pintu_tempered',
+    'pintu-frameless': 'pintu_tempered',
+
+    'partisi': 'partisi',
+    'partisi-kaca': 'partisi',
+    'partisi-kaca-aluminium': 'partisi',
+    'aluminium-partition': 'partisi',
+    'partisi_kaca': 'partisi',
+
+    'shower': 'shower',
+    'shower-kaca': 'shower',
+    'shower-glass': 'shower',
+    'shower-screen': 'shower',
+    'shower_kaca': 'shower',
+
+    'bifold': 'bifold',
+    'pintu-lipat': 'bifold',
+    'pintu-bifold': 'bifold',
+    'aluminium-bifold': 'bifold',
+    'pintu_lipat': 'bifold',
+
+    'etalase': 'etalase',
+    'etalase-kaca': 'etalase',
+    'aluminium-showcase': 'etalase',
+    'etalase_kaca': 'etalase',
+
+    'acp': 'acp',
+    'fasad-acp': 'acp',
+    'acp-facade': 'acp',
+    'acp-aluminium': 'acp',
+    'fasad_acp': 'acp',
+
+    'curtain-wall': 'curtain_wall',
+    'curtain_wall': 'curtain_wall',
+    'curtainwall': 'curtain_wall',
+    'fasad-kaca': 'curtain_wall'
+  };
+
+  function resolveServiceKey(val) {
+    if (!val) return 'kusen';
+    const str = String(val).toLowerCase().trim();
+    if (SERVICE_CATALOG[str]) return str;
+    if (ALIAS_MAP[str]) return ALIAS_MAP[str];
+    const cleaned = str.replace(/[\s_]+/g, '-');
+    if (ALIAS_MAP[cleaned]) return ALIAS_MAP[cleaned];
+    const rawUnderscore = cleaned.replace(/-/g, '_');
+    if (SERVICE_CATALOG[rawUnderscore]) return rawUnderscore;
+    for (const [k, v] of Object.entries(SERVICE_CATALOG)) {
+      if (v.serviceId === str || v.serviceId === cleaned) return k;
+      if (v.serviceName && v.serviceName.toLowerCase().includes(cleaned)) return k;
+      if (v.label && v.label.toLowerCase().includes(cleaned)) return k;
+    }
+    return 'kusen';
+  }
+
   // State management per product
   let currentServiceKey = 'kusen';
   let currentOptionId = 'standard';
@@ -9461,7 +11476,8 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
 
   // Render option cards dynamically based on currentServiceKey
   function renderOptionCards(serviceKey) {
-    const config = SERVICE_CATALOG[serviceKey] || SERVICE_CATALOG.kusen;
+    const validKey = resolveServiceKey(serviceKey);
+    const config = SERVICE_CATALOG[validKey] || SERVICE_CATALOG.kusen;
     const container = document.getElementById('calcOptionsContainer') || document.getElementById('calcOptionsGrid');
     const labelStep2 = document.getElementById('calcStep2Label') || document.getElementById('step2LabelTitle');
     const guideText = document.getElementById('qualityGuideText');
@@ -9510,7 +11526,8 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
 
   // Update presets for current service
   function updatePresetsForService(serviceKey) {
-    const config = SERVICE_CATALOG[serviceKey] || SERVICE_CATALOG.kusen;
+    const validKey = resolveServiceKey(serviceKey);
+    const config = SERVICE_CATALOG[validKey] || SERVICE_CATALOG.kusen;
     const row = document.getElementById('qtyPresetRow');
     if (!row) return;
 
@@ -9528,7 +11545,11 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
     const regionSelect = document.getElementById('calcRegion');
     if (!serviceSelect || !qtyInput) return;
 
-    const serviceKey = serviceSelect.value || currentServiceKey;
+    const serviceKey = resolveServiceKey(serviceSelect ? serviceSelect.value : currentServiceKey);
+    currentServiceKey = serviceKey;
+    if (serviceSelect && serviceSelect.value !== serviceKey && serviceSelect.querySelector('option[value="' + serviceKey + '"]')) {
+      serviceSelect.value = serviceKey;
+    }
     const config = SERVICE_CATALOG[serviceKey] || SERVICE_CATALOG.kusen;
 
     let activeOption = config.options.find(o => o.id === currentOptionId);
@@ -9589,15 +11610,15 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
 
     if (estimateMain) estimateMain.textContent = `${formatIDRCurrency(effectiveMin)} – ${formatIDRCurrency(effectiveMax)}`;
     if (estimateSub) estimateSub.textContent = `Acuan tarif: ${activeOption.rate} × ${qty} ${config.unit}`;
-    if (summaryService) summaryService.textContent = config.label;
+    if (summaryService) summaryService.textContent = config.serviceName || config.label;
     if (summaryQualityLabel && config.summaryLabel) summaryQualityLabel.textContent = config.summaryLabel;
     if (summaryQuality) summaryQuality.textContent = `${activeOption.name} (${activeOption.badge})`;
-    if (summaryQty) summaryQty.textContent = `${qty} ${config.unitName}`;
+    if (summaryQty) summaryQty.textContent = `${qty} ${config.unitName || config.unit}`;
     if (summaryRate) summaryRate.textContent = activeOption.rate;
     if (summaryLeadTime) summaryLeadTime.textContent = activeOption.leadTime;
     if (summaryRegion) summaryRegion.textContent = transportConfig.name;
     if (qtyUnitSuffix) qtyUnitSuffix.textContent = config.unit;
-    if (qtyUnitBadge) qtyUnitBadge.textContent = `Satuan: ${config.unitName}`;
+    if (qtyUnitBadge) qtyUnitBadge.textContent = `Satuan: ${config.unitName || config.unit}`;
 
     // Detailed RAB Itemized Breakdown calculation:
     const ratios = activeOption.rabRatios || {
@@ -9635,9 +11656,9 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
     const rabDetailVolume = document.getElementById('rabDetailVolume');
     const rabDetailRegion = document.getElementById('rabDetailRegion');
 
-    if (rabDetailProduct) rabDetailProduct.textContent = config.label;
+    if (rabDetailProduct) rabDetailProduct.textContent = config.serviceName || config.label;
     if (rabDetailSpec) rabDetailSpec.textContent = `${activeOption.name} [${activeOption.badge}]`;
-    if (rabDetailVolume) rabDetailVolume.textContent = `${qty} ${config.unitName}`;
+    if (rabDetailVolume) rabDetailVolume.textContent = `${qty} ${config.unitName || config.unit}`;
     if (rabDetailRegion) rabDetailRegion.textContent = transportConfig.name;
 
     if (aluminiumEl) aluminiumEl.textContent = calcComp(ratios.struktur, effectiveMin, effectiveMax);
@@ -9666,19 +11687,20 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
     // Store state for consultation & actions
     window._lastRoughEstimate = {
       serviceKey: serviceKey,
-      service: config.label,
+      service: config.serviceName || config.label,
       category: config.category,
       priceModel: config.priceModel,
       optionId: activeOption.id,
       optionName: activeOption.name,
       badge: activeOption.badge,
       desc: activeOption.desc,
-      qty: `${qty} ${config.unitName}`,
+      qty: `${qty} ${config.unitName || config.unit}`,
       rate: activeOption.rate,
       estimateRange: `${formatIDRCurrency(effectiveMin)} – ${formatIDRCurrency(effectiveMax)}`,
       leadTime: activeOption.leadTime,
       formula: activeOption.formula,
-      regionName: transportConfig.name
+      regionName: transportConfig.name,
+      disclaimer: 'Harga indikatif / rough budget. Harga final menyesuaikan ukuran, desain, material, hardware, kondisi lokasi, tingkat kesulitan pemasangan, dan hasil survey.'
     };
 
     // Update Specification Comparison Table dynamically per service
@@ -9687,10 +11709,11 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
 
   // Update comparison table dynamically according to selected service
   function updateSpecComparisonTable(serviceKey) {
-    const config = SERVICE_CATALOG[serviceKey] || SERVICE_CATALOG.kusen;
+    const validKey = resolveServiceKey(serviceKey);
+    const config = SERVICE_CATALOG[validKey] || SERVICE_CATALOG.kusen;
     const badge = document.getElementById('specContextServiceBadge');
     if (badge) {
-      badge.textContent = config.label;
+      badge.textContent = config.serviceName || config.label;
     }
 
     const table = document.getElementById('specComparisonTable');
@@ -9741,13 +11764,23 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
     const dynamicPremVal = document.getElementById('specDynamicPremVal');
 
     if (dynamicFeatureName) {
-      dynamicFeatureName.textContent = `Sistem & Material: ${config.label}`;
+      dynamicFeatureName.textContent = `Sistem & Material: ${config.serviceName || config.label}`;
     }
     if (dynamicStdVal && optA) {
       dynamicStdVal.innerHTML = `<strong>${optA.name}</strong><div class="spec-note">${optA.desc}</div>`;
     }
     if (dynamicPremVal && optB) {
       dynamicPremVal.innerHTML = `<strong>${optB.name}</strong><div class="spec-note">${optB.desc}</div>`;
+    }
+
+    // Avoid displaying Kusen-specific technical rows for non-kusen services
+    const tbody = table.querySelector('tbody');
+    if (tbody) {
+      const rows = tbody.querySelectorAll('tr');
+      const isKusen = validKey === 'kusen';
+      for (let i = 1; i < rows.length; i++) {
+        rows[i].style.display = isKusen ? '' : 'none';
+      }
     }
   }
 
@@ -9864,7 +11897,7 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
       noteText = `Total Panjang: ${computedQty} m1 (${units} opening)`;
     } else {
       computedQty = units;
-      noteText = `Total Unit: ${computedQty} ${config.unitName}`;
+      noteText = `Total Unit: ${computedQty} ${config.unitName || config.unit}`;
     }
 
     if (computedQty < 1 && (config.unit === 'unit' || config.unit === 'daun')) computedQty = 1;
@@ -9899,6 +11932,7 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
       `💰 *Rough Budget Estimate:* ${data.estimateRange}\n` +
       `📍 *Wilayah Proyek:* ${data.regionName || 'Karawang'}\n` +
       `⏱️ *Estimasi Waktu:* ${data.leadTime}\n\n` +
+      `💡 *Catatan:* ${data.disclaimer}\n\n` +
       `Mohon info ketersediaan jadwal survey gratis ke lokasi saya untuk pengecekan dan pengukuran laser presisi. Terima kasih!`;
 
     const encodedMsg = encodeURIComponent(message);
@@ -9939,7 +11973,7 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
       `• Formula RAB: ${data.formula}\n` +
       `• Biaya Survey Lokasi: Rp 0 (100% GRATIS se-Karawang & Bekasi)\n` +
       `──────────────────────────────────────────────\n` +
-      `*Catatan: Estimasi ini adalah acuan transparan. Rincian RAB resmi final diterbitkan setelah survey & ukur laser digital di lokasi. Hubungi WA 0896-3737-1166.`;
+      `*Catatan: ${data.disclaimer}`;
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(() => {
@@ -10018,7 +12052,7 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
         <div class="total-box">
           <div class="total-label">Perkiraan Estimasi Anggaran Proyek:</div>
           <div class="total-val">${data.estimateRange}</div>
-          <div style="font-size:12px;color:#0f766e;margin-top:6px;">*Acuan kasar transparan. Rincian final disesuaikan hasil ukur laser digital di lokasi proyek.</div>
+          <div style="font-size:12px;color:#0f766e;margin-top:6px;">*${data.disclaimer}</div>
         </div>
         <div class="footer">
           <div>Dokumen rincian estimasi resmi web: https://sahabat-aluminium.my.id</div>
@@ -10038,98 +12072,75 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
     const qtyInput = document.getElementById('calcQuantityInput');
     const regionSelect = document.getElementById('calcRegion');
 
-    if (serviceSelect) {
+    if (serviceSelect && !serviceSelect._hasListener) {
+      serviceSelect._hasListener = true;
       serviceSelect.addEventListener('change', () => {
-        const newServiceKey = serviceSelect.value || 'kusen';
-        if (newServiceKey !== currentServiceKey) {
-          currentServiceKey = newServiceKey;
-          const config = SERVICE_CATALOG[currentServiceKey] || SERVICE_CATALOG.kusen;
-          
-          // Complete state reset when service changes:
-          currentOptionId = config.options[0].id;
-          if (qtyInput) {
-            qtyInput.value = config.defaultQty;
-          }
-
-          updatePresetsForService(currentServiceKey);
-          renderOptionCards(currentServiceKey);
-          updateRoughEstimate();
+        const newKey = resolveServiceKey(serviceSelect.value);
+        currentServiceKey = newKey;
+        serviceSelect.value = newKey;
+        const config = SERVICE_CATALOG[currentServiceKey] || SERVICE_CATALOG.kusen;
+        currentOptionId = config.options[0].id;
+        if (qtyInput) {
+          qtyInput.value = config.defaultQty || 1;
         }
+        updatePresetsForService(currentServiceKey);
+        renderOptionCards(currentServiceKey);
+        updateRoughEstimate();
       });
     }
 
-    if (qtyInput) {
+    if (qtyInput && !qtyInput._hasListener) {
+      qtyInput._hasListener = true;
       qtyInput.addEventListener('input', updateRoughEstimate);
       qtyInput.addEventListener('change', updateRoughEstimate);
     }
 
-    if (regionSelect) {
+    if (regionSelect && !regionSelect._hasListener) {
+      regionSelect._hasListener = true;
       regionSelect.addEventListener('change', updateRoughEstimate);
     }
 
-    // Initial render
-    if (serviceSelect) {
-      // Check URL query parameters or hash for pre-selected service
-      try {
-        const urlParams = new URLSearchParams(window.location.search);
-        let sParam = urlParams.get('service') || urlParams.get('calc') || urlParams.get('id');
+    // Initial render & pre-selection detection
+    let sParam = null;
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      sParam = urlParams.get('service') || urlParams.get('calc') || urlParams.get('id') || urlParams.get('layanan');
 
-        if (!sParam && window.location.hash.includes('service=')) {
-          const hashPart = window.location.hash.split('?')[1] || window.location.hash.split('&')[1];
-          if (hashPart) {
-            const hashParams = new URLSearchParams(hashPart);
-            sParam = hashParams.get('service');
-          }
+      if (!sParam && window.location.hash.includes('service=')) {
+        const hashPart = window.location.hash.split('?')[1] || window.location.hash.split('&')[1];
+        if (hashPart) {
+          const hashParams = new URLSearchParams(hashPart);
+          sParam = hashParams.get('service');
         }
-
-        const canonicalMap = {
-          'glass-canopy': 'kanopi',
-          'kanopi': 'kanopi',
-          'glass-railing': 'railing',
-          'railing': 'railing',
-          'aluminium-partition': 'partisi',
-          'partisi': 'partisi',
-          'aluminium-window': 'jendela',
-          'jendela': 'jendela',
-          'aluminium-door': 'pintu',
-          'pintu': 'pintu',
-          'shower-glass': 'shower',
-          'shower': 'shower',
-          'aluminium-profile': 'kusen',
-          'kusen': 'kusen',
-          'tempered-door': 'pintu_tempered',
-          'pintu_tempered': 'pintu_tempered',
-          'aluminium-bifold': 'bifold',
-          'bifold': 'bifold',
-          'aluminium-showcase': 'etalase',
-          'etalase': 'etalase',
-          'acp-facade': 'acp',
-          'acp': 'acp',
-          'curtain-wall': 'curtain_wall',
-          'curtain_wall': 'curtain_wall'
-        };
-
-        if (sParam && canonicalMap[sParam]) {
-          const targetKey = canonicalMap[sParam];
-          serviceSelect.value = targetKey;
-          currentServiceKey = targetKey;
-          setTimeout(() => {
-            const calcSection = document.getElementById('kalkulator-biaya');
-            if (calcSection) {
-              calcSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-          }, 300);
-        } else {
-          currentServiceKey = serviceSelect.value || 'kusen';
-        }
-      } catch (e) {
-        currentServiceKey = serviceSelect.value || 'kusen';
       }
+
+      if (!sParam && typeof sessionStorage !== 'undefined') {
+        sParam = sessionStorage.getItem('ska_rab_preselect');
+        sessionStorage.removeItem('ska_rab_preselect');
+      }
+    } catch (e) {}
+
+    if (sParam) {
+      currentServiceKey = resolveServiceKey(sParam);
+      if (serviceSelect) {
+        serviceSelect.value = currentServiceKey;
+      }
+      setTimeout(() => {
+        const calcSection = document.getElementById('kalkulator-biaya');
+        if (calcSection) {
+          calcSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 300);
+    } else if (serviceSelect && serviceSelect.value) {
+      currentServiceKey = resolveServiceKey(serviceSelect.value);
+    } else {
+      currentServiceKey = 'kusen';
     }
+
     const initConfig = SERVICE_CATALOG[currentServiceKey] || SERVICE_CATALOG.kusen;
     currentOptionId = initConfig.options[0].id;
     if (qtyInput) {
-      qtyInput.value = initConfig.defaultQty;
+      qtyInput.value = initConfig.defaultQty || 1;
     }
 
     updatePresetsForService(currentServiceKey);
@@ -10137,6 +12148,9 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
     updateRoughEstimate();
   }
 
+  window.updateRoughEstimate = updateRoughEstimate;
+  window.updateCalcEstimate = updateRoughEstimate;
+  window.resolveServiceKey = resolveServiceKey;
   window.initCostCalculator = setupEventListeners;
 
   // Bind on DOMContentLoaded or immediately if already loaded

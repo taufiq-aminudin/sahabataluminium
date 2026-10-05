@@ -11534,14 +11534,14 @@ footer .footer-grid {
   box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
 }
 
-/* Material Quality Radio Cards */
+/* Material / System Option Radio Cards */
 .quality-options-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 12px;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 580px) {
   .quality-options-grid {
     grid-template-columns: 1fr;
   }

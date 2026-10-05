@@ -6635,8 +6635,8 @@ const PRICING_CONFIG = {
 };
 
 // Expose globally for API, test suites, and client access:
-window.PRICING_CONFIG = PRICING_CONFIG;
-const SERVICE_CATALOG = PRICING_CONFIG.services;
+window.PRICING_CONFIG = window.PRICING_CONFIG || (window.pricingConfig ? { benchmarks: window.pricingConfig.constants, services: window.pricingConfig.services } : PRICING_CONFIG);
+const SERVICE_CATALOG = (window.pricingConfig && window.pricingConfig.services) || PRICING_CONFIG.services;
 
 (function initCostCalculatorWidget() {
   // State management per product

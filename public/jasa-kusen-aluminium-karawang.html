@@ -755,11 +755,11 @@
                     <span>Merek & Ketebalan Profil Kusen</span>
                   </div>
                   <select id="selectMaterial" class="calc-select-control" onchange="updateCalculation()">
-                    <option value="dacon_3" data-min="85000" data-max="105000" data-name="Dacon / Inkalum 3 Inch (3 x 7 cm)">Dacon / Inkalum 3 Inch (Rp 85.000 - Rp 105.000/m1)</option>
-                    <option value="dacon_4" data-min="105000" data-max="130000" data-name="Dacon / Inkalum 4 Inch (4 x 10 cm)">Dacon / Inkalum 4 Inch (Rp 105.000 - Rp 130.000/m1)</option>
-                    <option value="alexindo_3" data-min="115000" data-max="140000" data-name="Alexindo SNI 3 Inch (Tebal 1.0-1.1 mm)" selected>Alexindo SNI 3 Inch — Tebal Standar Proyek (Rp 115.000 - Rp 140.000/m1)</option>
-                    <option value="alexindo_4" data-min="135000" data-max="175000" data-name="Alexindo SNI 4 Inch (Tebal 1.1-1.2 mm)">Alexindo SNI 4 Inch — Heavy Duty Kokoh (Rp 135.000 - Rp 175.000/m1)</option>
-                    <option value="wood_grain" data-min="165000" data-max="215000" data-name="Custom Powder Coating Urat Kayu (Luxury)">Powder Coating Urat Kayu Alami Premium (Rp 165.000 - Rp 215.000/m1)</option>
+                    <option value="dacon_3" data-min="90000" data-max="110000" data-name="Dacon / Inkalum 3 Inch (3 x 7 cm)">Dacon / Inkalum 3 Inch (Rp 90.000 - Rp 110.000/m1)</option>
+                    <option value="dacon_4" data-min="110000" data-max="135000" data-name="Dacon / Inkalum 4 Inch (4 x 10 cm)">Dacon / Inkalum 4 Inch (Rp 110.000 - Rp 135.000/m1)</option>
+                    <option value="alexindo_3" data-min="120000" data-max="145000" data-name="Alexindo SNI 3 Inch (Tebal 1.0-1.1 mm)" selected>Alexindo SNI 3 Inch — Tebal Standar Proyek (Rp 120.000 - Rp 145.000/m1)</option>
+                    <option value="alexindo_4" data-min="145000" data-max="185000" data-name="Alexindo SNI 4 Inch (Tebal 1.1-1.2 mm)">Alexindo SNI 4 Inch — Heavy Duty Kokoh (Rp 145.000 - Rp 185.000/m1)</option>
+                    <option value="wood_grain" data-min="175000" data-max="225000" data-name="Custom Powder Coating Urat Kayu (Luxury)">Powder Coating Urat Kayu Alami Premium (Rp 175.000 - Rp 225.000/m1)</option>
                   </select>
                 </div>
 
@@ -805,10 +805,13 @@
                   </div>
                   <select id="selectGlass" class="calc-select-control" onchange="updateCalculation()">
                     <option value="none" data-min="0" data-max="0" data-name="Hanya Rangka Kusen (Tanpa Kaca)">Hanya Rangka Kusen (Tanpa Daun Kaca) — Rp 0</option>
-                    <option value="clear_5mm" data-min="160000" data-max="195000" data-name="Kaca Bening Polos 5mm Asahimas">Kaca Bening Polos 5mm (+ Rp 160rb - Rp 195rb/m²)</option>
-                    <option value="rayban_5mm" data-min="180000" data-max="220000" data-name="Kaca Rayban Gelap 5mm">Kaca Rayban Gelap 5mm (+ Rp 180rb - Rp 220rb/m²)</option>
-                    <option value="tempered_5mm" data-min="320000" data-max="370000" data-name="Kaca Tempered Safety 5mm">Kaca Tempered 5mm Safety (+ Rp 320rb - Rp 370rb/m²)</option>
-                    <option value="tempered_8mm" data-min="430000" data-max="510000" data-name="Kaca Tempered Safety 8mm">Kaca Tempered 8mm (+ Rp 430rb - Rp 510rb/m²)</option>
+                    <option value="clear_5mm" data-min="175000" data-max="205000" data-name="Kaca Bening Polos 5mm Asahimas SNI">Kaca Bening Polos 5mm Asahimas (+ Rp 175rb - Rp 205rb/m²)</option>
+                    <option value="clear_6mm" data-min="225000" data-max="255000" data-name="Kaca Bening Polos 6mm Asahimas SNI">Kaca Bening Polos 6mm Asahimas (+ Rp 225rb - Rp 255rb/m²)</option>
+                    <option value="rayban_5mm" data-min="195000" data-max="230000" data-name="Kaca Rayban Gelap 5mm">Kaca Rayban Gelap 5mm (+ Rp 195rb - Rp 230rb/m²)</option>
+                    <option value="tempered_5mm" data-min="350000" data-max="420000" data-name="Kaca Tempered Safety 5mm">Kaca Tempered 5mm Safety (+ Rp 350rb - Rp 420rb/m²)</option>
+                    <option value="tempered_8mm" data-min="460000" data-max="540000" data-name="Kaca Tempered Safety 8mm">Kaca Tempered 8mm (+ Rp 460rb - Rp 540rb/m²)</option>
+                    <option value="tempered_10mm" data-min="550000" data-max="650000" data-name="Kaca Tempered Safety 10mm SNI">Kaca Tempered 10mm Safety (+ Rp 550rb - Rp 650rb/m²)</option>
+                    <option value="tempered_12mm" data-min="650000" data-max="760000" data-name="Kaca Tempered Safety 12mm Heavy Duty">Kaca Tempered 12mm Safety (+ Rp 650rb - Rp 760rb/m²)</option>
                   </select>
                 </div>
 
@@ -879,15 +882,63 @@
                     </div>
                   </div>
 
+                  <!-- RAB Component Breakdown Toggle -->
+                  <div style="margin:12px 0;">
+                    <button type="button" class="calc-copy-summary-btn" id="btnToggleKusenRab" onclick="toggleKusenRabBreakdown()" style="width:100%;margin:0;background:rgba(255,255,255,0.06);color:#ffd88a;border:1px dashed rgba(255,216,138,0.4);font-size:12px;padding:9px;">
+                      <span>📊 Rincian Komponen RAB (Analisa Biaya Transparan)</span>
+                      <span style="font-size:11px;">▼</span>
+                    </button>
+                  </div>
+
+                  <!-- Itemized RAB Breakdown Box -->
+                  <div id="boxKusenRabBreakdown" style="display:none;background:rgba(2,44,56,0.7);border:1px solid rgba(255,216,138,0.25);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:11.5px;color:#e2e8f0;line-height:1.6;">
+                    <div style="color:#ffd88a;font-weight:700;margin-bottom:6px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:4px;">
+                      TRANSPARANSI STRUKTUR HARGA KONTRAKTOR:
+                    </div>
+                    <div style="display:flex;justify-content:space-between;padding:2px 0;">
+                      <span>1. Material Profil Aluminium & Kaca (48%):</span>
+                      <strong id="rabKusenMaterial" style="color:#fff;">Rp 0</strong>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;padding:2px 0;">
+                      <span>2. Aksesoris, Spigot, Gasket & Sealant Dowsil (16%):</span>
+                      <strong id="rabKusenHardware" style="color:#fff;">Rp 0</strong>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;padding:2px 0;">
+                      <span>3. Upah Fabrikasi Miter 45° & Pasang Lapangan (16%):</span>
+                      <strong id="rabKusenLabor" style="color:#fff;">Rp 0</strong>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;padding:2px 0;">
+                      <span>4. Transportasi & Pengiriman Pickup Lokal (5%):</span>
+                      <strong id="rabKusenTransport" style="color:#fff;">Rp 0</strong>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;padding:2px 0;">
+                      <span>5. Biaya Operasional & Cutting Waste 10–12% (5%):</span>
+                      <strong id="rabKusenWaste" style="color:#fff;">Rp 0</strong>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;padding:2px 0;">
+                      <span>6. Margin Usaha & Garansi Sambungan (10%):</span>
+                      <strong id="rabKusenMargin" style="color:#fff;">Rp 0</strong>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;padding:3px 0;border-top:1px dashed rgba(255,255,255,0.15);margin-top:4px;color:#25d366;">
+                      <span>7. Survey Lokasi & Laser Measurement:</span>
+                      <strong>Rp 0 (100% GRATIS)</strong>
+                    </div>
+                  </div>
+
                   <!-- Direct WhatsApp Button -->
                   <button type="button" class="calc-btn-whatsapp" id="btnSendCalcWa" onclick="sendCalcToWhatsApp()">
                     <span>💬 Kirim Estimasi Ini ke WhatsApp</span>
                     <span>↗</span>
                   </button>
 
-                  <button type="button" class="calc-copy-summary-btn" onclick="copyCalcSummary()">
-                    📋 Salin Rincian Estimasi (Clipboard)
-                  </button>
+                  <div style="display:flex;gap:8px;margin-top:8px;">
+                    <button type="button" class="calc-copy-summary-btn" style="flex:1;" onclick="copyCalcSummary()">
+                      📋 Salin Rincian
+                    </button>
+                    <button type="button" class="calc-copy-summary-btn" style="flex:1;background:#072e3b;color:#5eead4;border-color:rgba(94,234,212,0.4);" onclick="window.openKusenQuotationModal()">
+                      🖨️ Buat PDF SPH
+                    </button>
+                  </div>
 
                   <div class="calc-toast" id="calcToast">
                     ✓ Rincian estimasi berhasil disalin ke clipboard!
@@ -918,31 +969,31 @@
                   <td><strong>Dacon / Inkalum</strong> (Ekonomis Berkualitas)</td>
                   <td>3 Inch (3 x 7 cm)</td>
                   <td>Silver Anodized, Cokelat, Hitam Doff</td>
-                  <td><strong>Rp 85.000 - Rp 105.000</strong></td>
+                  <td><strong>Rp 90.000 - Rp 110.000</strong></td>
                 </tr>
                 <tr>
                   <td><strong>Dacon / Inkalum</strong></td>
                   <td>4 Inch (4 x 10 cm)</td>
                   <td>Silver, Cokelat, Hitam Doff, Putih</td>
-                  <td><strong>Rp 105.000 - Rp 130.000</strong></td>
+                  <td><strong>Rp 110.000 - Rp 135.000</strong></td>
                 </tr>
                 <tr>
                   <td><strong>Alexindo SNI</strong> (Ketebalan 1.0 - 1.1 mm)</td>
                   <td>3 Inch (3 x 7 cm)</td>
                   <td>Hitam Doff, Putih Coating, Cokelat, Silver</td>
-                  <td><strong>Rp 115.000 - Rp 140.000</strong></td>
+                  <td><strong>Rp 120.000 - Rp 145.000</strong></td>
                 </tr>
                 <tr>
                   <td><strong>Alexindo SNI</strong> (Ketebalan 1.0 - 1.1 mm)</td>
                   <td>4 Inch (4 x 10 cm)</td>
                   <td>Hitam Doff, Putih Coating, Urat Kayu</td>
-                  <td><strong>Rp 135.000 - Rp 175.000</strong></td>
+                  <td><strong>Rp 145.000 - Rp 185.000</strong></td>
                 </tr>
                 <tr>
                   <td><strong>Custom Urat Kayu (Wood Grain)</strong></td>
                   <td>3 Inch / 4 Inch</td>
                   <td>Jati, Walnut, Oak Tekstur Alami</td>
-                  <td><strong>Hubungi WhatsApp</strong></td>
+                  <td><strong>Rp 175.000 - Rp 225.000</strong></td>
                 </tr>
               </tbody>
             </table>
@@ -1418,11 +1469,25 @@
         updateCalculation();
       };
 
+      // Toggle Kusen RAB Component Breakdown
+      window.toggleKusenRabBreakdown = function() {
+        const box = document.getElementById('boxKusenRabBreakdown');
+        const btn = document.getElementById('btnToggleKusenRab');
+        if (!box) return;
+        const isHidden = box.style.display === 'none' || !box.style.display;
+        box.style.display = isHidden ? 'block' : 'none';
+        if (btn) {
+          btn.innerHTML = isHidden
+            ? '<span>📊 Sembunyikan Rincian Analisa RAB</span> <span style="font-size:11px;">▲</span>'
+            : '<span>📊 Rincian Komponen RAB (Analisa Biaya Transparan)</span> <span style="font-size:11px;">▼</span>';
+        }
+      };
+
       // Main calculation engine
       window.updateCalculation = function() {
-        const wMeter = state.width / 100;
-        const hMeter = state.height / 100;
-        const qty = parseInt(document.getElementById('inputQty').value, 10) || 1;
+        const wMeter = Math.max(0.2, state.width / 100);
+        const hMeter = Math.max(0.2, state.height / 100);
+        const qty = Math.max(1, parseInt(document.getElementById('inputQty').value, 10) || 1);
         state.qty = qty;
         document.getElementById('lblQty').textContent = qty + ' Unit';
 
@@ -1442,14 +1507,14 @@
 
         // 2. Material Pricing
         const matSelect = document.getElementById('selectMaterial');
-        const selectedMatOpt = matSelect.options[matSelect.selectedIndex];
-        const matMinRate = parseFloat(selectedMatOpt.getAttribute('data-min')) || 85000;
-        const matMaxRate = parseFloat(selectedMatOpt.getAttribute('data-max')) || 105000;
+        const selectedMatOpt = matSelect.options[matSelect.selectedIndex] || matSelect.options[0];
+        const matMinRate = parseFloat(selectedMatOpt.getAttribute('data-min')) || 90000;
+        const matMaxRate = parseFloat(selectedMatOpt.getAttribute('data-max')) || 110000;
         const matName = selectedMatOpt.getAttribute('data-name') || 'Aluminium SNI';
 
         // 3. Glass Pricing
         const glassSelect = document.getElementById('selectGlass');
-        const selectedGlassOpt = glassSelect.options[glassSelect.selectedIndex];
+        const selectedGlassOpt = glassSelect.options[glassSelect.selectedIndex] || glassSelect.options[0];
         const glassMinRate = parseFloat(selectedGlassOpt.getAttribute('data-min')) || 0;
         const glassMaxRate = parseFloat(selectedGlassOpt.getAttribute('data-max')) || 0;
         const glassName = selectedGlassOpt.getAttribute('data-name') || 'Tanpa Kaca';
@@ -1467,6 +1532,40 @@
         const roundedTotalMax = Math.round(totalCostMax / 1000) * 1000;
         const roundedUnitMin = Math.round(costMinUnit / 1000) * 1000;
         const roundedUnitMax = Math.round(costMaxUnit / 1000) * 1000;
+
+        // Realistic itemized contractor RAB breakdown (48% Material, 16% Hardware, 16% Labor, 5% Transport, 5% Waste, 10% Margin)
+        const rabMatMin = Math.round((roundedTotalMin * 0.48) / 1000) * 1000;
+        const rabMatMax = Math.round((roundedTotalMax * 0.48) / 1000) * 1000;
+
+        const rabHdwMin = Math.round((roundedTotalMin * 0.16) / 1000) * 1000;
+        const rabHdwMax = Math.round((roundedTotalMax * 0.16) / 1000) * 1000;
+
+        const rabLaborMin = Math.round((roundedTotalMin * 0.16) / 1000) * 1000;
+        const rabLaborMax = Math.round((roundedTotalMax * 0.16) / 1000) * 1000;
+
+        const rabTransMin = Math.round((roundedTotalMin * 0.05) / 1000) * 1000;
+        const rabTransMax = Math.round((roundedTotalMax * 0.05) / 1000) * 1000;
+
+        const rabWasteMin = Math.round((roundedTotalMin * 0.05) / 1000) * 1000;
+        const rabWasteMax = Math.round((roundedTotalMax * 0.05) / 1000) * 1000;
+
+        const rabMarginMin = roundedTotalMin - (rabMatMin + rabHdwMin + rabLaborMin + rabTransMin + rabWasteMin);
+        const rabMarginMax = roundedTotalMax - (rabMatMax + rabHdwMax + rabLaborMax + rabTransMax + rabWasteMax);
+
+        // Update RAB Breakdown DOM
+        const elMat = document.getElementById('rabKusenMaterial');
+        const elHdw = document.getElementById('rabKusenHardware');
+        const elLab = document.getElementById('rabKusenLabor');
+        const elTra = document.getElementById('rabKusenTransport');
+        const elWst = document.getElementById('rabKusenWaste');
+        const elMrg = document.getElementById('rabKusenMargin');
+
+        if (elMat) elMat.textContent = `${formatIDR(rabMatMin)} - ${formatIDR(rabMatMax)}`;
+        if (elHdw) elHdw.textContent = `${formatIDR(rabHdwMin)} - ${formatIDR(rabHdwMax)}`;
+        if (elLab) elLab.textContent = `${formatIDR(rabLaborMin)} - ${formatIDR(rabLaborMax)}`;
+        if (elTra) elTra.textContent = `${formatIDR(rabTransMin)} - ${formatIDR(rabTransMax)}`;
+        if (elWst) elWst.textContent = `${formatIDR(rabWasteMin)} - ${formatIDR(rabWasteMax)}`;
+        if (elMrg) elMrg.textContent = `${formatIDR(rabMarginMin)} - ${formatIDR(rabMarginMax)}`;
 
         // 5. Update UI DOM Elements
         document.getElementById('resPriceRange').textContent = `${formatIDR(roundedTotalMin)} - ${formatIDR(roundedTotalMax)}`;
@@ -1496,7 +1595,13 @@
           color: state.color,
           glass: glassName,
           totalPriceRange: `${formatIDR(roundedTotalMin)} - ${formatIDR(roundedTotalMax)}`,
-          unitPriceRange: `${formatIDR(roundedUnitMin)} - ${formatIDR(roundedUnitMax)}`
+          unitPriceRange: `${formatIDR(roundedUnitMin)} - ${formatIDR(roundedUnitMax)}`,
+          rabMat: `${formatIDR(rabMatMin)} - ${formatIDR(rabMatMax)}`,
+          rabHdw: `${formatIDR(rabHdwMin)} - ${formatIDR(rabHdwMax)}`,
+          rabLab: `${formatIDR(rabLaborMin)} - ${formatIDR(rabLaborMax)}`,
+          rabTra: `${formatIDR(rabTransMin)} - ${formatIDR(rabTransMax)}`,
+          rabWst: `${formatIDR(rabWasteMin)} - ${formatIDR(rabWasteMax)}`,
+          rabMrg: `${formatIDR(rabMarginMin)} - ${formatIDR(rabMarginMax)}`
         };
       };
 
@@ -1584,12 +1689,30 @@
 • *Warna Profil:* ${d.color}
 • *Pengisi Kaca:* ${d.glass}
 ---------------------------------------
-• *Kisaran Biaya Estimasi:* ${d.totalPriceRange}
+• *Rincian Komponen RAB:*
+  - Material Profil & Kaca: ${d.rabMat}
+  - Aksesoris & Sealant: ${d.rabHdw}
+  - Upah Tukang & Pasang: ${d.rabLab}
+  - Transportasi Armada: ${d.rabTra}
+  - Operasional & Waste Potongan: ${d.rabWst}
+  - Margin & Garansi Kontraktor: ${d.rabMrg}
+---------------------------------------
+• *Kisaran Biaya Estimasi Total:* ${d.totalPriceRange}
 ---------------------------------------
 Halo Admin, saya ingin konfirmasi estimasi biaya di atas dan menjadwalkan *Survey Lokasi Gratis* ke tempat saya di wilayah Karawang / Cikarang / Cikampek / Cibitung / Tambun / Bekasi. Terima kasih!`;
 
         const waUrl = `https://wa.me/6289637371166?text=${encodeURIComponent(message)}`;
-        window.open(waUrl, '_blank');
+        if (typeof showWhatsAppPromptModal === 'function') {
+          showWhatsAppPromptModal({
+            title: 'Konsultasi Estimasi Kusen via WhatsApp',
+            subtitle: 'Format rincian kalkulasi kusen aluminium Anda telah siap:',
+            formattedMessage: message,
+            waUrl: waUrl,
+            localAppUrl: `whatsapp://send?phone=6289637371166&text=${encodeURIComponent(message)}`
+          });
+        } else {
+          window.open(waUrl, '_blank');
+        }
       };
 
       // Copy Summary to Clipboard
@@ -1605,18 +1728,32 @@ Halo Admin, saya ingin konfirmasi estimasi biaya di atas dan menjadwalkan *Surve
 - Profil Material: ${d.material}
 - Warna: ${d.color}
 - Kaca: ${d.glass}
-- Kisaran Biaya: ${d.totalPriceRange}
+- Rincian Komponen RAB:
+  * Material: ${d.rabMat}
+  * Aksesoris/Sealant: ${d.rabHdw}
+  * Upah Pasang: ${d.rabLab}
+  * Transport: ${d.rabTra}
+  * Margin & Garansi: ${d.rabMrg}
+- Total Estimasi Biaya: ${d.totalPriceRange}
 Free Survey Karawang, Cikarang, Cikampek, Cibitung, Tambun & Bekasi: WhatsApp 0896-3737-1166 (https://sahabat-aluminium.my.id)`;
 
-        navigator.clipboard.writeText(summary).then(() => {
+        const triggerToast = () => {
           const toast = document.getElementById('calcToast');
           if (toast) {
             toast.style.display = 'block';
             setTimeout(() => { toast.style.display = 'none'; }, 3500);
           }
-        }).catch(err => {
-          alert('Ringkasan disalin: ' + summary);
-        });
+        };
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(summary).then(() => {
+            triggerToast();
+          }).catch(() => {
+            triggerToast();
+          });
+        } else {
+          triggerToast();
+        }
       };
 
       // Run calculation on load

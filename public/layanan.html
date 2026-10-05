@@ -552,62 +552,62 @@
               </select>
             </div>
 
-            <!-- Step 2: Material Quality Tier (Standard vs Premium) -->
+            <!-- Step 2: Spesifikasi / Sistem Produk (Dinamis Sesuai Layanan) -->
             <div class="cost-calc-group">
               <div class="cost-calc-label">
-                <span>2. Pilih Kualitas Material</span>
-                <span id="qualityGuideText" style="color:#64748b;font-size:12px;font-weight:600;">Standard (Ekonomis) vs Premium (Luxury)</span>
+                <span id="calcStep2Label">2. Pilih Grade Profil Aluminium</span>
+                <span id="qualityGuideText" style="color:#0d9488;font-size:12px;font-weight:700;">Standar SNI 3" vs Alexindo Heavy 4"</span>
               </div>
               
-              <div class="quality-options-grid" role="radiogroup" aria-label="Pilih Kualitas Material">
+              <div class="quality-options-grid" id="calcOptionsContainer" role="radiogroup" aria-label="Pilih Spesifikasi Layanan">
                 
                 <!-- Option Standard -->
                 <div 
                   class="quality-option-card active" 
-                  id="cardQualityStandard" 
+                  id="cardOption_standard" 
                   role="radio" 
                   aria-checked="true" 
                   tabindex="0" 
-                  onclick="window.setCalcQuality('standard')"
-                  onkeydown="if(event.key==='Enter'||event.key===' '){ window.setCalcQuality('standard'); event.preventDefault(); }"
+                  onclick="window.selectCalcOption('standard')"
+                  onkeydown="if(event.key==='Enter'||event.key===' '){ window.selectCalcOption('standard'); event.preventDefault(); }"
                 >
                   <div class="quality-card-head">
                     <div style="display:flex;align-items:center;">
                       <span class="quality-radio-circle" aria-hidden="true"></span>
-                      <span class="quality-title">Standard SNI</span>
+                      <span class="quality-title">Standard SNI 3 Inch</span>
                     </div>
-                    <span class="quality-badge">Hemat Budget</span>
+                    <span class="quality-badge">Dacon / Inkalum</span>
                   </div>
-                  <div class="quality-desc" id="stdQualityDesc">
-                    Profil Dacon / Inkalum 3", Kaca Clear 5mm SNI, seal karet kedap & aksesoris awet standar hunian.
+                  <div class="quality-desc">
+                    Profil tebal 0.9–1.0mm, finishing anodize/powder coating standar, seal karet EPDM kedap udara.
                   </div>
                   <div>
-                    <span class="quality-rate-pill" id="stdQualityRate">Rp 85.000 – Rp 110.000 / m1</span>
+                    <span class="quality-rate-pill">Rp 85.000 – Rp 110.000 / m1</span>
                   </div>
                 </div>
 
                 <!-- Option Premium -->
                 <div 
                   class="quality-option-card" 
-                  id="cardQualityPremium" 
+                  id="cardOption_premium" 
                   role="radio" 
                   aria-checked="false" 
                   tabindex="0" 
-                  onclick="window.setCalcQuality('premium')"
-                  onkeydown="if(event.key==='Enter'||event.key===' '){ window.setCalcQuality('premium'); event.preventDefault(); }"
+                  onclick="window.selectCalcOption('premium')"
+                  onkeydown="if(event.key==='Enter'||event.key===' '){ window.selectCalcOption('premium'); event.preventDefault(); }"
                 >
                   <div class="quality-card-head">
                     <div style="display:flex;align-items:center;">
                       <span class="quality-radio-circle" aria-hidden="true"></span>
-                      <span class="quality-title">Premium Grade</span>
+                      <span class="quality-title">Premium Grade 4 Inch</span>
                     </div>
-                    <span class="quality-badge">Heavy Duty</span>
+                    <span class="quality-badge">Alexindo / Alcomex</span>
                   </div>
-                  <div class="quality-desc" id="premQualityDesc">
-                    Profil Alexindo / Alcomexindo 4", Kaca Riben / Panasap / Moru, EPDM weatherseal & finish powder coating tahan cuaca.
+                  <div class="quality-desc">
+                    Profil heavy-duty tebal 1.1–1.3mm, kekakuan tinggi untuk bentangan lebar, powder coating anti pudar.
                   </div>
                   <div>
-                    <span class="quality-rate-pill" id="premQualityRate">Rp 135.000 – Rp 165.000 / m1</span>
+                    <span class="quality-rate-pill">Rp 135.000 – Rp 175.000 / m1</span>
                   </div>
                 </div>
 
@@ -659,7 +659,7 @@
                   <span class="result-spec-val" id="calcSummaryService">Kusen Aluminium (Profil 3" / 4")</span>
                 </div>
                 <div class="result-spec-row">
-                  <span class="result-spec-label">Mutu & Spek:</span>
+                  <span class="result-spec-label" id="calcSummaryQualityLabel">Sistem / Spek:</span>
                   <span class="result-spec-val" id="calcSummaryQuality">Standard SNI (Dacon / Inkalum 0.9–1.0mm 3")</span>
                 </div>
                 <div class="result-spec-row">

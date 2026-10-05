@@ -976,65 +976,93 @@
               </select>
             </div>
 
-            <!-- Step 2: Material Quality Tier (Standard vs Premium) -->
+            <!-- Step 1b: Region / Wilayah Proyek (Transport & Survey Policy) -->
+            <div class="cost-calc-group">
+              <label for="calcRegion" class="cost-calc-label">
+                <span>1b. Wilayah Lokasi Proyek (Transport & Survey)</span>
+                <span id="regionTransportBadge" style="color:#0d9488;font-size:12px;font-weight:700;">Karawang (Basis Workshop)</span>
+              </label>
+              <select id="calcRegion" class="cost-calc-select" aria-label="Pilih Wilayah Proyek" onchange="window.updateCalcRegion()">
+                <option value="karawang" selected>Karawang (Workshop Utama: Klari, Telukjambe, Kosambi, Galuh Mas, KIIC)</option>
+                <option value="cikampek">Cikampek & Jatisari (Karawang Timur)</option>
+                <option value="cikarang">Cikarang (Lippo, Jababeka, Delta Mas, MM2100)</option>
+                <option value="bekasi">Bekasi (Kota & Kabupaten, Tambun, Cibitung)</option>
+                <option value="jakarta">DKI Jakarta (Pusat, Selatan, Timur, Barat, Utara)</option>
+                <option value="depok_tangerang">Depok, Tangerang & Tangerang Selatan</option>
+                <option value="bogor">Bogor (Kota & Kabupaten)</option>
+              </select>
+            </div>
+
+            <!-- Step 2: Spesifikasi / Sistem Produk (Dinamis Sesuai Layanan) -->
             <div class="cost-calc-group">
               <div class="cost-calc-label">
-                <span>2. Pilih Kualitas Material</span>
-                <span id="qualityGuideText" style="color:#64748b;font-size:12px;font-weight:600;">Standard (Ekonomis) vs Premium (Luxury)</span>
+                <span id="calcStep2Label">2. Pilih Grade Profil Aluminium</span>
+                <span id="qualityGuideText" style="color:#0d9488;font-size:12px;font-weight:700;">Standar SNI 3" vs Alexindo Heavy 4"</span>
               </div>
               
-              <div class="quality-options-grid" role="radiogroup" aria-label="Pilih Kualitas Material">
+              <div class="quality-options-grid" id="calcOptionsContainer" role="radiogroup" aria-label="Pilih Spesifikasi Layanan">
                 
                 <!-- Option Standard -->
                 <div 
                   class="quality-option-card active" 
-                  id="cardQualityStandard" 
+                  id="cardOption_standard" 
                   role="radio" 
                   aria-checked="true" 
                   tabindex="0" 
-                  onclick="window.setCalcQuality('standard')"
-                  onkeydown="if(event.key==='Enter'||event.key===' '){ window.setCalcQuality('standard'); event.preventDefault(); }"
+                  onclick="window.selectCalcOption('standard')"
+                  onkeydown="if(event.key==='Enter'||event.key===' '){ window.selectCalcOption('standard'); event.preventDefault(); }"
                 >
                   <div class="quality-card-head">
                     <div style="display:flex;align-items:center;">
                       <span class="quality-radio-circle" aria-hidden="true"></span>
-                      <span class="quality-title">Standard SNI</span>
+                      <span class="quality-title">Standard SNI 3 Inch</span>
                     </div>
-                    <span class="quality-badge">Hemat Budget</span>
+                    <span class="quality-badge">Dacon / Inkalum</span>
                   </div>
-                  <div class="quality-desc" id="stdQualityDesc">
-                    Profil Dacon / Inkalum 3", Kaca Clear 5mm SNI, seal karet kedap & aksesoris awet standar hunian.
+                  <div class="quality-desc">
+                    Profil tebal 0.9–1.0mm, finishing anodize/powder coating standar, seal karet EPDM kedap udara.
                   </div>
                   <div>
-                    <span class="quality-rate-pill" id="stdQualityRate">Rp 85.000 – Rp 110.000 / m1</span>
+                    <span class="quality-rate-pill">Rp 85.000 – Rp 110.000 / m1</span>
                   </div>
                 </div>
 
                 <!-- Option Premium -->
                 <div 
                   class="quality-option-card" 
-                  id="cardQualityPremium" 
+                  id="cardOption_premium" 
                   role="radio" 
                   aria-checked="false" 
                   tabindex="0" 
-                  onclick="window.setCalcQuality('premium')"
-                  onkeydown="if(event.key==='Enter'||event.key===' '){ window.setCalcQuality('premium'); event.preventDefault(); }"
+                  onclick="window.selectCalcOption('premium')"
+                  onkeydown="if(event.key==='Enter'||event.key===' '){ window.selectCalcOption('premium'); event.preventDefault(); }"
                 >
                   <div class="quality-card-head">
                     <div style="display:flex;align-items:center;">
                       <span class="quality-radio-circle" aria-hidden="true"></span>
-                      <span class="quality-title">Premium Grade</span>
+                      <span class="quality-title">Premium Grade 4 Inch</span>
                     </div>
-                    <span class="quality-badge">Heavy Duty</span>
+                    <span class="quality-badge">Alexindo / Alcomex</span>
                   </div>
-                  <div class="quality-desc" id="premQualityDesc">
-                    Profil Alexindo / Alcomexindo 4", Kaca Riben / Panasap / Moru, EPDM weatherseal & finish powder coating tahan cuaca.
+                  <div class="quality-desc">
+                    Profil heavy-duty tebal 1.1–1.3mm, kekakuan tinggi untuk bentangan lebar, powder coating anti pudar.
                   </div>
                   <div>
-                    <span class="quality-rate-pill" id="premQualityRate">Rp 135.000 – Rp 165.000 / m1</span>
+                    <span class="quality-rate-pill">Rp 135.000 – Rp 165.000 / m1</span>
                   </div>
                 </div>
 
+              </div>
+
+              <!-- Quick Decision Assistance Banner -->
+              <div class="spec-compare-guide-banner">
+                <div class="spec-compare-guide-text">
+                  <span class="spec-compare-guide-icon">💡</span>
+                  <span><strong>Butuh panduan memilih?</strong> Bandingkan ketebalan profil, ketahanan kaca, merek, dan rekomendasi penggunaan sebelum memutuskan.</span>
+                </div>
+                <button type="button" class="spec-compare-guide-btn" onclick="window.toggleSpecComparisonTable(true)">
+                  📊 Lihat Tabel Perbandingan Spek ↓
+                </button>
               </div>
             </div>
 
@@ -1062,6 +1090,51 @@
                 <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(35)">35 m1</button>
                 <button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(50)">50 m1</button>
               </div>
+
+              <!-- Dimension Helper Trigger & Box -->
+              <div class="dim-helper-trigger-row" style="margin-top:10px;">
+                <button type="button" class="dim-helper-toggle-btn" id="btnToggleDimHelper" onclick="window.toggleDimHelper()" aria-expanded="false" style="background:#f1f5f9;border:1px dashed #0d9488;color:#0f766e;font-size:12px;font-weight:700;padding:7px 12px;border-radius:8px;cursor:pointer;width:100%;display:flex;align-items:center;justify-content:space-between;">
+                  <span>📐 Hitung dari Ukuran Opening (Panjang × Lebar / Tinggi)</span>
+                  <span style="font-size:11px;">▼</span>
+                </button>
+              </div>
+
+              <div class="dim-helper-panel" id="calcDimHelperBox" style="display:none;margin-top:10px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:10px;padding:12px 14px;">
+                <div style="font-size:12px;font-weight:700;color:#072e3b;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+                  <span>📐 Masukkan Ukuran Fisik (cm)</span>
+                  <span style="font-size:11px;color:#64748b;font-weight:400;">Otomatis konversi ke volume m1 / m² / unit</span>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+                  <div>
+                    <label for="dimHelperWidth" style="display:block;font-size:11px;color:#475569;margin-bottom:3px;font-weight:600;">Lebar (cm)</label>
+                    <input type="number" id="dimHelperWidth" value="90" min="10" max="3000" class="qty-input" style="width:100%;height:36px;font-size:13px;padding:4px 8px;border-radius:6px;border:1px solid #cbd5e1;" oninput="window.calculateFromDimensions()">
+                  </div>
+                  <div>
+                    <label for="dimHelperHeight" style="display:block;font-size:11px;color:#475569;margin-bottom:3px;font-weight:600;">Tinggi (cm)</label>
+                    <input type="number" id="dimHelperHeight" value="210" min="10" max="3000" class="qty-input" style="width:100%;height:36px;font-size:13px;padding:4px 8px;border-radius:6px;border:1px solid #cbd5e1;" oninput="window.calculateFromDimensions()">
+                  </div>
+                  <div>
+                    <label for="dimHelperQty" style="display:block;font-size:11px;color:#475569;margin-bottom:3px;font-weight:600;">Jumlah Unit</label>
+                    <input type="number" id="dimHelperQty" value="1" min="1" max="500" class="qty-input" style="width:100%;height:36px;font-size:13px;padding:4px 8px;border-radius:6px;border:1px solid #cbd5e1;" oninput="window.calculateFromDimensions()">
+                  </div>
+                </div>
+
+                <!-- Opening Type Selector (for kusen & frames) -->
+                <div id="dimHelperOpeningRow" style="margin-top:8px;">
+                  <label for="dimHelperOpeningType" style="display:block;font-size:11px;color:#475569;margin-bottom:3px;font-weight:600;">Tipe Bukaan / Rangka (Khusus Kusen):</label>
+                  <select id="dimHelperOpeningType" class="cost-calc-select" style="font-size:12px;padding:5px 8px;height:34px;" onchange="window.calculateFromDimensions()">
+                    <option value="door" selected>Pintu (3 Sisi: 2 Tiang Vertikal + 1 Ambang Atas)</option>
+                    <option value="window">Jendela / Sekat Keliling (4 Sisi Penuh: 2 Tiang + 2 Ambang)</option>
+                  </select>
+                </div>
+
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;flex-wrap:wrap;gap:6px;">
+                  <button type="button" class="dim-apply-btn" onclick="window.calculateFromDimensions()" style="background:#0d9488;color:#fff;border:none;border-radius:6px;padding:6px 12px;font-size:11.5px;font-weight:700;cursor:pointer;">
+                    ✓ Terapkan ke Kuantitas
+                  </button>
+                  <span id="dimHelperResultNote" style="font-size:11px;color:#0d9488;font-weight:600;"></span>
+                </div>
+              </div>
             </div>
 
           </div>
@@ -1073,9 +1146,15 @@
                 <span>💰</span>
                 <span>Rough Budget Estimate</span>
               </div>
+
+              <!-- Minimum Order Notification Pill -->
+              <div class="calc-min-order-alert" id="calcMinOrderAlert" style="display:none;background:#fef3c7;border:1px solid #f59e0b;color:#92400e;border-radius:8px;padding:8px 10px;font-size:11.5px;margin-bottom:10px;font-weight:600;line-height:1.45;">
+                ⚠️ <strong>Ketentuan Minimum Order Lapangan:</strong> Rp 750.000 (Pekerjaan volume kecil dikenakan batas minimum order untuk alokasi mobilisasi teknisi, transport pick-up, dan setting alat laser presisi).
+              </div>
+
               <div class="result-price-label">Perkiraan Estimasi Anggaran:</div>
-              <div class="result-price-main" id="calcEstimateMain">Rp 1.020.000 – Rp 1.320.000</div>
-              <div class="result-price-sub" id="calcEstimateSub">Acuan tarif: Rp 85.000 – Rp 110.000 / m1 × 12 m1</div>
+              <div class="result-price-main" id="calcEstimateMain">Rp 1.260.000 – Rp 1.560.000</div>
+              <div class="result-price-sub" id="calcEstimateSub">Acuan tarif: Rp 105.000 – Rp 130.000 / m1 × 12 m1</div>
 
               <div class="result-specs-box">
                 <div class="result-spec-row">
@@ -1083,8 +1162,8 @@
                   <span class="result-spec-val" id="calcSummaryService">Kusen Aluminium (Profil 3" / 4")</span>
                 </div>
                 <div class="result-spec-row">
-                  <span class="result-spec-label">Mutu & Spek:</span>
-                  <span class="result-spec-val" id="calcSummaryQuality">Standard SNI (Dacon / Inkalum 0.9–1.0mm 3")</span>
+                  <span class="result-spec-label" id="calcSummaryQualityLabel">Sistem / Spek:</span>
+                  <span class="result-spec-val" id="calcSummaryQuality">Standard SNI (Dacon / Inkalum 0.9–1.0mm 3" Terpasang + Sealant)</span>
                 </div>
                 <div class="result-spec-row">
                   <span class="result-spec-label">Volume Dihitung:</span>
@@ -1092,7 +1171,11 @@
                 </div>
                 <div class="result-spec-row">
                   <span class="result-spec-label">Tarif Satuan:</span>
-                  <span class="result-spec-val" id="calcSummaryRate">Rp 85.000 – Rp 110.000 / m1</span>
+                  <span class="result-spec-val" id="calcSummaryRate">Rp 105.000 – Rp 130.000 / m1</span>
+                </div>
+                <div class="result-spec-row">
+                  <span class="result-spec-label">Wilayah & Transport:</span>
+                  <span class="result-spec-val" id="calcSummaryRegion" style="color:#5eead4;">Karawang (Basis Workshop)</span>
                 </div>
                 <div class="result-spec-row">
                   <span class="result-spec-label">Estimasi Waktu:</span>
@@ -1100,7 +1183,89 @@
                 </div>
                 <div class="result-spec-row">
                   <span class="result-spec-label">Survey & Ukur:</span>
-                  <span class="result-spec-val" style="color:#5eead4;">Rp 0 (100% GRATIS)</span>
+                  <span class="result-spec-val" id="calcSummarySurvey" style="color:#5eead4;">Rp 0 (100% GRATIS)</span>
+                </div>
+              </div>
+
+              <!-- RAB Component Breakdown Toggle -->
+              <div style="margin-top:12px;">
+                <button type="button" class="calc-rab-breakdown-toggle" id="btnToggleRabBreakdown" onclick="window.toggleRabBreakdown()" aria-expanded="false" style="width:100%;background:rgba(255,255,255,0.08);color:#5eead4;border:1px dashed rgba(94,234,212,0.4);border-radius:10px;padding:9px 12px;font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all 0.2s;">
+                  <span>📊 Rincian Komponen RAB (Analisa Biaya Transparan)</span>
+                  <span style="font-size:11px;">▼</span>
+                </button>
+              </div>
+
+              <!-- Itemized RAB Component Breakdown Box -->
+              <div class="calc-rab-breakdown-box" id="calcRabBreakdownBox" style="display:none;margin-top:10px;background:rgba(2,44,56,0.85);border:1px solid rgba(94,234,212,0.35);border-radius:10px;padding:14px;">
+                <div style="font-size:12px;color:#a5f3fc;font-weight:800;margin-bottom:8px;letter-spacing:0.5px;border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:6px;display:flex;justify-content:space-between;align-items:center;">
+                  <span>📋 DETAIL ESTIMASI ANGGARAN BIAYA (RAB)</span>
+                  <span style="font-size:10px;color:#5eead4;font-weight:700;">TRANSPARANSI KONTRAKTOR</span>
+                </div>
+
+                <!-- Detail Header Meta -->
+                <div style="background:rgba(0,0,0,0.25);border-radius:6px;padding:8px 10px;margin-bottom:10px;font-size:11px;color:#cbd5e1;line-height:1.5;">
+                  <div><strong>Produk:</strong> <span id="rabDetailProduct">Kusen Aluminium (Profil 3" / 4")</span></div>
+                  <div><strong>Spesifikasi:</strong> <span id="rabDetailSpec">Standard SNI (Dacon / Inkalum 3")</span></div>
+                  <div><strong>Ukuran / Volume:</strong> <span id="rabDetailVolume">12 Meter Lari (m1)</span></div>
+                  <div><strong>Wilayah Lokasi:</strong> <span id="rabDetailRegion">Karawang (Basis Workshop)</span></div>
+                </div>
+
+                <!-- 10 Transparent Component Rows -->
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
+                  <span>• Material Aluminium / Rangka Utama:</span>
+                  <strong id="calcRabAluminium" style="color:#ffffff;">Rp 378.000 – Rp 468.000</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
+                  <span>• Material Kaca / Infill Panel:</span>
+                  <strong id="calcRabKaca" style="color:#ffffff;">Rp 227.000 – Rp 281.000</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
+                  <span>• Aksesoris Sealant Dowsil & Karet Kedap:</span>
+                  <strong id="calcRabAksesoris" style="color:#ffffff;">Rp 101.000 – Rp 125.000</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
+                  <span>• Hardware Kunci, Engsel & Handle:</span>
+                  <strong id="calcRabHardware" style="color:#ffffff;">Rp 101.000 – Rp 125.000</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
+                  <span>• Jasa Produksi & Perakitan Siku Miter 45°:</span>
+                  <strong id="calcRabProdLabor" style="color:#ffffff;">Rp 101.000 – Rp 125.000</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
+                  <span>• Jasa Pemasangan & Setting Lapangan:</span>
+                  <strong id="calcRabInstallLabor" style="color:#ffffff;">Rp 101.000 – Rp 125.000</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
+                  <span>• Transportasi Armada Pick-up & Logistik:</span>
+                  <strong id="calcRabTransport" style="color:#ffffff;">Rp 63.000 – Rp 78.000</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
+                  <span>• Biaya Operasional & Cutting Waste (10–12%):</span>
+                  <strong id="calcRabWaste" style="color:#ffffff;">Rp 63.000 – Rp 78.000</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#94a3b8;padding:3px 0;border-top:1px dashed rgba(255,255,255,0.15);margin-top:3px;padding-top:4px;">
+                  <span>Subtotal Biaya Dasar (HPP & Operasional):</span>
+                  <strong id="calcRabSubtotal" style="color:#e2e8f0;">Rp 1.135.000 – Rp 1.405.000</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#e2e8f0;padding:3px 0;">
+                  <span>• Margin Pelaksana & Garansi 1 Tahun:</span>
+                  <strong id="calcRabMargin" style="color:#ffffff;">Rp 125.000 – Rp 155.000</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:12px;color:#5eead4;padding:3px 0;border-top:1px dashed rgba(255,255,255,0.15);margin-top:3px;padding-top:4px;">
+                  <span>• Survey Lokasi & Pengukuran Laser Presisi:</span>
+                  <strong id="calcRabSurveyStatus">Rp 0 (100% GRATIS)</strong>
+                </div>
+                <div class="rab-item-row" style="display:flex;justify-content:space-between;font-size:13.5px;color:#fef08a;padding:6px 0 3px;border-top:1px solid rgba(255,255,255,0.25);margin-top:4px;font-weight:900;">
+                  <span>ESTIMASI TOTAL:</span>
+                  <span id="calcRabTotal">Rp 1.260.000 – Rp 1.560.000</span>
+                </div>
+                <div style="font-size:10.5px;color:#94a3b8;font-style:italic;margin-top:8px;line-height:1.4;border-top:1px dotted rgba(255,255,255,0.1);padding-top:6px;">
+                  * Estimasi harga dapat berubah setelah pengukuran dan survey lokasi.
+                </div>
+                <div style="margin-top:10px;">
+                  <a href="https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20ingin%20survey%20dan%20penawaran%20harga%20RAB." class="calc-wa-btn" style="padding:7px 12px;font-size:12px;justify-content:center;background:#25d366;color:#ffffff;display:flex;align-items:center;gap:6px;text-decoration:none;border-radius:8px;font-weight:700;" onclick="window.consultEstimateViaWa(event)">
+                    <span>💬 CHAT WHATSAPP UNTUK SURVEY & PENAWARAN &rarr;</span>
+                  </a>
                 </div>
               </div>
             </div>
@@ -1132,6 +1297,343 @@
 
           </div>
 
+        </div>
+
+        <!-- ========================================================
+             COMPARISON TABLE: STANDARD SNI VS PREMIUM GRADE
+             ======================================================== -->
+        <div class="cost-calc-spec-wrapper" id="specComparisonWrapper">
+          <div class="spec-header-row">
+            <div>
+              <div class="spec-badge-pill">
+                <span>🔍 Panduan Keputusan Spesifikasi</span>
+              </div>
+              <h3 class="spec-table-title">Tabel Perbandingan Spesifikasi: Standard SNI vs Premium Grade</h3>
+              <p class="spec-table-sub">
+                Bandingkan parameter teknis, ketebalan fisik, merek profil, dan daya tahan material untuk menentukan opsi terbaik sesuai anggaran dan kebutuhan bangunan Anda.
+              </p>
+            </div>
+            <div class="spec-context-service-box">
+              <span class="spec-context-label">Layanan Terpilih Saat Ini:</span>
+              <span class="spec-context-val" id="specContextServiceBadge">Kusen Aluminium (Profil 3" / 4")</span>
+            </div>
+          </div>
+
+          <div class="spec-table-responsive-box">
+            <table class="spec-comparison-table" id="specComparisonTable" aria-label="Tabel Perbandingan Spesifikasi Material">
+              <thead>
+                <tr>
+                  <th class="spec-th-feature" scope="col">
+                    <span class="th-title">Parameter & Aspek Teknis</span>
+                    <span class="th-sub">Faktor penentu mutu & umur pakai</span>
+                  </th>
+                  <th class="spec-th-tier col-standard active" id="thColStandard" scope="col">
+                    <div class="th-tier-header">
+                      <span class="th-tier-badge badge-std">Hemat Budget</span>
+                      <span class="th-tier-name">Standard SNI</span>
+                      <span class="th-tier-pitch">Efisien, Lulus Uji SNI & Fungsional Hunian</span>
+                      <span class="th-tier-price" id="tableStdRate">Rp 85.000 – Rp 110.000 / m1</span>
+                      <button type="button" class="spec-pick-btn" id="btnPickStd" onclick="window.setCalcQuality('standard')">
+                        <span class="pick-icon">✓</span> <span class="pick-text">Sedang Dipilih</span>
+                      </button>
+                    </div>
+                  </th>
+                  <th class="spec-th-tier col-premium" id="thColPremium" scope="col">
+                    <div class="th-tier-header">
+                      <span class="th-tier-badge badge-prem">Heavy Duty & Luxury</span>
+                      <span class="th-tier-name">Premium Grade</span>
+                      <span class="th-tier-pitch">Maksimal Kokoh, Estetis & Tahan Cuaca Ekstrem</span>
+                      <span class="th-tier-price" id="tablePremRate">Rp 135.000 – Rp 165.000 / m1</span>
+                      <button type="button" class="spec-pick-btn" id="btnPickPrem" onclick="window.setCalcQuality('premium')">
+                        <span class="pick-icon">⭐</span> <span class="pick-text">Pilih Premium</span>
+                      </button>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- 0. Dynamic Service Specific Row -->
+                <tr class="spec-row-highlight">
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">🎯</span>
+                      <strong id="specDynamicFeatureName">Spesifikasi Konstruksi Kusen Aluminium</strong>
+                    </div>
+                    <div class="spec-feature-desc">Disesuaikan otomatis sesuai layanan yang Anda pilih pada form di atas</div>
+                  </td>
+                  <td class="spec-td-val col-standard active" id="specDynamicStdVal">
+                    Profil 3 Inch (3 x 7 cm), tebal profil 0.9–1.0 mm SNI, spigot siku standar proyek, kaca polos/riben 5mm.
+                  </td>
+                  <td class="spec-td-val col-premium" id="specDynamicPremVal">
+                    Profil 4 Inch (4 x 10 cm), tebal profil 1.15–1.35 mm Alexindo heavy-duty, sambungan mitre 45° presisi laser, perkuatan ganda & seal EPDM.
+                  </td>
+                </tr>
+
+                <!-- 1. Ketebalan Profil Aluminium -->
+                <tr>
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">📏</span>
+                      <strong>Ketebalan Profil Aluminium</strong>
+                    </div>
+                    <div class="spec-feature-desc">Ketahanan struktural terhadap lendutan, puntiran & tekanan angin</div>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <strong>0.9 mm – 1.0 mm (SNI Standar Hunian)</strong>
+                    <div class="spec-note">Telah lulus uji SNI, ringan dan stabil untuk bukaan standar perumahan 1–2 lantai.</div>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <strong>1.15 mm – 1.35 mm (Heavy-Duty Struktural)</strong>
+                    <div class="spec-note">Profil tebal arsitektural. Sangat kaku, anti getar, kuat menopang bukaan lebar dan kaca tinggi floor-to-ceiling.</div>
+                  </td>
+                </tr>
+
+                <!-- 2. Pilihan Merek Profil Pabrikan -->
+                <tr>
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">🏭</span>
+                      <strong>Merek Profil Pabrikan</strong>
+                    </div>
+                    <div class="spec-feature-desc">Reputasi pabrik peleburan billet & akurasi cetakan ekstrusi</div>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <strong>Dacon, Inkalum, Forta</strong>
+                    <div class="spec-note">Pabrikan nasional resmi bersertifikasi SNI. Dimensi presisi, warna konsisten, biaya sangat ekonomis.</div>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <strong>Alexindo, Alcomexindo, YKK AP</strong>
+                    <div class="spec-note">Standar emas kontraktor dan arsitek. Ketebalan dinding profil homogen, paduan alloy murni, standar proyek komersial.</div>
+                  </td>
+                </tr>
+
+                <!-- 3. Pilihan Kaca & Pengisi -->
+                <tr>
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">🪟</span>
+                      <strong>Spesifikasi Kaca & Pengisi</strong>
+                    </div>
+                    <div class="spec-feature-desc">Kejernihan visual, keamanan benturan, dan insulasi termal</div>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <strong>Kaca Polos Clear / Rayben 5 mm SNI (Asahimas)</strong>
+                    <div class="spec-note">Permukaan jernih optik bebas gelombang, menepis silau matahari, ideal untuk jendela dan partisi standar.</div>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <strong>Kaca Tempered 8–12 mm / Laminated / Moru Fluted / Panasap</strong>
+                    <div class="spec-note">Kekuatan benturan 4–5x lebih kuat dari kaca biasa. Safety glass (butiran jagung tidak tajam), penolak panas UV tinggi.</div>
+                  </td>
+                </tr>
+
+                <!-- 4. Weatherproofing Sealant & Karet Gasket -->
+                <tr>
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">🛡️</span>
+                      <strong>Sistem Karet & Sealant Silikon</strong>
+                    </div>
+                    <div class="spec-feature-desc">Perlindungan rembesan air hujan badai dan kekedapan debu halus</div>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <strong>Karet PVC Sintetis + Sealant Netral Standar Proyek</strong>
+                    <div class="spec-note">Elastisitas baik, efektif menahan tempias air hujan normal, ketahanan 3–5 tahun sebelum re-sealant.</div>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <strong>Gasket EPDM Automotive Grade + Sealant Netral Dowsil / Sika</strong>
+                    <div class="spec-note">Karet EPDM tahan radiasi ultraviolet ekstrem Karawang. Tidak menyusut, tidak getas, garansi bebas bocor rembes 10+ tahun.</div>
+                  </td>
+                </tr>
+
+                <!-- 5. Aksesoris, Hardware, Engsel & Kunci -->
+                <tr>
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">🔑</span>
+                      <strong>Aksesoris, Engsel & Handle Kunci</strong>
+                    </div>
+                    <div class="spec-feature-desc">Kenyamanan pengoperasian buka-tutup dan proteksi keamanan</div>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <strong>Hardware Alloy Zinc Die-Cast SNI Standar</strong>
+                    <div class="spec-note">Buka-tutup lancar, roller nilon tahan aus, anak kunci kuningan standar hunian keluarga.</div>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <strong>Stainless Steel SUS-304 Heavy-Duty / Dekson / Dorma</strong>
+                    <div class="spec-note">Anti korosi seumur hidup bahkan di area lembap/industri. Bearing kuningan super halus, multi-point locking anti maling.</div>
+                  </td>
+                </tr>
+
+                <!-- 6. Finishing Permukaan & Ketahanan Warna -->
+                <tr>
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">🎨</span>
+                      <strong>Finishing Warna & Ketahanan Cuaca</strong>
+                    </div>
+                    <div class="spec-feature-desc">Ketahanan terhadap goresan kuku, panas matahari & hujan asam</div>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <strong>Anodized 10µm / Powder Coating Standar</strong>
+                    <div class="spec-note">Pilihan Hitam, Putih, Cokelat, Silver CA. Lapisan cat rapi, garansi warna 5 tahun tidak mengelupas.</div>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <strong>Powder Coating AkzoNobel / Jotun 60–80µm / Urat Kayu 3D</strong>
+                    <div class="spec-note">Lapisan ekstra tebal anti gores, tahan asam hujan kawasan industri Karawang, garansi anti pudar 10+ tahun.</div>
+                  </td>
+                </tr>
+
+                <!-- 7. Reduksi Kebisingan (Acoustic Insulation) -->
+                <tr>
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">🔇</span>
+                      <strong>Peredaman Suara & Insulasi Suhu</strong>
+                    </div>
+                    <div class="spec-feature-desc">Kenyamanan istirahat dan efisiensi listrik AC ruangan</div>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <strong>Reduksi Suara ~20 – 25 dB</strong>
+                    <div class="spec-note">Cukup tenang untuk meredam obrolan santai dan lalu lintas sedang di dalam komplek perumahan.</div>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <strong>Reduksi Suara ~32 – 38 dB (Acoustic Double Barrier)</strong>
+                    <div class="spec-note">Sangat senyap. Meredam bising knalpot kendaraan dan jalan utama, menjaga suhu dingin AC bertahan lebih lama.</div>
+                  </td>
+                </tr>
+
+                <!-- 8. Rekomendasi Aplikasi & Bangunan -->
+                <tr>
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">🏢</span>
+                      <strong>Rekomendasi Peruntukan Proyek</strong>
+                    </div>
+                    <div class="spec-feature-desc">Kesesuaian fungsi arsitektur dengan alokasi anggaran</div>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <strong>Rumah Subsidi, Kos/Kontrakan, Renovasi Hemat Budget, Sekat Interior</strong>
+                    <div class="spec-note">Pilihan cerdas bagi pemilik properti yang mengutamakan efisiensi biaya awal tanpa mengorbankan standar mutu SNI.</div>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <strong>Rumah Tinggal Pribadi, Fasad Ruko, Villa Modern, Kantor & Fasad Mewah</strong>
+                    <div class="spec-note">Investasi mutlak bagi hunian pribadi idaman keluarga dan bangunan komersial yang membutuhkan impresi prestise tinggi.</div>
+                  </td>
+                </tr>
+
+                <!-- 9. Evaluasi Nilai Investasi Jangka Panjang -->
+                <tr>
+                  <td class="spec-td-feature">
+                    <div class="spec-feature-title">
+                      <span class="feature-icon">💡</span>
+                      <strong>Nilai Investasi & Umur Pakai</strong>
+                    </div>
+                    <div class="spec-feature-desc">Pertimbangan biaya awal vs biaya perawatan berkala</div>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <strong>Biaya Awal 30–40% Lebih Hemat</strong>
+                    <div class="spec-note">Estimasi umur pakai 10–15 tahun dengan perawatan normal. Mengoptimalkan cash flow pembangunan Anda.</div>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <strong>Investasi Bebas Renovasi Ulang (20+ Tahun)</strong>
+                    <div class="spec-note">Meningkatkan nilai jual kembali properti (resale value), bebas biaya reparasi, kenyamanan pakai optimal.</div>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td class="spec-td-feature">
+                    <strong>Terapkan Pilihan ke Estimasi:</strong>
+                  </td>
+                  <td class="spec-td-val col-standard active">
+                    <button type="button" class="spec-bottom-pick-btn" onclick="window.setCalcQuality('standard')">
+                      ✓ Gunakan Standard SNI
+                    </button>
+                  </td>
+                  <td class="spec-td-val col-premium">
+                    <button type="button" class="spec-bottom-pick-btn" onclick="window.setCalcQuality('premium')">
+                      ⭐ Gunakan Premium Grade
+                    </button>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <!-- ========================================================
+               DYNAMIC SUMMARY & BEST CHOICE RECOMMENDATION
+               ======================================================== -->
+          <div class="spec-summary-section" id="specSummarySection">
+            <div class="spec-summary-header">
+              <div class="spec-summary-title-wrap">
+                <span class="spec-summary-eyebrow">🎯 Ringkasan & Rekomendasi Pilihan Terbaik</span>
+                <h4 class="spec-summary-heading">
+                  Rekomendasi Mutu untuk: <span id="summaryServiceTitle" class="highlight-teal">Kusen Aluminium (Profil 3" / 4")</span>
+                </h4>
+              </div>
+              <div class="spec-summary-badge-wrap">
+                <span class="spec-summary-choice-badge choice-badge-prem" id="summaryChoiceBadge">
+                  ⭐ Disarankan: PREMIUM GRADE (UNTUK FASAD LUAR)
+                </span>
+              </div>
+            </div>
+
+            <!-- Dynamic Recommendation Box -->
+            <div class="spec-summary-card" id="summaryCard">
+              <div class="spec-summary-env-tag" id="summaryEnvTag">
+                <span class="env-icon">📍</span>
+                <span id="summaryEnvText">Tipe Pekerjaan: Struktural Dinding Hunian & Ruko (Outdoor & Indoor)</span>
+              </div>
+
+              <div class="spec-summary-headline" id="summaryHeadline">
+                Alexindo 4" Premium untuk Fasad Luar, Dacon 3" Standard untuk Pintu/Jendela Kamar
+              </div>
+
+              <p class="spec-summary-reason" id="summaryReason">
+                Untuk kusen yang dipasang di dinding luar atau fasad utama, profil 4 Inch Premium (Alexindo/Alcomexindo tebal 1.15–1.35mm) sangat direkomendasikan agar kokoh menahan terpaan angin kencang dan sambungan sudut tidak renggang. Untuk sekat kamar tidur atau pintu interior, Standard SNI (3 Inch) sudah sangat hemat dan tahan rayap seumur hidup.
+              </p>
+
+              <!-- Two Pillar Decision Matrix -->
+              <div class="spec-summary-matrix-grid">
+                <div class="summary-matrix-col col-std-guide">
+                  <div class="matrix-head">
+                    <span class="matrix-bullet">🏷️</span>
+                    <strong>Kapan Memilih Standard SNI?</strong>
+                  </div>
+                  <p id="summaryWhenStd">Renovasi sekat interior kamar, rumah sewa/kontrakan, atau efisiensi anggaran total.</p>
+                </div>
+                <div class="summary-matrix-col col-prem-guide">
+                  <div class="matrix-head">
+                    <span class="matrix-bullet">⭐</span>
+                    <strong>Kapan Wajib / Disarankan Premium?</strong>
+                  </div>
+                  <p id="summaryWhenPrem">Fasad tampak depan rumah tinggal pribadi, jendela ruang tamu utama, dan bukaan kaca lebar.</p>
+                </div>
+              </div>
+
+              <!-- Quick Action Bar -->
+              <div class="spec-summary-action-row">
+                <div class="summary-action-hint">
+                  <span>💡 Klik tombol untuk langsung menerapkan rekomendasi terbaik ini ke kalkulator estimasi di atas:</span>
+                </div>
+                <button type="button" class="spec-apply-recommend-btn" id="btnApplyRecommendation" onclick="window.applyRecommendedQuality()">
+                  <span id="applyRecommendIcon">⚡</span>
+                  <span id="applyRecommendText">Terapkan Rekomendasi (Premium Grade) ke Kalkulator</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Expert Advice Callout -->
+          <div class="spec-advice-box">
+            <div class="spec-advice-icon">💬</div>
+            <div class="spec-advice-content">
+              <strong>Saran Ahli Konsultan Sahabat Kaca Aluminium:</strong>
+              <p>
+                Jika proyek Anda adalah <strong>rumah tinggal pribadi jangka panjang</strong> atau elemen eksterior yang terpapar panas dan hujan langsung (seperti pintu utama, jendela fasad, dan kanopi), kami sangat merekomendasikan <strong>Premium Grade</strong> agar kokoh maksimal dan tidak perlu renovasi ulang puluhan tahun. Untuk area interior, partisi kantor sekat kering, atau rumah sewa/kontrakan, <strong>Standard SNI</strong> sudah sangat kuat, rapi, dan terbukti anti rayap seumur hidup.
+              </p>
+            </div>
+          </div>
         </div>
 
       </div>

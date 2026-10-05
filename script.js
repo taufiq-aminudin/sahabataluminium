@@ -5952,525 +5952,814 @@ window.printProjectPdf = function(orderId) {
 })();
 
 /* =========================================================
-   COST CALCULATOR WIDGET CONTROLLER (ROUGH BUDGET ESTIMATE)
+   COST CALCULATOR WIDGET CONTROLLER (CENTRALIZED PRICING CONFIG & REALISTIC RAB ENGINE)
+   Basis: Aplikator / Kontraktor Retail Lokal Wilayah Karawang & Jabodetabek
    ========================================================= */
-(function initCostCalculatorWidget() {
-  const COST_CALC_DATA = {
-    kusen: {
-      unit: 'm1',
-      unitName: 'Meter Lari (m1)',
-      label: 'Kusen Aluminium (Profil 3" / 4")',
-      defaultQty: 12,
-      presets: [6, 12, 20, 35, 50],
-      standard: {
-        min: 105000,
-        max: 130000,
-        spec: 'Standard SNI (Dacon / Inkalum 0.9–1.0mm 3" Terpasang + Sealant)',
-        desc: 'Kisaran rata-rata: Rp 105.000 – Rp 130.000 / m1 (Standard SNI)'
-      },
-      premium: {
-        min: 155000,
-        max: 195000,
-        spec: 'Premium Grade (Alexindo / Alcomexindo 1.15–1.35mm 4" Heavy Duty + Miter 45°)',
-        desc: 'Kisaran rata-rata: Rp 155.000 – Rp 195.000 / m1 (Premium Grade)'
-      }
+
+// 1. Centralized Regional Pricing Configuration Object
+const PRICING_CONFIG = {
+  benchmarks: {
+    region: 'Karawang, Cikarang, Bekasi & Jabodetabek (Retail Supplier Benchmark)',
+    transport: {
+      karawang: { name: 'Karawang (Basis Workshop: Klari, Telukjambe, KIIC)', min: 300000, max: 500000, default: 400000 },
+      cikampek: { name: 'Cikampek & Jatisari (Karawang Timur)', min: 400000, max: 600000, default: 500000 },
+      cikarang: { name: 'Cikarang (Lippo, Jababeka, Delta Mas, MM2100)', min: 500000, max: 750000, default: 600000 },
+      bekasi: { name: 'Bekasi (Kota & Kabupaten, Tambun, Cibitung)', min: 700000, max: 1000000, default: 850000 },
+      jakarta: { name: 'DKI Jakarta (Pusat, Selatan, Timur, Barat, Utara)', min: 900000, max: 1500000, default: 1200000 },
+      depok_tangerang: { name: 'Depok, Tangerang & Tangerang Selatan', min: 1000000, max: 1800000, default: 1350000 },
+      bogor: { name: 'Bogor (Kota & Kabupaten)', min: 1000000, max: 1800000, default: 1350000 }
     },
-    pintu: {
-      unit: 'unit',
-      unitName: 'Unit Pintu',
-      label: 'Pintu Aluminium (Sliding / Swing)',
-      defaultQty: 2,
-      presets: [1, 2, 4, 6, 8],
-      standard: {
-        min: 1550000,
-        max: 1950000,
-        spec: 'Standard SNI (Profil Dacon 7cm / Kaca 5mm Asahimas / Lever Lock)',
-        desc: 'Kisaran rata-rata: Rp 1.550.000 – Rp 1.950.000 / unit (Standard SNI)'
-      },
-      premium: {
-        min: 2650000,
-        max: 3450000,
-        spec: 'Premium Grade (Alexindo 9cm + Kaca Tempered 8mm/Moru + Mortise SUS304)',
-        desc: 'Kisaran rata-rata: Rp 2.650.000 – Rp 3.450.000 / unit (Premium Grade)'
-      }
-    },
-    jendela: {
-      unit: 'unit',
-      unitName: 'Unit Jendela',
-      label: 'Jendela Aluminium (Casement / Sliding)',
-      defaultQty: 4,
-      presets: [2, 4, 6, 8, 12],
-      standard: {
-        min: 750000,
-        max: 950000,
-        spec: 'Standard SNI (Casement 60x120 + Kaca 5mm SNI + Rambuncis)',
-        desc: 'Kisaran rata-rata: Rp 750.000 – Rp 950.000 / unit (Standard SNI)'
-      },
-      premium: {
-        min: 1150000,
-        max: 1550000,
-        spec: 'Premium Grade (Alexindo + Friction Stay SUS304 + Tempered 6mm/Panasap)',
-        desc: 'Kisaran rata-rata: Rp 1.150.000 – Rp 1.550.000 / unit (Premium Grade)'
-      }
-    },
-    partisi: {
-      unit: 'm²',
-      unitName: 'Meter Persegi (m²)',
-      label: 'Partisi Kaca Tempered Kantor / Sekat',
-      defaultQty: 15,
-      presets: [6, 12, 18, 25, 40],
-      standard: {
-        min: 850000,
-        max: 1100000,
-        spec: 'Standard SNI (Kaca Tempered 10mm Clear Frameless + Lis U-Channel)',
-        desc: 'Kisaran rata-rata: Rp 850.000 – Rp 1.100.000 / m² (Standard SNI)'
-      },
-      premium: {
-        min: 1350000,
-        max: 1750000,
-        spec: 'Premium Grade (Kaca Tempered 12mm + Lis Recessed Tanam / Slimline)',
-        desc: 'Kisaran rata-rata: Rp 1.350.000 – Rp 1.750.000 / m² (Premium Grade)'
-      }
-    },
-    pintu_tempered: {
-      unit: 'unit',
-      unitName: 'Unit Pintu',
-      label: 'Pintu Kaca Frameless Floor Hinge',
-      defaultQty: 1,
-      presets: [1, 2, 3, 4, 6],
-      standard: {
-        min: 3850000,
-        max: 4650000,
-        spec: 'Standard SNI (Tempered 10mm + Floor Hinge Standar 80kg + Patch Fitting)',
-        desc: 'Kisaran rata-rata: Rp 3.850.000 – Rp 4.650.000 / unit (Standard SNI)'
-      },
-      premium: {
-        min: 5450000,
-        max: 6650000,
-        spec: 'Premium Grade (Tempered 12mm + Floor Hinge Dorma BTS-84 / Dekson SUS304 120kg)',
-        desc: 'Kisaran rata-rata: Rp 5.450.000 – Rp 6.650.000 / unit (Premium Grade)'
-      }
-    },
+    wasteFactors: {
+      glass: 0.05,
+      aluminium: 0.08,
+      steel: 0.06
+    }
+  },
+
+  services: {
     kanopi: {
+      category: 'glass_canopy',
+      priceModel: 'glass_canopy',
+      label: 'Kanopi Kaca Tempered Carport / Teras',
       unit: 'm²',
       unitName: 'Meter Persegi (m²)',
-      label: 'Kanopi Kaca Tempered Carport',
+      minOrderValue: 7500000,
+      wasteFactor: 0.05,
       defaultQty: 18,
       presets: [12, 18, 24, 30, 45],
-      standard: {
-        min: 1550000,
-        max: 1900000,
-        spec: 'Standard SNI (Tempered 8mm + Rangka Hollow Galvanis 40x80)',
-        desc: 'Kisaran rata-rata: Rp 1.550.000 – Rp 1.900.000 / m² (Standard SNI)'
-      },
-      premium: {
-        min: 2350000,
-        max: 2850000,
-        spec: 'Premium Grade (Tempered Laminated 5+5mm PVB + Rangka Galvanis 50x100 Epoxy Duco)',
-        desc: 'Kisaran rata-rata: Rp 2.350.000 – Rp 2.850.000 / m² (Premium Grade)'
-      }
+      summaryLabel: 'Rangka & Kaca:',
+      step2Label: '2. Pilih Sistem Struktur & Jenis Kaca',
+      guideText: 'PILIH SISTEM STRUKTUR • PILIH JENIS KACA',
+      options: [
+        {
+          id: 'hollow_tempered_8',
+          name: 'Rangka Hollow Galvanis 100×50 + Tempered 8 mm',
+          badge: 'Hollow 100×50 + Temp 8mm',
+          desc: 'Kaca Tempered Clear 8mm SNI Asahimas, rangka pipa hollow galvanis anti-karat 100×50×2 mm, cat dasar epoxy primer & finish polyurethane, bantalan karet EPDM & sealant Dowsil 795.',
+          minRate: 1550000,
+          maxRate: 1750000,
+          targetRate: 1650000,
+          rate: 'Rp 1.550.000 – Rp 1.750.000 / m²',
+          leadTime: '5–7 Hari Kerja',
+          formula: '(Luas m² × Tarif) + Rangka Hollow 100×50 + Tempered 8mm + Bracket Dynabolt + Sealant Dowsil + Fabrikasi + Pasang',
+          rabRatios: { kaca: 0.34, struktur: 0.22, hardware: 0.06, sealant: 0.03, fabrikasi: 0.11, pasang: 0.13, transport: 0.04, margin: 0.07 }
+        },
+        {
+          id: 'hollow_tempered_10',
+          name: 'Rangka Hollow 100×50×2 mm + Tempered Clear 10 mm',
+          badge: 'Target Standar Carport (TEST 1)',
+          desc: 'Kaca Tempered Clear 10mm SNI Asahimas, struktur hollow galvanis 100×50×2 mm bentang rigid, plat anchor baja, sealant weatherseal netral struktural Dowsil 795.',
+          minRate: 1700000,
+          maxRate: 1900000,
+          targetRate: 1800000,
+          rate: 'Rp 1.700.000 – Rp 1.900.000 / m²',
+          leadTime: '6–8 Hari Kerja',
+          formula: '18 m² × Rp 1.800.000 = Rp 32.400.000 (Kaca 11.7M + Rangka 6.3M + Hardware 2M + Sealant 900k + Fabrikasi 3.6M + Pasang 4.5M + Transport 1.2M + Margin 2.2M)',
+          rabRatios: {
+            kaca: 11700000 / 32400000,
+            struktur: 6300000 / 32400000,
+            hardware: 2000000 / 32400000,
+            sealant: 900000 / 32400000,
+            fabrikasi: 3600000 / 32400000,
+            pasang: 4500000 / 32400000,
+            transport: 1200000 / 32400000,
+            margin: 2200000 / 32400000
+          }
+        },
+        {
+          id: 'wf_tempered_12',
+          name: 'Rangka Baja WF 150 / Double Hollow + Tempered 12 mm',
+          badge: 'Heavy Duty WF 150',
+          desc: 'Kaca Tempered Clear 12mm tebal anti lendut, struktur balok baja profil WF 150 / double hollow 100×50 heavy tanpa tiang tengah, plat sambung anchor baja tebal 10mm.',
+          minRate: 1800000,
+          maxRate: 2000000,
+          targetRate: 1900000,
+          rate: 'Rp 1.800.000 – Rp 2.000.000 / m²',
+          leadTime: '7–10 Hari Kerja',
+          formula: '(Luas m² × Tarif) + Baja WF 150 + Tempered 12mm + Plat Anchor Baja + Sealant Weatherseal + Alat Berat/Crane + Pasang',
+          rabRatios: { kaca: 0.38, struktur: 0.23, hardware: 0.06, sealant: 0.03, fabrikasi: 0.10, pasang: 0.11, transport: 0.03, margin: 0.06 }
+        },
+        {
+          id: 'stainless_tempered',
+          name: 'Rangka Stainless Steel SUS304 + Tempered 10/12 mm',
+          badge: 'Stainless SUS304 Anti Karat',
+          desc: 'Struktur pipa kotak/bulat Stainless Steel SUS304 kilap/hairline anti karat seumur hidup, kaca Tempered 10mm/12mm, bracket spider clamp SUS304 presisi.',
+          minRate: 2600000,
+          maxRate: 3400000,
+          targetRate: 2950000,
+          rate: 'Rp 2.600.000 – Rp 3.400.000 / m²',
+          leadTime: '10–14 Hari Kerja',
+          formula: '(Luas m² × Tarif) + Rangka Stainless SUS304 + Tempered 10/12mm + Spider Clamp SUS304 + Polishing + Sealant + Pasang',
+          rabRatios: { kaca: 0.30, struktur: 0.32, hardware: 0.08, sealant: 0.03, fabrikasi: 0.10, pasang: 0.09, transport: 0.02, margin: 0.06 }
+        },
+        {
+          id: 'laminated_canopy',
+          name: 'Struktur Rangka + Tempered Laminated 5+5 mm PVB',
+          badge: 'Maximum Safety PVB',
+          desc: 'Kaca Tempered Laminated 5+5mm (kaca tetap utuh terikat interlayer PVB 0.76mm jika retak benturan ekstrem), struktur rangka baja hollow galvanis tebal.',
+          minRate: 2200000,
+          maxRate: 2800000,
+          targetRate: 2450000,
+          rate: 'Rp 2.200.000 – Rp 2.800.000+ / m²',
+          leadTime: '8–12 Hari Kerja',
+          formula: '(Luas m² × Tarif) + Rangka Baja + Tempered Laminated 5+5 PVB + Sealant Struktural + Scaffolding + Pasang',
+          rabRatios: { kaca: 0.44, struktur: 0.20, hardware: 0.05, sealant: 0.03, fabrikasi: 0.10, pasang: 0.10, transport: 0.02, margin: 0.06 }
+        }
+      ]
     },
-    shower: {
+
+    railing: {
+      category: 'glass_railing',
+      priceModel: 'glass_railing',
+      label: 'Railing Tangga & Balkon Kaca Tempered',
+      unit: 'm1',
+      unitName: 'Meter Lari (m1)',
+      minOrderValue: 5500000,
+      wasteFactor: 0.05,
+      defaultQty: 18,
+      presets: [4, 8, 12, 18, 24],
+      summaryLabel: 'Sistem Railing:',
+      step2Label: '2. Pilih Sistem Railing Kaca',
+      guideText: 'PILIH SISTEM RAILING (U-Channel, Spigot, Handrail SS304)',
+      options: [
+        {
+          id: 'uchannel_ss304',
+          name: 'Sistem U-Channel Base Tanam + Tempered 12 mm',
+          badge: 'U-Channel SS304 Tanam (TEST 2)',
+          desc: 'Kaca Tempered 12mm SNI Asahimas, base shoe profil aluminium/stainless SUS304 tanam rata lantai marmer/keramik dengan chemical anchor Fischer/Hilti, cover cladding samping estetik.',
+          minRate: 2200000,
+          maxRate: 2500000,
+          targetRate: 2400000,
+          rate: 'Rp 2.200.000 – Rp 2.500.000 / m1',
+          leadTime: '6–9 Hari Kerja',
+          formula: '18 m¹ × Rp 2.400.000 = Rp 43.200.000 (Base U-Channel + Kaca Tempered 12mm + Chemical Anchor + Sealant EPDM + Pasang Presisi)',
+          rabRatios: { kaca: 0.35, struktur: 0.24, hardware: 0.08, sealant: 0.03, fabrikasi: 0.10, pasang: 0.11, transport: 0.03, margin: 0.06 }
+        },
+        {
+          id: 'spigot_ss304',
+          name: 'Sistem Spigot Clamp Solid SUS304 + Tempered 12 mm',
+          badge: 'Spigot SS304 Solid 2 Titik/m',
+          desc: 'Kaca Tempered 12mm SNI, dudukan spigot bulat/kotak cor Stainless SUS304 padat (2 unit per meter), dynabolt M12 beton, tampilan minimalis murni tanpa tiang atas.',
+          minRate: 2500000,
+          maxRate: 3000000,
+          targetRate: 2750000,
+          rate: 'Rp 2.500.000 – Rp 3.000.000 / m1',
+          leadTime: '5–8 Hari Kerja',
+          formula: '(Panjang m1 × Tarif) + Kaca Tempered 12mm + 2 Spigot SUS304 Solid/m + Dynabolt Stainless + Setting Laser + Pasang',
+          rabRatios: { kaca: 0.32, struktur: 0.26, hardware: 0.12, sealant: 0.02, fabrikasi: 0.09, pasang: 0.10, transport: 0.03, margin: 0.06 }
+        },
+        {
+          id: 'handrail_ss304',
+          name: 'Tiang Baluster + Handrail SUS304 + Tempered 10 mm',
+          badge: 'Handrail SS304 Safety',
+          desc: 'Kaca Tempered 10mm SNI, tiang baluster pipa bulat/kotak SUS304, handrail pegangan stainless 2" atau kayu kamper/jati atas kaca, sangat ramah anak & lansia.',
+          minRate: 2400000,
+          maxRate: 2900000,
+          targetRate: 2650000,
+          rate: 'Rp 2.400.000 – Rp 2.900.000 / m1',
+          leadTime: '5–8 Hari Kerja',
+          formula: '(Panjang m1 × Tarif) + Kaca Tempered 10mm + Tiang Baluster SUS304 + Handrail Pipa 2" + Bracket Klem Kaca + Pasang',
+          rabRatios: { kaca: 0.30, struktur: 0.28, hardware: 0.10, sealant: 0.02, fabrikasi: 0.10, pasang: 0.11, transport: 0.03, margin: 0.06 }
+        },
+        {
+          id: 'railing_tangga',
+          name: 'Railing Tangga Custom Void + Tempered 10/12 mm',
+          badge: 'Railing Tangga Presisi',
+          desc: 'Kaca Tempered 10mm/12mm custom bevel mengikuti sudut derajat kemiringan trap anak tangga (akurasi laser), pin standoff void / tiang miring SUS304.',
+          minRate: 2500000,
+          maxRate: 3000000,
+          targetRate: 2750000,
+          rate: 'Rp 2.500.000 – Rp 3.000.000 / m1',
+          leadTime: '7–12 Hari Kerja',
+          formula: '(Panjang m1 × Tarif) + Mal Triplek Sudut Trap + Kaca Tempered Custom Bevel + Hardware Tangga SUS304 + Pasang Khusus',
+          rabRatios: { kaca: 0.33, struktur: 0.25, hardware: 0.09, sealant: 0.03, fabrikasi: 0.11, pasang: 0.10, transport: 0.03, margin: 0.06 }
+        }
+      ]
+    },
+
+    partisi: {
+      category: 'aluminium',
+      priceModel: 'aluminium_partition',
+      label: 'Partisi Kaca Kantor & Sekat Ruangan Aluminium',
+      unit: 'm²',
+      unitName: 'Meter Persegi (m²)',
+      minOrderValue: 3500000,
+      wasteFactor: 0.08,
+      defaultQty: 16.8,
+      presets: [8, 12, 16.8, 25, 40],
+      summaryLabel: 'Grade Partisi:',
+      step2Label: '2. Pilih Grade Profil & Kaca Partisi',
+      guideText: 'Standard SNI 3" vs Premium Heavy Duty 4" (TEST 3)',
+      options: [
+        {
+          id: 'standard',
+          name: 'Standard SNI (Profil 3" Dacon / Inkalum + Kaca 5 mm)',
+          badge: 'Standard SNI 3" (TEST 3)',
+          desc: 'Kusen aluminium 3" tebal 0.9–1.0mm (Dacon/Inkalum), kaca clear polos 5mm SNI, karet EPDM lis keliling, sealant netral kedap suara kantor.',
+          minRate: 850000,
+          maxRate: 1050000,
+          targetRate: 950000,
+          rate: 'Rp 850.000 – Rp 1.050.000 / m²',
+          leadTime: '3–5 Hari Kerja',
+          formula: '16,8 m² × Rp 950.000 = Rp 15.960.000 (Kusen 3" + Kaca 5mm + Karet EPDM + Sealant + Sekrup Fisher + Jasa Pasang Presisi)',
+          rabRatios: { kaca: 0.28, struktur: 0.30, hardware: 0.06, sealant: 0.05, fabrikasi: 0.10, pasang: 0.11, transport: 0.03, margin: 0.07 }
+        },
+        {
+          id: 'premium',
+          name: 'Premium Grade (Profil 4" Alexindo / Forta + Kaca 6/8 mm)',
+          badge: 'Alexindo 4" Heavy (TEST 3)',
+          desc: 'Kusen aluminium 4" tebal 1.1–1.3mm profil tebal rigid (Alexindo/Forta), kaca clear/riben 6mm / tempered 8mm, peredam suara kantor akustik lebih hening.',
+          minRate: 1100000,
+          maxRate: 1350000,
+          targetRate: 1250000,
+          rate: 'Rp 1.100.000 – Rp 1.350.000 / m²',
+          leadTime: '4–7 Hari Kerja',
+          formula: '16,8 m² × Rp 1.250.000 = Rp 21.000.000 (Kusen 4" Alexindo + Kaca 6mm/8mm + Sealant Akustik + Bracket Baja + Pasang Presisi)',
+          rabRatios: { kaca: 0.32, struktur: 0.28, hardware: 0.06, sealant: 0.05, fabrikasi: 0.10, pasang: 0.10, transport: 0.03, margin: 0.06 }
+        }
+      ]
+    },
+
+    jendela: {
+      category: 'aluminium',
+      priceModel: 'aluminium_window',
+      label: 'Jendela Aluminium (Casement / Sliding)',
+      unit: 'm²',
+      unitName: 'Meter Persegi (m²)',
+      minOrderValue: 1800000,
+      wasteFactor: 0.08,
+      defaultQty: 10,
+      presets: [3, 6, 10, 15, 20],
+      summaryLabel: 'Grade Jendela:',
+      step2Label: '2. Pilih Grade Profil & Aksesoris Jendela',
+      guideText: 'Standard SNI vs Premium Alexindo Heavy Duty (TEST 4)',
+      options: [
+        {
+          id: 'standard',
+          name: 'Standard SNI (Casement 3" + Kaca 5 mm)',
+          badge: 'Inkalum / Dacon 3" (TEST 4)',
+          desc: 'Profil kusen & daun 3" tebal 1.0mm, kaca clear 5mm SNI, friction stay stainless 12", kunci rambuncis zinc alloy, weatherstrip bulu & karet kedap air hujan.',
+          minRate: 850000,
+          maxRate: 1050000,
+          targetRate: 950000,
+          rate: 'Rp 850.000 – Rp 1.050.000 / m²',
+          leadTime: '3–5 Hari Kerja',
+          formula: '10 m² × Rp 950.000 = Rp 9.500.000 (Kusen + Daun Casement + Kaca 5mm + Friction Stay + Rambuncis + Pasang)',
+          rabRatios: { kaca: 0.25, struktur: 0.34, hardware: 0.10, sealant: 0.04, fabrikasi: 0.10, pasang: 0.08, transport: 0.03, margin: 0.06 }
+        },
+        {
+          id: 'premium',
+          name: 'Premium Grade (Casement 4" Alexindo + Hardware Dekkson)',
+          badge: 'Alexindo 4" SUS304 (TEST 4)',
+          desc: 'Profil heavy duty 4" tebal 1.2mm Alexindo, kaca Panasap tolak panas / Euro Grey 5mm, friction stay heavy duty Dekkson SUS304, multi-point lock lever hening.',
+          minRate: 1100000,
+          maxRate: 1400000,
+          targetRate: 1250000,
+          rate: 'Rp 1.100.000 – Rp 1.400.000 / m²',
+          leadTime: '4–6 Hari Kerja',
+          formula: '10 m² × Rp 1.250.000 = Rp 12.500.000 (Kusen 4" Alexindo + Kaca Panasap + Multi-point Lock Dekkson + Weatherseal + Pasang)',
+          rabRatios: { kaca: 0.28, struktur: 0.33, hardware: 0.12, sealant: 0.04, fabrikasi: 0.08, pasang: 0.07, transport: 0.02, margin: 0.06 }
+        }
+      ]
+    },
+
+    pintu: {
+      category: 'aluminium',
+      priceModel: 'aluminium_door',
+      label: 'Pintu Aluminium (Swing / Sliding / Folding Modern)',
       unit: 'unit',
-      unitName: 'Unit Shower Screen',
+      unitName: 'Unit Pintu',
+      minOrderValue: 2000000,
+      wasteFactor: 0.08,
+      defaultQty: 1,
+      presets: [1, 2, 4, 6, 8],
+      summaryLabel: 'Tipe Bukaan:',
+      step2Label: '2. Pilih Tipe Bukaan Pintu Aluminium',
+      guideText: 'PILIH SISTEM PINTU: Swing, Sliding, atau Folding (TEST 5)',
+      options: [
+        {
+          id: 'swing',
+          name: 'Pintu Aluminium Swing 1 Daun Modern Komplit',
+          badge: 'Swing 1 Daun Modern (TEST 5)',
+          desc: '1 Unit pintu swing buka dorong/tarik lengkap kusen 3"/4", panel kaca clear 5mm / spandrel dobel aluminium, engsel tebal stainless 4", lockset mortise lock lever handle awet.',
+          minRate: 2000000,
+          maxRate: 2800000,
+          targetRate: 2350000,
+          rate: 'Rp 2.000.000 – Rp 2.800.000 / unit',
+          leadTime: '3–5 Hari Kerja',
+          formula: 'Kusen 3" + Daun Pintu + Kaca 5mm / Spandrel + Mortise Lockset + Engsel Stainless + Jasa Pasang',
+          rabRatios: { kaca: 0.18, struktur: 0.40, hardware: 0.15, sealant: 0.03, fabrikasi: 0.10, pasang: 0.07, transport: 0.02, margin: 0.05 }
+        },
+        {
+          id: 'sliding',
+          name: 'Pintu Aluminium Sliding Geser (Silent Roller Rail)',
+          badge: 'Sliding Silent Roller (TEST 5)',
+          desc: '1 Unit pintu geser hemat ruang, rel gantung / rel bawah aluminium presisi, roda bearing roller hening anti-anjlok, kunci hook lock tanam, stopper peredam benturan.',
+          minRate: 2500000,
+          maxRate: 3500000,
+          targetRate: 2850000,
+          rate: 'Rp 2.500.000 – Rp 3.500.000 / unit',
+          leadTime: '4–6 Hari Kerja',
+          formula: 'Kusen Pintu + Daun Sliding + Rel Atas Bawah + Roller Bearing + Kunci Hook Lock Tanam + Sealant + Pasang',
+          rabRatios: { kaca: 0.16, struktur: 0.38, hardware: 0.18, sealant: 0.03, fabrikasi: 0.10, pasang: 0.07, transport: 0.02, margin: 0.06 }
+        },
+        {
+          id: 'folding',
+          name: 'Pintu Aluminium Folding / Lipat (per unit opening)',
+          badge: 'Folding Multi-Leaf',
+          desc: 'Sistem pintu lipat bukaan penuh teras/taman, rel gantung heavy duty, engsel kupu-kupu lipat, flush bolt tanam pengunci atas bawah antar daun.',
+          minRate: 3500000,
+          maxRate: 5000000,
+          targetRate: 4200000,
+          rate: 'Rp 3.500.000 – Rp 5.000.000+ / unit',
+          leadTime: '5–8 Hari Kerja',
+          formula: 'Daun Pintu Lipat + Rel Gantung Heavy + Engsel Lipat SUS304 + Flush Bolt + Kaca 5mm + Pasang Presisi',
+          rabRatios: { kaca: 0.20, struktur: 0.36, hardware: 0.18, sealant: 0.03, fabrikasi: 0.09, pasang: 0.07, transport: 0.02, margin: 0.05 }
+        }
+      ]
+    },
+
+    shower: {
+      category: 'glass_shower',
+      priceModel: 'glass_shower',
       label: 'Shower Screen Kaca Kamar Mandi',
+      unit: 'unit',
+      unitName: 'Set Shower Screen',
+      minOrderValue: 1800000,
+      wasteFactor: 0.05,
       defaultQty: 1,
       presets: [1, 2, 3, 4, 5],
-      standard: {
-        min: 2450000,
-        max: 2950000,
-        spec: 'Standard SNI (Tempered 10mm + Fitting Chrome Standar)',
-        desc: 'Kisaran rata-rata: Rp 2.450.000 – Rp 2.950.000 / unit (Standard SNI)'
-      },
-      premium: {
-        min: 3550000,
-        max: 4450000,
-        spec: 'Premium Grade (Tempered 10mm Nano Hydrophobic + Solid SUS-304 Matte/Gold)',
-        desc: 'Kisaran rata-rata: Rp 3.550.000 – Rp 4.450.000 / unit (Premium Grade)'
-      }
+      summaryLabel: 'Sistem Shower:',
+      step2Label: '2. Pilih Sistem Shower Screen',
+      guideText: 'PILIH SISTEM SHOWER: Framed, Semi Frameless, Full Frameless',
+      options: [
+        {
+          id: 'framed',
+          name: 'Framed Shower Screen (Bingkai Aluminium Keliling)',
+          badge: 'Framed Ekonomis',
+          desc: 'Frame aluminium anodize tahan lembab keliling, kaca tempered 6mm / kaca es buram moru, door seal magnet kedap percikan air, handle knop minimalis.',
+          minRate: 1500000,
+          maxRate: 2000000,
+          targetRate: 1750000,
+          rate: 'Rp 1.500.000 – Rp 2.000.000 / unit',
+          leadTime: '3–4 Hari Kerja',
+          formula: 'Frame Aluminium Shower + Kaca Tempered 6mm + Karet Seal Magnet + Engsel Pivot + Pasang',
+          rabRatios: { kaca: 0.35, struktur: 0.26, hardware: 0.11, sealant: 0.04, fabrikasi: 0.10, pasang: 0.06, transport: 0.02, margin: 0.06 }
+        },
+        {
+          id: 'semi_frameless',
+          name: 'Semi Frameless Shower Screen (U-Channel + Header Track)',
+          badge: 'Semi Frameless 8mm',
+          desc: 'Kaca Tempered 8mm SNI Asahimas, sekat mati dengan U-channel aluminium tipis dinding & lantai, pintu swing engsel kaca-ke-tembok kuningan lapis chrome.',
+          minRate: 2000000,
+          maxRate: 2800000,
+          targetRate: 2350000,
+          rate: 'Rp 2.000.000 – Rp 2.800.000 / unit',
+          leadTime: '3–5 Hari Kerja',
+          formula: 'Kaca Tempered 8mm + U-Channel Dinding + Engsel Glass-to-Wall + Handle Handuk L + Sealant Anti Jamur',
+          rabRatios: { kaca: 0.40, struktur: 0.16, hardware: 0.16, sealant: 0.04, fabrikasi: 0.09, pasang: 0.07, transport: 0.02, margin: 0.06 }
+        },
+        {
+          id: 'frameless',
+          name: 'Full Frameless Shower Screen (Tempered 10 mm SUS304)',
+          badge: 'Luxury Frameless 10mm',
+          desc: 'Kaca Tempered 10mm murni frameless bebas bingkai, 2 engsel kuningan SUS304 chrome duty 50kg, pipa stabilizer stainless atas kaca, magnetic seal air 100% kedap.',
+          minRate: 2500000,
+          maxRate: 3500000,
+          targetRate: 2950000,
+          rate: 'Rp 2.500.000 – Rp 3.500.000 / unit',
+          leadTime: '4–6 Hari Kerja',
+          formula: 'Kaca Tempered 10mm Bevel + Engsel SUS304 + Pipa Stabilizer SUS304 + Handle Handuk L + Sealant Dowsil Sanitasi',
+          rabRatios: { kaca: 0.42, struktur: 0.08, hardware: 0.22, sealant: 0.04, fabrikasi: 0.08, pasang: 0.08, transport: 0.02, margin: 0.06 }
+        }
+      ]
     },
+
+    kusen: {
+      category: 'aluminium',
+      priceModel: 'aluminium_profile',
+      label: 'Kusen Aluminium (Profil 3" / 4" SNI)',
+      unit: 'm1',
+      unitName: 'Meter Lari (m1)',
+      minOrderValue: 1500000,
+      wasteFactor: 0.08,
+      defaultQty: 12,
+      presets: [6, 12, 20, 35, 50],
+      summaryLabel: 'Grade Kusen:',
+      step2Label: '2. Pilih Grade Profil Kusen Aluminium',
+      guideText: 'Standar SNI 3" vs Alexindo Heavy 4"',
+      options: [
+        {
+          id: 'standard',
+          name: 'Standard SNI 3 Inch (Dacon / Inkalum)',
+          badge: 'Dacon / Inkalum 3"',
+          desc: 'Profil batangan 3" tebal 0.9–1.0mm, anodize/powder coating standar, perakitan siku miter 45° presisi, sekrup fisher baja + sealant netral.',
+          minRate: 85000,
+          maxRate: 110000,
+          targetRate: 100000,
+          rate: 'Rp 85.000 – Rp 110.000 / m1',
+          leadTime: '2–4 Hari Kerja',
+          formula: '(Panjang m1 × Tarif) + Sekrup Fisher + Sealant Neutral + Upah Tukang Presisi + Cutting Waste 8%',
+          rabRatios: { kaca: 0.00, struktur: 0.54, hardware: 0.08, sealant: 0.08, fabrikasi: 0.12, pasang: 0.08, transport: 0.03, margin: 0.07 }
+        },
+        {
+          id: 'premium',
+          name: 'Premium Grade 4 Inch (Alexindo / Alcomexindo)',
+          badge: 'Alexindo 4" Heavy',
+          desc: 'Profil batangan 4" tebal 1.1–1.3mm kekakuan tinggi, bentangan lebar kokoh, powder coating tahan luntur cuaca eksterior, sealant struktural.',
+          minRate: 135000,
+          maxRate: 165000,
+          targetRate: 150000,
+          rate: 'Rp 135.000 – Rp 165.000 / m1',
+          leadTime: '3–5 Hari Kerja',
+          formula: '(Panjang m1 × Tarif) + Sekrup Fisher Heavy + Sealant Weatherseal + Upah Pasang + Cutting Waste 8%',
+          rabRatios: { kaca: 0.00, struktur: 0.56, hardware: 0.08, sealant: 0.07, fabrikasi: 0.12, pasang: 0.07, transport: 0.03, margin: 0.07 }
+        }
+      ]
+    },
+
+    pintu_tempered: {
+      category: 'glass_door',
+      priceModel: 'glass_door',
+      label: 'Pintu Kaca Frameless Floor Hinge',
+      unit: 'unit',
+      unitName: 'Set Daun Pintu',
+      minOrderValue: 3500000,
+      wasteFactor: 0.05,
+      defaultQty: 1,
+      presets: [1, 2, 3, 4, 6],
+      summaryLabel: 'Sistem Bukaan:',
+      step2Label: '2. Pilih Sistem Floor Hinge & Kaca',
+      guideText: 'PILIH SISTEM: Single Leaf 10/12mm vs Double Leaf Kupu Tarung',
+      options: [
+        {
+          id: 'single_10',
+          name: 'Single Leaf Tempered 10 mm + Mesin BTS 84',
+          badge: 'Single 10mm Standard',
+          desc: 'Kaca Tempered 10mm SNI Asahimas, mesin floor hinge Dekkson BTS 84 tanam lantai beton, top patch fitting SUS304, pull handle stainless 60cm, kunci silinder bawah.',
+          minRate: 3250000,
+          maxRate: 3850000,
+          targetRate: 3500000,
+          rate: 'Rp 3.250.000 – Rp 3.850.000 / unit',
+          leadTime: '3–5 Hari Kerja',
+          formula: 'Kaca Tempered 10mm + Mesin Floor Hinge BTS 84 + Patch Fitting + Pull Handle 60cm + Pasang',
+          rabRatios: { kaca: 0.38, struktur: 0.06, hardware: 0.30, sealant: 0.03, fabrikasi: 0.09, pasang: 0.07, transport: 0.02, margin: 0.05 }
+        },
+        {
+          id: 'single_12',
+          name: 'Single Leaf Tempered 12 mm + Floor Hinge Dorma',
+          badge: 'Dorma BTS 75V Heavy',
+          desc: 'Kaca Tempered 12mm kokoh anti getar, mesin floor hinge Dorma BTS 75V standar gedung komersial, patch fitting SUS304 heavy, pull handle 80cm elegan.',
+          minRate: 4200000,
+          maxRate: 5250000,
+          targetRate: 4650000,
+          rate: 'Rp 4.200.000 – Rp 5.250.000 / unit',
+          leadTime: '4–6 Hari Kerja',
+          formula: 'Kaca Tempered 12mm + Mesin Floor Hinge Dorma BTS 75V + Patch Fitting Heavy + Pull Handle 80cm + Pasang',
+          rabRatios: { kaca: 0.36, struktur: 0.06, hardware: 0.34, sealant: 0.03, fabrikasi: 0.08, pasang: 0.06, transport: 0.02, margin: 0.05 }
+        },
+        {
+          id: 'double_12',
+          name: 'Double Leaf (Kupu Tarung) Tempered 12 mm',
+          badge: 'Lobby 2 Daun Kupu Tarung',
+          desc: '2 daun pintu kaca tempered 12mm (opening 180×220cm), 2 unit mesin floor hinge independen, 4 set patch fitting SUS304, 2 pasang pull handle 80cm, kunci sentral lantai.',
+          minRate: 7800000,
+          maxRate: 9400000,
+          targetRate: 8500000,
+          rate: 'Rp 7.800.000 – Rp 9.400.000 / unit',
+          leadTime: '5–8 Hari Kerja',
+          formula: '2 Daun Kaca Tempered 12mm + 2 Mesin Floor Hinge + 4 Patch Fitting + 2 Handle 80cm + Central Lock + Pasang',
+          rabRatios: { kaca: 0.36, struktur: 0.06, hardware: 0.34, sealant: 0.03, fabrikasi: 0.08, pasang: 0.06, transport: 0.02, margin: 0.05 }
+        }
+      ]
+    },
+
     bifold: {
+      category: 'aluminium',
+      priceModel: 'aluminium_bifold',
+      label: 'Pintu Lipat Bifold System Aluminium',
       unit: 'daun',
-      unitName: 'Daun Pintu Lipat',
-      label: 'Pintu Lipat Bifold System',
+      unitName: 'Daun Pintu',
+      minOrderValue: 5000000,
+      wasteFactor: 0.08,
       defaultQty: 4,
       presets: [3, 4, 5, 6, 8],
-      standard: {
-        min: 2250000,
-        max: 2750000,
-        spec: 'Standard SNI (Profil Bifold Standar + Rel Gantung 4 Roda Bearing)',
-        desc: 'Kisaran rata-rata: Rp 2.250.000 – Rp 2.750.000 / daun (Standard SNI)'
-      },
-      premium: {
-        min: 3150000,
-        max: 3850000,
-        spec: 'Premium Grade (Heavy-Duty European Rel + Tempered/Moru + EPDM Seal)',
-        desc: 'Kisaran rata-rata: Rp 3.150.000 – Rp 3.850.000 / daun (Premium Grade)'
-      }
+      summaryLabel: 'Grade Bifold:',
+      step2Label: '2. Pilih Grade Rel & Profil Bifold',
+      guideText: 'Standard Inkalum vs Premium Alexindo Heavy 250kg',
+      options: [
+        {
+          id: 'standard',
+          name: 'Bifold Standard Track (Inkalum 1.1 mm)',
+          badge: 'Inkalum SNI',
+          desc: 'Profil aluminium tebal 1.1mm, kaca clear 5mm, rel gantung atas & guide rel bawah bantalan roller bearing tahan beban 120kg, engsel lipat antar daun.',
+          minRate: 2800000,
+          maxRate: 3500000,
+          targetRate: 3150000,
+          rate: 'Rp 2.800.000 – Rp 3.500.000 / daun',
+          leadTime: '5–7 Hari Kerja',
+          formula: '(Jumlah Daun × Tarif) + Rel Gantung + Roller Bearing + Flush Bolt + Kaca 5mm + Pasang',
+          rabRatios: { kaca: 0.18, struktur: 0.40, hardware: 0.18, sealant: 0.03, fabrikasi: 0.09, pasang: 0.06, transport: 0.01, margin: 0.05 }
+        },
+        {
+          id: 'premium',
+          name: 'Bifold Heavy-Duty Panoramic (Alexindo 1.3 mm / 250 kg)',
+          badge: 'Alexindo Heavy 250kg',
+          desc: 'Profil Alexindo 1.3mm ekstra kaku, kaca tempered 6–8mm, rel gantung heavy duty suspended tahan 250kg buka tutup sangat halus (whisper quiet), flush floor threshold.',
+          minRate: 3500000,
+          maxRate: 4800000,
+          targetRate: 4100000,
+          rate: 'Rp 3.500.000 – Rp 4.800.000 / daun',
+          leadTime: '7–10 Hari Kerja',
+          formula: '(Jumlah Daun × Tarif) + Rel Heavy Duty 250kg + Engsel SUS304 + Kaca Tempered + Flush Threshold + Pasang',
+          rabRatios: { kaca: 0.22, struktur: 0.38, hardware: 0.18, sealant: 0.03, fabrikasi: 0.08, pasang: 0.05, transport: 0.01, margin: 0.05 }
+        }
+      ]
     },
+
     etalase: {
-      unit: 'm1',
-      unitName: 'Meter Lari (m1)',
+      category: 'aluminium',
+      priceModel: 'aluminium_showcase',
       label: 'Etalase Kaca Toko & Display Counter',
-      defaultQty: 3,
-      presets: [2, 3, 5, 8, 12],
-      standard: {
-        min: 780000,
-        max: 980000,
-        spec: 'Standard SNI (Rangka Aluminium Standar + Kaca 5mm Polos + Roda Bearing)',
-        desc: 'Kisaran rata-rata: Rp 780.000 – Rp 980.000 / m1 (Standard SNI)'
-      },
-      premium: {
-        min: 1250000,
-        max: 1650000,
-        spec: 'Premium Grade (Aluminium Tebal Anodize + Kaca Tempered + LED Strip & Central Lock)',
-        desc: 'Kisaran rata-rata: Rp 1.250.000 – Rp 1.650.000 / m1 (Premium Grade)'
-      }
+      unit: 'unit',
+      unitName: 'Unit Etalase',
+      minOrderValue: 1200000,
+      wasteFactor: 0.08,
+      defaultQty: 1,
+      presets: [1, 2, 3, 5, 8],
+      summaryLabel: 'Spesifikasi Etalase:',
+      step2Label: '2. Pilih Spesifikasi Konstruksi Etalase',
+      guideText: 'Standard Toko 1.5m vs Premium Display Full Kaca',
+      options: [
+        {
+          id: 'standard',
+          name: 'Etalase Counter Toko Standar 1.5 Meter',
+          badge: 'Standard Counter 1.5m',
+          desc: 'Ukuran P150 × L50 × T100 cm, frame aluminium silver hollow etalase, kaca polos 5mm SNI, 2 susun rak kaca, pintu geser sliding dengan kunci gergaji, roda rem 2".',
+          minRate: 1200000,
+          maxRate: 1650000,
+          targetRate: 1450000,
+          rate: 'Rp 1.200.000 – Rp 1.650.000 / unit',
+          leadTime: '3–5 Hari Kerja',
+          formula: 'Rangka Hollow Etalase + Kaca 5mm + Roda Rem + Kunci Huben + Perakitan Workshop',
+          rabRatios: { kaca: 0.30, struktur: 0.34, hardware: 0.10, sealant: 0.04, fabrikasi: 0.12, pasang: 0.02, transport: 0.02, margin: 0.06 }
+        },
+        {
+          id: 'premium',
+          name: 'Display Showcase Premium Full Kaca Tempered + LED',
+          badge: 'Boutique Display + LED',
+          desc: 'Frame aluminium anodize hitam doff / champagne profil tebal, kaca tempered 6mm tahan gores, lampu LED strip tersembunyi warm/white, kunci sentral keamanan.',
+          minRate: 2000000,
+          maxRate: 3500000,
+          targetRate: 2750000,
+          rate: 'Rp 2.000.000 – Rp 3.500.000 / unit',
+          leadTime: '5–7 Hari Kerja',
+          formula: 'Rangka Anodize Hitam + Kaca Tempered 6mm + LED Strip Hidden + Kunci Sentral + Fabrikasi',
+          rabRatios: { kaca: 0.32, struktur: 0.32, hardware: 0.12, sealant: 0.04, fabrikasi: 0.10, pasang: 0.02, transport: 0.02, margin: 0.06 }
+        }
+      ]
     },
-    railing: {
-      unit: 'm1',
-      unitName: 'Meter Lari (m1)',
-      label: 'Railing Tangga & Balkon Kaca Tempered',
-      defaultQty: 6,
-      presets: [3, 6, 10, 15, 25],
-      standard: {
-        min: 1350000,
-        max: 1700000,
-        spec: 'Standard SNI (Kaca Tempered 10mm + Tiang Hollow SUS201)',
-        desc: 'Kisaran rata-rata: Rp 1.350.000 – Rp 1.700.000 / m1 (Standard SNI)'
-      },
-      premium: {
-        min: 1950000,
-        max: 2550000,
-        spec: 'Premium Grade (Kaca Tempered 12mm Frameless / Base Shoe Tanam + SUS304/Kayu)',
-        desc: 'Kisaran rata-rata: Rp 1.950.000 – Rp 2.550.000 / m1 (Premium Grade)'
-      }
-    },
+
     acp: {
+      category: 'facade_acp',
+      priceModel: 'acp_facade',
+      label: 'Fasad ACP Aluminium Composite Panel',
       unit: 'm²',
       unitName: 'Meter Persegi (m²)',
-      label: 'Fasad ACP (Aluminium Composite Panel)',
-      defaultQty: 30,
-      presets: [15, 30, 50, 80, 150],
-      standard: {
-        min: 680000,
-        max: 850000,
-        spec: 'Standard SNI (ACP Marks / Alcopan 3–4mm PE Interior + Rangka Hollow)',
-        desc: 'Kisaran rata-rata: Rp 680.000 – Rp 850.000 / m² (Standard SNI)'
-      },
-      premium: {
-        min: 980000,
-        max: 1350000,
-        spec: 'Premium Grade (ACP Seven / Alustar 4mm PVDF 0.3–0.5mm Skin + Rangka Galvanis)',
-        desc: 'Kisaran rata-rata: Rp 980.000 – Rp 1.350.000 / m² (Premium Grade)'
-      }
-    },
-    curtain_wall: {
-      unit: 'm²',
-      unitName: 'Meter Persegi (m²)',
-      label: 'Curtain Wall Fasad Kaca Komersial',
+      minOrderValue: 5000000,
+      wasteFactor: 0.08,
       defaultQty: 25,
-      presets: [15, 25, 50, 100, 200],
-      standard: {
-        min: 1650000,
-        max: 2100000,
-        spec: 'Standard SNI (Mullion & Transom Standar 50x100 + Kaca Stopsol 6mm)',
-        desc: 'Kisaran rata-rata: Rp 1.650.000 – Rp 2.100.000 / m² (Standard SNI)'
-      },
-      premium: {
-        min: 2450000,
-        max: 3150000,
-        spec: 'Premium Grade (Mullion Heavy Duty Alexindo/YKK 50x150 + Tempered Reflective/IGU)',
-        desc: 'Kisaran rata-rata: Rp 2.450.000 – Rp 3.150.000 / m² (Premium Grade)'
-      }
-    }
-  };
+      presets: [10, 25, 50, 100, 200],
+      summaryLabel: 'Grade Panel ACP:',
+      step2Label: '2. Pilih Spesifikasi Panel ACP',
+      guideText: 'Tipe cat PE Interior vs PVDF Outdoor 0.3mm vs Heavy Duty 0.5mm',
+      options: [
+        {
+          id: 'interior_pe',
+          name: 'ACP Interior PE 0.21 mm (Seven / Marks)',
+          badge: 'Seven Interior PE',
+          desc: 'Tebal panel 4mm, skin aluminium 0.21mm cat Polyester (PE) untuk dekorasi dinding lobi, resepsionis, cover kolom/pilar & interior toko.',
+          minRate: 650000,
+          maxRate: 850000,
+          targetRate: 750000,
+          rate: 'Rp 650.000 – Rp 850.000 / m²',
+          leadTime: '4–7 Hari Kerja',
+          formula: 'Panel ACP PE + Rangka Hollow 2×4 + Baut Sekrup + Sealant Interior + Pasang',
+          rabRatios: { kaca: 0.00, struktur: 0.48, hardware: 0.08, sealant: 0.08, fabrikasi: 0.14, pasang: 0.12, transport: 0.03, margin: 0.07 }
+        },
+        {
+          id: 'exterior_pvdf',
+          name: 'ACP Eksterior PVDF 0.30 mm SNI Tahan Cuaca',
+          badge: 'Seven Outdoor PVDF',
+          desc: 'Tebal 4mm skin aluminium 0.30mm coating PVDF tahan panas matahari & hujan garansi warna 10 tahun, rangka hollow galvanis 40×40 anti karat, sealant non-staining.',
+          minRate: 850000,
+          maxRate: 1150000,
+          targetRate: 950000,
+          rate: 'Rp 850.000 – Rp 1.150.000 / m²',
+          leadTime: '6–9 Hari Kerja',
+          formula: 'Panel ACP PVDF 0.3mm + Rangka Hollow Galvanis 40×40 + Siku Breket + Baut Rivet + Sealant Non-Staining + Pasang',
+          rabRatios: { kaca: 0.00, struktur: 0.50, hardware: 0.08, sealant: 0.07, fabrikasi: 0.13, pasang: 0.12, transport: 0.03, margin: 0.07 }
+        },
+        {
+          id: 'heavy_duty_pvdf',
+          name: 'ACP Heavy-Duty PVDF 0.50 mm (Gedung & High-Rise)',
+          badge: 'Alucobond / Alcopan Grade',
+          desc: 'Tebal 4mm skin aluminium 0.50mm cat PVDF kualitas gedung komersial/showroom, rangka besi hollow galvanis tebal 1.6mm + scaffolding kerja aman.',
+          minRate: 1250000,
+          maxRate: 1650000,
+          targetRate: 1450000,
+          rate: 'Rp 1.250.000 – Rp 1.650.000 / m²',
+          leadTime: '8–14 Hari Kerja',
+          formula: 'Panel Heavy PVDF 0.5mm + Rangka Hollow 40×40 1.6mm + Braket Siku + Sealant Dow Corning + Scaffolding + Pasang',
+          rabRatios: { kaca: 0.00, struktur: 0.52, hardware: 0.08, sealant: 0.06, fabrikasi: 0.13, pasang: 0.11, transport: 0.03, margin: 0.07 }
+        }
+      ]
+    },
 
-  const SERVICE_SPEC_DETAILS = {
-    kusen: {
-      title: 'Spesifikasi Konstruksi Kusen Aluminium',
-      std: 'Profil 3 Inch (3 x 7 cm), tebal profil 0.9–1.0 mm SNI, spigot siku standar proyek, kaca polos/riben 5mm.',
-      prem: 'Profil 4 Inch (4 x 10 cm), tebal profil 1.15–1.35 mm Alexindo heavy-duty, sambungan mitre 45° presisi laser, perkuatan ganda & seal EPDM.'
-    },
-    pintu: {
-      title: 'Spesifikasi Daun Pintu, Kaca & Kunci',
-      std: 'Rangka profil 7 cm, kaca clear 5mm SNI, engsel kupu-kupu standar, lockset lever handle aluminium.',
-      prem: 'Rangka profil 8.5–9 cm ekstra kokoh, kaca tempered 8mm / fluted moru estetis, mortise lockset SUS-304 anti congkel & bearing halus.'
-    },
-    jendela: {
-      title: 'Spesifikasi Engsel & Mekanisme Jendela',
-      std: 'Casement arm standar, rambuncis aluminium, kaca bening 5mm SNI, peredam getaran standar.',
-      prem: 'Friction stay SUS-304 heavy-duty (tahan angin badai), rambuncis multi-point lock kokoh, kaca tinted Panasap penolak panas.'
-    },
-    partisi: {
-      title: 'Spesifikasi Partisi Kaca Kantor & Sekat',
-      std: 'Kaca Tempered 10mm clear frameless, penjepit lis aluminium U-channel ekspos standar, sealant netral.',
-      prem: 'Kaca Tempered 12mm super jernih (low-iron optional), lis recessed tanam lantai/plafon anti-getar, estetika seamless modern.'
-    },
-    pintu_tempered: {
-      title: 'Spesifikasi Pintu Floor Hinge Tempered',
-      std: 'Kaca Tempered 10mm SNI, mesin floor hinge standar kapasitas 80kg, top patch fitting standar, handle pipa stainless.',
-      prem: 'Kaca Tempered 12mm, floor hinge Dorma / Dekson SUS-304 kapasitas 120kg, lock corner patch SUS-304, push bar mewah.'
-    },
-    kanopi: {
-      title: 'Spesifikasi Struktur Rangka & Kaca Kanopi',
-      std: 'Kaca Tempered 8mm clear, rangka besi hollow 40x80mm cat primer anti karat, sealant tahan bocor standar.',
-      prem: 'Kaca Tempered Laminated 5+5mm (safety glass double-layer tidak runtuh jika retak), rangka galvanis 50x100mm cat epoxy oven 2 lapis.'
-    },
-    shower: {
-      title: 'Spesifikasi Shower Box Kaca Kamar Mandi',
-      std: 'Kaca Tempered 8–10mm, fitting engsel zinc-alloy chrome tahan lembap standar, handle towel bar standar.',
-      prem: 'Kaca Tempered 10mm + Nano Hydrophobic anti kerak air/sabun, hardware 100% Solid Stainless SUS-304 (Pilihan Black Matte / Brushed Gold).'
-    },
-    bifold: {
-      title: 'Spesifikasi Rel & Roda Pintu Lipat Bifold',
-      std: 'Rel gantung aluminium standar, 4 roda nilon per daun, engsel lipat standar, operasional lancar hunian biasa.',
-      prem: 'Heavy-duty European style top-hung bearing rel, dorongan super senyap & ringan tanpa goyang, seal karet ganda EPDM kedap suara.'
-    },
-    etalase: {
-      title: 'Spesifikasi Rangka Display & Keamanan Toko',
-      std: 'Rangka profil etalase 1.5 inch standar, kaca polos 5mm, roda nilon, kunci sliding standar.',
-      prem: 'Rangka tebal heavy-duty finishing anodize / powder coating premium, kaca tempered display, lampu LED strip tersembunyi & central lock system.'
-    },
-    railing: {
-      title: 'Spesifikasi Tiang, Kaca & Base Shoe Railing',
-      std: 'Kaca Tempered 10mm, tiang hollow stainless 201 kombinasi bracket, handrail pipa stainless standar.',
-      prem: 'Kaca Tempered 12mm / Laminated frameless, U-channel base shoe aluminium tanam lantai (tanpa tiang penghalang pandang) + handrail kayu jati/SUS304.'
-    },
-    acp: {
-      title: 'Spesifikasi Lembar Panel ACP & Rangka Fasad',
-      std: 'ACP tebal 3–4mm PE 0.21mm (Merk Marks/Alcopan), rangka hollow besi 20x40/40x40mm, sealant netral standar.',
-      prem: 'ACP Seven / Alustar 4mm PVDF skin 0.3–0.5mm outdoor exterior grade (garansi warna 10+ tahun), rangka besi galvanis tebal + sealant Dowsil anti jamur.'
-    },
     curtain_wall: {
-      title: 'Spesifikasi Rangka Mullion & Kaca Fasad Gedung',
-      std: 'Mullion & Transom 50x100mm, kaca Stopsol / Panasap 6mm single glass, silicone structural glazing standar.',
-      prem: 'Mullion heavy duty 50x150mm Alexindo/YKK arsitektural, kaca tempered reflective 8mm / Double Glazing (IGU kedap suara & panas maksimal).'
+      category: 'curtain_wall',
+      priceModel: 'curtain_wall',
+      label: 'Curtain Wall Fasad Kaca Komersial',
+      unit: 'm²',
+      unitName: 'Meter Persegi (m²)',
+      minOrderValue: 15000000,
+      wasteFactor: 0.05,
+      defaultQty: 30,
+      presets: [15, 30, 60, 120, 250],
+      summaryLabel: 'Sistem Fasad:',
+      step2Label: '2. Pilih Sistem Mullion & Spesifikasi Kaca',
+      guideText: 'Stick System Panasap 6mm vs Reflective 8mm vs Semi-Unitized',
+      options: [
+        {
+          id: 'stick_panasap',
+          name: 'Stick System Back Mullion + Panasap 6 mm Tinted',
+          badge: 'Ruko & Gedung Kantor',
+          desc: 'Rangka mullion aluminium 150mm tebal 1.5mm, kaca Panasap Green / Dark Blue 6mm penolak panas surya, structural sealant Dow Corning, siku baja anchor.',
+          minRate: 1600000,
+          maxRate: 1900000,
+          targetRate: 1750000,
+          rate: 'Rp 1.600.000 – Rp 1.900.000 / m²',
+          leadTime: '10–15 Hari Kerja',
+          formula: 'Rangka Mullion 150mm + Kaca Panasap 6mm + Structural Silicone + Siku Baja Anchor + Pasang',
+          rabRatios: { kaca: 0.32, struktur: 0.32, hardware: 0.07, sealant: 0.06, fabrikasi: 0.09, pasang: 0.07, transport: 0.02, margin: 0.05 }
+        },
+        {
+          id: 'stick_tempered8',
+          name: 'Stick System + Tempered Reflective / Stopsol 8 mm',
+          badge: 'Showroom & Facade 8mm',
+          desc: 'Rangka mullion aluminium heavy duty 150×50mm tebal 2.0mm, kaca Tempered One-Way Reflective / Stopsol 8mm privasi tinggi & pantul panas optimal.',
+          minRate: 1850000,
+          maxRate: 2450000,
+          targetRate: 2150000,
+          rate: 'Rp 1.850.000 – Rp 2.450.000 / m²',
+          leadTime: '12–18 Hari Kerja',
+          formula: 'Mullion Heavy 2.0mm + Kaca Tempered Stopsol 8mm + Braket WF Anchor + Sealant Struktural + Pasang',
+          rabRatios: { kaca: 0.35, struktur: 0.31, hardware: 0.07, sealant: 0.05, fabrikasi: 0.09, pasang: 0.06, transport: 0.02, margin: 0.05 }
+        },
+        {
+          id: 'semi_unitized',
+          name: 'Semi-Unitized High-Rise + Low-E 10 mm Tempered',
+          badge: 'Green Building Low-E',
+          desc: 'Kaca Tempered Low-E 10mm hemat energi AC, fabrikasi panel modul semi-unitized presisi workshop, bracket jangkar baja siku 8mm tebal, scaffolding/gondola.',
+          minRate: 2500000,
+          maxRate: 3250000,
+          targetRate: 2850000,
+          rate: 'Rp 2.500.000 – Rp 3.250.000 / m²',
+          leadTime: '15–25 Hari Kerja',
+          formula: 'Fabrikasi Modul Semi-Unitized + Kaca Tempered Low-E 10mm + Bracket Jangkar Baja 8mm + Gondola + Pasang',
+          rabRatios: { kaca: 0.38, struktur: 0.28, hardware: 0.07, sealant: 0.05, fabrikasi: 0.09, pasang: 0.06, transport: 0.02, margin: 0.05 }
+        }
+      ]
     }
-  };
+  }
+};
 
-  const SERVICE_RECOMMENDATION_DATA = {
-    kusen: {
-      tierKey: 'premium',
-      badgeText: '⭐ Disarankan: PREMIUM GRADE (UNTUK FASAD LUAR)',
-      badgeClass: 'choice-badge-prem',
-      envText: 'Tipe Pekerjaan: Struktural Dinding Hunian & Ruko (Outdoor & Indoor)',
-      headline: 'Alexindo 4" Premium untuk Fasad Luar, Dacon 3" Standard untuk Pintu/Jendela Kamar',
-      reason: 'Untuk kusen yang dipasang di dinding luar atau fasad utama, profil 4 Inch Premium (Alexindo/Alcomexindo tebal 1.15–1.35mm) sangat direkomendasikan agar kokoh menahan terpaan angin kencang dan sambungan sudut tidak renggang. Untuk sekat kamar tidur atau pintu interior, Standard SNI (3 Inch) sudah sangat hemat dan tahan rayap seumur hidup.',
-      whenStd: 'Renovasi sekat interior kamar, rumah sewa/kontrakan, atau efisiensi anggaran total.',
-      whenPrem: 'Fasad tampak depan rumah tinggal pribadi, jendela ruang tamu utama, dan bukaan kaca lebar.',
-      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
-    },
-    pintu: {
-      tierKey: 'premium',
-      badgeText: '⭐ Disarankan: PREMIUM GRADE',
-      badgeClass: 'choice-badge-prem',
-      envText: 'Tipe Pekerjaan: Akses Utama & Frekuensi Buka-Tutup Harian Tinggi',
-      headline: 'Kekuatan Mortise SUS-304 & Profil 8.5–9cm Mencegah Daun Pintu Turun',
-      reason: 'Daun pintu aluminium menanggung beban dinamis buka-tutup setiap hari. Varian Premium menggunakan profil rangka lebar 8.5–9cm dan engsel/kunci mortise Stainless SUS-304 yang tahan benturan serta anti-turun (anti-sagging). Pilihan kaca tempered atau moru fluted memberikan privasi elegan sekaligus keamanan optimal.',
-      whenStd: 'Pintu kamar mandi belakang, pintu gudang, atau proyek kost-kostan.',
-      whenPrem: 'Pintu utama rumah tinggal, pintu teras penghubung taman, dan area akses tamu.',
-      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
-    },
-    jendela: {
-      tierKey: 'premium',
-      badgeText: '🔥 Disarankan: PREMIUM GRADE (OUTDOOR WEATHERPROOF)',
-      badgeClass: 'choice-badge-prem',
-      envText: 'Tipe Pekerjaan: Bukaan Dinding Luar (Terpaan Hujan Badai & Angin Kencang)',
-      headline: 'Wajib Friction Stay SUS-304 & Karet EPDM Anti Bocor Rembes',
-      reason: 'Jendela luar bangunan berhadapan langsung dengan curah hujan Karawang. Friction stay SUS-304 pada Premium Grade menahan daun jendela tetap kokoh terbuka tanpa terhempas angin kencang. Dilengkapi gasket EPDM dan sealant Dowsil neutral grade yang menjamin 100% bebas bocor rembes ke dinding dalam.',
-      whenStd: 'Jendela bovenlight ventilasi toilet, jendela lorong dalam, atau bangunan semi-permanen.',
-      whenPrem: 'Jendela kamar tidur lantai 2, jendela fasad tampak muka, dan jendela ruang keluarga ber-AC.',
-      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
-    },
-    partisi: {
-      tierKey: 'standard',
-      badgeText: '🏷️ Disarankan: STANDARD SNI (HEMAT & SANGAT MEMADAI)',
-      badgeClass: 'choice-badge-std',
-      envText: 'Tipe Pekerjaan: Interior Kering & Pembatas Ruang Kantor / Komersial',
-      headline: 'Kaca Tempered 10mm SNI Sudah Sangat Kokoh untuk Sekat Kantor',
-      reason: 'Untuk area interior kering tanpa terpaan cuaca, Standard SNI dengan Kaca Tempered 10mm Clear Frameless sudah memberikan standar keamanan tinggi, kedap suara obrolan, dan tampilan visual modern yang luas. Anda dapat menghemat biaya 25–30% dibanding memilih varian 12mm lis tanam.',
-      whenStd: 'Sekat ruang meeting kantor, partisi ruang staf, klinik dokter, dan etalase toko mall.',
-      whenPrem: 'Partisi ruang direksi VIP yang membutuhkan insulasi akustik kedap maksimal (12mm) atau desain lis tanam minimalis.',
-      btnText: 'Terapkan Rekomendasi (Standard SNI) ke Kalkulator'
-    },
-    pintu_tempered: {
-      tierKey: 'premium',
-      badgeText: '⭐ Disarankan: PREMIUM GRADE',
-      badgeClass: 'choice-badge-prem',
-      envText: 'Tipe Pekerjaan: Akses Publik & Beban Kaca Frameless Berat (High-Traffic)',
-      headline: 'Mesin Floor Hinge Dorma / Dekson SUS-304 untuk Kelancaran Operasional',
-      reason: 'Pintu kaca frameless memiliki bobot daun kaca murni yang sangat berat (40–60 kg). Mesin floor hinge Dorma/Dekson pada Premium Grade berkapasitas beban hingga 120 kg dengan mekanisme hidrolik tahan banting ratusan ribu kali buka-tutup, mencegah pintu membanting atau anjlok.',
-      whenStd: 'Pintu ruko dengan frekuensi pengunjung rendah atau jam operasional terbatas.',
-      whenPrem: 'Pintu utama lobi kantor, kafe, minimarket, showroom komersial, dan ruko ramai pengunjung.',
-      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
-    },
-    kanopi: {
-      tierKey: 'premium',
-      badgeText: '🔥 REKOMENDASI MUTLAK: PREMIUM GRADE (OUTDOOR SAFETY)',
-      badgeClass: 'choice-badge-prem',
-      envText: 'Tipe Pekerjaan: Atap Eksterior Terbuka (Sinar UV Ekstrem, Hujan & Risiko Benturan Kejatuhan)',
-      headline: 'Kaca Laminated 5+5mm & Rangka Galvanis 50x100mm Melindungi Kendaraan & Keluarga',
-      reason: 'Atap kanopi adalah elemen eksterior paling berisiko tinggi. Kami SANGAT MEREKOMENDASIKAN Premium Grade dengan Kaca Laminated 5+5mm (kaca berikat interlayer PVB yang tidak akan rontok ke bawah bila terjadi benturan benda jatuh dari atas) serta rangka hollow galvanis 50x100mm cat oven anti karat seumur hidup.',
-      whenStd: 'Kanopi jemuran belakang rumah atau carport terlindung dengan bentang pendek di bawah 3 meter.',
-      whenPrem: 'Carport mobil depan rumah tinggal mewah, kanopi drop-off kendaraan, dan void atap terbuka lebar.',
-      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
-    },
-    shower: {
-      tierKey: 'premium',
-      badgeText: '⭐ Disarankan: PREMIUM GRADE',
-      badgeClass: 'choice-badge-prem',
-      envText: 'Tipe Pekerjaan: Area Basah Lembap Tinggi (Tantangan Karat & Kerak Sabun)',
-      headline: 'Fitting Solid SUS-304 & Nano Hydrophobic Anti Kerak Air Membandel',
-      reason: 'Kamar mandi memiliki kelembapan 100% dan paparan sabun/shampoo terus-menerus. Hardware Zinc biasa rentan keropos dan menghitam dalam 1–2 tahun. Premium Grade menggunakan fitting 100% Solid Stainless SUS-304 anti karat serta coating Nano Hydrophobic yang membuat air meluncur seperti daun talas sehingga kaca bebas buram kerak.',
-      whenStd: 'Kamar mandi tamu yang jarang digunakan atau proyek kost sewa ekonomis.',
-      whenPrem: 'Kamar mandi utama (master bathroom), walk-in shower modern ala hotel bintang 5.',
-      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
-    },
-    bifold: {
-      tierKey: 'premium',
-      badgeText: '🔥 REKOMENDASI SANGAT KUAT: PREMIUM GRADE',
-      badgeClass: 'choice-badge-prem',
-      envText: 'Tipe Pekerjaan: Bukaan Lipat Bentang Panjang & Sambungan Multi-Daun',
-      headline: 'Rel Gantung European Style Mencegah Roda Macet & Anjlok',
-      reason: 'Pintu lipat bifold adalah mekanisme kusen paling rumit. Jika memakai rel standar, bobot 3–6 daun pintu akan membuat rel melengkung dan macet setelah beberapa bulan. Premium Grade dilengkapi top-hung heavy-duty roller bearing Eropa yang digeser dengan satu jari pun sangat enteng, halus, dan senyap.',
-      whenStd: 'Pintu lipat 3 daun ukuran kecil untuk sekat ruangan interior yang jarang dibuka-tutup.',
-      whenPrem: 'Pintu lipat 4–8 daun bukaan lebar menghubungkan ruang keluarga dengan taman/kolam renang outdoor.',
-      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
-    },
-    etalase: {
-      tierKey: 'standard',
-      badgeText: '🏷️ Disarankan: STANDARD SNI (HEMAT MODAL USAHA)',
-      badgeClass: 'choice-badge-std',
-      envText: 'Tipe Pekerjaan: Interior Toko Retail & Display Counter',
-      headline: 'Paling Efisien untuk Menghemat Modal Awal Bisnis Anda',
-      reason: 'Bagi pemilik toko baru atau UMKM, etalase aluminium Standard SNI adalah pilihan paling rasional untuk menjaga modal usaha tetap hemat. Struktur aluminium profil 1.5" sudah sangat kokoh menampung stok barang dagangan, ringan digeser, dan anti rayap.',
-      whenStd: 'Etalase sembako, counter pulsa/hp, display apotek, dan meja kasir toko kelontong.',
-      whenPrem: 'Boutique pakaian mewah, toko perhiasan/emas, optik kacamata, dan counter mall yang membutuhkan kaca tempered dan lampu LED strip tersembunyi.',
-      btnText: 'Terapkan Rekomendasi (Standard SNI) ke Kalkulator'
-    },
-    railing: {
-      tierKey: 'premium',
-      badgeText: '🔥 REKOMENDASI MUTLAK: PREMIUM GRADE (SAFETY TINGGI)',
-      badgeClass: 'choice-badge-prem',
-      envText: 'Tipe Pekerjaan: Balkon Lantai 2+ & Tangga (Proteksi Nyawa & Kejatuhan)',
-      headline: 'Frameless Base Shoe Tanam / SUS-316 & Kaca Tempered 12mm',
-      reason: 'Railing tangga dan balkon berfungsi sebagai pelindung nyawa anggota keluarga dan anak-anak. Standard SNI dengan tiang 201 sudah aman, namun Premium Grade dengan kaca tempered 12mm frameless base shoe tanam atau spigot SUS-316 memberikan kekuatan struktural anti roboh yang teruji serta visual panoramik tanpa tiang pembatas yang mengganggu pemandangan.',
-      whenStd: 'Railing tangga rumah standar 2 lantai dengan budget renovasi terukur.',
-      whenPrem: 'Balkon luar lantai 2–3 terpapar angin luar, tangga utama void ruang tamu, dan gedung komersial.',
-      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
-    },
-    acp: {
-      tierKey: 'premium',
-      badgeText: '🔥 REKOMENDASI MUTLAK: PREMIUM GRADE (OUTDOOR EXTERIOR)',
-      badgeClass: 'choice-badge-prem',
-      envText: 'Tipe Pekerjaan: Fasad Eksterior Bangunan (Panas Terik & Hujan Asam Karawang)',
-      headline: 'Wajib ACP Seven / Alustar PVDF 4mm untuk Fasad Tahan 10+ Tahun',
-      reason: 'ACP PE (Standard) hanya didesain untuk interior atau semi-outdoor. Jika dipasang di fasad luar gedung, cat PE akan memudar dan mengelupas dalam 2–3 tahun terpapar matahari Karawang. Untuk fasad luar, WAJIB menggunakan ACP Seven / Alustar PVDF 4mm (Premium Grade) yang bergaransi warna 10–15 tahun tidak pudar.',
-      whenStd: 'Plafon SPBU semi-outdoor, sekat pilar dalam showroom, atau backdrop resepsionis interior.',
-      whenPrem: 'Fasad tampak depan ruko, gedung kantor komersial, bando toko, dan bangunan industri KIIC/Suryacipta.',
-      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
-    },
-    curtain_wall: {
-      tierKey: 'premium',
-      badgeText: '🔥 REKOMENDASI MUTLAK: PREMIUM GRADE (STRUKTURAL ARSITEKTURAL)',
-      badgeClass: 'choice-badge-prem',
-      envText: 'Tipe Pekerjaan: Fasad Kaca Gedung Bertingkat (Beban Angin & Tekanan Gempa)',
-      headline: 'Mullion Heavy-Duty 50x150mm & Double Glass / Tempered Reflective',
-      reason: 'Curtain wall menggantung pada struktur utama gedung dan menerima beban angin serta getaran gempa secara langsung. Mullion heavy-duty Alexindo/YKK 50x150mm Premium Grade menjamin kekakuan struktural tanpa lendutan berbahaya, serta kaca tempered/double glass yang mengisolasi panas matahari gedung hingga 60%.',
-      whenStd: 'Fasad ruko 2 lantai dengan bidang kaca relatif kecil di area terlindung.',
-      whenPrem: 'Gedung kantor 3–5 lantai, fasad hotel, rumah sakit, dan gedung serbaguna komersial modern.',
-      btnText: 'Terapkan Rekomendasi (Premium Grade) ke Kalkulator'
-    }
-  };
+// Expose globally for API, test suites, and client access:
+window.PRICING_CONFIG = PRICING_CONFIG;
+const SERVICE_CATALOG = PRICING_CONFIG.services;
 
-  const REGION_DATA = {
-    karawang: {
-      name: 'Karawang (Basis Workshop Klari / Galuh Mas / KIIC)',
-      transportBase: 100000,
-      surveyText: '100% GRATIS (On-Schedule)',
-      note: 'Basis workshop terdekat, armada pick-up lokal cepat & survey laser presisi gratis.'
-    },
-    cikampek: {
-      name: 'Cikampek & Jatisari (Karawang Timur)',
-      transportBase: 120000,
-      surveyText: '100% GRATIS (On-Schedule)',
-      note: 'Wilayah ring 1 Karawang, armada pick-up workshop langsung ke lokasi.'
-    },
-    cikarang: {
-      name: 'Cikarang (Lippo, Jababeka, Delta Mas, MM2100)',
-      transportBase: 180000,
-      surveyText: '100% GRATIS (On-Schedule)',
-      note: 'Jangkauan harian armada Karawang-Cikarang via jalur arteri & tol.'
-    },
-    bekasi: {
-      name: 'Bekasi (Kota & Kabupaten, Tambun, Cibitung)',
-      transportBase: 220000,
-      surveyText: '100% GRATIS (On-Schedule)',
-      note: 'Layanan instalasi terjadwal dengan armada pick-up material aman.'
-    },
-    jakarta: {
-      name: 'DKI Jakarta (Pusat, Selatan, Timur, Barat, Utara)',
-      transportBase: 350000,
-      surveyText: 'Gratis saat SPK / On-Schedule',
-      note: 'Termasuk alokasi e-toll armada pick-up & logistik pengiriman Jakarta.'
-    },
-    depok_tangerang: {
-      name: 'Depok, Tangerang & Tangerang Selatan',
-      transportBase: 380000,
-      surveyText: 'Gratis saat SPK / On-Schedule',
-      note: 'Termasuk alokasi tol JORR & pengawalan kaca utuh ke lokasi.'
-    },
-    bogor: {
-      name: 'Bogor (Kota & Kabupaten)',
-      transportBase: 380000,
-      surveyText: 'Gratis saat SPK / On-Schedule',
-      note: 'Termasuk logistik armada pengiriman workshop ke wilayah Bogor.'
-    }
-  };
-
-  const MIN_PROJECT_VALUE = 750000; // Rp 750.000 minimum order charge for on-site execution
-
-  let activeQuality = 'standard';
+(function initCostCalculatorWidget() {
+  // State management per product
+  let currentServiceKey = 'kusen';
+  let currentOptionId = 'standard';
 
   function formatIDRCurrency(val) {
-    if (isNaN(val) || val === null || val === undefined) return 'Rp 0';
     return 'Rp ' + Math.round(val).toLocaleString('id-ID');
   }
 
+  // Render option cards dynamically based on currentServiceKey
+  function renderOptionCards(serviceKey) {
+    const config = SERVICE_CATALOG[serviceKey] || SERVICE_CATALOG.kusen;
+    const container = document.getElementById('calcOptionsContainer') || document.getElementById('calcOptionsGrid');
+    const labelStep2 = document.getElementById('calcStep2Label') || document.getElementById('step2LabelTitle');
+    const guideText = document.getElementById('qualityGuideText');
+
+    if (labelStep2 && config.step2Label) {
+      labelStep2.textContent = config.step2Label;
+    }
+    if (guideText && config.guideText) {
+      guideText.textContent = config.guideText;
+    }
+
+    if (!container) return;
+
+    let html = '';
+    config.options.forEach(opt => {
+      const isSelected = opt.id === currentOptionId;
+      html += `
+        <div 
+          class="quality-option-card ${isSelected ? 'active' : ''}" 
+          id="cardOption_${opt.id}" 
+          role="radio" 
+          aria-checked="${isSelected ? 'true' : 'false'}" 
+          tabindex="0" 
+          onclick="window.selectCalcOption('${opt.id}')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){ window.selectCalcOption('${opt.id}'); event.preventDefault(); }"
+        >
+          <div class="quality-card-head">
+            <div style="display:flex;align-items:center;">
+              <span class="quality-radio-circle" aria-hidden="true"></span>
+              <span class="quality-title">${opt.name}</span>
+            </div>
+            <span class="quality-badge">${opt.badge}</span>
+          </div>
+          <div class="quality-desc">
+            ${opt.desc}
+          </div>
+          <div>
+            <span class="quality-rate-pill">${opt.rate}</span>
+          </div>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+  }
+
+  // Update presets for current service
+  function updatePresetsForService(serviceKey) {
+    const config = SERVICE_CATALOG[serviceKey] || SERVICE_CATALOG.kusen;
+    const row = document.getElementById('qtyPresetRow');
+    if (!row) return;
+
+    let html = `<span style="font-size:11.5px;color:#64748b;margin-right:2px;display:inline-flex;align-items:center;">Pilihan Cepat:</span>`;
+    config.presets.forEach(p => {
+      html += `<button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(${p})">${p} ${config.unit}</button>`;
+    });
+    row.innerHTML = html;
+  }
+
+  // Calculate and update rough estimate & full RAB breakdown
   function updateRoughEstimate() {
     const serviceSelect = document.getElementById('calcServiceType');
     const qtyInput = document.getElementById('calcQuantityInput');
     const regionSelect = document.getElementById('calcRegion');
     if (!serviceSelect || !qtyInput) return;
 
-    const serviceKey = serviceSelect.value || 'kusen';
-    const config = COST_CALC_DATA[serviceKey] || COST_CALC_DATA.kusen;
-    const specInfo = SERVICE_SPEC_DETAILS[serviceKey] || SERVICE_SPEC_DETAILS.kusen;
+    const serviceKey = serviceSelect.value || currentServiceKey;
+    const config = SERVICE_CATALOG[serviceKey] || SERVICE_CATALOG.kusen;
+
+    let activeOption = config.options.find(o => o.id === currentOptionId);
+    if (!activeOption) {
+      activeOption = config.options[0];
+      currentOptionId = activeOption.id;
+    }
+
+    let qty = parseFloat(qtyInput.value) || 1;
+    if (qty < 0.1) qty = 0.1;
+
+    // Transport calculation based on selected region:
     const regionKey = (regionSelect && regionSelect.value) || 'karawang';
-    const region = REGION_DATA[regionKey] || REGION_DATA.karawang;
+    const transportConfig = PRICING_CONFIG.benchmarks.transport[regionKey] || PRICING_CONFIG.benchmarks.transport.karawang;
+    const regionBadge = document.getElementById('regionTransportBadge');
+    if (regionBadge) {
+      regionBadge.textContent = transportConfig.name;
+    }
 
-    let rawQty = parseFloat(qtyInput.value);
-    if (isNaN(rawQty) || rawQty <= 0) rawQty = 1;
-    const qty = Math.max(0.1, Math.round(rawQty * 10) / 10);
+    // Material selling price raw calculation:
+    const rawMin = Math.round(qty * activeOption.minRate);
+    const rawMax = Math.round(qty * activeOption.maxRate);
+    const rawTarget = Math.round(qty * (activeOption.targetRate || (activeOption.minRate + activeOption.maxRate) / 2));
 
-    const rate = config[activeQuality] || config.standard;
-    const rawMinTotal = Math.round(qty * rate.min);
-    const rawMaxTotal = Math.round(qty * rate.max);
+    // Minimum order baseline protection for small jobs:
+    const minOrderAlert = document.getElementById('calcMinOrderAlert');
+    let effectiveMin = rawMin;
+    let effectiveMax = rawMax;
+    let effectiveTarget = rawTarget;
 
-    // Minimum project value evaluation (TAHAP 12)
-    const minAlert = document.getElementById('calcMinOrderAlert');
-    let isMinOrderApplied = false;
-    let minTotal = rawMinTotal;
-    let maxTotal = rawMaxTotal;
+    if (config.minOrderValue && rawMin < config.minOrderValue) {
+      effectiveMin = config.minOrderValue;
+      effectiveMax = Math.max(rawMax, Math.round(config.minOrderValue * 1.18));
+      effectiveTarget = Math.max(rawTarget, Math.round(config.minOrderValue * 1.08));
 
-    if (rawMinTotal < MIN_PROJECT_VALUE) {
-      isMinOrderApplied = true;
-      minTotal = MIN_PROJECT_VALUE;
-      maxTotal = Math.max(MIN_PROJECT_VALUE * 1.15, rawMaxTotal);
-      if (minAlert) minAlert.style.display = 'block';
+      if (minOrderAlert) {
+        minOrderAlert.style.display = 'block';
+        minOrderAlert.innerHTML = `⚠️ <strong>Ketentuan Minimum Order Lapangan:</strong> ${formatIDRCurrency(config.minOrderValue)} (Pekerjaan volume kecil dikenakan batas minimum handling & mobilisasi teknisi presisi).`;
+      }
     } else {
-      if (minAlert) minAlert.style.display = 'none';
+      if (minOrderAlert) {
+        minOrderAlert.style.display = 'none';
+      }
     }
 
     // Update displays
@@ -6478,292 +6767,138 @@ window.printProjectPdf = function(orderId) {
     const estimateSub = document.getElementById('calcEstimateSub');
     const summaryService = document.getElementById('calcSummaryService');
     const summaryQuality = document.getElementById('calcSummaryQuality');
+    const summaryQualityLabel = document.getElementById('calcSummaryQualityLabel');
     const summaryQty = document.getElementById('calcSummaryQty');
     const summaryRate = document.getElementById('calcSummaryRate');
+    const summaryLeadTime = document.getElementById('calcSummaryLeadTime');
     const summaryRegion = document.getElementById('calcSummaryRegion');
-    const summarySurvey = document.getElementById('calcSummarySurvey');
-    const regionBadge = document.getElementById('regionTransportBadge');
     const qtyUnitSuffix = document.getElementById('qtyUnitSuffix');
     const qtyUnitBadge = document.getElementById('qtyUnitBadge');
-    const stdQualityRate = document.getElementById('stdQualityRate');
-    const premQualityRate = document.getElementById('premQualityRate');
-    const stdQualityDesc = document.getElementById('stdQualityDesc');
-    const premQualityDesc = document.getElementById('premQualityDesc');
 
-    if (estimateMain) estimateMain.textContent = `${formatIDRCurrency(minTotal)} – ${formatIDRCurrency(maxTotal)}`;
-    if (estimateSub) {
-      estimateSub.textContent = isMinOrderApplied
-        ? `* Tarif dasar: ${formatIDRCurrency(rate.min)} – ${formatIDRCurrency(rate.max)} / ${config.unit} (Diberlakukan batas Minimum Order Lapangan Rp 750.000)`
-        : `Acuan tarif: ${formatIDRCurrency(rate.min)} – ${formatIDRCurrency(rate.max)} / ${config.unit} × ${qty} ${config.unit}`;
-    }
+    if (estimateMain) estimateMain.textContent = `${formatIDRCurrency(effectiveMin)} – ${formatIDRCurrency(effectiveMax)}`;
+    if (estimateSub) estimateSub.textContent = `Acuan tarif: ${activeOption.rate} × ${qty} ${config.unit}`;
     if (summaryService) summaryService.textContent = config.label;
-    if (summaryQuality) summaryQuality.textContent = rate.spec;
+    if (summaryQualityLabel && config.summaryLabel) summaryQualityLabel.textContent = config.summaryLabel;
+    if (summaryQuality) summaryQuality.textContent = `${activeOption.name} (${activeOption.badge})`;
     if (summaryQty) summaryQty.textContent = `${qty} ${config.unitName}`;
-    if (summaryRate) summaryRate.textContent = `${formatIDRCurrency(rate.min)} – ${formatIDRCurrency(rate.max)} / ${config.unit}`;
-    if (summaryRegion) summaryRegion.textContent = region.name;
-    if (summarySurvey) summarySurvey.textContent = region.surveyText;
-    if (regionBadge) regionBadge.textContent = region.name.split(' (')[0];
+    if (summaryRate) summaryRate.textContent = activeOption.rate;
+    if (summaryLeadTime) summaryLeadTime.textContent = activeOption.leadTime;
+    if (summaryRegion) summaryRegion.textContent = transportConfig.name;
     if (qtyUnitSuffix) qtyUnitSuffix.textContent = config.unit;
     if (qtyUnitBadge) qtyUnitBadge.textContent = `Satuan: ${config.unitName}`;
 
-    // Update quality cards rates and descriptions for the selected service
-    if (stdQualityRate) stdQualityRate.textContent = `${formatIDRCurrency(config.standard.min)} – ${formatIDRCurrency(config.standard.max)} / ${config.unit}`;
-    if (premQualityRate) premQualityRate.textContent = `${formatIDRCurrency(config.premium.min)} – ${formatIDRCurrency(config.premium.max)} / ${config.unit}`;
-    if (stdQualityDesc) stdQualityDesc.textContent = config.standard.spec;
-    if (premQualityDesc) premQualityDesc.textContent = config.premium.spec;
+    // Detailed RAB Itemized Breakdown calculation:
+    const ratios = activeOption.rabRatios || {
+      kaca: 0.32,
+      struktur: 0.28,
+      hardware: 0.08,
+      sealant: 0.04,
+      fabrikasi: 0.10,
+      pasang: 0.10,
+      transport: 0.03,
+      margin: 0.05
+    };
 
-    // Update comparison table elements
-    const tableStdRate = document.getElementById('tableStdRate');
-    const tablePremRate = document.getElementById('tablePremRate');
-    const specContextBadge = document.getElementById('specContextServiceBadge');
-    const specDynamicTitle = document.getElementById('specDynamicFeatureName');
-    const specDynamicStd = document.getElementById('specDynamicStdVal');
-    const specDynamicPrem = document.getElementById('specDynamicPremVal');
+    // Calculate individual components for the transparent RAB table:
+    const calcComp = (ratio, minTotal, maxTotal) => {
+      const minVal = Math.round(minTotal * ratio);
+      const maxVal = Math.round(maxTotal * ratio);
+      return `${formatIDRCurrency(minVal)} – ${formatIDRCurrency(maxVal)}`;
+    };
 
-    if (tableStdRate) tableStdRate.textContent = `${formatIDRCurrency(config.standard.min)} – ${formatIDRCurrency(config.standard.max)} / ${config.unit}`;
-    if (tablePremRate) tablePremRate.textContent = `${formatIDRCurrency(config.premium.min)} – ${formatIDRCurrency(config.premium.max)} / ${config.unit}`;
-    if (specContextBadge) specContextBadge.textContent = config.label;
-    if (specDynamicTitle) specDynamicTitle.textContent = specInfo.title;
-    if (specDynamicStd) specDynamicStd.textContent = specInfo.std;
-    if (specDynamicPrem) specDynamicPrem.textContent = specInfo.prem;
+    const aluminiumEl = document.getElementById('calcRabAluminium');
+    const kacaEl = document.getElementById('calcRabKaca');
+    const aksesorisEl = document.getElementById('calcRabAksesoris');
+    const hardwareEl = document.getElementById('calcRabHardware');
+    const prodLaborEl = document.getElementById('calcRabProdLabor');
+    const installLaborEl = document.getElementById('calcRabInstallLabor');
+    const transportEl = document.getElementById('calcRabTransport');
+    const wasteEl = document.getElementById('calcRabWaste');
+    const subtotalEl = document.getElementById('calcRabSubtotal');
+    const marginEl = document.getElementById('calcRabMargin');
+    const totalEl = document.getElementById('calcRabTotal');
 
-    // Itemized Transparent Contractor Cost Structure (TAHAP 13 Format):
-    // Material Aluminium (~30%), Material Kaca (~18%), Aksesoris (~8%), Hardware (~8%),
-    // Jasa Produksi (~8%), Jasa Pasang (~8%), Transportasi (~5% or region baseline),
-    // Operasional & Waste Cutting Allowance (~5%), Subtotal HPP, Margin (~10-15%)
-    const rabAluminiumMin = Math.round((minTotal * 0.30) / 1000) * 1000;
-    const rabAluminiumMax = Math.round((maxTotal * 0.30) / 1000) * 1000;
-
-    const rabKacaMin = Math.round((minTotal * 0.18) / 1000) * 1000;
-    const rabKacaMax = Math.round((maxTotal * 0.18) / 1000) * 1000;
-
-    const rabAksesorisMin = Math.round((minTotal * 0.08) / 1000) * 1000;
-    const rabAksesorisMax = Math.round((maxTotal * 0.08) / 1000) * 1000;
-
-    const rabHdwMin = Math.round((minTotal * 0.08) / 1000) * 1000;
-    const rabHdwMax = Math.round((maxTotal * 0.08) / 1000) * 1000;
-
-    const rabProdLaborMin = Math.round((minTotal * 0.08) / 1000) * 1000;
-    const rabProdLaborMax = Math.round((maxTotal * 0.08) / 1000) * 1000;
-
-    const rabInstallLaborMin = Math.round((minTotal * 0.08) / 1000) * 1000;
-    const rabInstallLaborMax = Math.round((maxTotal * 0.08) / 1000) * 1000;
-
-    const rabTransMin = Math.max(region.transportBase, Math.round((minTotal * 0.05) / 1000) * 1000);
-    const rabTransMax = Math.max(region.transportBase, Math.round((maxTotal * 0.05) / 1000) * 1000);
-
-    const rabWasteMin = Math.round((minTotal * 0.05) / 1000) * 1000;
-    const rabWasteMax = Math.round((maxTotal * 0.05) / 1000) * 1000;
-
-    const rabSubtotalMin = rabAluminiumMin + rabKacaMin + rabAksesorisMin + rabHdwMin + rabProdLaborMin + rabInstallLaborMin + rabTransMin + rabWasteMin;
-    const rabSubtotalMax = rabAluminiumMax + rabKacaMax + rabAksesorisMax + rabHdwMax + rabProdLaborMax + rabInstallLaborMax + rabTransMax + rabWasteMax;
-
-    // Exact balance for margin guarantees arithmetic sum equality
-    const rabMarginMin = Math.max(Math.round((minTotal * 0.10) / 1000) * 1000, minTotal - rabSubtotalMin);
-    const rabMarginMax = Math.max(Math.round((maxTotal * 0.10) / 1000) * 1000, maxTotal - rabSubtotalMax);
-
-    // Update Header Meta inside Breakdown Box
     const rabDetailProduct = document.getElementById('rabDetailProduct');
     const rabDetailSpec = document.getElementById('rabDetailSpec');
     const rabDetailVolume = document.getElementById('rabDetailVolume');
     const rabDetailRegion = document.getElementById('rabDetailRegion');
 
     if (rabDetailProduct) rabDetailProduct.textContent = config.label;
-    if (rabDetailSpec) rabDetailSpec.textContent = rate.spec;
+    if (rabDetailSpec) rabDetailSpec.textContent = `${activeOption.name} [${activeOption.badge}]`;
     if (rabDetailVolume) rabDetailVolume.textContent = `${qty} ${config.unitName}`;
-    if (rabDetailRegion) rabDetailRegion.textContent = region.name;
+    if (rabDetailRegion) rabDetailRegion.textContent = transportConfig.name;
 
-    // Update 10 itemized component rows
-    const elRabAluminium = document.getElementById('calcRabAluminium');
-    const elRabKaca = document.getElementById('calcRabKaca');
-    const elRabAksesoris = document.getElementById('calcRabAksesoris');
-    const elRabHardware = document.getElementById('calcRabHardware');
-    const elRabProdLabor = document.getElementById('calcRabProdLabor');
-    const elRabInstallLabor = document.getElementById('calcRabInstallLabor');
-    const elRabTransport = document.getElementById('calcRabTransport');
-    const elRabWaste = document.getElementById('calcRabWaste');
-    const elRabSubtotal = document.getElementById('calcRabSubtotal');
-    const elRabMargin = document.getElementById('calcRabMargin');
-    const elRabSurveyStatus = document.getElementById('calcRabSurveyStatus');
-    const elRabTotal = document.getElementById('calcRabTotal');
+    if (aluminiumEl) aluminiumEl.textContent = calcComp(ratios.struktur, effectiveMin, effectiveMax);
+    if (kacaEl) kacaEl.textContent = calcComp(ratios.kaca, effectiveMin, effectiveMax);
+    if (aksesorisEl) aksesorisEl.textContent = calcComp(ratios.sealant, effectiveMin, effectiveMax);
+    if (hardwareEl) hardwareEl.textContent = calcComp(ratios.hardware, effectiveMin, effectiveMax);
+    if (prodLaborEl) prodLaborEl.textContent = calcComp(ratios.fabrikasi, effectiveMin, effectiveMax);
+    if (installLaborEl) installLaborEl.textContent = calcComp(ratios.pasang, effectiveMin, effectiveMax);
+    if (transportEl) transportEl.textContent = calcComp(ratios.transport, effectiveMin, effectiveMax);
+    
+    // Cutting waste factor:
+    const wasteRatio = config.wasteFactor || 0.06;
+    if (wasteEl) wasteEl.textContent = calcComp(wasteRatio, effectiveMin, effectiveMax);
 
-    if (elRabAluminium) elRabAluminium.textContent = `${formatIDRCurrency(rabAluminiumMin)} – ${formatIDRCurrency(rabAluminiumMax)}`;
-    if (elRabKaca) elRabKaca.textContent = `${formatIDRCurrency(rabKacaMin)} – ${formatIDRCurrency(rabKacaMax)}`;
-    if (elRabAksesoris) elRabAksesoris.textContent = `${formatIDRCurrency(rabAksesorisMin)} – ${formatIDRCurrency(rabAksesorisMax)}`;
-    if (elRabHardware) elRabHardware.textContent = `${formatIDRCurrency(rabHdwMin)} – ${formatIDRCurrency(rabHdwMax)}`;
-    if (elRabProdLabor) elRabProdLabor.textContent = `${formatIDRCurrency(rabProdLaborMin)} – ${formatIDRCurrency(rabProdLaborMax)}`;
-    if (elRabInstallLabor) elRabInstallLabor.textContent = `${formatIDRCurrency(rabInstallLaborMin)} – ${formatIDRCurrency(rabInstallLaborMax)}`;
-    if (elRabTransport) elRabTransport.textContent = `${formatIDRCurrency(rabTransMin)} – ${formatIDRCurrency(rabTransMax)}`;
-    if (elRabWaste) elRabWaste.textContent = `${formatIDRCurrency(rabWasteMin)} – ${formatIDRCurrency(rabWasteMax)}`;
-    if (elRabSubtotal) elRabSubtotal.textContent = `${formatIDRCurrency(rabSubtotalMin)} – ${formatIDRCurrency(rabSubtotalMax)}`;
-    if (elRabMargin) elRabMargin.textContent = `${formatIDRCurrency(rabMarginMin)} – ${formatIDRCurrency(rabMarginMax)}`;
-    if (elRabSurveyStatus) elRabSurveyStatus.textContent = region.surveyText;
-    if (elRabTotal) elRabTotal.textContent = `${formatIDRCurrency(minTotal)} – ${formatIDRCurrency(maxTotal)}`;
+    // Subtotal (HPP + Operational without profit):
+    const subtotalMin = Math.round(effectiveMin * (1 - ratios.margin));
+    const subtotalMax = Math.round(effectiveMax * (1 - ratios.margin));
+    if (subtotalEl) subtotalEl.textContent = `${formatIDRCurrency(subtotalMin)} – ${formatIDRCurrency(subtotalMax)}`;
 
-    // Backward compatibility for earlier element IDs
-    const elRabMaterial = document.getElementById('calcRabMaterial');
-    const elRabLabor = document.getElementById('calcRabLabor');
-    if (elRabMaterial) elRabMaterial.textContent = `${formatIDRCurrency(rabAluminiumMin + rabKacaMin)} – ${formatIDRCurrency(rabAluminiumMax + rabKacaMax)}`;
-    if (elRabLabor) elRabLabor.textContent = `${formatIDRCurrency(rabProdLaborMin + rabInstallLaborMin)} – ${formatIDRCurrency(rabProdLaborMax + rabInstallLaborMax)}`;
+    // Margin & Risk reserve:
+    if (marginEl) marginEl.textContent = calcComp(ratios.margin, effectiveMin, effectiveMax);
 
-    // Synchronize comparison table active column classes & buttons
-    const thStd = document.getElementById('thColStandard');
-    const thPrem = document.getElementById('thColPremium');
-    const btnPickStd = document.getElementById('btnPickStd');
-    const btnPickPrem = document.getElementById('btnPickPrem');
-    const stdCells = document.querySelectorAll('.col-standard');
-    const premCells = document.querySelectorAll('.col-premium');
+    // Final total:
+    if (totalEl) totalEl.textContent = `${formatIDRCurrency(effectiveMin)} – ${formatIDRCurrency(effectiveMax)}`;
 
-    if (activeQuality === 'standard') {
-      if (thStd) thStd.classList.add('active');
-      if (thPrem) thPrem.classList.remove('active');
-      stdCells.forEach(el => el.classList.add('active'));
-      premCells.forEach(el => el.classList.remove('active'));
-
-      if (btnPickStd) {
-        btnPickStd.innerHTML = '<span class="pick-icon">✓</span> <span class="pick-text">Sedang Dipilih</span>';
-      }
-      if (btnPickPrem) {
-        btnPickPrem.innerHTML = '<span class="pick-icon">⭐</span> <span class="pick-text">Pilih Premium</span>';
-      }
-    } else {
-      if (thPrem) thPrem.classList.add('active');
-      if (thStd) thStd.classList.remove('active');
-      premCells.forEach(el => el.classList.add('active'));
-      stdCells.forEach(el => el.classList.remove('active'));
-
-      if (btnPickStd) {
-        btnPickStd.innerHTML = '<span class="pick-icon">🔘</span> <span class="pick-text">Pilih Standard</span>';
-      }
-      if (btnPickPrem) {
-        btnPickPrem.innerHTML = '<span class="pick-icon">✓</span> <span class="pick-text">Sedang Dipilih</span>';
-      }
-    }
-
-    // Update dynamic Summary & Recommendation section beneath comparison table
-    const recData = SERVICE_RECOMMENDATION_DATA[serviceKey] || SERVICE_RECOMMENDATION_DATA.kusen;
-    const summaryServiceTitle = document.getElementById('summaryServiceTitle');
-    const summaryChoiceBadge = document.getElementById('summaryChoiceBadge');
-    const summaryEnvText = document.getElementById('summaryEnvText');
-    const summaryHeadline = document.getElementById('summaryHeadline');
-    const summaryReason = document.getElementById('summaryReason');
-    const summaryWhenStd = document.getElementById('summaryWhenStd');
-    const summaryWhenPrem = document.getElementById('summaryWhenPrem');
-    const applyRecommendText = document.getElementById('applyRecommendText');
-
-    if (summaryServiceTitle) summaryServiceTitle.textContent = config.label;
-    if (summaryChoiceBadge) {
-      summaryChoiceBadge.textContent = recData.badgeText;
-      summaryChoiceBadge.className = 'spec-summary-choice-badge ' + recData.badgeClass;
-    }
-    if (summaryEnvText) summaryEnvText.textContent = recData.envText;
-    if (summaryHeadline) summaryHeadline.textContent = recData.headline;
-    if (summaryReason) summaryReason.textContent = recData.reason;
-    if (summaryWhenStd) summaryWhenStd.textContent = recData.whenStd;
-    if (summaryWhenPrem) summaryWhenPrem.textContent = recData.whenPrem;
-    if (applyRecommendText) applyRecommendText.textContent = recData.btnText;
-
-    window._currentRecommendedQuality = recData.tierKey;
-
-    // Store rich state for consultation, copying, and official PDF quotation
+    // Store state for consultation & actions
     window._lastRoughEstimate = {
+      serviceKey: serviceKey,
       service: config.label,
-      quality: rate.spec,
+      category: config.category,
+      priceModel: config.priceModel,
+      optionId: activeOption.id,
+      optionName: activeOption.name,
+      badge: activeOption.badge,
+      desc: activeOption.desc,
       qty: `${qty} ${config.unitName}`,
-      rawQty: qty,
-      unit: config.unit,
-      rateText: `${formatIDRCurrency(rate.min)} – ${formatIDRCurrency(rate.max)} / ${config.unit}`,
-      estimateRange: `${formatIDRCurrency(minTotal)} – ${formatIDRCurrency(maxTotal)}`,
-      estimateRangeText: `${formatIDRCurrency(minTotal)} – ${formatIDRCurrency(maxTotal)}`,
-      leadTime: config.unit === 'm1' && qty <= 25 ? '2–4 Hari Kerja' : (qty <= 50 ? '3–6 Hari Kerja' : '5–10 Hari Kerja'),
-      regionKey,
-      regionName: region.name,
-      surveyText: region.surveyText,
-      isMinOrderApplied,
-      rabAluminium: `${formatIDRCurrency(rabAluminiumMin)} – ${formatIDRCurrency(rabAluminiumMax)}`,
-      rabKaca: `${formatIDRCurrency(rabKacaMin)} – ${formatIDRCurrency(rabKacaMax)}`,
-      rabMaterial: `${formatIDRCurrency(rabAluminiumMin + rabKacaMin)} – ${formatIDRCurrency(rabAluminiumMax + rabKacaMax)}`,
-      rabAksesoris: `${formatIDRCurrency(rabAksesorisMin)} – ${formatIDRCurrency(rabAksesorisMax)}`,
-      rabHardware: `${formatIDRCurrency(rabHdwMin)} – ${formatIDRCurrency(rabHdwMax)}`,
-      rabProdLabor: `${formatIDRCurrency(rabProdLaborMin)} – ${formatIDRCurrency(rabProdLaborMax)}`,
-      rabInstallLabor: `${formatIDRCurrency(rabInstallLaborMin)} – ${formatIDRCurrency(rabInstallLaborMax)}`,
-      rabLabor: `${formatIDRCurrency(rabProdLaborMin + rabInstallLaborMin)} – ${formatIDRCurrency(rabProdLaborMax + rabInstallLaborMax)}`,
-      rabTransport: `${formatIDRCurrency(rabTransMin)} – ${formatIDRCurrency(rabTransMax)}`,
-      rabWaste: `${formatIDRCurrency(rabWasteMin)} – ${formatIDRCurrency(rabWasteMax)}`,
-      rabSubtotal: `${formatIDRCurrency(rabSubtotalMin)} – ${formatIDRCurrency(rabSubtotalMax)}`,
-      rabMargin: `${formatIDRCurrency(rabMarginMin)} – ${formatIDRCurrency(rabMarginMax)}`,
-      totalMin: minTotal,
-      totalMax: maxTotal
+      rate: activeOption.rate,
+      estimateRange: `${formatIDRCurrency(effectiveMin)} – ${formatIDRCurrency(effectiveMax)}`,
+      leadTime: activeOption.leadTime,
+      formula: activeOption.formula,
+      regionName: transportConfig.name
     };
   }
 
-  window.updateCalcRegion = function() {
-    updateRoughEstimate();
-  };
+  // Public methods
+  window.selectCalcOption = function(optionId) {
+    currentOptionId = optionId;
+    const config = SERVICE_CATALOG[currentServiceKey] || SERVICE_CATALOG.kusen;
 
-  // Update presets when service changes
-  function updatePresetsForService(serviceKey) {
-    const config = COST_CALC_DATA[serviceKey];
-    if (!config) return;
-    const row = document.getElementById('qtyPresetRow');
-    if (!row) return;
-
-    let html = `<span style="font-size:11.5px;color:#64748b;margin-right:2px;display:inline-flex;align-items:center;">Contoh Cepat:</span>`;
-    config.presets.forEach(p => {
-      html += `<button type="button" class="qty-preset-chip" onclick="window.setCalcPreset(${p})">${p} ${config.unit}</button>`;
-    });
-    row.innerHTML = html;
-  }
-
-  // Global methods
-  window.setCalcQuality = function(qualityKey) {
-    activeQuality = qualityKey === 'premium' ? 'premium' : 'standard';
-    const cardStd = document.getElementById('cardQualityStandard');
-    const cardPrem = document.getElementById('cardQualityPremium');
-
-    if (cardStd && cardPrem) {
-      if (activeQuality === 'standard') {
-        cardStd.classList.add('active');
-        cardStd.setAttribute('aria-checked', 'true');
-        cardPrem.classList.remove('active');
-        cardPrem.setAttribute('aria-checked', 'false');
-      } else {
-        cardPrem.classList.add('active');
-        cardPrem.setAttribute('aria-checked', 'true');
-        cardStd.classList.remove('active');
-        cardStd.setAttribute('aria-checked', 'false');
+    // Update visual classes in options container
+    config.options.forEach(opt => {
+      const card = document.getElementById(`cardOption_${opt.id}`);
+      if (card) {
+        if (opt.id === currentOptionId) {
+          card.classList.add('active');
+          card.setAttribute('aria-checked', 'true');
+        } else {
+          card.classList.remove('active');
+          card.setAttribute('aria-checked', 'false');
+        }
       }
-    }
+    });
+
     updateRoughEstimate();
   };
 
-  window.applyRecommendedQuality = function() {
-    const targetKey = window._currentRecommendedQuality || 'premium';
-    window.setCalcQuality(targetKey);
-
-    const btn = document.getElementById('btnApplyRecommendation');
-    if (btn) {
-      const originalHtml = btn.innerHTML;
-      const label = targetKey === 'premium' ? 'Premium Grade' : 'Standard SNI';
-      btn.innerHTML = `<span>✓</span> <span>Pilihan ${label} Berhasil Diterapkan ke Kalkulator!</span>`;
-      btn.style.background = '#0d9488';
-      setTimeout(() => {
-        btn.innerHTML = originalHtml;
-        btn.style.background = '';
-      }, 2500);
-    }
-
-    const estCard = document.querySelector('.cost-calc-result');
-    if (estCard) {
-      estCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  };
-
-  window.toggleSpecComparisonTable = function(shouldScroll) {
-    const wrapper = document.getElementById('specComparisonWrapper');
-    if (!wrapper) return;
-    if (shouldScroll) {
-      wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Legacy fallback for backward compatibility
+  window.setCalcQuality = function(qualityKey) {
+    const config = SERVICE_CATALOG[currentServiceKey] || SERVICE_CATALOG.kusen;
+    if (qualityKey === 'premium' && config.options.length > 1) {
+      window.selectCalcOption(config.options[1].id);
+    } else {
+      window.selectCalcOption(config.options[0].id);
     }
   };
 
@@ -6783,7 +6918,10 @@ window.printProjectPdf = function(orderId) {
     updateRoughEstimate();
   };
 
-  // Toggle RAB Component Breakdown Panel
+  window.updateCalcRegion = function() {
+    updateRoughEstimate();
+  };
+
   window.toggleRabBreakdown = function() {
     const box = document.getElementById('calcRabBreakdownBox');
     const btn = document.getElementById('btnToggleRabBreakdown');
@@ -6792,13 +6930,11 @@ window.printProjectPdf = function(orderId) {
     box.style.display = isHidden ? 'block' : 'none';
     if (btn) {
       btn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
-      btn.innerHTML = isHidden 
-        ? '<span>📊 Sembunyikan Rincian Analisa RAB</span> <span style="font-size:11px;">▲</span>'
-        : '<span>📊 Lihat Rincian Analisa RAB (Material, Upah, Hardware, Transport, Margin)</span> <span style="font-size:11px;">▼</span>';
+      const arrow = btn.querySelector('span:last-child');
+      if (arrow) arrow.textContent = isHidden ? '▲' : '▼';
     }
   };
 
-  // Toggle Dimension Helper Box
   window.toggleDimHelper = function() {
     const box = document.getElementById('calcDimHelperBox');
     const btn = document.getElementById('btnToggleDimHelper');
@@ -6807,705 +6943,61 @@ window.printProjectPdf = function(orderId) {
     box.style.display = isHidden ? 'block' : 'none';
     if (btn) {
       btn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
-      btn.innerHTML = isHidden
-        ? '<span>📐 Sembunyikan Kalkulator Ukuran</span> <span style="font-size:11px;">▲</span>'
-        : '<span>📐 Hitung Kebutuhan dari Ukuran Ruangan (Panjang × Lebar / Tinggi)</span> <span style="font-size:11px;">▼</span>';
+      const arrow = btn.querySelector('span:last-child');
+      if (arrow) arrow.textContent = isHidden ? '▲' : '▼';
     }
   };
 
-  // Calculate volume from dimensions
   window.calculateFromDimensions = function() {
-    const wEl = document.getElementById('dimHelperWidth');
-    const hEl = document.getElementById('dimHelperHeight');
-    const qEl = document.getElementById('dimHelperQty');
-    const openingTypeEl = document.getElementById('dimHelperOpeningType');
-    const serviceSelect = document.getElementById('calcServiceType');
-    const qtyInput = document.getElementById('calcQuantityInput');
-    if (!wEl || !hEl || !qEl || !serviceSelect || !qtyInput) return;
-
-    // Sanitize inputs (TAHAP 14: Handles empty, 0, negative, decimals, and extreme dimensions)
-    let rawW = parseFloat(wEl.value);
-    let rawH = parseFloat(hEl.value);
-    let rawQ = parseFloat(qEl.value);
-
-    if (isNaN(rawW) || rawW <= 0) rawW = 90;
-    if (isNaN(rawH) || rawH <= 0) rawH = 210;
-    if (isNaN(rawQ) || rawQ <= 0) rawQ = 1;
-
-    // Absolute and bounded
-    const widthCm = Math.abs(rawW);
-    const heightCm = Math.abs(rawH);
-    const unitQty = Math.max(1, Math.round(Math.abs(rawQ)));
-    const openingType = (openingTypeEl && openingTypeEl.value) || 'door';
-    const serviceKey = serviceSelect.value || 'kusen';
-
-    const wMeter = widthCm / 100;
-    const hMeter = heightCm / 100;
-    const areaM2 = Math.round(wMeter * hMeter * unitQty * 100) / 100;
-    const perimeterM1 = Math.round(2 * (wMeter + hMeter) * unitQty * 10) / 10;
-
-    let computedVol = 1;
-    if (serviceKey === 'kusen') {
-      if (openingType === 'door') {
-        // 3 sides (opening pintu: 2 tiang vertikal + 1 ambang atas)
-        const m1PerOpening = (2 * hMeter) + wMeter;
-        computedVol = Math.max(1, Math.round(m1PerOpening * unitQty * 10) / 10);
-      } else {
-        // 4 sides keliling penuh (jendela / sekat pembagi)
-        const m1PerOpening = 2 * (wMeter + hMeter);
-        computedVol = Math.max(1, Math.round(m1PerOpening * unitQty * 10) / 10);
-      }
-    } else if (serviceKey === 'partisi' || serviceKey === 'kanopi' || serviceKey === 'acp' || serviceKey === 'curtain_wall') {
-      // m² = W * H * Qty
-      computedVol = Math.max(0.5, Math.round(areaM2 * 10) / 10);
-    } else if (serviceKey === 'etalase' || serviceKey === 'railing') {
-      // m1 = width in meters * unitQty
-      computedVol = Math.max(1, Math.round(wMeter * unitQty * 10) / 10);
-    } else {
-      // Per unit / daun: pintu, jendela, pintu_tempered, shower, bifold
-      computedVol = unitQty;
-    }
-
-    qtyInput.value = computedVol;
-    updateRoughEstimate();
-
+    const wInput = document.getElementById('dimHelperWidth');
+    const hInput = document.getElementById('dimHelperHeight');
+    const qInput = document.getElementById('dimHelperQty');
+    const openingSelect = document.getElementById('dimHelperOpeningType');
     const noteEl = document.getElementById('dimHelperResultNote');
-    if (noteEl) {
-      noteEl.textContent = `✓ Dimensi: ${widthCm}×${heightCm} cm (${unitQty} unit) → Luas: ${areaM2} m² | Keliling: ${perimeterM1} m1 → Volume: ${computedVol} ${COST_CALC_DATA[serviceKey]?.unit || ''}`;
-    }
-  };
+    const mainQtyInput = document.getElementById('calcQuantityInput');
 
-  // Copy estimate summary to clipboard with TAHAP 13 transparent detail format
-  window.copyEstimateText = function(e) {
-    if (e && e.preventDefault) e.preventDefault();
-    const data = window._lastRoughEstimate;
-    if (!data) return;
+    if (!wInput || !hInput || !qInput || !mainQtyInput) return;
 
-    const copyText = 
-`==============================================
-DETAIL ESTIMASI ANGGARAN BIAYA (RAB) - SAHABAT KACA ALUMINIUM
-Wilayah Proyek: ${data.regionName}
-Hotline WA: 0896-3737-1166 | Web: https://sahabat-aluminium.my.id
-==============================================
-DETAIL ESTIMASI:
-• Produk            : ${data.service}
-• Spesifikasi       : ${data.quality}
-• Kuantitas / Volume: ${data.qty}
-• Acuan Tarif Satuan: ${data.rateText}
-----------------------------------------------
-RINCIAN KOMPONEN BIAYA PELAKSANA (TRANSPARAN):
-• Material Aluminium / Rangka Utama : ${data.rabAluminium}
-• Material Kaca / Infill Panel       : ${data.rabKaca}
-• Aksesoris Sealant & Karet Kedap   : ${data.rabAksesoris}
-• Hardware Kunci, Engsel & Handle   : ${data.rabHardware}
-• Jasa Produksi & Fabrikasi Miter 45°: ${data.rabProdLabor}
-• Jasa Pemasangan & Setting Lapangan: ${data.rabInstallLabor}
-• Transportasi Armada Pick-up       : ${data.rabTransport}
-• Operasional & Cutting Waste 10–12%: ${data.rabWaste}
-• Subtotal Biaya Dasar (HPP)        : ${data.rabSubtotal}
-• Margin Pelaksana & Garansi 1 Tahun : ${data.rabMargin}
-----------------------------------------------
-ESTIMASI TOTAL                      : ${data.estimateRange}
-Survey Lokasi & Laser Presisi        : ${data.surveyText}
-${data.isMinOrderApplied ? '⚠️ Ketentuan Minimum Order: Pekerjaan on-site dikenakan batas minimum order Rp 750.000.\n' : ''}----------------------------------------------
-Estimasi harga dapat berubah setelah pengukuran dan survey lokasi.
+    const wCm = parseFloat(wInput.value) || 0;
+    const hCm = parseFloat(hInput.value) || 0;
+    const units = parseInt(qInput.value, 10) || 1;
 
-CHAT WHATSAPP UNTUK SURVEY & PENAWARAN:
-https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Aluminium%2C%20saya%20ingin%20jadwalkan%20survey%20dan%20penawaran%20harga%20RAB`;
+    const config = SERVICE_CATALOG[currentServiceKey] || SERVICE_CATALOG.kusen;
 
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(copyText).then(() => {
-        showCopyFeedback();
-      }).catch(() => {
-        fallbackCopy(copyText);
-      });
+    let computedQty = 1;
+    let noteText = '';
+
+    if (config.unit === 'm²') {
+      const areaPerUnit = (wCm / 100) * (hCm / 100);
+      computedQty = Math.round(areaPerUnit * units * 10) / 10;
+      noteText = `Total Luas: ${computedQty} m² (${units} unit × ${areaPerUnit.toFixed(2)} m²)`;
+    } else if (config.unit === 'm1') {
+      const isDoor = openingSelect ? openingSelect.value === 'door' : true;
+      let kelilingPerUnit = 0;
+      if (isDoor) {
+        kelilingPerUnit = (2 * hCm + wCm) / 100;
+      } else {
+        kelilingPerUnit = (2 * hCm + 2 * wCm) / 100;
+      }
+      computedQty = Math.round(kelilingPerUnit * units * 10) / 10;
+      noteText = `Total Panjang: ${computedQty} m1 (${units} opening)`;
     } else {
-      fallbackCopy(copyText);
+      computedQty = units;
+      noteText = `Total Unit: ${computedQty} ${config.unitName}`;
     }
+
+    if (computedQty < 1 && (config.unit === 'unit' || config.unit === 'daun')) computedQty = 1;
+
+    mainQtyInput.value = computedQty;
+    if (noteEl) noteEl.textContent = noteText;
+
+    updateRoughEstimate();
   };
 
-  function showCopyFeedback() {
-    const btn = document.getElementById('calcCopyBtn');
-    if (btn) {
-      const orig = btn.innerHTML;
-      btn.innerHTML = '<span>✓</span> <span>Tersalin ke Clipboard!</span>';
-      btn.style.background = '#0d9488';
-      setTimeout(() => {
-        btn.innerHTML = orig;
-        btn.style.background = '';
-      }, 2500);
-    }
-  }
-
-  function fallbackCopy(text) {
-    try {
-      const textarea = document.createElement('textarea');
-      textarea.value = text;
-      textarea.style.position = 'fixed';
-      textarea.style.opacity = '0';
-      document.body.appendChild(textarea);
-      textarea.focus();
-      textarea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textarea);
-      showCopyFeedback();
-    } catch (err) {
-      console.warn('Fallback copy error:', err);
-    }
-  }
-
-  // =========================================================
-  // FORMAL BRANDED PDF QUOTATION GENERATOR (SPH)
-  // =========================================================
-  let _activeQuotationData = null;
-
-  function formatQuoDate(d) {
-    const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-    return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
-  }
-
-  function generateQuotationDocNo() {
-    const d = new Date();
-    const yr = d.getFullYear();
-    const mo = String(d.getMonth() + 1).padStart(2, '0');
-    const rnd = Math.floor(1000 + Math.random() * 9000);
-    return `SPH-SKA-${yr}${mo}-${rnd}`;
-  }
-
-  window.openQuotationModal = function(customData) {
-    const estimate = customData || window._lastRoughEstimate || {
-      service: 'Kusen Aluminium (Profil 3" / 4")',
-      quality: 'Standard SNI (Dacon / Inkalum 0.9–1.0mm 3" Terpasang + Sealant)',
-      qty: '12 Meter Lari (m1)',
-      estimateRange: 'Rp 1.260.000 – Rp 1.560.000',
-      estimateRangeText: 'Rp 1.260.000 – Rp 1.560.000',
-      rateText: 'Rp 105.000 – Rp 130.000 / m1',
-      leadTime: '2–4 Hari Kerja',
-      rabMaterial: 'Rp 605.000 – Rp 749.000',
-      rabHardware: 'Rp 202.000 – Rp 250.000',
-      rabLabor: 'Rp 202.000 – Rp 250.000',
-      rabTransport: 'Rp 63.000 – Rp 78.000',
-      rabWaste: 'Rp 63.000 – Rp 78.000',
-      rabMargin: 'Rp 125.000 – Rp 155.000',
-      totalMin: 1260000,
-      totalMax: 1560000
-    };
-
-    _activeQuotationData = Object.assign({}, estimate);
-    if (!_activeQuotationData.docNo) {
-      _activeQuotationData.docNo = generateQuotationDocNo();
-      _activeQuotationData.docDate = formatQuoDate(new Date());
-    }
-
-    let backdrop = document.getElementById('quotationModalBackdrop');
-    if (!backdrop) {
-      backdrop = document.createElement('div');
-      backdrop.id = 'quotationModalBackdrop';
-      backdrop.className = 'quotation-modal-backdrop';
-      backdrop.setAttribute('role', 'dialog');
-      backdrop.setAttribute('aria-modal', 'true');
-      backdrop.setAttribute('aria-label', 'Surat Penawaran Harga Resmi');
-      backdrop.innerHTML = `
-        <div class="quotation-modal-dialog" onclick="event.stopPropagation()">
-          <div class="quotation-modal-header">
-            <div class="quotation-modal-header-left">
-              <div class="quotation-modal-icon-badge">📄</div>
-              <div>
-                <h3 class="quotation-modal-title">Dokumen Resmi Penawaran Harga (Quotation SPH)</h3>
-                <div class="quotation-modal-subtitle">Sahabat Kaca Aluminium Karawang · Estimasi Transparan Siap Cetak / Simpan PDF</div>
-              </div>
-            </div>
-            <button type="button" class="quotation-modal-close-btn" onclick="window.closeQuotationModal()" aria-label="Tutup Modal">&times;</button>
-          </div>
-          <div class="quotation-modal-body">
-            <div class="quotation-layout-grid">
-              
-              <!-- Left: Customer Details & Project Notes Form -->
-              <div class="quotation-form-panel">
-                <div class="quotation-form-section-title">
-                  <span>✏️</span> <span>Data Pelanggan & Catatan Proyek</span>
-                </div>
-                
-                <div class="quo-input-group">
-                  <label class="quo-input-label" for="quoInputCustName">Nama Pelanggan / Instansi / PIC:</label>
-                  <input type="text" id="quoInputCustName" class="quo-text-input" value="Bpk/Ibu Pemilik Proyek" placeholder="Contoh: Bpk. Hendra Gunawan / PT Karawang Sejahtera" oninput="window.updateQuotationPreview()">
-                </div>
-
-                <div class="quo-input-group">
-                  <label class="quo-input-label" for="quoInputCustPhone">No. WhatsApp / Telepon:</label>
-                  <input type="text" id="quoInputCustPhone" class="quo-text-input" value="" placeholder="Contoh: 0812-3456-7890" oninput="window.updateQuotationPreview()">
-                </div>
-
-                <div class="quo-input-group">
-                  <label class="quo-input-label" for="quoInputCustLocation">Lokasi Proyek / Alamat Pasang:</label>
-                  <input type="text" id="quoInputCustLocation" class="quo-text-input" value="Karawang, Jawa Barat" placeholder="Contoh: Galuh Mas, KIIC, Cikarang, Grand Taruma" oninput="window.updateQuotationPreview()">
-                </div>
-
-                <div class="quo-input-group">
-                  <label class="quo-input-label" for="quoInputProjectNotes">Catatan Khusus / Permintaan Spesifik:</label>
-                  <textarea id="quoInputProjectNotes" class="quo-textarea-input" placeholder="Tuliskan catatan teknis proyek, preferensi warna aluminium, lantai pemasangan, dsb." oninput="window.updateQuotationPreview()">Termasuk survey lokasi dan pengukuran laser presisi gratis. Material aluminium profil SNI, aksesoris kunci & engsel terpasang rapi, sealant netral anti-bocor, serta garansi pemeliharaan 1 tahun.</textarea>
-                </div>
-
-                <div class="quo-action-stack">
-                  <button type="button" class="quo-primary-print-btn" onclick="window.printQuotationDocument()">
-                    <span>🖨️</span> <span>Cetak Dokumen / Simpan PDF</span>
-                  </button>
-                  <a href="#" class="quo-secondary-wa-btn" id="quoWaBtn" onclick="window.sendQuotationViaWa(event)">
-                    <span>💬</span> <span>Kirim Penawaran ke WhatsApp</span>
-                  </a>
-                  <button type="button" class="quo-tertiary-copy-btn" id="quoCopyBtn" onclick="window.copyQuotationText()">
-                    <span>📋</span> <span>Salin Teks Ringkasan SPH</span>
-                  </button>
-                </div>
-
-                <div style="margin-top:14px;font-size:11px;color:#64748b;line-height:1.45;background:#f8fafc;padding:9px 11px;border-radius:8px;border:1px dashed #cbd5e1;">
-                  💡 <em>Dokumen ini dirancang otomatis sesuai format resmi standar kontraktor. Anda dapat mencetaknya langsung ke printer fisik atau memilih <strong>"Save as PDF"</strong> pada dialog print browser Anda.</em>
-                </div>
-              </div>
-
-              <!-- Right: Formal Branded Document Preview -->
-              <div class="quotation-preview-panel">
-                <div class="quo-sheet" id="quoPrintableSheet">
-                  
-                  <!-- Kop Surat Resmi -->
-                  <div class="quo-kop">
-                    <div class="quo-kop-brand">
-                      <div class="quo-logo-box">
-                        <div class="quo-logo-icon">🏢</div>
-                        <div>
-                          <h2 class="quo-brand-title">SAHABAT KACA ALUMINIUM</h2>
-                          <div class="quo-brand-sub">KONTRAKTOR SPESIALIS KACA TEMPERED & ALUMINIUM SNI</div>
-                        </div>
-                      </div>
-                      <div class="quo-kop-contact">
-                        <p><strong>Workshop & Fabrikasi:</strong> Karawang, Jawa Barat</p>
-                        <p>Telp / WA: 0896-3737-1166 · Website: sahabat-aluminium.my.id</p>
-                        <p>Melayani: Karawang, Cikarang, Bekasi, Cikampek & Jabodetabek</p>
-                      </div>
-                    </div>
-                    <div class="quo-kop-divider"></div>
-                  </div>
-
-                  <!-- Document Header -->
-                  <div class="quo-doc-header">
-                    <div>
-                      <h3 class="quo-doc-title">SURAT PENAWARAN HARGA (ESTIMASI SPH)</h3>
-                      <div class="quo-doc-subtitle">DOKUMEN RESMI PERKIRAAN ANGGARAN BIAYA & PRA-KONTRAK</div>
-                    </div>
-                    <div class="quo-meta-card">
-                      <div>No. Dokumen: <strong id="quoSheetDocNo">SPH-SKA-2026-0000</strong></div>
-                      <div>Tanggal: <strong id="quoSheetDate">04 Oktober 2026</strong></div>
-                      <div>Masa Berlaku: <strong>14 Hari Kalender</strong></div>
-                      <div style="margin-top:2px;"><span class="quo-badge-status">VALID ESTIMATE</span></div>
-                    </div>
-                  </div>
-
-                  <!-- Client & Project Info -->
-                  <div class="quo-info-grid">
-                    <div class="quo-info-box">
-                      <div class="quo-info-label">DITUJUKAN KEPADA (KLIEN / PEMILIK):</div>
-                      <div class="quo-info-val" id="quoSheetCustName">Bpk/Ibu Pemilik Proyek</div>
-                      <div class="quo-info-sub" id="quoSheetCustPhone">Kontak: -</div>
-                    </div>
-                    <div class="quo-info-box">
-                      <div class="quo-info-label">LOKASI & WILAYAH PEKERJAAN:</div>
-                      <div class="quo-info-val" id="quoSheetCustLocation">Karawang, Jawa Barat</div>
-                      <div class="quo-info-sub">Status Survey: <strong>100% GRATIS (On-Schedule)</strong></div>
-                    </div>
-                  </div>
-
-                  <!-- Itemized Technical Table -->
-                  <div class="quo-table-wrap">
-                    <table class="quo-table">
-                      <thead>
-                        <tr>
-                          <th style="width:30px;text-align:center;">No</th>
-                          <th>Deskripsi Uraian Pekerjaan & Spesifikasi Material</th>
-                          <th style="width:90px;text-align:center;">Volume</th>
-                          <th style="width:130px;text-align:right;">Tarif Acuan Unit</th>
-                          <th style="width:150px;text-align:right;">Perkiraan Total Anggaran</th>
-                        </tr>
-                      </thead>
-                      <tbody id="quoTableBody">
-                        <!-- Populated by JS -->
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <!-- RAB Component Breakdown -->
-                  <div class="quo-rab-section">
-                    <div class="quo-section-title">📊 ANALISA TRANSPARAN STRUKTUR BIAYA PELAKSANA (RAB):</div>
-                    <div class="quo-rab-grid">
-                      <div>
-                        <div class="quo-rab-row">
-                          <span>1. Material Profil Aluminium / Kaca (48%):</span>
-                          <strong id="quoRabMaterial">Rp 0</strong>
-                        </div>
-                        <div class="quo-rab-row">
-                          <span>2. Aksesoris & Hardware Presisi (16%):</span>
-                          <strong id="quoRabHardware">Rp 0</strong>
-                        </div>
-                        <div class="quo-rab-row">
-                          <span>3. Upah Pabrikasi & Pemasangan On-Site (16%):</span>
-                          <strong id="quoRabLabor">Rp 0</strong>
-                        </div>
-                      </div>
-                      <div>
-                        <div class="quo-rab-row">
-                          <span>4. Transportasi & Logistik Pickup Lokal (5%):</span>
-                          <strong id="quoRabTransport">Rp 0</strong>
-                        </div>
-                        <div class="quo-rab-row">
-                          <span>5. Biaya Operasional & Cutting Waste 10–12% (5%):</span>
-                          <strong id="quoRabWaste">Rp 0</strong>
-                        </div>
-                        <div class="quo-rab-row">
-                          <span>6. Margin Pelaksana & Garansi Sambungan (10%):</span>
-                          <strong id="quoRabMargin">Rp 0</strong>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="quo-survey-free-row">
-                      <span>7. Survey Lapangan & Pengukuran Laser Presisi:</span>
-                      <span>100% GRATIS TANPA BIAYA</span>
-                    </div>
-                  </div>
-
-                  <!-- Project Notes Box -->
-                  <div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;padding:9px 12px;margin-bottom:14px;">
-                    <div style="font-size:9.5px;font-weight:800;color:#072e3b;margin-bottom:3px;letter-spacing:0.5px;">
-                      📌 CATATAN KHUSUS & REKOMENDASI TEKNIS:
-                    </div>
-                    <div id="quoSheetProjectNotes" style="font-size:10.5px;color:#334155;line-height:1.45;font-style:italic;">
-                      -
-                    </div>
-                  </div>
-
-                  <!-- Terms & Conditions -->
-                  <div class="quo-terms">
-                    <strong>Syarat & Ketentuan Standar Penawaran:</strong>
-                    <ol>
-                      <li>Harga di atas merupakan estimasi transparan realistis retail kontraktor di wilayah Jabodetabek & Karawang, disesuaikan dengan hasil ukur presisi di lokasi.</li>
-                      <li>Survey lokasi, konsultasi spesifikasi teknis, serta pembuatan visual gambar kerja bersifat <strong>100% GRATIS</strong> tanpa ikatan di muka.</li>
-                      <li>Skema termin pembayaran bertahap: DP 40% saat kesepakatan SPK, Termin Material 40% saat profil tiba di workshop/lokasi, Pelunasan 20% setelah pekerjaan serah terima rapi.</li>
-                      <li>Semua pekerjaan kami lindungi dengan garansi resmi kebocoran air hujan dan kerapihan sambungan miter selama 12 bulan kalender.</li>
-                    </ol>
-                  </div>
-
-                  <!-- Official Signatures -->
-                  <div class="quo-signatures">
-                    <div class="quo-sig-col">
-                      <p class="quo-sig-role">Disetujui & Diterima Oleh (Klien):</p>
-                      <div class="quo-sig-space"></div>
-                      <p class="quo-sig-name" id="quoSigCustName"><strong>( Bpk/Ibu Pemilik Proyek )</strong></p>
-                      <p class="quo-sig-date">Pemesan / Penanggung Jawab Proyek</p>
-                    </div>
-                    <div class="quo-sig-col quo-sig-right">
-                      <p class="quo-sig-role">Diterbitkan Oleh (Pelaksana):</p>
-                      <div class="quo-sig-stamp-wrap">
-                        <div class="quo-digital-stamp">
-                          <span>SAHABAT KACA ALUMINIUM</span>
-                          <span class="quo-stamp-mid">OFFICIAL VERIFIED ESTIMATE</span>
-                          <span>KARAWANG - JABODETABEK</span>
-                        </div>
-                      </div>
-                      <p class="quo-sig-name"><strong>Hendra Gunawan, S.T.</strong></p>
-                      <p class="quo-sig-date">Lead Estimator & Fabrikasi Lapangan</p>
-                    </div>
-                  </div>
-
-                  <div class="quo-footer-note">
-                    Dokumen resmi ini diterbitkan melalui Sistem Estimator Sahabat Kaca Aluminium. Untuk jadwal survey dan konfirmasi, hubungi hotline/WhatsApp resmi: 0896-3737-1166.
-                  </div>
-
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      `;
-      document.body.appendChild(backdrop);
-
-      backdrop.addEventListener('click', (e) => {
-        if (e.target === backdrop) {
-          window.closeQuotationModal();
-        }
-      });
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && backdrop.classList.contains('is-active')) {
-          window.closeQuotationModal();
-        }
-      });
-    }
-
-    window.updateQuotationPreview();
-    backdrop.classList.add('is-active');
-    document.body.style.overflow = 'hidden';
-  };
-
-  window.closeQuotationModal = function() {
-    const backdrop = document.getElementById('quotationModalBackdrop');
-    if (backdrop) {
-      backdrop.classList.remove('is-active');
-    }
-    document.body.style.overflow = '';
-  };
-
-  window.updateQuotationPreview = function() {
-    const data = _activeQuotationData;
-    if (!data) return;
-
-    const inputName = document.getElementById('quoInputCustName');
-    const inputPhone = document.getElementById('quoInputCustPhone');
-    const inputLoc = document.getElementById('quoInputCustLocation');
-    const inputNotes = document.getElementById('quoInputProjectNotes');
-
-    const custName = (inputName && inputName.value.trim()) || 'Bpk/Ibu Pemilik Proyek';
-    const custPhone = (inputPhone && inputPhone.value.trim()) || '-';
-    const custLoc = (inputLoc && inputLoc.value.trim()) || 'Karawang, Jawa Barat';
-    const projectNotes = (inputNotes && inputNotes.value.trim()) || 'Termasuk survey laser presisi gratis dan garansi pengerjaan 1 tahun.';
-
-    const sheetDocNo = document.getElementById('quoSheetDocNo');
-    const sheetDate = document.getElementById('quoSheetDate');
-    const sheetCustName = document.getElementById('quoSheetCustName');
-    const sheetCustPhone = document.getElementById('quoSheetCustPhone');
-    const sheetCustLocation = document.getElementById('quoSheetCustLocation');
-    const sheetProjectNotes = document.getElementById('quoSheetProjectNotes');
-    const sigCustName = document.getElementById('quoSigCustName');
-
-    if (sheetDocNo) sheetDocNo.textContent = data.docNo;
-    if (sheetDate) sheetDate.textContent = data.docDate;
-    if (sheetCustName) sheetCustName.textContent = custName;
-    if (sheetCustPhone) sheetCustPhone.textContent = custPhone !== '-' ? `No. Kontak / WA: ${custPhone}` : 'Kontak: -';
-    if (sheetCustLocation) sheetCustLocation.textContent = custLoc;
-    if (sheetProjectNotes) sheetProjectNotes.textContent = projectNotes;
-    if (sigCustName) sigCustName.innerHTML = `<strong>( ${custName} )</strong>`;
-
-    const tableBody = document.getElementById('quoTableBody');
-    if (tableBody) {
-      tableBody.innerHTML = `
-        <tr>
-          <td style="text-align:center;font-weight:700;">1</td>
-          <td>
-            <strong style="color:#072e3b;font-size:11.5px;">${data.service}</strong>
-            <div class="quo-item-spec">Spesifikasi: ${data.quality}</div>
-            <div class="quo-item-subnotes">
-              • Termasuk perakitan presisi siku miter 45° & sealant netral Dowsil/Iki<br>
-              • Aksesoris engsel, kunci & handle standar teruji kokoh<br>
-              • Estimasi masa pengerjaan: <strong>${data.leadTime || '2–4 Hari Kerja'}</strong>
-            </div>
-          </td>
-          <td style="text-align:center;font-weight:700;">${data.qty}</td>
-          <td style="text-align:right;font-weight:700;color:#0d9488;">${data.rateText}</td>
-          <td style="text-align:right;font-weight:800;color:#072e3b;font-size:12px;">${data.estimateRangeText || data.estimateRange}</td>
-        </tr>
-        <tr>
-          <td style="text-align:center;font-weight:700;">2</td>
-          <td>
-            <strong style="color:#072e3b;">Survey Lapangan & Laser Presisi On-Site</strong>
-            <div class="quo-item-subnotes">Kunjungan teknisi langsung ke lokasi proyek untuk pengukuran akurat dan konsultasi denah</div>
-          </td>
-          <td style="text-align:center;font-weight:700;">1 Paket</td>
-          <td style="text-align:right;font-weight:700;color:#10b981;">Rp 0</td>
-          <td style="text-align:right;font-weight:800;color:#10b981;">100% GRATIS</td>
-        </tr>
-        <tr style="background:#f1f5f9;font-weight:800;border-top:2px solid #072e3b;">
-          <td colspan="4" style="text-align:right;padding:10px;font-size:11.5px;color:#072e3b;">
-            TOTAL ESTIMASI ANGGARAN PROYEK:
-          </td>
-          <td style="text-align:right;padding:10px;font-size:13px;color:#072e3b;font-weight:900;">
-            ${data.estimateRangeText || data.estimateRange}
-          </td>
-        </tr>
-      `;
-    }
-
-    const elMaterial = document.getElementById('quoRabMaterial');
-    const elHardware = document.getElementById('quoRabHardware');
-    const elLabor = document.getElementById('quoRabLabor');
-    const elTransport = document.getElementById('quoRabTransport');
-    const elWaste = document.getElementById('quoRabWaste');
-    const elMargin = document.getElementById('quoRabMargin');
-
-    if (elMaterial) elMaterial.textContent = data.rabMaterial;
-    if (elHardware) elHardware.textContent = data.rabHardware;
-    if (elLabor) elLabor.textContent = data.rabLabor;
-    if (elTransport) elTransport.textContent = data.rabTransport;
-    if (elWaste) elWaste.textContent = data.rabWaste;
-    if (elMargin) elMargin.textContent = data.rabMargin;
-  };
-
-  window.printQuotationDocument = function() {
-    document.body.classList.add('is-printing-quotation');
-    window.print();
-    setTimeout(() => {
-      document.body.classList.remove('is-printing-quotation');
-    }, 1000);
-  };
-
-  window.sendQuotationViaWa = function(e) {
-    if (e && e.preventDefault) e.preventDefault();
-    const data = _activeQuotationData;
-    if (!data) return;
-
-    const inputName = document.getElementById('quoInputCustName');
-    const inputPhone = document.getElementById('quoInputCustPhone');
-    const inputLoc = document.getElementById('quoInputCustLocation');
-    const inputNotes = document.getElementById('quoInputProjectNotes');
-
-    const custName = (inputName && inputName.value.trim()) || 'Bpk/Ibu Pemilik Proyek';
-    const custPhone = (inputPhone && inputPhone.value.trim()) || '-';
-    const custLoc = (inputLoc && inputLoc.value.trim()) || 'Karawang, Jawa Barat';
-    const notes = (inputNotes && inputNotes.value.trim()) || '-';
-
-    const msg = `*DOKUMEN RESMI PENAWARAN HARGA (SPH)*\n` +
-      `*Sahabat Kaca Aluminium Karawang*\n` +
-      `No. Dok: ${data.docNo}\n` +
-      `Tanggal: ${data.docDate}\n` +
-      `────────────────────────────\n\n` +
-      `*DATA KLIEN & LOKASI:*\n` +
-      `• Klien / PIC: ${custName}\n` +
-      `• No. Kontak: ${custPhone}\n` +
-      `• Lokasi Proyek: ${custLoc}\n\n` +
-      `*RINCIAN ESTIMASI PEKERJAAN:*\n` +
-      `🛠️ *Item Pekerjaan:* ${data.service}\n` +
-      `⭐ *Spesifikasi:* ${data.quality}\n` +
-      `📏 *Volume / Kuantitas:* ${data.qty}\n` +
-      `🏷️ *Tarif Satuan:* ${data.rateText}\n` +
-      `💰 *Total Anggaran Estimasi:* ${data.estimateRangeText || data.estimateRange}\n\n` +
-      `*STRUKTUR BIAYA REALISTIS (RAB):*\n` +
-      `• Material Rangka/Kaca: ${data.rabMaterial}\n` +
-      `• Aksesoris & Hardware: ${data.rabHardware}\n` +
-      `• Upah Pabrikasi & Pasang: ${data.rabLabor}\n` +
-      `• Transportasi Pickup: ${data.rabTransport}\n` +
-      `• Operasional & Waste 10%: ${data.rabWaste}\n` +
-      `• Margin & Garansi Pelaksana: ${data.rabMargin}\n` +
-      `• Survey Lokasi & Laser Ukur: 100% GRATIS\n\n` +
-      `*CATATAN KHUSUS:* ${notes}\n\n` +
-      `Halo Tim Sahabat Aluminium, mohon jadwal survey ke alamat saya untuk pengukuran laser presisi dan finalisasi Surat Penawaran Harga ini. Terima kasih!`;
-
-    const encoded = encodeURIComponent(msg);
-    const waUrl = `https://wa.me/6289637371166?text=${encoded}`;
-    window.open(waUrl, '_blank', 'noopener,noreferrer');
-  };
-
-  window.copyQuotationText = function() {
-    const data = _activeQuotationData;
-    if (!data) return;
-
-    const inputName = document.getElementById('quoInputCustName');
-    const inputPhone = document.getElementById('quoInputCustPhone');
-    const inputLoc = document.getElementById('quoInputCustLocation');
-    const inputNotes = document.getElementById('quoInputProjectNotes');
-
-    const custName = (inputName && inputName.value.trim()) || 'Bpk/Ibu Pemilik Proyek';
-    const custPhone = (inputPhone && inputPhone.value.trim()) || '-';
-    const custLoc = (inputLoc && inputLoc.value.trim()) || 'Karawang, Jawa Barat';
-    const notes = (inputNotes && inputNotes.value.trim()) || '-';
-
-    const text = `SURAT PENAWARAN HARGA (SPH) - SAHABAT KACA ALUMINIUM
-No: ${data.docNo} | Tanggal: ${data.docDate}
-==================================================
-Klien: ${custName}
-Kontak: ${custPhone}
-Lokasi: ${custLoc}
-
-Uraian Pekerjaan: ${data.service}
-Spesifikasi: ${data.quality}
-Volume: ${data.qty}
-Tarif: ${data.rateText}
-Total Estimasi Anggaran: ${data.estimateRangeText || data.estimateRange}
-
-RAB Breakdown:
-- Material: ${data.rabMaterial}
-- Aksesoris & Hardware: ${data.rabHardware}
-- Jasa Pabrikasi & Pasang: ${data.rabLabor}
-- Transportasi: ${data.rabTransport}
-- Operasional & Waste Potongan: ${data.rabWaste}
-- Margin & Garansi 1 Tahun: ${data.rabMargin}
-- Survey Lokasi: 100% GRATIS
-
-Catatan Proyek: ${notes}
-Hotline WA: 0896-3737-1166 | Web: sahabat-aluminium.my.id`;
-
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(() => {
-        showQuoCopyFeedback();
-      }).catch(() => {
-        fallbackCopy(text);
-      });
-    } else {
-      fallbackCopy(text);
-    }
-  };
-
-  function showQuoCopyFeedback() {
-    const btn = document.getElementById('quoCopyBtn');
-    if (btn) {
-      const orig = btn.innerHTML;
-      btn.innerHTML = '<span>✓</span> <span>Teks SPH Tersalin!</span>';
-      btn.style.background = '#0d9488';
-      btn.style.color = '#ffffff';
-      setTimeout(() => {
-        btn.innerHTML = orig;
-        btn.style.background = '';
-        btn.style.color = '';
-      }, 2500);
-    }
-  }
-
-  // Print estimate sheet triggers official PDF quotation modal
-  window.printEstimateSheet = function(e) {
-    if (e && e.preventDefault) e.preventDefault();
-    window.openQuotationModal();
-  };
-
-  // Open quotation modal from specific pages (like kusen, pintu, etc.)
-  window.openKusenQuotationModal = function() {
-    const serviceName = 'Kusen Aluminium SNI Karawang';
-    const selectMat = document.getElementById('selectMaterial');
-    const selectGlass = document.getElementById('selectGlass');
-    const matName = (selectMat && selectMat.options[selectMat.selectedIndex]) ? selectMat.options[selectMat.selectedIndex].getAttribute('data-name') : 'Dacon / Inkalum 3 Inch';
-    const glassName = (selectGlass && selectGlass.options[selectGlass.selectedIndex]) ? selectGlass.options[selectGlass.selectedIndex].getAttribute('data-name') : 'Kaca Polos / Clear 5 mm';
-    const valTotalM1 = (document.getElementById('valTotalM1') && document.getElementById('valTotalM1').textContent) || '12 m1';
-    const valEstMin = (document.getElementById('valEstMin') && document.getElementById('valEstMin').textContent) || 'Rp 1.080.000';
-    const valEstMax = (document.getElementById('valEstMax') && document.getElementById('valEstMax').textContent) || 'Rp 1.320.000';
-
-    const rabMat = (document.getElementById('rabKusenMaterial') && document.getElementById('rabKusenMaterial').textContent) || 'Rp 576.000';
-    const rabHdw = (document.getElementById('rabKusenHardware') && document.getElementById('rabKusenHardware').textContent) || 'Rp 192.000';
-    const rabLab = (document.getElementById('rabKusenLabor') && document.getElementById('rabKusenLabor').textContent) || 'Rp 192.000';
-    const rabTra = (document.getElementById('rabKusenTransport') && document.getElementById('rabKusenTransport').textContent) || 'Rp 60.000';
-    const rabWst = (document.getElementById('rabKusenWaste') && document.getElementById('rabKusenWaste').textContent) || 'Rp 60.000';
-    const rabMrg = (document.getElementById('rabKusenMargin') && document.getElementById('rabKusenMargin').textContent) || 'Rp 120.000';
-
-    window.openQuotationModal({
-      service: serviceName,
-      quality: `${matName} + ${glassName}`,
-      qty: valTotalM1,
-      rateText: 'Tarif Terpasang Lengkap',
-      estimateRange: `${valEstMin} – ${valEstMax}`,
-      estimateRangeText: `${valEstMin} – ${valEstMax}`,
-      leadTime: '2–4 Hari Kerja',
-      rabMaterial: rabMat,
-      rabHardware: rabHdw,
-      rabLabor: rabLab,
-      rabTransport: rabTra,
-      rabWaste: rabWst,
-      rabMargin: rabMrg
-    });
-  };
-
-  // Activate survey tab and scroll smoothly
-  window.activateSurveyTab = function(e) {
-    if (e && e.preventDefault) e.preventDefault();
-    if (typeof window.switchContactTab === 'function') {
-      window.switchContactTab('survey');
-    }
-    const surveyEl = document.getElementById('jadwal-survey') || document.getElementById('siteSurveyScheduleForm') || document.getElementById('section-contact-booking');
-    if (surveyEl) {
-      surveyEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  window.toggleSpecComparisonTable = function(show) {
+    const modal = document.getElementById('specComparisonModal');
+    if (modal) {
+      modal.style.display = show ? 'flex' : 'none';
     }
   };
 
@@ -7518,18 +7010,14 @@ Hotline WA: 0896-3737-1166 | Web: sahabat-aluminium.my.id`;
       `*Sahabat Kaca Aluminium Karawang*\n` +
       `────────────────────────────\n\n` +
       `Halo Admin, saya baru saja menghitung estimasi anggaran di kalkulator web:\n\n` +
-      `🛠️ *Jenis Layanan:* ${data.service}\n` +
-      `⭐ *Kualitas Material:* ${data.quality}\n` +
+      `🛠️ *Pekerjaan:* ${data.service}\n` +
+      `⭐ *Sistem / Spesifikasi:* ${data.optionName} (${data.badge})\n` +
+      `📋 *Rincian Teknis:* ${data.desc}\n` +
       `📏 *Kuantitas / Volume:* ${data.qty}\n` +
-      `💰 *Rough Budget Estimate:* ${data.estimateRange}\n\n` +
-      `*Rincian Komponen RAB:*\n` +
-      `• Material Rangka & Kaca: ${data.rabMaterial}\n` +
-      `• Aksesoris & Hardware: ${data.rabHardware}\n` +
-      `• Jasa Pabrikasi & Pasang: ${data.rabLabor}\n` +
-      `• Transport & Logistik: ${data.rabTransport}\n` +
-      `• Biaya Operasional & Waste Potongan: ${data.rabWaste}\n` +
-      `• Margin Pelaksana & Garansi: ${data.rabMargin}\n` +
-      `• Survey Lokasi & Laser Ukur: 100% GRATIS\n\n` +
+      `🏷️ *Acuan Tarif:* ${data.rate}\n` +
+      `💰 *Rough Budget Estimate:* ${data.estimateRange}\n` +
+      `📍 *Wilayah Proyek:* ${data.regionName || 'Karawang'}\n` +
+      `⏱️ *Estimasi Waktu:* ${data.leadTime}\n\n` +
       `Mohon info ketersediaan jadwal survey gratis ke lokasi saya untuk pengecekan dan pengukuran laser presisi. Terima kasih!`;
 
     const encodedMsg = encodeURIComponent(message);
@@ -7549,81 +7037,171 @@ Hotline WA: 0896-3737-1166 | Web: sahabat-aluminium.my.id`;
     }
   };
 
-  // Event bindings
-  document.addEventListener('DOMContentLoaded', () => {
+  window.copyEstimateText = function(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const data = window._lastRoughEstimate;
+    if (!data) return;
+
+    const text = `ESTIMASI ANGGARAN PROYEK (ROUGH BUDGET ESTIMATE)\n` +
+      `Sahabat Kaca Aluminium Karawang\n` +
+      `Web: https://sahabat-aluminium.my.id\n` +
+      `──────────────────────────────────────────────\n` +
+      `• Pekerjaan: ${data.service}\n` +
+      `• Price Model: ${data.priceModel}\n` +
+      `• Spesifikasi / Sistem: ${data.optionName} [${data.badge}]\n` +
+      `• Rincian Teknis: ${data.desc}\n` +
+      `• Kuantitas / Volume: ${data.qty}\n` +
+      `• Acuan Tarif Satuan: ${data.rate}\n` +
+      `• Perkiraan Anggaran: ${data.estimateRange}\n` +
+      `• Wilayah Proyek: ${data.regionName || 'Karawang'}\n` +
+      `• Estimasi Waktu Kerja: ${data.leadTime}\n` +
+      `• Formula RAB: ${data.formula}\n` +
+      `• Biaya Survey Lokasi: Rp 0 (100% GRATIS se-Karawang & Bekasi)\n` +
+      `──────────────────────────────────────────────\n` +
+      `*Catatan: Estimasi ini adalah acuan transparan. Rincian RAB resmi final diterbitkan setelah survey & ukur laser digital di lokasi. Hubungi WA 0896-3737-1166.`;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('calcCopyBtn');
+        if (btn) {
+          const orig = btn.innerHTML;
+          btn.innerHTML = '✅ Tersalin!';
+          btn.style.background = '#0d9488';
+          btn.style.borderColor = '#0d9488';
+          setTimeout(() => {
+            btn.innerHTML = orig;
+            btn.style.background = '';
+            btn.style.borderColor = '';
+          }, 2500);
+        }
+      }).catch(() => {
+        prompt('Salin rincian estimasi di bawah ini:', text);
+      });
+    } else {
+      prompt('Salin rincian estimasi di bawah ini:', text);
+    }
+  };
+
+  window.printEstimateSheet = function(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const data = window._lastRoughEstimate;
+    if (!data) return;
+
+    const printWindow = window.open('', '_blank', 'width=800,height=700');
+    if (!printWindow) {
+      window.print();
+      return;
+    }
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html lang="id">
+      <head>
+        <meta charset="UTF-8">
+        <title>Rough Budget Estimate - Sahabat Kaca Aluminium</title>
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 36px; color: #1e293b; line-height: 1.6; }
+          .header { border-bottom: 2px solid #0d9488; padding-bottom: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: flex-start; }
+          .title { font-size: 22px; font-weight: 800; color: #072e3b; margin: 0; }
+          .badge { background: #f0fdfa; color: #0d9488; border: 1.5px solid #99f6e4; padding: 5px 12px; border-radius: 8px; font-weight: 700; font-size: 13px; }
+          .table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+          .table td, .table th { border: 1px solid #cbd5e1; padding: 10px 14px; font-size: 13.5px; }
+          .table th { background: #f8fafc; text-align: left; width: 32%; color: #334155; font-weight: 700; }
+          .total-box { background: #f0fdfa; border: 2px solid #0d9488; border-radius: 12px; padding: 18px 22px; margin: 25px 0; }
+          .total-label { font-size: 12.5px; color: #0f766e; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+          .total-val { font-size: 26px; font-weight: 800; color: #0f766e; margin-top: 4px; }
+          .footer { margin-top: 36px; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 15px; }
+          @media print { .no-print { display: none !important; } body { padding: 15px; } }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <div>
+            <h1 class="title">Sahabat Kaca Aluminium</h1>
+            <div style="font-size:13px;color:#64748b;margin-top:2px;">Spesialis Kaca Tempered, Kusen & Fasad Aluminium Karawang - Bekasi</div>
+          </div>
+          <div class="badge">Rough Budget Estimate</div>
+        </div>
+        <table class="table">
+          <tr><th>Pekerjaan</th><td><strong>${data.service}</strong></td></tr>
+          <tr><th>Price Model & Kategori</th><td><strong>${data.priceModel}</strong> (${data.category.toUpperCase()})</td></tr>
+          <tr><th>Sistem / Spesifikasi</th><td><strong>${data.optionName}</strong> (${data.badge})</td></tr>
+          <tr><th>Rincian Material & Teknis</th><td>${data.desc}</td></tr>
+          <tr><th>Volume Dihitung</th><td><strong>${data.qty}</strong></td></tr>
+          <tr><th>Acuan Tarif Satuan</th><td>${data.rate}</td></tr>
+          <tr><th>Wilayah Proyek</th><td>${data.regionName || 'Karawang'}</td></tr>
+          <tr><th>Estimasi Waktu Kerja</th><td>${data.leadTime}</td></tr>
+          <tr><th>Formula RAB</th><td>${data.formula}</td></tr>
+          <tr><th>Biaya Survey & Pengukuran Laser</th><td><strong style="color:#0d9488;">Rp 0 (100% GRATIS)</strong></td></tr>
+        </table>
+        <div class="total-box">
+          <div class="total-label">Perkiraan Estimasi Anggaran Proyek:</div>
+          <div class="total-val">${data.estimateRange}</div>
+          <div style="font-size:12px;color:#0f766e;margin-top:6px;">*Acuan kasar transparan. Rincian final disesuaikan hasil ukur laser digital di lokasi proyek.</div>
+        </div>
+        <div class="footer">
+          <div>Dokumen rincian estimasi resmi web: https://sahabat-aluminium.my.id</div>
+          <div>Konsultasi & Kunci Jadwal Survey: WhatsApp <strong>0896-3737-1166</strong> • Karawang, Jawa Barat</div>
+        </div>
+        <div class="no-print" style="margin-top:24px;text-align:center;">
+          <button onclick="window.print()" style="padding:10px 22px;background:#0d9488;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;">🖨️ Cetak / Simpan PDF Sekarang</button>
+        </div>
+      </body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
+
+  function setupEventListeners() {
     const serviceSelect = document.getElementById('calcServiceType');
     const qtyInput = document.getElementById('calcQuantityInput');
+    const regionSelect = document.getElementById('calcRegion');
 
     if (serviceSelect) {
       serviceSelect.addEventListener('change', () => {
-        const serviceKey = serviceSelect.value;
-        const config = COST_CALC_DATA[serviceKey];
-        if (config && qtyInput) {
-          qtyInput.value = config.defaultQty;
-          updatePresetsForService(serviceKey);
+        const newServiceKey = serviceSelect.value || 'kusen';
+        if (newServiceKey !== currentServiceKey) {
+          currentServiceKey = newServiceKey;
+          const config = SERVICE_CATALOG[currentServiceKey] || SERVICE_CATALOG.kusen;
+          
+          // Complete state reset when service changes:
+          currentOptionId = config.options[0].id;
+          if (qtyInput) {
+            qtyInput.value = config.defaultQty;
+          }
+
+          updatePresetsForService(currentServiceKey);
+          renderOptionCards(currentServiceKey);
+          updateRoughEstimate();
         }
-        updateRoughEstimate();
       });
     }
 
     if (qtyInput) {
-      qtyInput.addEventListener('input', () => {
-        if (parseFloat(qtyInput.value) <= 0 || isNaN(parseFloat(qtyInput.value))) {
-          // don't break, keep minimum 1
-        }
-        updateRoughEstimate();
-      });
-      qtyInput.addEventListener('change', () => {
-        if (parseFloat(qtyInput.value) <= 0 || isNaN(parseFloat(qtyInput.value))) {
-          qtyInput.value = 1;
-        }
-        updateRoughEstimate();
-      });
+      qtyInput.addEventListener('input', updateRoughEstimate);
+      qtyInput.addEventListener('change', updateRoughEstimate);
     }
 
+    if (regionSelect) {
+      regionSelect.addEventListener('change', updateRoughEstimate);
+    }
+
+    // Initial render
+    if (serviceSelect) {
+      currentServiceKey = serviceSelect.value || 'kusen';
+    }
+    const initConfig = SERVICE_CATALOG[currentServiceKey] || SERVICE_CATALOG.kusen;
+    currentOptionId = initConfig.options[0].id;
+
+    updatePresetsForService(currentServiceKey);
+    renderOptionCards(currentServiceKey);
     updateRoughEstimate();
-  });
+  }
 
-  if (document.readyState !== 'loading') {
-    const serviceSelect = document.getElementById('calcServiceType');
-    const qtyInput = document.getElementById('calcQuantityInput');
-    if (serviceSelect && qtyInput) {
-      serviceSelect.addEventListener('change', () => {
-        const serviceKey = serviceSelect.value;
-        const config = COST_CALC_DATA[serviceKey];
-        if (config && qtyInput) {
-          qtyInput.value = config.defaultQty;
-          updatePresetsForService(serviceKey);
-        }
-        updateRoughEstimate();
-      });
-      qtyInput.addEventListener('input', () => {
-        if (parseFloat(qtyInput.value) <= 0 || isNaN(parseFloat(qtyInput.value))) {
-          // don't break
-        }
-        updateRoughEstimate();
-      });
-      qtyInput.addEventListener('change', () => {
-        if (parseFloat(qtyInput.value) <= 0 || isNaN(parseFloat(qtyInput.value))) {
-          qtyInput.value = 1;
-        }
-        updateRoughEstimate();
-      });
-      updateRoughEstimate();
-    }
+  // Bind on DOMContentLoaded or immediately if already loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupEventListeners);
+  } else {
+    setupEventListeners();
   }
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
-

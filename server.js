@@ -1279,6 +1279,39 @@ app.get('/artikel/:slug', (req, res, next) => {
   next();
 });
 
+// Serve optimized WebP assets with proper image/webp Content-Type and caching
+app.use(['/assets', '/public/assets'], (req, res, next) => {
+  const relPath = req.path.replace(/^\//, '');
+  const candidatePaths = [
+    path.join(__dirname, 'public/assets', relPath),
+    path.join(__dirname, 'assets', relPath)
+  ];
+  let filePath = null;
+  for (const p of candidatePaths) {
+    if (fs.existsSync(p) && fs.statSync(p).isFile()) {
+      filePath = p;
+      break;
+    }
+  }
+
+  if (filePath) {
+    try {
+      const fd = fs.openSync(filePath, 'r');
+      const buf = Buffer.alloc(12);
+      fs.readSync(fd, buf, 0, 12, 0);
+      fs.closeSync(fd);
+
+      if (buf.slice(0, 4).toString() === 'RIFF' && buf.slice(8, 12).toString() === 'WEBP') {
+        res.setHeader('Content-Type', 'image/webp');
+      }
+    } catch (e) {}
+
+    res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    return res.sendFile(filePath);
+  }
+  next();
+});
+
 // Serve static assets with html extension support
 app.use(express.static(__dirname, {
   extensions: ['html', 'htm'],

@@ -15,7 +15,7 @@
 // 1. MASTER PRICE RANGE CONSTANTS PER SERVICE (250% BENCHMARK)
 // ------------------------------------------------------------------------------
 
-export const KANOPI_PRICE_RANGES = {
+const KANOPI_PRICE_RANGES = {
   hollow_tempered_8: {
     name: 'Rangka Hollow Galvanis 100×50 + Tempered 8 mm',
     min: 3875000,
@@ -53,7 +53,7 @@ export const KANOPI_PRICE_RANGES = {
   }
 };
 
-export const RAILING_PRICE_RANGES = {
+const RAILING_PRICE_RANGES = {
   uchannel_ss304: {
     name: 'Sistem U-Channel Base Tanam + Tempered 12 mm',
     min: 5500000,
@@ -84,7 +84,7 @@ export const RAILING_PRICE_RANGES = {
   }
 };
 
-export const PARTISI_PRICE_RANGES = {
+const PARTISI_PRICE_RANGES = {
   standard: {
     name: 'Standard SNI 3 Inch (Dacon/Inkalum + Kaca 5 mm)',
     min: 2125000,
@@ -101,24 +101,24 @@ export const PARTISI_PRICE_RANGES = {
   }
 };
 
-export const JENDELA_PRICE_RANGES = {
+const JENDELA_PRICE_RANGES = {
   standard: {
     name: 'Standard SNI (Casement 3" + Kaca 5 mm)',
     min: 2125000,
     max: 2625000,
     target: 2375000,
-    unit: 'm²'
+    unit: 'unit'
   },
   premium: {
     name: 'Premium Grade (Casement 4" Alexindo + Kaca Panasap/Dekkson)',
     min: 2750000,
     max: 3500000,
     target: 3125000,
-    unit: 'm²'
+    unit: 'unit'
   }
 };
 
-export const PINTU_PRICE_RANGES = {
+const PINTU_PRICE_RANGES = {
   swing: {
     name: 'Pintu Aluminium Swing 1 Daun Modern Komplit',
     min: 5000000,
@@ -142,7 +142,7 @@ export const PINTU_PRICE_RANGES = {
   }
 };
 
-export const SHOWER_PRICE_RANGES = {
+const SHOWER_PRICE_RANGES = {
   framed: {
     name: 'Framed Shower Screen (Bingkai Aluminium Keliling)',
     min: 3750000,
@@ -166,7 +166,7 @@ export const SHOWER_PRICE_RANGES = {
   }
 };
 
-export const KUSEN_PRICE_RANGES = {
+const KUSEN_PRICE_RANGES = {
   standard: {
     name: 'Standard SNI 3 Inch (Dacon / Inkalum)',
     min: 212500,
@@ -183,7 +183,7 @@ export const KUSEN_PRICE_RANGES = {
   }
 };
 
-export const PINTU_TEMPERED_PRICE_RANGES = {
+const PINTU_TEMPERED_PRICE_RANGES = {
   single_10: {
     name: 'Single Leaf Tempered 10 mm + Mesin BTS 84',
     min: 8125000,
@@ -207,7 +207,7 @@ export const PINTU_TEMPERED_PRICE_RANGES = {
   }
 };
 
-export const BIFOLD_PRICE_RANGES = {
+const BIFOLD_PRICE_RANGES = {
   standard: {
     name: 'Bifold Standard Track (Inkalum 1.1 mm)',
     min: 7000000,
@@ -224,7 +224,7 @@ export const BIFOLD_PRICE_RANGES = {
   }
 };
 
-export const ETALASE_PRICE_RANGES = {
+const ETALASE_PRICE_RANGES = {
   standard: {
     name: 'Etalase Counter Toko Standar 1.5 Meter',
     min: 3000000,
@@ -241,7 +241,7 @@ export const ETALASE_PRICE_RANGES = {
   }
 };
 
-export const ACP_PRICE_RANGES = {
+const ACP_PRICE_RANGES = {
   interior_pe: {
     name: 'ACP Interior PE 0.21 mm (Seven / Marks)',
     min: 1625000,
@@ -265,7 +265,7 @@ export const ACP_PRICE_RANGES = {
   }
 };
 
-export const CURTAIN_WALL_PRICE_RANGES = {
+const CURTAIN_WALL_PRICE_RANGES = {
   stick_panasap: {
     name: 'Stick System Back Mullion + Panasap 6 mm Tinted',
     min: 4000000,
@@ -293,7 +293,7 @@ export const CURTAIN_WALL_PRICE_RANGES = {
 // 2. REGIONAL BENCHMARK CONSTANTS (TRANSPORT & SURVEY) - Multiplied by 2.5
 // ------------------------------------------------------------------------------
 
-export const REGIONAL_TRANSPORT_ESTIMATES = {
+const REGIONAL_TRANSPORT_ESTIMATES = {
   karawang: { name: 'Karawang (Basis Workshop: Klari, Telukjambe, KIIC)', min: 750000, max: 1250000, default: 1000000 },
   cikampek: { name: 'Cikampek & Jatisari (Karawang Timur)', min: 1000000, max: 1500000, default: 1250000 },
   cikarang: { name: 'Cikarang (Lippo, Jababeka, Delta Mas, MM2100)', min: 1250000, max: 1875000, default: 1500000 },
@@ -303,7 +303,7 @@ export const REGIONAL_TRANSPORT_ESTIMATES = {
   bogor: { name: 'Bogor (Kota & Kabupaten)', min: 2500000, max: 4500000, default: 3375000 }
 };
 
-export const WASTE_FACTORS = {
+const WASTE_FACTORS = {
   glass: 0.05,
   aluminium: 0.08,
   steel: 0.06
@@ -392,7 +392,7 @@ function createPriceCalculator(serviceId, config) {
 // 3. EXPORTED 'services' OBJECT (12 SERVICES WITH COMPLETE MASTER MAPPING)
 // ------------------------------------------------------------------------------
 
-export const services = {
+const services = {
   kanopi: {
     id: 'kanopi',
     serviceId: 'kanopi',
@@ -630,9 +630,9 @@ export const services = {
     label: 'Jendela Aluminium (Casement / Sliding)',
     category: 'aluminium',
     priceModel: 'aluminium_window',
-    unit: 'm²',
-    unitName: 'Meter Persegi (m²)',
-    calculationType: 'm2',
+    unit: 'unit',
+    unitName: 'Unit Jendela',
+    calculationType: 'unit',
     priceMin: 2125000,
     priceMax: 3500000,
     standardPriceMin: 2125000,
@@ -657,9 +657,9 @@ export const services = {
         minRate: JENDELA_PRICE_RANGES.standard.min,
         maxRate: JENDELA_PRICE_RANGES.standard.max,
         targetRate: JENDELA_PRICE_RANGES.standard.target,
-        rate: 'Rp 2.125.000 – Rp 2.625.000 / m²',
+        rate: 'Rp 2.125.000 – Rp 2.625.000 / unit',
         leadTime: '3–5 Hari Kerja',
-        formula: 'Luas m² × Tarif + Kusen + Daun Casement + Kaca 5mm + Friction Stay + Rambuncis + Pasang',
+        formula: 'Jumlah unit × Tarif + Kusen + Daun Casement + Kaca 5mm + Friction Stay + Rambuncis + Pasang',
         rabRatios: { kaca: 0.25, struktur: 0.34, hardware: 0.10, sealant: 0.04, fabrikasi: 0.10, pasang: 0.08, transport: 0.03, margin: 0.06 }
       },
       {
@@ -670,9 +670,9 @@ export const services = {
         minRate: JENDELA_PRICE_RANGES.premium.min,
         maxRate: JENDELA_PRICE_RANGES.premium.max,
         targetRate: JENDELA_PRICE_RANGES.premium.target,
-        rate: 'Rp 2.750.000 – Rp 3.500.000 / m²',
+        rate: 'Rp 2.750.000 – Rp 3.500.000 / unit',
         leadTime: '4–6 Hari Kerja',
-        formula: 'Luas m² × Tarif + Kusen 4" Alexindo + Kaca Panasap + Multi-point Lock Dekkson + Weatherseal + Pasang',
+        formula: 'Jumlah unit × Tarif + Kusen 4" Alexindo + Kaca Panasap + Multi-point Lock Dekkson + Weatherseal + Pasang',
         rabRatios: { kaca: 0.28, struktur: 0.33, hardware: 0.12, sealant: 0.04, fabrikasi: 0.08, pasang: 0.07, transport: 0.02, margin: 0.06 }
       }
     ]
@@ -1223,6 +1223,5 @@ if (typeof window !== 'undefined') {
   window.PRICING_CONFIG = unifiedConfig;
 }
 
-export const constants = unifiedConfig.constants;
-export const benchmarks = unifiedConfig.benchmarks;
-export default services;
+const constants = unifiedConfig.constants;
+const benchmarks = unifiedConfig.benchmarks;

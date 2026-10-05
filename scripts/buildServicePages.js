@@ -315,18 +315,19 @@ ${getHeader('layanan', 2)}
   </div>
 </div>
 
+<main id="serviceDetailContainer" data-slug="${service.slug}">
 <!-- HERO DETAIL -->
 <section style="background:linear-gradient(135deg, #073746 0%, #0d5c73 60%, #082833 100%);color:#fff;padding:60px 0 70px;">
   <div class="container">
     <div style="display:grid;grid-template-columns:1.2fr 0.8fr;gap:40px;align-items:center;">
       <div>
-        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(200,148,61,0.25);border:1px solid var(--gold);color:#ffd88a;padding:5px 12px;border-radius:6px;font-size:12.5px;font-weight:700;margin-bottom:12px;">
+        <div id="serviceHeroBadge" style="display:inline-flex;align-items:center;gap:6px;background:rgba(200,148,61,0.25);border:1px solid var(--gold);color:#ffd88a;padding:5px 12px;border-radius:6px;font-size:12.5px;font-weight:700;margin-bottom:12px;">
           ★ SPESIALIS RESMI KARAWANG • GARANSI ${service.warranty.toUpperCase()}
         </div>
-        <h1 style="color:#fff;font-size:clamp(2.1rem, 3.8vw, 3.2rem);line-height:1.15;margin:10px 0 16px;">
+        <h1 id="serviceHeroTitle" style="color:#fff;font-size:clamp(2.1rem, 3.8vw, 3.2rem);line-height:1.15;margin:10px 0 16px;">
           ${service.title}
         </h1>
-        <p style="color:#cde1e8;font-size:16px;line-height:1.7;margin-bottom:24px;">
+        <p id="serviceHeroDesc" style="color:#cde1e8;font-size:16px;line-height:1.7;margin-bottom:24px;">
           ${service.description}
         </p>
 
@@ -350,11 +351,11 @@ ${getHeader('layanan', 2)}
       <!-- MAIN VERIFIED PHOTO CARD -->
       <div style="background:#fff;color:var(--ink);border-radius:14px;padding:20px;box-shadow:0 18px 45px rgba(0,0,0,0.28);">
         <div style="position:relative;height:240px;overflow:hidden;border-radius:10px;margin-bottom:16px;">
-          <img src="../${service.image}" alt="${service.imageAlt}" style="width:100%;height:100%;object-fit:cover;">
+          <img id="serviceHeroImg" src="../${service.image}" alt="${service.imageAlt}" style="width:100%;height:100%;object-fit:cover;">
           <span style="position:absolute;top:10px;left:10px;background:rgba(7,55,70,0.9);color:#5eead4;font-size:11px;font-weight:800;padding:4px 10px;border-radius:6px;">
             ${service.badge}
           </span>
-          <span style="position:absolute;bottom:10px;right:10px;background:#ffd88a;color:#073746;font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:6px;">
+          <span id="serviceHeroStartingPrice" style="position:absolute;bottom:10px;right:10px;background:#ffd88a;color:#073746;font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:6px;">
             ${service.priceStarting}
           </span>
         </div>
@@ -384,7 +385,7 @@ ${getHeader('layanan', 2)}
       </p>
     </div>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:24px;">
+    <div id="serviceDetailModels" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:24px;">
       ${modelsHtml}
     </div>
   </div>
@@ -401,7 +402,7 @@ ${getHeader('layanan', 2)}
           <h3 style="margin:0;font-size:18px;color:#fff;">📋 Tabel Spesifikasi Teknis Standar SNI</h3>
         </div>
         <table style="width:100%;border-collapse:collapse;font-size:13.5px;">
-          <tbody>
+          <tbody id="serviceDetailSpecs">
             ${specsRowsHtml}
           </tbody>
         </table>
@@ -417,7 +418,7 @@ ${getHeader('layanan', 2)}
           Semua proyek ${service.name} dari Sahabat Kaca Aluminium menggunakan profil ekstrusi dan kaca original yang lolos uji kelayakan:
         </p>
 
-        <ul style="list-style:none;padding:0;margin:0 0 24px;">
+        <ul id="serviceDetailMaterials" style="list-style:none;padding:0;margin:0 0 24px;">
           ${materialsHtml}
         </ul>
 
@@ -445,7 +446,7 @@ ${getHeader('layanan', 2)}
       </a>
     </div>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:20px;">
+    <div id="serviceDetailGallery" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:20px;">
       ${galleryHtml}
     </div>
   </div>
@@ -508,7 +509,9 @@ ${getHeader('layanan', 2)}
       </h2>
     </div>
 
-    ${faqHtml}
+    <div id="serviceDetailFaq">
+      ${faqHtml}
+    </div>
   </div>
 </section>
 
@@ -532,6 +535,7 @@ ${getHeader('layanan', 2)}
     </div>
   </div>
 </section>
+</main>
 
 ${getFooter(2)}
 

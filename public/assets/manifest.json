@@ -1,0 +1,164 @@
+[
+  {
+    "filename": "curtain-wall-gedung.jpg",
+    "format": "JPEG",
+    "size": [
+      768,
+      512
+    ],
+    "category": "Curtain Wall Gedung"
+  },
+  {
+    "filename": "curtain-wall.jpg",
+    "format": "JPEG",
+    "size": [
+      768,
+      512
+    ],
+    "category": "Curtain Wall Gedung"
+  },
+  {
+    "filename": "etalase-kaca-showroom.jpg",
+    "format": "JPEG",
+    "size": [
+      768,
+      512
+    ],
+    "category": "Etalase Kaca"
+  },
+  {
+    "filename": "etalase-kaca.jpg",
+    "format": "JPEG",
+    "size": [
+      512,
+      512
+    ],
+    "category": "Etalase Kaca"
+  },
+  {
+    "filename": "etalase-kaca.webp",
+    "format": "WEBP",
+    "size": [
+      512,
+      512
+    ],
+    "category": "Etalase Kaca"
+  },
+  {
+    "filename": "fasad-acp-seven.jpg",
+    "format": "JPEG",
+    "size": [
+      768,
+      512
+    ],
+    "category": "Fasad ACP"
+  },
+  {
+    "filename": "fasad-acp.jpg",
+    "format": "JPEG",
+    "size": [
+      768,
+      512
+    ],
+    "category": "Fasad ACP"
+  },
+  {
+    "filename": "jendela-aluminium.jpg",
+    "format": "JPEG",
+    "size": [
+      512,
+      512
+    ],
+    "category": "Jendela Aluminium"
+  },
+  {
+    "filename": "jendela-kaca.jpg",
+    "format": "JPEG",
+    "size": [
+      768,
+      512
+    ],
+    "category": "Jendela Kaca"
+  },
+  {
+    "filename": "jendela-sliding-hero.png",
+    "format": "JPEG",
+    "size": [
+      512,
+      512
+    ],
+    "category": "Jendela Sliding"
+  },
+  {
+    "filename": "jendela-sliding.jpg",
+    "format": "JPEG",
+    "size": [
+      512,
+      512
+    ],
+    "category": "Jendela Sliding"
+  },
+  {
+    "filename": "jendela-sliding.webp",
+    "format": "WEBP",
+    "size": [
+      512,
+      512
+    ],
+    "category": "Jendela Sliding"
+  },
+  {
+    "filename": "kanopi-kaca-hero.png",
+    "format": "PNG",
+    "size": [
+      1536,
+      1024
+    ],
+    "category": "Kanopi Kaca"
+  },
+  {
+    "filename": "kanopi-kaca.jpg",
+    "format": "JPEG",
+    "size": [
+      512,
+      512
+    ],
+    "category": "Kanopi Kaca"
+  },
+  {
+    "filename": "kanopi-kaca.webp",
+    "format": "WEBP",
+    "size": [
+      512,
+      512
+    ],
+    "category": "Kanopi Kaca"
+  },
+  {
+    "filename": "kusen-aluminium-hero.png",
+    "format": "PNG",
+    "size": [
+      1536,
+      1024
+    ],
+    "category": "Kusen Aluminium"
+  },
+  {
+    "filename": "kusen-aluminium.jpg",
+    "format": "JPEG",
+    "size": [
+      512,
+      512
+    ],
+    "category": "Kusen Aluminium"
+  },
+  {
+    "filename": "partisi-aluminium.jpg",
+    "format": "JPEG",
+    "size": [
+      512,
+      512
+    ],
+    "category": "Partisi Aluminium"
+  }
+]

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+<rect width="1200" height="800" fill="#f8fafc"/>
+<rect x="0" y="650" width="1200" height="150" fill="#e5e7eb"/>
+<text x="60" y="65" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#111827">Etalase Kaca Counter</text>
+<text x="60" y="105" font-family="Arial,sans-serif" font-size="18" fill="#64748b">AA architectural illustration • aluminium &amp; glass</text>
+<path d="M220 210 H980 V650 H220 Z" fill="#dbeafe" fill-opacity=".45" stroke="#334155" stroke-width="20"/><path d="M220 360 H980 M220 510 H980" stroke="#64748b" stroke-width="12"/><path d="M300 650 V720 M900 650 V720" stroke="#475569" stroke-width="18"/>
+</svg>

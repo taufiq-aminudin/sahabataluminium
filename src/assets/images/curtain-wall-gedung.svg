@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+<rect width="1200" height="800" fill="#f8fafc"/>
+<rect x="0" y="650" width="1200" height="150" fill="#e5e7eb"/>
+<text x="60" y="65" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#111827">Curtain Wall Gedung</text>
+<text x="60" y="105" font-family="Arial,sans-serif" font-size="18" fill="#64748b">AA architectural illustration • aluminium &amp; glass</text>
+<rect x="180" y="90" width="840" height="620" fill="#dbeafe" fill-opacity=".55" stroke="#334155" stroke-width="20"/><path d="M390 90 V710 M600 90 V710 M810 90 V710" stroke="#64748b" stroke-width="12"/><path d="M180 300 H1020 M180 510 H1020" stroke="#64748b" stroke-width="12"/>
+</svg>

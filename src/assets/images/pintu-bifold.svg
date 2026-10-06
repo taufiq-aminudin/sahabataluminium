@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+<rect width="1200" height="800" fill="#f8fafc"/>
+<rect x="0" y="650" width="1200" height="150" fill="#e5e7eb"/>
+<text x="60" y="65" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#111827">Pintu Bifold</text>
+<text x="60" y="105" font-family="Arial,sans-serif" font-size="18" fill="#64748b">AA architectural illustration • aluminium &amp; glass</text>
+<rect x="310" y="90" width="580" height="620" fill="#dbeafe" fill-opacity=".48" stroke="#334155" stroke-width="20"/><path d="M600 90 V710" stroke="#334155" stroke-width="16"/><circle cx="555" cy="405" r="13" fill="#111827"/><circle cx="645" cy="405" r="13" fill="#111827"/><path d="M310 90 L455 710 M455 90 L600 710 M600 90 L745 710 M745 90 L890 710" stroke="#64748b" stroke-width="7"/>
+</svg>

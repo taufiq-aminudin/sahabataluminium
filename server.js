@@ -64,6 +64,20 @@ app.get('/ads.txt', (req, res) => {
   return res.status(404).type('text/plain; charset=UTF-8').send('ads.txt not found');
 });
 
+// 4. Browser-safe pricingConfig.js (strips export keyword so classic <script> inclusion in browsers never throws SyntaxError)
+app.get(['/pricingConfig.js', '/public/pricingConfig.js'], (req, res) => {
+  const filePath = path.join(__dirname, 'pricingConfig.js');
+  if (fs.existsSync(filePath)) {
+    let content = fs.readFileSync(filePath, 'utf8');
+    content = content.replace(/\bexport\s+default\s+[^;]+;?/g, '')
+                     .replace(/\bexport\s*\{[^}]*\};?/g, '');
+    res.setHeader('Content-Type', 'application/javascript; charset=UTF-8');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    return res.status(200).send(content);
+  }
+  return res.status(404).type('text/plain; charset=UTF-8').send('pricingConfig.js not found');
+});
+
 // Canonical Domain & HTTPS Enforcement Middleware
 // Enforces single-hop 301 redirect to https://sahabat-aluminium.my.id/
 app.use((req, res, next) => {

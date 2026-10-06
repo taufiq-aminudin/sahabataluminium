@@ -3,7 +3,7 @@
  * PRICING CONFIGURATION & MASTER PRICE ENGINE (SINGLE SOURCE OF TRUTH)
  * Sahabat Kaca Aluminium Karawang & Jabodetabek
  *
- * Updated with 250% Master Benchmark (Harga Baru = Harga Lama × 2.5)
+ * Updated with Karawang 2026 Market-Calibrated Pricing (Standard & Premium)
  * All service items have:
  * serviceId, serviceName, unit, priceMin, priceMax,
  * standardPriceMin, standardPriceMax, premiumPriceMin, premiumPriceMax,
@@ -12,43 +12,43 @@
  */
 
 // ------------------------------------------------------------------------------
-// 1. MASTER PRICE RANGE CONSTANTS PER SERVICE (250% BENCHMARK)
+// 1. MASTER PRICE RANGE CONSTANTS PER SERVICE (KARAWANG 2026 MARKET-CALIBRATED)
 // ------------------------------------------------------------------------------
 
 const KANOPI_PRICE_RANGES = {
   hollow_tempered_8: {
     name: 'Rangka Hollow Galvanis 100×50 + Tempered 8 mm',
-    min: 3875000,
-    max: 4375000,
-    target: 4125000,
+    min: 1450000,
+    max: 1750000,
+    target: 1600000,
     unit: 'm²'
   },
   hollow_tempered_10: {
     name: 'Rangka Hollow 100×50×2 mm + Tempered Clear 10 mm (Target Carport Standar)',
-    min: 4250000,
-    max: 4750000,
-    target: 4500000,
+    min: 1550000,
+    max: 1950000,
+    target: 1750000,
     unit: 'm²'
   },
   wf_tempered_12: {
     name: 'Rangka Baja WF 150 / Double Hollow + Tempered 12 mm',
-    min: 4500000,
-    max: 5000000,
-    target: 4750000,
+    min: 1750000,
+    max: 2200000,
+    target: 1950000,
     unit: 'm²'
   },
   stainless_tempered: {
     name: 'Rangka Stainless Steel SUS304 + Tempered 10/12 mm',
-    min: 6500000,
-    max: 8500000,
-    target: 7375000,
+    min: 2800000,
+    max: 3800000,
+    target: 3250000,
     unit: 'm²'
   },
   laminated_canopy: {
     name: 'Struktur Rangka + Tempered Laminated 5+5 mm PVB',
-    min: 5500000,
-    max: 7000000,
-    target: 6125000,
+    min: 1850000,
+    max: 2400000,
+    target: 2100000,
     unit: 'm²'
   }
 };
@@ -56,30 +56,30 @@ const KANOPI_PRICE_RANGES = {
 const RAILING_PRICE_RANGES = {
   uchannel_ss304: {
     name: 'Sistem U-Channel Base Tanam + Tempered 12 mm',
-    min: 5500000,
-    max: 6250000,
-    target: 6000000,
+    min: 2200000,
+    max: 2700000,
+    target: 2450000,
     unit: 'm1'
   },
   spigot_ss304: {
     name: 'Sistem Spigot Clamp Solid SUS304 + Tempered 12 mm',
-    min: 6250000,
-    max: 7500000,
-    target: 6875000,
+    min: 2400000,
+    max: 3000000,
+    target: 2700000,
     unit: 'm1'
   },
   handrail_ss304: {
     name: 'Tiang Baluster + Handrail SUS304 + Tempered 10 mm',
-    min: 6000000,
-    max: 7250000,
-    target: 6625000,
+    min: 2400000,
+    max: 3000000,
+    target: 2700000,
     unit: 'm1'
   },
   railing_tangga: {
     name: 'Railing Tangga Custom Void + Tempered 10/12 mm',
-    min: 6250000,
-    max: 7500000,
-    target: 6875000,
+    min: 2500000,
+    max: 3200000,
+    target: 2850000,
     unit: 'm1'
   }
 };
@@ -87,16 +87,16 @@ const RAILING_PRICE_RANGES = {
 const PARTISI_PRICE_RANGES = {
   standard: {
     name: 'Standard SNI 3 Inch (Dacon/Inkalum + Kaca 5 mm)',
-    min: 2125000,
-    max: 2625000,
-    target: 2375000,
+    min: 650000,
+    max: 850000,
+    target: 750000,
     unit: 'm²'
   },
   premium: {
     name: 'Premium Grade 4 Inch (Alexindo/Forta + Kaca 6/8 mm)',
-    min: 2750000,
-    max: 3375000,
-    target: 3125000,
+    min: 850000,
+    max: 1200000,
+    target: 1025000,
     unit: 'm²'
   }
 };
@@ -104,16 +104,16 @@ const PARTISI_PRICE_RANGES = {
 const JENDELA_PRICE_RANGES = {
   standard: {
     name: 'Standard SNI (Casement 3" + Kaca 5 mm)',
-    min: 2125000,
-    max: 2625000,
-    target: 2375000,
+    min: 850000,
+    max: 1150000,
+    target: 1000000,
     unit: 'unit'
   },
   premium: {
     name: 'Premium Grade (Casement 4" Alexindo + Kaca Panasap/Dekkson)',
-    min: 2750000,
-    max: 3500000,
-    target: 3125000,
+    min: 1200000,
+    max: 1800000,
+    target: 1500000,
     unit: 'unit'
   }
 };
@@ -121,23 +121,23 @@ const JENDELA_PRICE_RANGES = {
 const PINTU_PRICE_RANGES = {
   swing: {
     name: 'Pintu Aluminium Swing 1 Daun Modern Komplit',
-    min: 5000000,
-    max: 7000000,
-    target: 5875000,
+    min: 1450000,
+    max: 1850000,
+    target: 1650000,
     unit: 'unit'
   },
   sliding: {
     name: 'Pintu Aluminium Sliding Geser (Silent Roller Rail)',
-    min: 6250000,
-    max: 8750000,
-    target: 7125000,
+    min: 3200000,
+    max: 4500000,
+    target: 3850000,
     unit: 'unit'
   },
   folding: {
     name: 'Pintu Aluminium Folding / Lipat (per unit opening)',
-    min: 8750000,
-    max: 12500000,
-    target: 10500000,
+    min: 7500000,
+    max: 10500000,
+    target: 9000000,
     unit: 'unit'
   }
 };
@@ -145,23 +145,23 @@ const PINTU_PRICE_RANGES = {
 const SHOWER_PRICE_RANGES = {
   framed: {
     name: 'Framed Shower Screen (Bingkai Aluminium Keliling)',
-    min: 3750000,
-    max: 5000000,
-    target: 4375000,
+    min: 2000000,
+    max: 3000000,
+    target: 2500000,
     unit: 'unit'
   },
   semi_frameless: {
     name: 'Semi Frameless Shower Screen (U-Channel + Header Track)',
-    min: 5000000,
-    max: 7000000,
-    target: 5875000,
+    min: 3300000,
+    max: 4500000,
+    target: 3900000,
     unit: 'unit'
   },
   frameless: {
     name: 'Full Frameless Shower Screen (Tempered 10 mm SUS304)',
-    min: 6250000,
-    max: 8750000,
-    target: 7375000,
+    min: 4200000,
+    max: 5500000,
+    target: 4800000,
     unit: 'unit'
   }
 };
@@ -169,16 +169,16 @@ const SHOWER_PRICE_RANGES = {
 const KUSEN_PRICE_RANGES = {
   standard: {
     name: 'Standard SNI 3 Inch (Dacon / Inkalum)',
-    min: 212500,
-    max: 275000,
-    target: 250000,
+    min: 85000,
+    max: 130000,
+    target: 105000,
     unit: 'm1'
   },
   premium: {
     name: 'Premium Grade 4 Inch (Alexindo / Alcomexindo)',
-    min: 337500,
-    max: 412500,
-    target: 375000,
+    min: 135000,
+    max: 175000,
+    target: 155000,
     unit: 'm1'
   }
 };
@@ -186,23 +186,23 @@ const KUSEN_PRICE_RANGES = {
 const PINTU_TEMPERED_PRICE_RANGES = {
   single_10: {
     name: 'Single Leaf Tempered 10 mm + Mesin BTS 84',
-    min: 8125000,
-    max: 9625000,
-    target: 8750000,
+    min: 2900000,
+    max: 3600000,
+    target: 3250000,
     unit: 'unit'
   },
   single_12: {
     name: 'Single Leaf Tempered 12 mm + Floor Hinge Dorma BTS 75V',
-    min: 10500000,
-    max: 13125000,
-    target: 11625000,
+    min: 3900000,
+    max: 5200000,
+    target: 4550000,
     unit: 'unit'
   },
   double_12: {
     name: 'Double Leaf (Kupu Tarung) Tempered 12 mm + Dorma',
-    min: 19500000,
-    max: 23500000,
-    target: 21250000,
+    min: 6500000,
+    max: 8500000,
+    target: 7500000,
     unit: 'unit'
   }
 };
@@ -210,16 +210,16 @@ const PINTU_TEMPERED_PRICE_RANGES = {
 const BIFOLD_PRICE_RANGES = {
   standard: {
     name: 'Bifold Standard Track (Inkalum 1.1 mm)',
-    min: 7000000,
+    min: 7500000,
     max: 8750000,
-    target: 7875000,
+    target: 8125000,
     unit: 'daun'
   },
   premium: {
     name: 'Bifold Heavy-Duty Panoramic (Alexindo 1.3 mm / 250 kg)',
     min: 8750000,
-    max: 12000000,
-    target: 10250000,
+    max: 10500000,
+    target: 9500000,
     unit: 'daun'
   }
 };
@@ -227,16 +227,16 @@ const BIFOLD_PRICE_RANGES = {
 const ETALASE_PRICE_RANGES = {
   standard: {
     name: 'Etalase Counter Toko Standar 1.5 Meter',
-    min: 3000000,
-    max: 4125000,
-    target: 3625000,
+    min: 1250000,
+    max: 1650000,
+    target: 1450000,
     unit: 'unit'
   },
   premium: {
     name: 'Display Showcase Premium Full Kaca Tempered + LED',
-    min: 5000000,
-    max: 8750000,
-    target: 6875000,
+    min: 2400000,
+    max: 3500000,
+    target: 2950000,
     unit: 'unit'
   }
 };
@@ -244,23 +244,23 @@ const ETALASE_PRICE_RANGES = {
 const ACP_PRICE_RANGES = {
   interior_pe: {
     name: 'ACP Interior PE 0.21 mm (Seven / Marks)',
-    min: 1625000,
-    max: 2125000,
-    target: 1875000,
+    min: 550000,
+    max: 750000,
+    target: 650000,
     unit: 'm²'
   },
   exterior_pvdf: {
     name: 'ACP Eksterior PVDF 0.30 mm SNI Tahan Cuaca',
-    min: 2125000,
-    max: 2875000,
-    target: 2375000,
+    min: 750000,
+    max: 1050000,
+    target: 900000,
     unit: 'm²'
   },
   heavy_duty_pvdf: {
     name: 'ACP Heavy-Duty PVDF 0.50 mm (Gedung & High-Rise)',
-    min: 3125000,
-    max: 4125000,
-    target: 3625000,
+    min: 1100000,
+    max: 1600000,
+    target: 1350000,
     unit: 'm²'
   }
 };
@@ -268,39 +268,39 @@ const ACP_PRICE_RANGES = {
 const CURTAIN_WALL_PRICE_RANGES = {
   stick_panasap: {
     name: 'Stick System Back Mullion + Panasap 6 mm Tinted',
-    min: 4000000,
-    max: 4750000,
-    target: 4375000,
+    min: 1800000,
+    max: 2400000,
+    target: 2100000,
     unit: 'm²'
   },
   stick_tempered8: {
     name: 'Stick System + Tempered Reflective / Stopsol 8 mm',
-    min: 4625000,
-    max: 6125000,
-    target: 5375000,
+    min: 2200000,
+    max: 3000000,
+    target: 2600000,
     unit: 'm²'
   },
   semi_unitized: {
     name: 'Semi-Unitized High-Rise + Low-E 10 mm Tempered',
-    min: 6250000,
-    max: 8125000,
-    target: 7125000,
+    min: 3000000,
+    max: 4200000,
+    target: 3600000,
     unit: 'm²'
   }
 };
 
 // ------------------------------------------------------------------------------
-// 2. REGIONAL BENCHMARK CONSTANTS (TRANSPORT & SURVEY) - Multiplied by 2.5
+// 2. REGIONAL BENCHMARK CONSTANTS (TRANSPORT & SURVEY) - Karawang 2026 Mobilization
 // ------------------------------------------------------------------------------
 
 const REGIONAL_TRANSPORT_ESTIMATES = {
-  karawang: { name: 'Karawang (Basis Workshop: Klari, Telukjambe, KIIC)', min: 750000, max: 1250000, default: 1000000 },
-  cikampek: { name: 'Cikampek & Jatisari (Karawang Timur)', min: 1000000, max: 1500000, default: 1250000 },
-  cikarang: { name: 'Cikarang (Lippo, Jababeka, Delta Mas, MM2100)', min: 1250000, max: 1875000, default: 1500000 },
-  bekasi: { name: 'Bekasi (Kota & Kabupaten, Tambun, Cibitung)', min: 1750000, max: 2500000, default: 2125000 },
-  jakarta: { name: 'DKI Jakarta (Pusat, Selatan, Timur, Barat, Utara)', min: 2250000, max: 3750000, default: 3000000 },
-  depok_tangerang: { name: 'Depok, Tangerang & Tangerang Selatan', min: 2500000, max: 4500000, default: 3375000 },
-  bogor: { name: 'Bogor (Kota & Kabupaten)', min: 2500000, max: 4500000, default: 3375000 }
+  karawang: { name: 'Karawang (Basis Workshop: Karawang Barat/Klari/Telukjambe/KIIC)', min: 350000, max: 750000, default: 500000 },
+  cikampek: { name: 'Cikampek & Jatisari (Karawang Timur)', min: 500000, max: 900000, default: 700000 },
+  cikarang: { name: 'Cikarang (Lippo, Jababeka, Delta Mas, MM2100)', min: 750000, max: 1250000, default: 1000000 },
+  bekasi: { name: 'Bekasi (Kota & Kabupaten, Tambun, Cibitung)', min: 1000000, max: 1750000, default: 1350000 },
+  jakarta: { name: 'DKI Jakarta (Pusat, Selatan, Timur, Barat, Utara)', min: 1500000, max: 2500000, default: 2000000 },
+  depok_tangerang: { name: 'Depok, Tangerang & Tangerang Selatan', min: 1750000, max: 3000000, default: 2250000 },
+  bogor: { name: 'Bogor (Kota & Kabupaten)', min: 1750000, max: 3000000, default: 2250000 }
 };
 
 const WASTE_FACTORS = {
@@ -403,14 +403,14 @@ const services = {
     unit: 'm²',
     unitName: 'Meter Persegi (m²)',
     calculationType: 'm2',
-    priceMin: 3875000,
-    priceMax: 8500000,
-    standardPriceMin: 3875000,
-    standardPriceMax: 4375000,
-    premiumPriceMin: 4250000,
-    premiumPriceMax: 4750000,
+    priceMin: 1450000,
+    priceMax: 3800000,
+    standardPriceMin: 1450000,
+    standardPriceMax: 1950000,
+    premiumPriceMin: 2800000,
+    premiumPriceMax: 3800000,
     specification: 'Rangka Hollow Galvanis 100×50 tebal 2mm + Kaca Tempered Clear 8mm/10mm SNI Asahimas & Sealant Dowsil 795',
-    minOrderValue: 18750000,
+    minOrderValue: 5000000,
     wasteFactor: WASTE_FACTORS.glass,
     priceRanges: KANOPI_PRICE_RANGES,
     summaryLabel: 'Rangka & Kaca:',
@@ -427,7 +427,7 @@ const services = {
         minRate: KANOPI_PRICE_RANGES.hollow_tempered_8.min,
         maxRate: KANOPI_PRICE_RANGES.hollow_tempered_8.max,
         targetRate: KANOPI_PRICE_RANGES.hollow_tempered_8.target,
-        rate: 'Rp 3.875.000 – Rp 4.375.000 / m²',
+        rate: 'Rp 1.450.000 – Rp 1.750.000 / m²',
         leadTime: '5–7 Hari Kerja',
         formula: '(Luas m² × Tarif) + Rangka Hollow 100×50 + Tempered 8mm + Bracket Dynabolt + Sealant Dowsil + Fabrikasi + Pasang',
         rabRatios: { kaca: 0.34, struktur: 0.22, hardware: 0.06, sealant: 0.03, fabrikasi: 0.11, pasang: 0.13, transport: 0.04, margin: 0.07 }
@@ -440,7 +440,7 @@ const services = {
         minRate: KANOPI_PRICE_RANGES.hollow_tempered_10.min,
         maxRate: KANOPI_PRICE_RANGES.hollow_tempered_10.max,
         targetRate: KANOPI_PRICE_RANGES.hollow_tempered_10.target,
-        rate: 'Rp 4.250.000 – Rp 4.750.000 / m²',
+        rate: 'Rp 1.550.000 – Rp 1.950.000 / m²',
         leadTime: '6–8 Hari Kerja',
         formula: 'Luas m² × Tarif + Kaca Tempered 10mm + Rangka Hollow 100×50×2mm + Sealant Struktural + Pasang',
         rabRatios: { kaca: 0.36, struktur: 0.20, hardware: 0.06, sealant: 0.03, fabrikasi: 0.11, pasang: 0.14, transport: 0.03, margin: 0.07 }
@@ -453,7 +453,7 @@ const services = {
         minRate: KANOPI_PRICE_RANGES.wf_tempered_12.min,
         maxRate: KANOPI_PRICE_RANGES.wf_tempered_12.max,
         targetRate: KANOPI_PRICE_RANGES.wf_tempered_12.target,
-        rate: 'Rp 4.500.000 – Rp 5.000.000 / m²',
+        rate: 'Rp 1.750.000 – Rp 2.200.000 / m²',
         leadTime: '7–10 Hari Kerja',
         formula: '(Luas m² × Tarif) + Baja WF 150 + Tempered 12mm + Plat Anchor Baja + Sealant Weatherseal + Alat Berat/Crane + Pasang',
         rabRatios: { kaca: 0.38, struktur: 0.23, hardware: 0.06, sealant: 0.03, fabrikasi: 0.10, pasang: 0.11, transport: 0.03, margin: 0.06 }
@@ -466,7 +466,7 @@ const services = {
         minRate: KANOPI_PRICE_RANGES.stainless_tempered.min,
         maxRate: KANOPI_PRICE_RANGES.stainless_tempered.max,
         targetRate: KANOPI_PRICE_RANGES.stainless_tempered.target,
-        rate: 'Rp 6.500.000 – Rp 8.500.000 / m²',
+        rate: 'Rp 2.800.000 – Rp 3.800.000 / m²',
         leadTime: '10–14 Hari Kerja',
         formula: '(Luas m² × Tarif) + Rangka Stainless SUS304 + Tempered 10/12mm + Spider Clamp SUS304 + Polishing + Sealant + Pasang',
         rabRatios: { kaca: 0.30, struktur: 0.32, hardware: 0.08, sealant: 0.03, fabrikasi: 0.10, pasang: 0.09, transport: 0.02, margin: 0.06 }
@@ -479,7 +479,7 @@ const services = {
         minRate: KANOPI_PRICE_RANGES.laminated_canopy.min,
         maxRate: KANOPI_PRICE_RANGES.laminated_canopy.max,
         targetRate: KANOPI_PRICE_RANGES.laminated_canopy.target,
-        rate: 'Rp 5.500.000 – Rp 7.000.000 / m²',
+        rate: 'Rp 1.850.000 – Rp 2.400.000 / m²',
         leadTime: '8–12 Hari Kerja',
         formula: '(Luas m² × Tarif) + Rangka Baja + Tempered Laminated 5+5 PVB + Sealant Struktural + Scaffolding + Pasang',
         rabRatios: { kaca: 0.44, struktur: 0.20, hardware: 0.05, sealant: 0.03, fabrikasi: 0.10, pasang: 0.10, transport: 0.02, margin: 0.06 }
@@ -497,14 +497,14 @@ const services = {
     unit: 'm1',
     unitName: 'Meter Lari (m1)',
     calculationType: 'm1',
-    priceMin: 5500000,
-    priceMax: 7500000,
-    standardPriceMin: 5500000,
-    standardPriceMax: 6250000,
-    premiumPriceMin: 6250000,
-    premiumPriceMax: 7500000,
+    priceMin: 2200000,
+    priceMax: 3200000,
+    standardPriceMin: 2200000,
+    standardPriceMax: 2700000,
+    premiumPriceMin: 2400000,
+    premiumPriceMax: 3200000,
     specification: 'Sistem U-Channel Base Tanam / Spigot Clamp Solid SUS304 + Tempered 10mm/12mm SNI Asahimas',
-    minOrderValue: 13750000,
+    minOrderValue: 5000000,
     wasteFactor: WASTE_FACTORS.glass,
     priceRanges: RAILING_PRICE_RANGES,
     summaryLabel: 'Sistem Railing:',
@@ -521,7 +521,7 @@ const services = {
         minRate: RAILING_PRICE_RANGES.uchannel_ss304.min,
         maxRate: RAILING_PRICE_RANGES.uchannel_ss304.max,
         targetRate: RAILING_PRICE_RANGES.uchannel_ss304.target,
-        rate: 'Rp 5.500.000 – Rp 6.250.000 / m1',
+        rate: 'Rp 2.200.000 – Rp 2.700.000 / m1',
         leadTime: '6–9 Hari Kerja',
         formula: 'Panjang m1 × Tarif + Base U-Channel + Kaca Tempered 12mm + Chemical Anchor + Sealant EPDM + Pasang Presisi',
         rabRatios: { kaca: 0.35, struktur: 0.24, hardware: 0.08, sealant: 0.03, fabrikasi: 0.10, pasang: 0.11, transport: 0.03, margin: 0.06 }
@@ -534,7 +534,7 @@ const services = {
         minRate: RAILING_PRICE_RANGES.spigot_ss304.min,
         maxRate: RAILING_PRICE_RANGES.spigot_ss304.max,
         targetRate: RAILING_PRICE_RANGES.spigot_ss304.target,
-        rate: 'Rp 6.250.000 – Rp 7.500.000 / m1',
+        rate: 'Rp 2.400.000 – Rp 3.000.000 / m1',
         leadTime: '5–8 Hari Kerja',
         formula: '(Panjang m1 × Tarif) + Kaca Tempered 12mm + 2 Spigot SUS304 Solid/m + Dynabolt Stainless + Setting Laser + Pasang',
         rabRatios: { kaca: 0.32, struktur: 0.26, hardware: 0.12, sealant: 0.02, fabrikasi: 0.09, pasang: 0.10, transport: 0.03, margin: 0.06 }
@@ -547,7 +547,7 @@ const services = {
         minRate: RAILING_PRICE_RANGES.handrail_ss304.min,
         maxRate: RAILING_PRICE_RANGES.handrail_ss304.max,
         targetRate: RAILING_PRICE_RANGES.handrail_ss304.target,
-        rate: 'Rp 6.000.000 – Rp 7.250.000 / m1',
+        rate: 'Rp 2.400.000 – Rp 3.000.000 / m1',
         leadTime: '5–8 Hari Kerja',
         formula: '(Panjang m1 × Tarif) + Kaca Tempered 10mm + Tiang Baluster SUS304 + Handrail Pipa 2" + Bracket Klem Kaca + Pasang',
         rabRatios: { kaca: 0.30, struktur: 0.28, hardware: 0.10, sealant: 0.02, fabrikasi: 0.10, pasang: 0.11, transport: 0.03, margin: 0.06 }
@@ -560,7 +560,7 @@ const services = {
         minRate: RAILING_PRICE_RANGES.railing_tangga.min,
         maxRate: RAILING_PRICE_RANGES.railing_tangga.max,
         targetRate: RAILING_PRICE_RANGES.railing_tangga.target,
-        rate: 'Rp 6.250.000 – Rp 7.500.000 / m1',
+        rate: 'Rp 2.500.000 – Rp 3.200.000 / m1',
         leadTime: '7–12 Hari Kerja',
         formula: '(Panjang m1 × Tarif) + Mal Triplek Sudut Trap + Kaca Tempered Custom Bevel + Hardware Tangga SUS304 + Pasang Khusus',
         rabRatios: { kaca: 0.33, struktur: 0.25, hardware: 0.09, sealant: 0.03, fabrikasi: 0.11, pasang: 0.10, transport: 0.03, margin: 0.06 }
@@ -578,14 +578,14 @@ const services = {
     unit: 'm²',
     unitName: 'Meter Persegi (m²)',
     calculationType: 'm2',
-    priceMin: 2125000,
-    priceMax: 3375000,
-    standardPriceMin: 2125000,
-    standardPriceMax: 2625000,
-    premiumPriceMin: 2750000,
-    premiumPriceMax: 3375000,
+    priceMin: 650000,
+    priceMax: 1200000,
+    standardPriceMin: 650000,
+    standardPriceMax: 850000,
+    premiumPriceMin: 850000,
+    premiumPriceMax: 1200000,
     specification: 'Standard SNI 3" (Dacon/Inkalum + Kaca 5 mm) vs Premium Grade 4" (Alexindo/Forta + Kaca 6/8 mm)',
-    minOrderValue: 8750000,
+    minOrderValue: 3500000,
     wasteFactor: WASTE_FACTORS.aluminium,
     priceRanges: PARTISI_PRICE_RANGES,
     summaryLabel: 'Grade Partisi:',
@@ -602,7 +602,7 @@ const services = {
         minRate: PARTISI_PRICE_RANGES.standard.min,
         maxRate: PARTISI_PRICE_RANGES.standard.max,
         targetRate: PARTISI_PRICE_RANGES.standard.target,
-        rate: 'Rp 2.125.000 – Rp 2.625.000 / m²',
+        rate: 'Rp 1.250.000 – Rp 1.650.000 / unit',
         leadTime: '3–5 Hari Kerja',
         formula: 'Luas m² × Tarif + Kusen 3" + Kaca 5mm + Karet EPDM + Sealant + Sekrup Fisher + Jasa Pasang Presisi',
         rabRatios: { kaca: 0.28, struktur: 0.30, hardware: 0.06, sealant: 0.05, fabrikasi: 0.10, pasang: 0.11, transport: 0.03, margin: 0.07 }
@@ -615,7 +615,7 @@ const services = {
         minRate: PARTISI_PRICE_RANGES.premium.min,
         maxRate: PARTISI_PRICE_RANGES.premium.max,
         targetRate: PARTISI_PRICE_RANGES.premium.target,
-        rate: 'Rp 2.750.000 – Rp 3.375.000 / m²',
+        rate: 'Rp 2.400.000 – Rp 3.500.000 / unit',
         leadTime: '4–7 Hari Kerja',
         formula: 'Luas m² × Tarif + Kusen 4" Alexindo + Kaca 6mm/8mm + Sealant Akustik + Bracket Baja + Pasang Presisi',
         rabRatios: { kaca: 0.32, struktur: 0.28, hardware: 0.06, sealant: 0.05, fabrikasi: 0.10, pasang: 0.10, transport: 0.03, margin: 0.06 }
@@ -633,14 +633,14 @@ const services = {
     unit: 'unit',
     unitName: 'Unit Jendela',
     calculationType: 'unit',
-    priceMin: 2125000,
-    priceMax: 3500000,
-    standardPriceMin: 2125000,
-    standardPriceMax: 2625000,
-    premiumPriceMin: 2750000,
-    premiumPriceMax: 3500000,
+    priceMin: 850000,
+    priceMax: 1800000,
+    standardPriceMin: 850000,
+    standardPriceMax: 1150000,
+    premiumPriceMin: 1200000,
+    premiumPriceMax: 1800000,
     specification: 'Standard SNI Casement 3" + Kaca 5mm vs Premium Alexindo 4" + Kaca Panasap/Dekkson',
-    minOrderValue: 4500000,
+    minOrderValue: 1500000,
     wasteFactor: WASTE_FACTORS.aluminium,
     priceRanges: JENDELA_PRICE_RANGES,
     summaryLabel: 'Grade Jendela:',
@@ -688,14 +688,14 @@ const services = {
     unit: 'unit',
     unitName: 'Unit Pintu',
     calculationType: 'unit',
-    priceMin: 5000000,
-    priceMax: 12500000,
-    standardPriceMin: 5000000,
-    standardPriceMax: 7000000,
-    premiumPriceMin: 6250000,
-    premiumPriceMax: 8750000,
+    priceMin: 1450000,
+    priceMax: 10500000,
+    standardPriceMin: 1450000,
+    standardPriceMax: 4500000,
+    premiumPriceMin: 7500000,
+    premiumPriceMax: 10500000,
     specification: 'Pintu Aluminium Swing 1 Daun Modern Komplit vs Sliding Silent Roller vs Folding Multi-Leaf',
-    minOrderValue: 5000000,
+    minOrderValue: 2500000,
     wasteFactor: WASTE_FACTORS.aluminium,
     priceRanges: PINTU_PRICE_RANGES,
     summaryLabel: 'Tipe Bukaan:',
@@ -712,7 +712,7 @@ const services = {
         minRate: PINTU_PRICE_RANGES.swing.min,
         maxRate: PINTU_PRICE_RANGES.swing.max,
         targetRate: PINTU_PRICE_RANGES.swing.target,
-        rate: 'Rp 5.000.000 – Rp 7.000.000 / unit',
+        rate: 'Rp 1.450.000 – Rp 1.850.000 / unit',
         leadTime: '3–5 Hari Kerja',
         formula: 'Kusen 3" + Daun Pintu + Kaca 5mm / Spandrel + Mortise Lockset + Engsel Stainless + Jasa Pasang',
         rabRatios: { kaca: 0.18, struktur: 0.40, hardware: 0.15, sealant: 0.03, fabrikasi: 0.10, pasang: 0.07, transport: 0.02, margin: 0.05 }
@@ -725,7 +725,7 @@ const services = {
         minRate: PINTU_PRICE_RANGES.sliding.min,
         maxRate: PINTU_PRICE_RANGES.sliding.max,
         targetRate: PINTU_PRICE_RANGES.sliding.target,
-        rate: 'Rp 6.250.000 – Rp 8.750.000 / unit',
+        rate: 'Rp 3.200.000 – Rp 4.500.000 / unit',
         leadTime: '4–6 Hari Kerja',
         formula: 'Kusen Pintu + Daun Sliding + Rel Atas Bawah + Roller Bearing + Kunci Hook Lock Tanam + Sealant + Pasang',
         rabRatios: { kaca: 0.16, struktur: 0.38, hardware: 0.18, sealant: 0.03, fabrikasi: 0.10, pasang: 0.07, transport: 0.02, margin: 0.06 }
@@ -738,7 +738,7 @@ const services = {
         minRate: PINTU_PRICE_RANGES.folding.min,
         maxRate: PINTU_PRICE_RANGES.folding.max,
         targetRate: PINTU_PRICE_RANGES.folding.target,
-        rate: 'Rp 8.750.000 – Rp 12.500.000 / unit',
+        rate: 'Rp 7.500.000 – Rp 10.500.000 / unit',
         leadTime: '5–8 Hari Kerja',
         formula: 'Daun Pintu Lipat + Rel Gantung Heavy + Engsel Lipat SUS304 + Flush Bolt + Kaca 5mm + Pasang Presisi',
         rabRatios: { kaca: 0.20, struktur: 0.36, hardware: 0.18, sealant: 0.03, fabrikasi: 0.09, pasang: 0.07, transport: 0.02, margin: 0.05 }
@@ -756,14 +756,14 @@ const services = {
     unit: 'unit',
     unitName: 'Set Shower Screen',
     calculationType: 'unit',
-    priceMin: 3750000,
-    priceMax: 8750000,
-    standardPriceMin: 3750000,
-    standardPriceMax: 5000000,
-    premiumPriceMin: 5000000,
-    premiumPriceMax: 7000000,
+    priceMin: 2000000,
+    priceMax: 5500000,
+    standardPriceMin: 2000000,
+    standardPriceMax: 3000000,
+    premiumPriceMin: 4200000,
+    premiumPriceMax: 5500000,
     specification: 'Framed Shower Screen vs Semi Frameless 8mm vs Full Frameless 10mm SUS304',
-    minOrderValue: 4500000,
+    minOrderValue: 2000000,
     wasteFactor: WASTE_FACTORS.glass,
     priceRanges: SHOWER_PRICE_RANGES,
     summaryLabel: 'Sistem Shower:',
@@ -780,7 +780,7 @@ const services = {
         minRate: SHOWER_PRICE_RANGES.framed.min,
         maxRate: SHOWER_PRICE_RANGES.framed.max,
         targetRate: SHOWER_PRICE_RANGES.framed.target,
-        rate: 'Rp 3.750.000 – Rp 5.000.000 / unit',
+        rate: 'Rp 2.000.000 – Rp 3.000.000 / unit',
         leadTime: '3–4 Hari Kerja',
         formula: 'Frame Aluminium Shower + Kaca Tempered 6mm + Karet Seal Magnet + Engsel Pivot + Pasang',
         rabRatios: { kaca: 0.35, struktur: 0.26, hardware: 0.11, sealant: 0.04, fabrikasi: 0.10, pasang: 0.06, transport: 0.02, margin: 0.06 }
@@ -793,7 +793,7 @@ const services = {
         minRate: SHOWER_PRICE_RANGES.semi_frameless.min,
         maxRate: SHOWER_PRICE_RANGES.semi_frameless.max,
         targetRate: SHOWER_PRICE_RANGES.semi_frameless.target,
-        rate: 'Rp 5.000.000 – Rp 7.000.000 / unit',
+        rate: 'Rp 3.300.000 – Rp 4.500.000 / unit',
         leadTime: '3–5 Hari Kerja',
         formula: 'Kaca Tempered 8mm + U-Channel Dinding + Engsel Glass-to-Wall + Handle Handuk L + Sealant Anti Jamur',
         rabRatios: { kaca: 0.40, struktur: 0.16, hardware: 0.16, sealant: 0.04, fabrikasi: 0.09, pasang: 0.07, transport: 0.02, margin: 0.06 }
@@ -806,7 +806,7 @@ const services = {
         minRate: SHOWER_PRICE_RANGES.frameless.min,
         maxRate: SHOWER_PRICE_RANGES.frameless.max,
         targetRate: SHOWER_PRICE_RANGES.frameless.target,
-        rate: 'Rp 6.250.000 – Rp 8.750.000 / unit',
+        rate: 'Rp 4.200.000 – Rp 5.500.000 / unit',
         leadTime: '4–6 Hari Kerja',
         formula: 'Kaca Tempered 10mm Bevel + Engsel SUS304 + Pipa Stabilizer SUS304 + Handle Handuk L + Sealant Dowsil Sanitasi',
         rabRatios: { kaca: 0.42, struktur: 0.08, hardware: 0.22, sealant: 0.04, fabrikasi: 0.08, pasang: 0.08, transport: 0.02, margin: 0.06 }
@@ -824,14 +824,14 @@ const services = {
     unit: 'm1',
     unitName: 'Meter Lari (m1)',
     calculationType: 'm1',
-    priceMin: 212500,
-    priceMax: 412500,
-    standardPriceMin: 212500,
-    standardPriceMax: 275000,
-    premiumPriceMin: 337500,
-    premiumPriceMax: 412500,
+    priceMin: 85000,
+    priceMax: 175000,
+    standardPriceMin: 85000,
+    standardPriceMax: 130000,
+    premiumPriceMin: 135000,
+    premiumPriceMax: 175000,
     specification: 'Profil 3" Standard (Dacon/Inkalum 0.9-1.0mm) vs Profil 4" Heavy Duty (Alexindo/Alcomexindo 1.1-1.3mm)',
-    minOrderValue: 3750000,
+    minOrderValue: 1000000,
     wasteFactor: WASTE_FACTORS.aluminium,
     priceRanges: KUSEN_PRICE_RANGES,
     summaryLabel: 'Grade Kusen:',
@@ -879,14 +879,14 @@ const services = {
     unit: 'unit',
     unitName: 'Set Daun Pintu',
     calculationType: 'unit',
-    priceMin: 8125000,
-    priceMax: 23500000,
-    standardPriceMin: 8125000,
-    standardPriceMax: 9625000,
-    premiumPriceMin: 10500000,
-    premiumPriceMax: 13125000,
+    priceMin: 2900000,
+    priceMax: 8500000,
+    standardPriceMin: 2900000,
+    standardPriceMax: 5200000,
+    premiumPriceMin: 3900000,
+    premiumPriceMax: 8500000,
     specification: 'Single Leaf Tempered 10mm/12mm BTS 84 vs Dorma BTS 75V vs Double Leaf',
-    minOrderValue: 8750000,
+    minOrderValue: 3000000,
     wasteFactor: WASTE_FACTORS.glass,
     priceRanges: PINTU_TEMPERED_PRICE_RANGES,
     summaryLabel: 'Sistem Bukaan:',
@@ -903,7 +903,7 @@ const services = {
         minRate: PINTU_TEMPERED_PRICE_RANGES.single_10.min,
         maxRate: PINTU_TEMPERED_PRICE_RANGES.single_10.max,
         targetRate: PINTU_TEMPERED_PRICE_RANGES.single_10.target,
-        rate: 'Rp 8.125.000 – Rp 9.625.000 / unit',
+        rate: 'Rp 2.900.000 – Rp 3.600.000 / unit',
         leadTime: '3–5 Hari Kerja',
         formula: 'Kaca Tempered 10mm + Mesin Floor Hinge BTS 84 + Patch Fitting + Pull Handle 60cm + Pasang',
         rabRatios: { kaca: 0.38, struktur: 0.06, hardware: 0.30, sealant: 0.03, fabrikasi: 0.09, pasang: 0.07, transport: 0.02, margin: 0.05 }
@@ -916,7 +916,7 @@ const services = {
         minRate: PINTU_TEMPERED_PRICE_RANGES.single_12.min,
         maxRate: PINTU_TEMPERED_PRICE_RANGES.single_12.max,
         targetRate: PINTU_TEMPERED_PRICE_RANGES.single_12.target,
-        rate: 'Rp 10.500.000 – Rp 13.125.000 / unit',
+        rate: 'Rp 3.900.000 – Rp 5.200.000 / unit',
         leadTime: '4–6 Hari Kerja',
         formula: 'Kaca Tempered 12mm + Mesin Floor Hinge Dorma BTS 75V + Patch Fitting Heavy + Pull Handle 80cm + Pasang',
         rabRatios: { kaca: 0.36, struktur: 0.06, hardware: 0.34, sealant: 0.03, fabrikasi: 0.08, pasang: 0.06, transport: 0.02, margin: 0.05 }
@@ -929,7 +929,7 @@ const services = {
         minRate: PINTU_TEMPERED_PRICE_RANGES.double_12.min,
         maxRate: PINTU_TEMPERED_PRICE_RANGES.double_12.max,
         targetRate: PINTU_TEMPERED_PRICE_RANGES.double_12.target,
-        rate: 'Rp 19.500.000 – Rp 23.500.000 / unit',
+        rate: 'Rp 6.500.000 – Rp 8.500.000 / unit',
         leadTime: '5–8 Hari Kerja',
         formula: '2 Daun Kaca Tempered 12mm + 2 Mesin Floor Hinge + 4 Patch Fitting + 2 Handle 80cm + Central Lock + Pasang',
         rabRatios: { kaca: 0.36, struktur: 0.06, hardware: 0.34, sealant: 0.03, fabrikasi: 0.08, pasang: 0.06, transport: 0.02, margin: 0.05 }
@@ -947,14 +947,14 @@ const services = {
     unit: 'daun',
     unitName: 'Daun Pintu',
     calculationType: 'unit',
-    priceMin: 7000000,
-    priceMax: 12000000,
-    standardPriceMin: 7000000,
+    priceMin: 7500000,
+    priceMax: 10500000,
+    standardPriceMin: 7500000,
     standardPriceMax: 8750000,
     premiumPriceMin: 8750000,
-    premiumPriceMax: 12000000,
+    premiumPriceMax: 10500000,
     specification: 'Bifold Standard Track (Inkalum 1.1mm) vs Heavy Duty Panoramic 250kg (Alexindo 1.3mm)',
-    minOrderValue: 12500000,
+    minOrderValue: 7500000,
     wasteFactor: WASTE_FACTORS.aluminium,
     priceRanges: BIFOLD_PRICE_RANGES,
     summaryLabel: 'Grade Bifold:',
@@ -1002,14 +1002,14 @@ const services = {
     unit: 'unit',
     unitName: 'Unit Etalase',
     calculationType: 'unit',
-    priceMin: 3000000,
-    priceMax: 8750000,
-    standardPriceMin: 3000000,
-    standardPriceMax: 4125000,
-    premiumPriceMin: 5000000,
-    premiumPriceMax: 8750000,
+    priceMin: 1250000,
+    priceMax: 3500000,
+    standardPriceMin: 1250000,
+    standardPriceMax: 1650000,
+    premiumPriceMin: 2400000,
+    premiumPriceMax: 3500000,
     specification: 'Etalase Counter Toko Standar 1.5m vs Showcase Premium Full Tempered LED',
-    minOrderValue: 3000000,
+    minOrderValue: 1250000,
     wasteFactor: WASTE_FACTORS.aluminium,
     priceRanges: ETALASE_PRICE_RANGES,
     summaryLabel: 'Spesifikasi Etalase:',
@@ -1057,14 +1057,14 @@ const services = {
     unit: 'm²',
     unitName: 'Meter Persegi (m²)',
     calculationType: 'm2',
-    priceMin: 1625000,
-    priceMax: 4125000,
-    standardPriceMin: 1625000,
-    standardPriceMax: 2125000,
-    premiumPriceMin: 2125000,
-    premiumPriceMax: 2875000,
+    priceMin: 550000,
+    priceMax: 1600000,
+    standardPriceMin: 550000,
+    standardPriceMax: 750000,
+    premiumPriceMin: 1100000,
+    premiumPriceMax: 1600000,
     specification: 'ACP Interior PE 0.21mm vs Eksterior PVDF 0.30mm vs Heavy Duty 0.50mm (Seven / Marks)',
-    minOrderValue: 12500000,
+    minOrderValue: 3000000,
     wasteFactor: WASTE_FACTORS.aluminium,
     priceRanges: ACP_PRICE_RANGES,
     summaryLabel: 'Grade Panel ACP:',
@@ -1081,7 +1081,7 @@ const services = {
         minRate: ACP_PRICE_RANGES.interior_pe.min,
         maxRate: ACP_PRICE_RANGES.interior_pe.max,
         targetRate: ACP_PRICE_RANGES.interior_pe.target,
-        rate: 'Rp 1.625.000 – Rp 2.125.000 / m²',
+        rate: 'Rp 550.000 – Rp 750.000 / m²',
         leadTime: '4–7 Hari Kerja',
         formula: 'Panel ACP PE + Rangka Hollow 2×4 + Baut Sekrup + Sealant Interior + Pasang',
         rabRatios: { kaca: 0.00, struktur: 0.48, hardware: 0.08, sealant: 0.08, fabrikasi: 0.14, pasang: 0.12, transport: 0.03, margin: 0.07 }
@@ -1094,7 +1094,7 @@ const services = {
         minRate: ACP_PRICE_RANGES.exterior_pvdf.min,
         maxRate: ACP_PRICE_RANGES.exterior_pvdf.max,
         targetRate: ACP_PRICE_RANGES.exterior_pvdf.target,
-        rate: 'Rp 2.125.000 – Rp 2.875.000 / m²',
+        rate: 'Rp 750.000 – Rp 1.050.000 / m²',
         leadTime: '6–9 Hari Kerja',
         formula: 'Panel ACP PVDF 0.3mm + Rangka Hollow Galvanis 40×40 + Siku Breket + Baut Rivet + Sealant Non-Staining + Pasang',
         rabRatios: { kaca: 0.00, struktur: 0.50, hardware: 0.08, sealant: 0.07, fabrikasi: 0.13, pasang: 0.12, transport: 0.03, margin: 0.07 }
@@ -1107,7 +1107,7 @@ const services = {
         minRate: ACP_PRICE_RANGES.heavy_duty_pvdf.min,
         maxRate: ACP_PRICE_RANGES.heavy_duty_pvdf.max,
         targetRate: ACP_PRICE_RANGES.heavy_duty_pvdf.target,
-        rate: 'Rp 3.125.000 – Rp 4.125.000 / m²',
+        rate: 'Rp 1.100.000 – Rp 1.600.000 / m²',
         leadTime: '8–14 Hari Kerja',
         formula: 'Panel Heavy PVDF 0.5mm + Rangka Hollow 40×40 1.6mm + Braket Siku + Sealant Dow Corning + Scaffolding + Pasang',
         rabRatios: { kaca: 0.00, struktur: 0.52, hardware: 0.08, sealant: 0.06, fabrikasi: 0.13, pasang: 0.11, transport: 0.03, margin: 0.07 }
@@ -1125,14 +1125,14 @@ const services = {
     unit: 'm²',
     unitName: 'Meter Persegi (m²)',
     calculationType: 'm2',
-    priceMin: 4000000,
-    priceMax: 8125000,
-    standardPriceMin: 4000000,
-    standardPriceMax: 4750000,
-    premiumPriceMin: 4625000,
-    premiumPriceMax: 6125000,
+    priceMin: 1800000,
+    priceMax: 4200000,
+    standardPriceMin: 1800000,
+    standardPriceMax: 2400000,
+    premiumPriceMin: 3000000,
+    premiumPriceMax: 4200000,
     specification: 'Stick System Mullion + Panasap 6mm Tinted vs Tempered Stopsol 8mm vs Semi-Unitized High-Rise',
-    minOrderValue: 37500000,
+    minOrderValue: 10000000,
     wasteFactor: WASTE_FACTORS.glass,
     priceRanges: CURTAIN_WALL_PRICE_RANGES,
     summaryLabel: 'Sistem Fasad:',
@@ -1149,7 +1149,7 @@ const services = {
         minRate: CURTAIN_WALL_PRICE_RANGES.stick_panasap.min,
         maxRate: CURTAIN_WALL_PRICE_RANGES.stick_panasap.max,
         targetRate: CURTAIN_WALL_PRICE_RANGES.stick_panasap.target,
-        rate: 'Rp 4.000.000 – Rp 4.750.000 / m²',
+        rate: 'Rp 1.800.000 – Rp 2.400.000 / m²',
         leadTime: '10–15 Hari Kerja',
         formula: 'Rangka Mullion 150mm + Kaca Panasap 6mm + Structural Silicone + Siku Baja Anchor + Pasang',
         rabRatios: { kaca: 0.32, struktur: 0.32, hardware: 0.07, sealant: 0.06, fabrikasi: 0.09, pasang: 0.07, transport: 0.02, margin: 0.05 }
@@ -1162,7 +1162,7 @@ const services = {
         minRate: CURTAIN_WALL_PRICE_RANGES.stick_tempered8.min,
         maxRate: CURTAIN_WALL_PRICE_RANGES.stick_tempered8.max,
         targetRate: CURTAIN_WALL_PRICE_RANGES.stick_tempered8.target,
-        rate: 'Rp 4.625.000 – Rp 6.125.000 / m²',
+        rate: 'Rp 2.200.000 – Rp 3.000.000 / m²',
         leadTime: '12–18 Hari Kerja',
         formula: 'Mullion Heavy 2.0mm + Kaca Tempered Stopsol 8mm + Braket WF Anchor + Sealant Struktural + Pasang',
         rabRatios: { kaca: 0.35, struktur: 0.31, hardware: 0.07, sealant: 0.05, fabrikasi: 0.09, pasang: 0.06, transport: 0.02, margin: 0.05 }
@@ -1175,7 +1175,7 @@ const services = {
         minRate: CURTAIN_WALL_PRICE_RANGES.semi_unitized.min,
         maxRate: CURTAIN_WALL_PRICE_RANGES.semi_unitized.max,
         targetRate: CURTAIN_WALL_PRICE_RANGES.semi_unitized.target,
-        rate: 'Rp 6.250.000 – Rp 8.125.000 / m²',
+        rate: 'Rp 3.000.000 – Rp 4.200.000 / m²',
         leadTime: '15–25 Hari Kerja',
         formula: 'Fabrikasi Modul Semi-Unitized + Kaca Tempered Low-E 10mm + Bracket Jangkar Baja 8mm + Gondola + Pasang',
         rabRatios: { kaca: 0.38, struktur: 0.28, hardware: 0.07, sealant: 0.05, fabrikasi: 0.09, pasang: 0.06, transport: 0.02, margin: 0.05 }

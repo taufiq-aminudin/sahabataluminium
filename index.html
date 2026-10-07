@@ -63,6 +63,9 @@
   <link rel="icon" type="image/png" href="assets/logo.png">
   <link rel="apple-touch-icon" href="assets/logo.png">
 
+  <!-- LCP HERO IMAGE PRELOAD -->
+  <link rel="preload" as="image" href="assets/gallery/partisi-aluminium.webp" type="image/webp" fetchpriority="high">
+
   <!-- GOOGLE FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -603,10 +606,17 @@
 
       <span class="brand-logo">
 
-        <img
-          src="assets/logo.png"
-          alt="Logo Sahabat Kaca Aluminium"
-        >
+        <picture>
+          <source type="image/webp" srcset="assets/logo.webp">
+          <img
+            src="assets/logo.png"
+            alt="Logo Sahabat Kaca Aluminium"
+            width="78"
+            height="78"
+            fetchpriority="high"
+            decoding="async"
+          >
+        </picture>
 
       </span>
 
@@ -914,11 +924,18 @@
 
       <div class="hero-photo">
 
-        <img
-          id="heroPhotoImg"
-          src="assets/gallery/partisi-aluminium.jpg"
-          alt="Proyek partisi kaca dan aluminium Sahabat Kaca Aluminium Karawang"
-        >
+        <picture id="heroPhotoPicture">
+          <source type="image/webp" srcset="assets/gallery/partisi-aluminium.webp">
+          <img
+            id="heroPhotoImg"
+            src="assets/gallery/partisi-aluminium.jpg"
+            alt="Proyek partisi kaca dan aluminium Sahabat Kaca Aluminium Karawang"
+            width="600"
+            height="390"
+            fetchpriority="high"
+            decoding="async"
+          >
+        </picture>
 
         <div class="photo-caption">
 
@@ -1674,7 +1691,10 @@
         <!-- Service 1: Kusen Aluminium -->
         <div style="background:#fff;border:1px solid #dce5e9;border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(7,55,70,0.06);display:flex;flex-direction:column;transition:0.2s ease;">
           <div style="position:relative;height:190px;overflow:hidden;">
-            <img src="assets/gallery/kusen-aluminium.jpg" alt="Jasa Pasang Kusen Aluminium Karawang Profil 3 dan 4 Inch SNI Alexindo Inkalum" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/kusen-aluminium.webp">
+              <img src="assets/gallery/kusen-aluminium.jpg" alt="Jasa Pasang Kusen Aluminium Karawang Profil 3 dan 4 Inch SNI Alexindo Inkalum" style="width:100%;height:100%;object-fit:cover;" loading="lazy" decoding="async" width="400" height="190">
+            </picture>
             <span style="position:absolute;top:12px;left:12px;background:var(--deep);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;">SNI Alexindo / Inkalum</span>
           </div>
           <div style="padding:20px;display:flex;flex-direction:column;flex-grow:1;">
@@ -1690,7 +1710,10 @@
         <!-- Service 2: Pintu Aluminium -->
         <div style="background:#fff;border:1px solid #dce5e9;border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(7,55,70,0.06);display:flex;flex-direction:column;transition:0.2s ease;">
           <div style="position:relative;height:190px;overflow:hidden;">
-            <img src="assets/gallery/pintu-aluminium.jpg" alt="Jasa Pasang Pintu Aluminium Karawang Model Sliding Swing Bifold" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/pintu-aluminium.webp">
+              <img src="assets/gallery/pintu-aluminium.jpg" alt="Jasa Pasang Pintu Aluminium Karawang Model Sliding Swing Bifold" style="width:100%;height:100%;object-fit:cover;" loading="lazy" decoding="async" width="400" height="190">
+            </picture>
             <span style="position:absolute;top:12px;left:12px;background:var(--deep);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;">Sliding • Swing • Bifold</span>
           </div>
           <div style="padding:20px;display:flex;flex-direction:column;flex-grow:1;">
@@ -1706,7 +1729,10 @@
         <!-- Service 3: Jendela Aluminium -->
         <div style="background:#fff;border:1px solid #dce5e9;border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(7,55,70,0.06);display:flex;flex-direction:column;transition:0.2s ease;">
           <div style="position:relative;height:190px;overflow:hidden;">
-            <img src="assets/gallery/jendela-aluminium.jpg" alt="Jasa Pasang Jendela Aluminium Karawang Casement Sliding Jungkit" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/jendela-aluminium.webp">
+              <img src="assets/gallery/jendela-aluminium.jpg" alt="Jasa Pasang Jendela Aluminium Karawang Casement Sliding Jungkit" style="width:100%;height:100%;object-fit:cover;" loading="lazy" decoding="async" width="400" height="190">
+            </picture>
             <span style="position:absolute;top:12px;left:12px;background:var(--deep);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;">Casement • Sliding • Jungkit</span>
           </div>
           <div style="padding:20px;display:flex;flex-direction:column;flex-grow:1;">
@@ -1722,7 +1748,10 @@
         <!-- Service 4: Pintu Kaca Tempered -->
         <div style="background:#fff;border:1px solid #dce5e9;border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(7,55,70,0.06);display:flex;flex-direction:column;transition:0.2s ease;">
           <div style="position:relative;height:190px;overflow:hidden;">
-            <img src="assets/gallery/pintu-kaca.jpg" alt="Jasa Pasang Pintu Kaca Tempered Karawang Frameless Floor Hinge Dekkson" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/pintu-kaca.webp">
+              <img src="assets/gallery/pintu-kaca.jpg" alt="Jasa Pasang Pintu Kaca Tempered Karawang Frameless Floor Hinge Dekkson" style="width:100%;height:100%;object-fit:cover;" loading="lazy" decoding="async" width="400" height="190">
+            </picture>
             <span style="position:absolute;top:12px;left:12px;background:var(--deep);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;">Tempered 10mm & 12mm</span>
           </div>
           <div style="padding:20px;display:flex;flex-direction:column;flex-grow:1;">
@@ -1738,7 +1767,10 @@
         <!-- Service 5: Partisi Kaca Aluminium -->
         <div style="background:#fff;border:1px solid #dce5e9;border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(7,55,70,0.06);display:flex;flex-direction:column;transition:0.2s ease;">
           <div style="position:relative;height:190px;overflow:hidden;">
-            <img src="assets/gallery/partisi-aluminium.jpg" alt="Jasa Pasang Partisi Kaca Aluminium Karawang Sekat Ruang Kantor Rapat" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/partisi-aluminium.webp">
+              <img src="assets/gallery/partisi-aluminium.jpg" alt="Jasa Pasang Partisi Kaca Aluminium Karawang Sekat Ruang Kantor Rapat" style="width:100%;height:100%;object-fit:cover;" loading="lazy" decoding="async" width="400" height="190">
+            </picture>
             <span style="position:absolute;top:12px;left:12px;background:var(--deep);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;">Kantor & Pabrik KIIC</span>
           </div>
           <div style="padding:20px;display:flex;flex-direction:column;flex-grow:1;">
@@ -1754,7 +1786,10 @@
         <!-- Service 6: Kanopi Kaca Tempered -->
         <div style="background:#fff;border:1px solid #dce5e9;border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(7,55,70,0.06);display:flex;flex-direction:column;transition:0.2s ease;">
           <div style="position:relative;height:190px;overflow:hidden;">
-            <img src="assets/gallery/kanopi-kaca.jpg" alt="Jasa Pasang Kanopi Kaca Tempered Karawang Carport Atap Skylight Rangka Hollow" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/kanopi-kaca.webp">
+              <img src="assets/gallery/kanopi-kaca.jpg" alt="Jasa Pasang Kanopi Kaca Tempered Karawang Carport Atap Skylight Rangka Hollow" style="width:100%;height:100%;object-fit:cover;" loading="lazy" decoding="async" width="400" height="190">
+            </picture>
             <span style="position:absolute;top:12px;left:12px;background:var(--deep);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;">Carport & Skylight</span>
           </div>
           <div style="padding:20px;display:flex;flex-direction:column;flex-grow:1;">
@@ -1770,7 +1805,10 @@
         <!-- Service 7: Shower Kaca -->
         <div style="background:#fff;border:1px solid #dce5e9;border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(7,55,70,0.06);display:flex;flex-direction:column;transition:0.2s ease;">
           <div style="position:relative;height:190px;overflow:hidden;">
-            <img src="assets/gallery/shower-kaca.jpg" alt="Jasa Pasang Shower Kaca Karawang Sekat Kamar Mandi Tempered 10mm" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/shower-kaca.webp">
+              <img src="assets/gallery/shower-kaca.jpg" alt="Jasa Pasang Shower Kaca Karawang Sekat Kamar Mandi Tempered 10mm" style="width:100%;height:100%;object-fit:cover;" loading="lazy" decoding="async" width="400" height="190">
+            </picture>
             <span style="position:absolute;top:12px;left:12px;background:var(--deep);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;">Kamar Mandi Mewah</span>
           </div>
           <div style="padding:20px;display:flex;flex-direction:column;flex-grow:1;">
@@ -1786,7 +1824,10 @@
         <!-- Service 8: Etalase Kaca -->
         <div style="background:#fff;border:1px solid #dce5e9;border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(7,55,70,0.06);display:flex;flex-direction:column;transition:0.2s ease;">
           <div style="position:relative;height:190px;overflow:hidden;">
-            <img src="assets/gallery/etalase-kaca.jpg" alt="Jasa Pembuatan Etalase Kaca Karawang Display Konter Toko Lemari Kaca" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/etalase-kaca.webp">
+              <img src="assets/gallery/etalase-kaca.jpg" alt="Jasa Pembuatan Etalase Kaca Karawang Display Konter Toko Lemari Kaca" style="width:100%;height:100%;object-fit:cover;" loading="lazy" decoding="async" width="400" height="190">
+            </picture>
             <span style="position:absolute;top:12px;left:12px;background:var(--deep);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;">Toko & Konter HP</span>
           </div>
           <div style="padding:20px;display:flex;flex-direction:column;flex-grow:1;">
@@ -2425,7 +2466,10 @@
         <!-- 2. Tall Card (Commercial Tempered Glass Door) -->
         <article class="featured-project-card masonry-tall" data-cat="tempered">
           <div class="featured-project-thumb">
-            <img src="assets/gallery/pintu-kaca.jpg" alt="Pintu kaca tempered frameless floor hinge toko Ruko Galuh Mas Karawang" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/pintu-kaca.webp" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px">
+              <img src="assets/gallery/pintu-kaca.jpg" alt="Pintu kaca tempered frameless floor hinge toko Ruko Galuh Mas Karawang" loading="lazy" decoding="async" width="360" height="480">
+            </picture>
           </div>
           <div class="featured-project-scrim"></div>
           <div class="featured-project-top-bar">
@@ -2499,7 +2543,10 @@
         <!-- 5. Tall Card (Shower Screen Tempered) -->
         <article class="featured-project-card masonry-tall" data-cat="tempered desain-rumah">
           <div class="featured-project-thumb">
-            <img src="assets/gallery/shower-kaca.jpg" alt="Shower screen kaca frameless tempered 10mm Grand Wisata Bekasi" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/shower-kaca.webp" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px">
+              <img src="assets/gallery/shower-kaca.jpg" alt="Shower screen kaca frameless tempered 10mm Grand Wisata Bekasi" loading="lazy" decoding="async" width="360" height="480">
+            </picture>
           </div>
           <div class="featured-project-scrim"></div>
           <div class="featured-project-top-bar">
@@ -2523,7 +2570,10 @@
         <!-- 6. Tall Card (Bathroom Aluminium Door Spandrel) -->
         <article class="featured-project-card masonry-tall" data-cat="pintu desain-rumah">
           <div class="featured-project-thumb">
-            <img src="assets/gallery/pintu-kamar-mandi.jpg" alt="Pintu aluminium kamar mandi kaca sandblast buram Klari Karawang" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/pintu-kamar-mandi.webp" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px">
+              <img src="assets/gallery/pintu-kamar-mandi.jpg" alt="Pintu aluminium kamar mandi kaca sandblast buram Klari Karawang" loading="lazy" decoding="async" width="360" height="480">
+            </picture>
           </div>
           <div class="featured-project-scrim"></div>
           <div class="featured-project-top-bar">
@@ -2547,7 +2597,10 @@
         <!-- 7. Tall Card (White Powder Coating Aluminium Glass Door) -->
         <article class="featured-project-card masonry-tall" data-cat="pintu desain-rumah">
           <div class="featured-project-thumb">
-            <img src="assets/gallery/pintu-kaca-putih.jpg" alt="Pintu kaca aluminium frame putih scandinavian Harapan Indah Bekasi" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/pintu-kaca-putih.webp" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px">
+              <img src="assets/gallery/pintu-kaca-putih.jpg" alt="Pintu kaca aluminium frame putih scandinavian Harapan Indah Bekasi" loading="lazy" decoding="async" width="360" height="480">
+            </picture>
           </div>
           <div class="featured-project-scrim"></div>
           <div class="featured-project-top-bar">
@@ -2621,7 +2674,10 @@
         <!-- 10. Standard Card (Casement Awning Window) -->
         <article class="featured-project-card masonry-standard" data-cat="jendela desain-rumah">
           <div class="featured-project-thumb">
-            <img src="assets/gallery/jendela-aluminium.jpg" alt="Jendela aluminium jungkit casement kedap suara Telukjambe Karawang" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/jendela-aluminium.webp" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px">
+              <img src="assets/gallery/jendela-aluminium.jpg" alt="Jendela aluminium jungkit casement kedap suara Telukjambe Karawang" loading="lazy" decoding="async" width="360" height="300">
+            </picture>
           </div>
           <div class="featured-project-scrim"></div>
           <div class="featured-project-top-bar">
@@ -2670,7 +2726,10 @@
         <!-- 12. Standard Card (Woodgrain Aluminium Swing Door) -->
         <article class="featured-project-card masonry-standard" data-cat="pintu">
           <div class="featured-project-thumb">
-            <img src="assets/gallery/pintu-aluminium.jpg" alt="Pintu aluminium swing panel spandrel full Cikampek Karawang" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/pintu-aluminium.webp" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px">
+              <img src="assets/gallery/pintu-aluminium.jpg" alt="Pintu aluminium swing panel spandrel full Cikampek Karawang" loading="lazy" decoding="async" width="360" height="300">
+            </picture>
           </div>
           <div class="featured-project-scrim"></div>
           <div class="featured-project-top-bar">
@@ -2695,7 +2754,10 @@
         <article class="featured-project-card" data-cat="tempered desain-rumah">
           <div class="featured-project-thumb">
             <span class="featured-project-badge">Summarecon Bekasi</span>
-            <img src="assets/gallery/kanopi-kaca.jpg" alt="Kanopi Kaca Tempered Carport Modern" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/kanopi-kaca.webp" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px">
+              <img src="assets/gallery/kanopi-kaca.jpg" alt="Kanopi Kaca Tempered Carport Modern" loading="lazy" decoding="async" width="360" height="280">
+            </picture>
           </div>
           <div class="featured-project-content">
             <span class="featured-project-category">Kanopi Kaca • Carport</span>
@@ -2712,7 +2774,10 @@
         <article class="featured-project-card" data-cat="pintu">
           <div class="featured-project-thumb">
             <span class="featured-project-badge">KBI Purwakarta</span>
-            <img src="assets/gallery/pintu-sliding.jpg" alt="Pintu Lipat Aluminium 6 Daun Garasi & Ruang Fleksibel" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/pintu-sliding.webp" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px">
+              <img src="assets/gallery/pintu-sliding.jpg" alt="Pintu Lipat Aluminium 6 Daun Garasi & Ruang Fleksibel" loading="lazy" decoding="async" width="360" height="280">
+            </picture>
           </div>
           <div class="featured-project-content">
             <span class="featured-project-category">Pintu Lipat • Serbaguna</span>
@@ -2729,7 +2794,10 @@
         <article class="featured-project-card" data-cat="partisi">
           <div class="featured-project-thumb">
             <span class="featured-project-badge">GIIC Cikarang</span>
-            <img src="assets/gallery/partisi-aluminium.jpg" alt="Partisi Kaca Akustik Double Glass dengan Louver Blinds" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/partisi-aluminium.webp" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px">
+              <img src="assets/gallery/partisi-aluminium.jpg" alt="Partisi Kaca Akustik Double Glass dengan Louver Blinds" loading="lazy" decoding="async" width="360" height="280">
+            </picture>
           </div>
           <div class="featured-project-content">
             <span class="featured-project-category">Partisi Kaca • Akustik STC 42</span>
@@ -2746,7 +2814,10 @@
         <article class="featured-project-card" data-cat="pintu desain-rumah">
           <div class="featured-project-thumb">
             <span class="featured-project-badge">Resinda Karawang</span>
-            <img src="assets/gallery/pintu-kaca.jpg" alt="Pintu Entrance Pivot Jumbo Oversized Aluminium" loading="lazy">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/pintu-kaca.webp" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px">
+              <img src="assets/gallery/pintu-kaca.jpg" alt="Pintu Entrance Pivot Jumbo Oversized Aluminium" loading="lazy" decoding="async" width="360" height="280">
+            </picture>
           </div>
           <div class="featured-project-content">
             <span class="featured-project-category">Pintu Pivot • Luxury</span>
@@ -2869,7 +2940,10 @@
               <span class="btn-icon">▶</span>
               <span class="btn-label">Timelapse Veo</span>
             </button>
-            <img src="assets/gallery/pintu-sliding.jpg" alt="Detail Bifold Door Systems Pintu Lipat Aluminium" loading="lazy" class="masonry-main-img">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/pintu-sliding.webp" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 540px">
+              <img src="assets/gallery/pintu-sliding.jpg" alt="Detail Bifold Door Systems Pintu Lipat Aluminium" loading="lazy" decoding="async" width="540" height="338" class="masonry-main-img">
+            </picture>
 
             <div class="masonry-timelapse-player" id="timelapse-proj-1">
               <div class="timelapse-canvas-wrap">
@@ -2920,7 +2994,10 @@
               <span class="btn-icon">▶</span>
               <span class="btn-label">Timelapse Veo</span>
             </button>
-            <img src="assets/gallery/pintu-kaca.jpg" alt="Detail Frameless Tempered Glass Partitions" loading="lazy" class="masonry-main-img">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/pintu-kaca.webp" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 540px">
+              <img src="assets/gallery/pintu-kaca.jpg" alt="Detail Frameless Tempered Glass Partitions" loading="lazy" decoding="async" width="540" height="338" class="masonry-main-img">
+            </picture>
 
             <div class="masonry-timelapse-player" id="timelapse-proj-2">
               <div class="timelapse-canvas-wrap">
@@ -2971,7 +3048,10 @@
               <span class="btn-icon">▶</span>
               <span class="btn-label">Timelapse Veo</span>
             </button>
-            <img src="assets/gallery/partisi-aluminium.jpg" alt="Detail Sekat Kaca Dapur Fluted Moru Glass" loading="lazy" class="masonry-main-img">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/partisi-aluminium.webp" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 540px">
+              <img src="assets/gallery/partisi-aluminium.jpg" alt="Detail Sekat Kaca Dapur Fluted Moru Glass" loading="lazy" decoding="async" width="540" height="338" class="masonry-main-img">
+            </picture>
 
             <div class="masonry-timelapse-player" id="timelapse-proj-3">
               <div class="timelapse-canvas-wrap">
@@ -3022,7 +3102,10 @@
               <span class="btn-icon">▶</span>
               <span class="btn-label">Timelapse Veo</span>
             </button>
-            <img src="assets/gallery/railing-balkon-kaca.svg" alt="Detail Railing Kaca Frameless Spigot SUS304" loading="lazy" class="masonry-main-img">
+            <picture>
+              <source type="image/svg+xml" srcset="assets/gallery/railing-balkon-kaca.svg">
+              <img src="assets/gallery/railing-balkon-kaca.svg" alt="Detail Railing Kaca Frameless Spigot SUS304" loading="lazy" decoding="async" width="540" height="338" class="masonry-main-img">
+            </picture>
 
             <div class="masonry-timelapse-player" id="timelapse-proj-26">
               <div class="timelapse-canvas-wrap">
@@ -3073,7 +3156,10 @@
               <span class="btn-icon">▶</span>
               <span class="btn-label">Timelapse Veo</span>
             </button>
-            <img src="assets/gallery/curtain-wall-gedung.svg" alt="Detail Curtain Wall Fasad Gedung Aluminium Komersial" loading="lazy" class="masonry-main-img">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/curtain-wall-gedung.webp" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 540px">
+              <img src="assets/gallery/curtain-wall-gedung.jpg" alt="Detail Curtain Wall Fasad Gedung Aluminium Komersial" loading="lazy" decoding="async" width="540" height="338" class="masonry-main-img">
+            </picture>
 
             <div class="masonry-timelapse-player" id="timelapse-proj-5">
               <div class="timelapse-canvas-wrap">
@@ -3124,7 +3210,10 @@
               <span class="btn-icon">▶</span>
               <span class="btn-label">Timelapse Veo</span>
             </button>
-            <img src="assets/gallery/jendela-aluminium.jpg" alt="Detail Jendela Casement Akustik Kedap Suara" loading="lazy" class="masonry-main-img">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/jendela-aluminium.webp" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 540px">
+              <img src="assets/gallery/jendela-aluminium.jpg" alt="Detail Jendela Casement Akustik Kedap Suara" loading="lazy" decoding="async" width="540" height="338" class="masonry-main-img">
+            </picture>
 
             <div class="masonry-timelapse-player" id="timelapse-proj-6">
               <div class="timelapse-canvas-wrap">
@@ -3175,7 +3264,10 @@
               <span class="btn-icon">▶</span>
               <span class="btn-label">Timelapse Veo</span>
             </button>
-            <img src="assets/gallery/shower-kaca.jpg" alt="Detail Shower Screen Kaca Tempered Frameless" loading="lazy" class="masonry-main-img">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/shower-kaca.webp" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 540px">
+              <img src="assets/gallery/shower-kaca.jpg" alt="Detail Shower Screen Kaca Tempered Frameless" loading="lazy" decoding="async" width="540" height="338" class="masonry-main-img">
+            </picture>
 
             <div class="masonry-timelapse-player" id="timelapse-proj-7">
               <div class="timelapse-canvas-wrap">
@@ -3226,7 +3318,10 @@
               <span class="btn-icon">▶</span>
               <span class="btn-label">Timelapse Veo</span>
             </button>
-            <img src="assets/gallery/pintu-sliding.jpg" alt="Detail Pintu Lipat Bifold Aluminium 6 Daun" loading="lazy" class="masonry-main-img">
+            <picture>
+              <source type="image/webp" srcset="assets/gallery/pintu-sliding.webp" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 540px">
+              <img src="assets/gallery/pintu-sliding.jpg" alt="Detail Pintu Lipat Bifold Aluminium 6 Daun" loading="lazy" decoding="async" width="540" height="338" class="masonry-main-img">
+            </picture>
 
             <div class="masonry-timelapse-player" id="timelapse-proj-8">
               <div class="timelapse-canvas-wrap">
@@ -3687,7 +3782,10 @@
                   <div class="faq-carousel-track">
                     <div class="faq-carousel-slide active" data-index="0" data-image="assets/gallery/kusen-aluminium.jpg" data-title="Kusen Aluminium Profil SNI 3 & 4 Inch (Alexindo / Inkalum)">
                       <div class="faq-slide-media">
-                        <img src="assets/gallery/kusen-aluminium.jpg" alt="Contoh Profil Kusen Aluminium SNI Alexindo Inkalum" loading="lazy">
+                        <picture>
+                          <source type="image/webp" srcset="assets/gallery/kusen-aluminium.webp">
+                          <img src="assets/gallery/kusen-aluminium.jpg" alt="Contoh Profil Kusen Aluminium SNI Alexindo Inkalum" loading="lazy" decoding="async" width="400" height="210">
+                        </picture>
                         <span class="faq-slide-zoom-hint" aria-hidden="true" title="Klik untuk perbesar"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg></span>
                         <span class="faq-slide-tag">Kusen SNI</span>
                       </div>
@@ -3699,7 +3797,10 @@
 
                     <div class="faq-carousel-slide" data-index="1" data-image="assets/gallery/pintu-kaca.jpg" data-title="Pintu Kaca Tempered Clear 10mm Frameless">
                       <div class="faq-slide-media">
-                        <img src="assets/gallery/pintu-kaca.jpg" alt="Pintu Kaca Tempered Clear 10mm" loading="lazy">
+                        <picture>
+                          <source type="image/webp" srcset="assets/gallery/pintu-kaca.webp">
+                          <img src="assets/gallery/pintu-kaca.jpg" alt="Pintu Kaca Tempered Clear 10mm" loading="lazy" decoding="async" width="400" height="210">
+                        </picture>
                         <span class="faq-slide-zoom-hint" aria-hidden="true" title="Klik untuk perbesar"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg></span>
                         <span class="faq-slide-tag">Kaca Tempered</span>
                       </div>
@@ -3711,7 +3812,10 @@
 
                     <div class="faq-carousel-slide" data-index="2" data-image="assets/gallery/partisi-aluminium.jpg" data-title="Partisi Aluminium & Kaca Stopsol One-Way">
                       <div class="faq-slide-media">
-                        <img src="assets/gallery/partisi-aluminium.jpg" alt="Partisi Aluminium & Kaca Stopsol" loading="lazy">
+                        <picture>
+                          <source type="image/webp" srcset="assets/gallery/partisi-aluminium.webp">
+                          <img src="assets/gallery/partisi-aluminium.jpg" alt="Partisi Aluminium & Kaca Stopsol" loading="lazy" decoding="async" width="400" height="210">
+                        </picture>
                         <span class="faq-slide-zoom-hint" aria-hidden="true" title="Klik untuk perbesar"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg></span>
                         <span class="faq-slide-tag">Partisi Stopsol</span>
                       </div>
@@ -3986,7 +4090,10 @@
                   <div class="faq-carousel-track">
                     <div class="faq-carousel-slide active" data-index="0" data-image="assets/gallery/jendela-kaca.jpg" data-title="Fabrikasi Jendela Aluminium Casement & Sliding">
                       <div class="faq-slide-media">
-                        <img src="assets/gallery/jendela-kaca.jpg" alt="Jendela Aluminium Casement" loading="lazy">
+                        <picture>
+                          <source type="image/webp" srcset="assets/gallery/jendela-kaca.webp">
+                          <img src="assets/gallery/jendela-kaca.jpg" alt="Jendela Aluminium Casement" loading="lazy" decoding="async" width="400" height="210">
+                        </picture>
                         <span class="faq-slide-zoom-hint" aria-hidden="true" title="Klik untuk perbesar"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg></span>
                         <span class="faq-slide-tag">2-3 Hari Workshop</span>
                       </div>
@@ -3998,7 +4105,10 @@
 
                     <div class="faq-carousel-slide" data-index="1" data-image="assets/gallery/pintu-sliding.jpg" data-title="Pemasangan Pintu Sliding Aluminium 1 Hari Selesai">
                       <div class="faq-slide-media">
-                        <img src="assets/gallery/pintu-sliding.jpg" alt="Pintu Sliding Aluminium" loading="lazy">
+                        <picture>
+                          <source type="image/webp" srcset="assets/gallery/pintu-sliding.webp">
+                          <img src="assets/gallery/pintu-sliding.jpg" alt="Pintu Sliding Aluminium" loading="lazy" decoding="async" width="400" height="210">
+                        </picture>
                         <span class="faq-slide-zoom-hint" aria-hidden="true" title="Klik untuk perbesar"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg></span>
                         <span class="faq-slide-tag">Instalasi On-Site</span>
                       </div>
@@ -4010,7 +4120,10 @@
 
                     <div class="faq-carousel-slide" data-index="2" data-image="assets/gallery/pintu-kaca-putih.jpg" data-title="Pintu Aluminium Powder Coating Putih Minimalis">
                       <div class="faq-slide-media">
-                        <img src="assets/gallery/pintu-kaca-putih.jpg" alt="Pintu Aluminium Putih Minimalis" loading="lazy">
+                        <picture>
+                          <source type="image/webp" srcset="assets/gallery/pintu-kaca-putih.webp">
+                          <img src="assets/gallery/pintu-kaca-putih.jpg" alt="Pintu Aluminium Putih Minimalis" loading="lazy" decoding="async" width="400" height="210">
+                        </picture>
                         <span class="faq-slide-zoom-hint" aria-hidden="true" title="Klik untuk perbesar"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg></span>
                         <span class="faq-slide-tag">Hasil Rapi</span>
                       </div>
@@ -4175,7 +4288,10 @@
                   <div class="faq-carousel-track">
                     <div class="faq-carousel-slide active" data-index="0" data-image="assets/gallery/partisi-aluminium.jpg" data-title="Partisi Kaca & Aluminium Kantor (Hitungan m²)">
                       <div class="faq-slide-media">
-                        <img src="assets/gallery/partisi-aluminium.jpg" alt="Partisi Kaca Kantor" loading="lazy">
+                        <picture>
+                          <source type="image/webp" srcset="assets/gallery/partisi-aluminium.webp">
+                          <img src="assets/gallery/partisi-aluminium.jpg" alt="Partisi Kaca Kantor" loading="lazy" decoding="async" width="400" height="210">
+                        </picture>
                         <span class="faq-slide-zoom-hint" aria-hidden="true" title="Klik untuk perbesar"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg></span>
                         <span class="faq-slide-tag">Hitungan m²</span>
                       </div>
@@ -4187,7 +4303,10 @@
 
                     <div class="faq-carousel-slide" data-index="1" data-image="assets/gallery/pintu-aluminium.jpg" data-title="Pintu Aluminium 1 Set Lengkap Komplit">
                       <div class="faq-slide-media">
-                        <img src="assets/gallery/pintu-aluminium.jpg" alt="Pintu Aluminium Komplit" loading="lazy">
+                        <picture>
+                          <source type="image/webp" srcset="assets/gallery/pintu-aluminium.webp">
+                          <img src="assets/gallery/pintu-aluminium.jpg" alt="Pintu Aluminium Komplit" loading="lazy" decoding="async" width="400" height="210">
+                        </picture>
                         <span class="faq-slide-zoom-hint" aria-hidden="true" title="Klik untuk perbesar"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg></span>
                         <span class="faq-slide-tag">Hitungan per Unit</span>
                       </div>
@@ -4199,7 +4318,10 @@
 
                     <div class="faq-carousel-slide" data-index="2" data-image="assets/gallery/jendela-aluminium.jpg" data-title="Kusen Jendela Aluminium (Meter Lari m¹)">
                       <div class="faq-slide-media">
-                        <img src="assets/gallery/jendela-aluminium.jpg" alt="Kusen Jendela Aluminium" loading="lazy">
+                        <picture>
+                          <source type="image/webp" srcset="assets/gallery/jendela-aluminium.webp">
+                          <img src="assets/gallery/jendela-aluminium.jpg" alt="Kusen Jendela Aluminium" loading="lazy" decoding="async" width="400" height="210">
+                        </picture>
                         <span class="faq-slide-zoom-hint" aria-hidden="true" title="Klik untuk perbesar"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg></span>
                         <span class="faq-slide-tag">Meter Lari (m¹)</span>
                       </div>
@@ -4471,7 +4593,10 @@
                   <div class="faq-carousel-track">
                     <div class="faq-carousel-slide active" data-index="0" data-image="assets/gallery/shower-kaca.jpg" data-title="Survey & Pemasangan Shower Screen Kamar Mandi">
                       <div class="faq-slide-media">
-                        <img src="assets/gallery/shower-kaca.jpg" alt="Shower Screen Kaca Tempered" loading="lazy">
+                        <picture>
+                          <source type="image/webp" srcset="assets/gallery/shower-kaca.webp">
+                          <img src="assets/gallery/shower-kaca.jpg" alt="Shower Screen Kaca Tempered" loading="lazy" decoding="async" width="400" height="210">
+                        </picture>
                         <span class="faq-slide-zoom-hint" aria-hidden="true" title="Klik untuk perbesar"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg></span>
                         <span class="faq-slide-tag">Survey Galuh Mas</span>
                       </div>
@@ -4483,7 +4608,10 @@
 
                     <div class="faq-carousel-slide" data-index="1" data-image="assets/gallery/pintu-kamar-mandi.jpg" data-title="Pintu Aluminium Kaca Es (Frosted Glass)">
                       <div class="faq-slide-media">
-                        <img src="assets/gallery/pintu-kamar-mandi.jpg" alt="Pintu Aluminium Kaca Es" loading="lazy">
+                        <picture>
+                          <source type="image/webp" srcset="assets/gallery/pintu-kamar-mandi.webp">
+                          <img src="assets/gallery/pintu-kamar-mandi.jpg" alt="Pintu Aluminium Kaca Es" loading="lazy" decoding="async" width="400" height="210">
+                        </picture>
                         <span class="faq-slide-zoom-hint" aria-hidden="true" title="Klik untuk perbesar"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg></span>
                         <span class="faq-slide-tag">Survey Cikarang</span>
                       </div>
@@ -4495,7 +4623,10 @@
 
                     <div class="faq-carousel-slide" data-index="2" data-image="assets/gallery/pintu-sliding.jpg" data-title="Survey Akses Jalur Pintu Sliding Aluminium">
                       <div class="faq-slide-media">
-                        <img src="assets/gallery/pintu-sliding.jpg" alt="Survey Jalur Pintu Sliding" loading="lazy">
+                        <picture>
+                          <source type="image/webp" srcset="assets/gallery/pintu-sliding.webp">
+                          <img src="assets/gallery/pintu-sliding.jpg" alt="Survey Jalur Pintu Sliding" loading="lazy" decoding="async" width="400" height="210">
+                        </picture>
                         <span class="faq-slide-zoom-hint" aria-hidden="true" title="Klik untuk perbesar"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg></span>
                         <span class="faq-slide-tag">Survey Bekasi</span>
                       </div>
@@ -4763,7 +4894,10 @@
                   <div class="faq-carousel-track">
                     <div class="faq-carousel-slide active" data-index="0" data-image="assets/gallery/pintu-aluminium.jpg" data-title="Garansi Penyetelan Aksesoris & Handle Pintu">
                       <div class="faq-slide-media">
-                        <img src="assets/gallery/pintu-aluminium.jpg" alt="Garansi Aksesoris Pintu Aluminium" loading="lazy">
+                        <picture>
+                          <source type="image/webp" srcset="assets/gallery/pintu-aluminium.webp">
+                          <img src="assets/gallery/pintu-aluminium.jpg" alt="Garansi Aksesoris Pintu Aluminium" loading="lazy" decoding="async" width="400" height="210">
+                        </picture>
                         <span class="faq-slide-zoom-hint" aria-hidden="true" title="Klik untuk perbesar"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg></span>
                         <span class="faq-slide-tag">Garansi Aksesoris</span>
                       </div>
@@ -4775,7 +4909,10 @@
 
                     <div class="faq-carousel-slide" data-index="1" data-image="assets/gallery/jendela-aluminium.jpg" data-title="Garansi Kerapian Sealent Weatherproof Anti-Bocor">
                       <div class="faq-slide-media">
-                        <img src="assets/gallery/jendela-aluminium.jpg" alt="Sealent Weatherproof Kusen Jendela" loading="lazy">
+                        <picture>
+                          <source type="image/webp" srcset="assets/gallery/jendela-aluminium.webp">
+                          <img src="assets/gallery/jendela-aluminium.jpg" alt="Sealent Weatherproof Kusen Jendela" loading="lazy" decoding="async" width="400" height="210">
+                        </picture>
                         <span class="faq-slide-zoom-hint" aria-hidden="true" title="Klik untuk perbesar"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg></span>
                         <span class="faq-slide-tag">Garansi Sealent</span>
                       </div>
@@ -4787,7 +4924,10 @@
 
                     <div class="faq-carousel-slide" data-index="2" data-image="assets/gallery/shower-kaca.jpg" data-title="Garansi Floor Hinge & Kaca Tempered Shower Screen">
                       <div class="faq-slide-media">
-                        <img src="assets/gallery/shower-kaca.jpg" alt="Garansi Hardware Shower Screen Kaca" loading="lazy">
+                        <picture>
+                          <source type="image/webp" srcset="assets/gallery/shower-kaca.webp">
+                          <img src="assets/gallery/shower-kaca.jpg" alt="Garansi Hardware Shower Screen Kaca" loading="lazy" decoding="async" width="400" height="210">
+                        </picture>
                         <span class="faq-slide-zoom-hint" aria-hidden="true" title="Klik untuk perbesar"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg></span>
                         <span class="faq-slide-tag">Garansi Hardware</span>
                       </div>
@@ -5934,10 +6074,17 @@
 
         <span class="brand-logo">
 
-          <img
-            src="assets/logo.png"
-            alt="Logo Sahabat Kaca Aluminium"
-          >
+          <picture>
+            <source type="image/webp" srcset="assets/logo.webp">
+            <img
+              src="assets/logo.png"
+              alt="Logo Sahabat Kaca Aluminium"
+              width="78"
+              height="78"
+              loading="lazy"
+              decoding="async"
+            >
+          </picture>
 
         </span>
 

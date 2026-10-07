@@ -9605,8 +9605,8 @@ const SERVICE_MASTER = {
     "title": "Jasa Pasang Kusen Aluminium Karawang Profil 3\" & 4\" SNI",
     "order": 1,
     "category": "aluminium",
-    "priceMin": 212500,
-    "priceMax": 412500,
+    "priceMin": 85000,
+    "priceMax": 175000,
     "priceStarting": "Mulai Rp 212.500 / m1",
     "priceRange": "Rp 212.500 – Rp 412.500 / m1",
     "unit": "m1",
@@ -9673,8 +9673,8 @@ const SERVICE_MASTER = {
     "title": "Jasa Pasang Pintu Aluminium Karawang (Sliding, Swing, Bifold)",
     "order": 2,
     "category": "aluminium",
-    "priceMin": 5000000,
-    "priceMax": 12500000,
+    "priceMin": 1450000,
+    "priceMax": 10500000,
     "priceStarting": "Mulai Rp 3.125.000 / unit",
     "priceRange": "Rp 3.125.000 – Rp 8.750.000+ / unit",
     "unit": "unit",
@@ -9741,12 +9741,12 @@ const SERVICE_MASTER = {
     "title": "Jasa Pasang Jendela Aluminium Karawang (Casement, Sliding, Jungkit)",
     "order": 3,
     "category": "aluminium",
-    "priceMin": 2125000,
-    "priceMax": 3500000,
+    "priceMin": 850000,
+    "priceMax": 1800000,
     "priceStarting": "Mulai Rp 1.375.000 / daun",
     "priceRange": "Rp 1.375.000 – Rp 3.500.000 / daun",
-    "unit": "m²",
-    "unitName": "Meter Persegi (m²)",
+    "unit": "unit",
+    "unitName": "Unit Jendela",
     "warranty": "24 Bulan Resmi",
     "badge": "Casement • Sliding • Jungkit",
     "description": "Fabrikasi jendela aluminium modern tahan cuaca ekstrem dan kedap suara untuk hunian serta perkantoran di Karawang. Pilihan model casement buka samping yang rapat, jendela jungkit atas (awning) aman saat hujan gerimis, dan jendela sliding praktis hemat ruang.",
@@ -9809,8 +9809,8 @@ const SERVICE_MASTER = {
     "title": "Jasa Pasang Pintu Kaca Tempered Karawang (Frameless & Floor Hinge)",
     "order": 4,
     "category": "aluminium",
-    "priceMin": 8125000,
-    "priceMax": 23500000,
+    "priceMin": 2900000,
+    "priceMax": 8500000,
     "priceStarting": "Paket Mulai Rp 7.250.000 / daun",
     "priceRange": "Rp 7.250.000 – Rp 13.125.000 / daun",
     "unit": "unit",
@@ -9876,8 +9876,8 @@ const SERVICE_MASTER = {
     "title": "Jasa Pasang Partisi Kaca Aluminium Karawang (Kantor, Ruko & Pabrik)",
     "order": 5,
     "category": "aluminium",
-    "priceMin": 2125000,
-    "priceMax": 3375000,
+    "priceMin": 650000,
+    "priceMax": 1200000,
     "priceStarting": "Mulai Rp 1.375.000 / m²",
     "priceRange": "Rp 1.375.000 – Rp 3.375.000 / m²",
     "unit": "m²",
@@ -9942,8 +9942,8 @@ const SERVICE_MASTER = {
     "title": "Jasa Pasang Kanopi Kaca Tempered Karawang (Carport & Skylight)",
     "order": 6,
     "category": "aluminium",
-    "priceMin": 3875000,
-    "priceMax": 8500000,
+    "priceMin": 1450000,
+    "priceMax": 3800000,
     "priceStarting": "Mulai Rp 3.125.000 / m²",
     "priceRange": "Rp 3.125.000 – Rp 7.000.000 / m²",
     "unit": "m²",
@@ -10008,8 +10008,8 @@ const SERVICE_MASTER = {
     "title": "Jasa Pasang Shower Kaca Karawang (Sekat Kamar Mandi Tempered 10mm)",
     "order": 7,
     "category": "aluminium",
-    "priceMin": 3750000,
-    "priceMax": 8750000,
+    "priceMin": 2000000,
+    "priceMax": 5500000,
     "priceStarting": "Paket Mulai Rp 4.125.000 / unit",
     "priceRange": "Rp 4.125.000 – Rp 8.750.000 / unit",
     "unit": "unit",
@@ -10074,8 +10074,8 @@ const SERVICE_MASTER = {
     "title": "Jasa Pembuatan Etalase Kaca Karawang (Toko, HP, & Display Custom)",
     "order": 8,
     "category": "aluminium",
-    "priceMin": 3000000,
-    "priceMax": 8750000,
+    "priceMin": 1250000,
+    "priceMax": 3500000,
     "priceStarting": "Mulai Rp 2.125.000 / unit",
     "priceRange": "Rp 2.125.000 – Rp 8.750.000 / unit",
     "unit": "unit",
@@ -10140,8 +10140,8 @@ const SERVICE_MASTER = {
     "title": "Jasa Pasang Railing Kaca Tempered Karawang (Tangga & Balkon Frameless)",
     "order": 9,
     "category": "aluminium",
-    "priceMin": 5500000,
-    "priceMax": 7500000,
+    "priceMin": 2200000,
+    "priceMax": 3200000,
     "priceStarting": "Mulai Rp 5.500.000 / m1",
     "priceRange": "Rp 5.500.000 – Rp 7.500.000 / m1",
     "unit": "m1",
@@ -10206,8 +10206,8 @@ const SERVICE_MASTER = {
     "title": "Jasa Pasang Pintu Lipat Bifold Aluminium Karawang",
     "order": 10,
     "category": "aluminium",
-    "priceMin": 7000000,
-    "priceMax": 12000000,
+    "priceMin": 7500000,
+    "priceMax": 10500000,
     "priceStarting": "Mulai Rp 7.000.000 / daun",
     "priceRange": "Rp 7.000.000 – Rp 12.000.000 / daun",
     "unit": "daun",
@@ -10258,8 +10258,8 @@ const SERVICE_MASTER = {
     "title": "Jasa Pasang ACP Aluminium Composite Panel Karawang & Cikarang",
     "order": 11,
     "category": "aluminium",
-    "priceMin": 1625000,
-    "priceMax": 4125000,
+    "priceMin": 550000,
+    "priceMax": 1600000,
     "priceStarting": "Mulai Rp 1.625.000 / m²",
     "priceRange": "Rp 1.625.000 – Rp 4.125.000 / m²",
     "unit": "m²",
@@ -10315,8 +10315,8 @@ const SERVICE_MASTER = {
     "title": "Jasa Pasang Curtain Wall Kaca Gedung Karawang & KIIC",
     "order": 12,
     "category": "aluminium",
-    "priceMin": 4000000,
-    "priceMax": 8125000,
+    "priceMin": 1800000,
+    "priceMax": 4200000,
     "priceStarting": "Mulai Rp 4.000.000 / m²",
     "priceRange": "Rp 4.000.000 – Rp 8.125.000 / m²",
     "unit": "m²",
@@ -10563,6 +10563,7 @@ const SERVICE_MASTER = {
 };
 
 window.SERVICE_MASTER = SERVICE_MASTER;
+
 
 
 // SINGLE SOURCE OF TRUTH: Master Pricing Configuration with built-in default
@@ -13666,3 +13667,54 @@ if (typeof document !== 'undefined') {
     if (window.SERVICE_MASTER && window.SERVICE_MASTER.init) window.SERVICE_MASTER.init();
   }
 }
+
+// ========================================================
+// SERVICE WORKER & OFFLINE ACCESSIBILITY
+// ========================================================
+(function initServiceWorker() {
+  if (typeof window === 'undefined' || !('serviceWorker' in navigator)) return;
+
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js', { scope: '/' })
+      .then((registration) => {
+        console.log('[SW] Service Worker registered successfully with scope:', registration.scope);
+      })
+      .catch((error) => {
+        console.warn('[SW] Service Worker registration failed:', error);
+      });
+  });
+
+  // Connectivity status notifications
+  function showConnectivityToast(isOnline) {
+    let toast = document.getElementById('offline-connectivity-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'offline-connectivity-toast';
+      toast.style.cssText = 'position:fixed;bottom:20px;left:20px;z-index:99999;padding:10px 16px;border-radius:8px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);transition:opacity 0.3s ease, transform 0.3s ease;';
+      document.body.appendChild(toast);
+    }
+
+    if (isOnline) {
+      toast.style.backgroundColor = '#10b981';
+      toast.style.color = '#ffffff';
+      toast.innerHTML = '<span>●</span> Mode Online: Terhubung kembali ke internet';
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateY(0)';
+      setTimeout(() => {
+        if (toast) {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(10px)';
+        }
+      }, 3500);
+    } else {
+      toast.style.backgroundColor = '#f59e0b';
+      toast.style.color = '#ffffff';
+      toast.innerHTML = '<span>●</span> Mode Offline: Aset penting & halaman utama tersedia dari cache';
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateY(0)';
+    }
+  }
+
+  window.addEventListener('online', () => showConnectivityToast(true));
+  window.addEventListener('offline', () => showConnectivityToast(false));
+})();

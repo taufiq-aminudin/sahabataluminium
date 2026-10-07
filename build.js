@@ -80,7 +80,8 @@ const staticFiles = [
   'sitemap-nonwww.xml',
   'robots.txt',
   'ads.txt',
-  'articles.json'
+  'articles.json',
+  'sw.js'
 ];
 
 for (const file of staticFiles) {

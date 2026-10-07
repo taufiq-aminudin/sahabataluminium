@@ -78,6 +78,18 @@ app.get(['/pricingConfig.js', '/public/pricingConfig.js'], (req, res) => {
   return res.status(404).type('text/plain; charset=UTF-8').send('pricingConfig.js not found');
 });
 
+// 5. Service Worker (/sw.js)
+app.get(['/sw.js', '/service-worker.js'], (req, res) => {
+  const filePath = path.join(__dirname, 'sw.js');
+  if (fs.existsSync(filePath)) {
+    res.setHeader('Content-Type', 'application/javascript; charset=UTF-8');
+    res.setHeader('Service-Worker-Allowed', '/');
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    return res.sendFile(filePath);
+  }
+  return res.status(404).type('text/plain; charset=UTF-8').send('sw.js not found');
+});
+
 // Canonical Domain & HTTPS Enforcement Middleware
 // Enforces single-hop 301 redirect to https://sahabat-aluminium.my.id/
 app.use((req, res, next) => {
@@ -87,7 +99,9 @@ app.use((req, res, next) => {
     '/sitemap-nonwww.xml',
     '/sitemap',
     '/robots.txt',
-    '/ads.txt'
+    '/ads.txt',
+    '/sw.js',
+    '/service-worker.js'
   ];
   if (crawlerExempt.includes(req.path) || req.path.startsWith('/.well-known/')) {
     return next();

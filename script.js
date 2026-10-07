@@ -13667,3 +13667,54 @@ if (typeof document !== 'undefined') {
     if (window.SERVICE_MASTER && window.SERVICE_MASTER.init) window.SERVICE_MASTER.init();
   }
 }
+
+// ========================================================
+// SERVICE WORKER & OFFLINE ACCESSIBILITY
+// ========================================================
+(function initServiceWorker() {
+  if (typeof window === 'undefined' || !('serviceWorker' in navigator)) return;
+
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js', { scope: '/' })
+      .then((registration) => {
+        console.log('[SW] Service Worker registered successfully with scope:', registration.scope);
+      })
+      .catch((error) => {
+        console.warn('[SW] Service Worker registration failed:', error);
+      });
+  });
+
+  // Connectivity status notifications
+  function showConnectivityToast(isOnline) {
+    let toast = document.getElementById('offline-connectivity-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'offline-connectivity-toast';
+      toast.style.cssText = 'position:fixed;bottom:20px;left:20px;z-index:99999;padding:10px 16px;border-radius:8px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);transition:opacity 0.3s ease, transform 0.3s ease;';
+      document.body.appendChild(toast);
+    }
+
+    if (isOnline) {
+      toast.style.backgroundColor = '#10b981';
+      toast.style.color = '#ffffff';
+      toast.innerHTML = '<span>●</span> Mode Online: Terhubung kembali ke internet';
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateY(0)';
+      setTimeout(() => {
+        if (toast) {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(10px)';
+        }
+      }, 3500);
+    } else {
+      toast.style.backgroundColor = '#f59e0b';
+      toast.style.color = '#ffffff';
+      toast.innerHTML = '<span>●</span> Mode Offline: Aset penting & halaman utama tersedia dari cache';
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateY(0)';
+    }
+  }
+
+  window.addEventListener('online', () => showConnectivityToast(true));
+  window.addEventListener('offline', () => showConnectivityToast(false));
+})();

@@ -1,10 +1,44 @@
-window.toggleNav = function() {
+window.toggleNav = function(openState) {
   const n = document.getElementById('mainNav');
-  if (n) n.classList.toggle('open');
+  const toggleBtn = document.querySelector('.menu-toggle');
+  let backdrop = document.querySelector('.mobile-nav-backdrop');
+  if (!n) return;
+
+  if (!backdrop) {
+    backdrop = document.createElement('div');
+    backdrop.className = 'mobile-nav-backdrop';
+    backdrop.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(backdrop);
+    backdrop.addEventListener('click', () => window.toggleNav(false));
+  }
+
+  const willOpen = typeof openState === 'boolean' ? openState : !n.classList.contains('open');
+
+  if (willOpen) {
+    n.classList.add('open');
+    backdrop.classList.add('active');
+    backdrop.setAttribute('aria-hidden', 'false');
+    if (toggleBtn) {
+      toggleBtn.setAttribute('aria-expanded', 'true');
+      toggleBtn.innerHTML = '&times;';
+    }
+    document.body.classList.add('mobile-nav-locked');
+  } else {
+    n.classList.remove('open');
+    backdrop.classList.remove('active');
+    backdrop.setAttribute('aria-hidden', 'true');
+    if (toggleBtn) {
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      toggleBtn.innerHTML = '&#9776;';
+    }
+    document.body.classList.remove('mobile-nav-locked');
+    const openDd = document.querySelector('.nav-dropdown.active-mobile');
+    if (openDd) openDd.classList.remove('active-mobile');
+  }
 };
 
 window.toggleDropdown = function(e) {
-  if (window.innerWidth <= 992) {
+  if (window.innerWidth <= 1050) {
     if (e && e.preventDefault) e.preventDefault();
     const d = document.getElementById('navDropdownLayanan');
     if (d) d.classList.toggle('active-mobile');
@@ -14,18 +48,67 @@ window.toggleDropdown = function(e) {
 window.toggleNavMenu = window.toggleNav;
 window.toggleMobileDropdown = window.toggleDropdown;
 
-const toggle = document.querySelector('.menu-toggle');
-const nav = document.querySelector('#mainNav');
-if (toggle && nav) {
-  toggle.addEventListener('click', (e) => {
-    e.stopPropagation();
-    window.toggleNav();
-  });
-}
-if (nav) {
+function setupMobileNavDrawer() {
+  const nav = document.querySelector('#mainNav');
+  const toggle = document.querySelector('.menu-toggle');
+  if (!nav) return;
+
+  // 1. Ensure backdrop exists
+  let backdrop = document.querySelector('.mobile-nav-backdrop');
+  if (!backdrop) {
+    backdrop = document.createElement('div');
+    backdrop.className = 'mobile-nav-backdrop';
+    backdrop.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(backdrop);
+    backdrop.addEventListener('click', () => window.toggleNav(false));
+  }
+
+  // 2. Ensure drawer header with close button exists
+  if (!nav.querySelector('.mobile-drawer-header')) {
+    const drawerHeader = document.createElement('div');
+    drawerHeader.className = 'mobile-drawer-header';
+    drawerHeader.innerHTML = `
+      <div class="mobile-drawer-brand">
+        <img src="/assets/logo.png" alt="Logo Sahabat Kaca Aluminium" style="width:28px;height:28px;border-radius:6px;object-fit:cover;">
+        <span style="font-weight:800;font-size:14.5px;color:#073746;">Sahabat Kaca Aluminium</span>
+      </div>
+      <button type="button" class="mobile-nav-close" aria-label="Tutup menu navigasi">&times;</button>
+    `;
+    nav.insertBefore(drawerHeader, nav.firstChild);
+
+    const closeBtn = drawerHeader.querySelector('.mobile-nav-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => window.toggleNav(false));
+    }
+  }
+
+  // 3. Ensure drawer footer exists
+  if (!nav.querySelector('.mobile-drawer-footer')) {
+    const drawerFooter = document.createElement('div');
+    drawerFooter.className = 'mobile-drawer-footer';
+    drawerFooter.innerHTML = `
+      <a href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20ingin%20konsultasi%20layanan." target="_blank" rel="noopener" class="mobile-drawer-cta">
+        <span>💬 Survey Gratis WA (0896-3737-1166)</span>
+      </a>
+      <div style="font-size:11.5px;color:#64748b;margin-top:10px;line-height:1.45;text-align:center;">
+        📍 Workshop: Jl. Raden Rubaya, Karawang Barat
+      </div>
+    `;
+    nav.appendChild(drawerFooter);
+  }
+
+  // 4. Menu Toggle Button
+  if (toggle) {
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      window.toggleNav();
+    });
+  }
+
+  // 5. Dropdown toggles
   document.querySelectorAll('.nav-dropdown-toggle').forEach(btn => {
     btn.addEventListener('click', (e) => {
-      if (window.innerWidth <= 992) {
+      if (window.innerWidth <= 1050) {
         e.preventDefault();
         e.stopPropagation();
         const parent = btn.closest('.nav-dropdown');
@@ -34,13 +117,52 @@ if (nav) {
     });
   });
 
+  // 6. Navigation links auto-close drawer on click
   document.querySelectorAll('#mainNav a:not(.nav-dropdown-toggle)').forEach(a => {
     a.addEventListener('click', () => {
-      nav.classList.remove('open');
-      const openDd = document.querySelector('.nav-dropdown.active-mobile');
-      if (openDd) openDd.classList.remove('active-mobile');
+      window.toggleNav(false);
     });
   });
+
+  // 7. Escape key listener
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && nav.classList.contains('open')) {
+      window.toggleNav(false);
+    }
+  });
+
+  // 8. Touch swipe gesture to close (swipe right closes drawer)
+  let touchStartX = 0;
+  let touchStartY = 0;
+  nav.addEventListener('touchstart', (e) => {
+    if (e.touches && e.touches[0]) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+
+  nav.addEventListener('touchend', (e) => {
+    if (e.changedTouches && e.changedTouches[0]) {
+      const deltaX = e.changedTouches[0].clientX - touchStartX;
+      const deltaY = Math.abs(e.changedTouches[0].clientY - touchStartY);
+      if (deltaX > 50 && deltaY < 100 && nav.classList.contains('open')) {
+        window.toggleNav(false);
+      }
+    }
+  }, { passive: true });
+
+  // 9. Window resize auto-close
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 1050 && nav.classList.contains('open')) {
+      window.toggleNav(false);
+    }
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupMobileNavDrawer);
+} else {
+  setupMobileNavDrawer();
 }
 
 const lightbox = document.querySelector('#lightbox');
@@ -13416,3 +13538,213 @@ if (typeof document !== 'undefined') {
     initPartnersCarousel();
   }
 })();
+
+// ============================================================================
+// TESTIMONIAL CAROUSEL CONTROLLER
+// ============================================================================
+(function() {
+  function initTestimonialCarousel() {
+    const section = document.querySelector('.testimonial-carousel-section');
+    if (!section) return;
+
+    const viewport = section.querySelector('.testimonial-carousel-viewport');
+    const track = section.querySelector('.testimonial-carousel-track');
+    const cards = section.querySelectorAll('.testimonial-slide-card');
+    const prevBtn = section.querySelector('#testimonialPrevBtn');
+    const nextBtn = section.querySelector('#testimonialNextBtn');
+    const dotsContainer = section.querySelector('#testimonialDots');
+
+    if (!track || cards.length === 0) return;
+
+    let currentIndex = 0;
+    let autoPlayTimer = null;
+    let isPaused = false;
+
+    function getVisibleCount() {
+      const width = window.innerWidth;
+      if (width <= 768) return 1;
+      if (width <= 1024) return 2;
+      return 3;
+    }
+
+    function getMaxIndex() {
+      const visible = getVisibleCount();
+      return Math.max(0, cards.length - visible);
+    }
+
+    function updateDots() {
+      if (!dotsContainer) return;
+      dotsContainer.innerHTML = '';
+      const maxIndex = getMaxIndex();
+      const totalSteps = maxIndex + 1;
+
+      for (let i = 0; i < totalSteps; i++) {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'testimonial-dot' + (i === currentIndex ? ' active' : '');
+        dot.setAttribute('aria-label', `Pindah ke ulasan ke-${i + 1}`);
+        dot.addEventListener('click', () => {
+          goToSlide(i);
+          resetAutoPlay();
+        });
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    function goToSlide(index) {
+      const maxIndex = getMaxIndex();
+      if (index < 0) {
+        currentIndex = maxIndex;
+      } else if (index > maxIndex) {
+        currentIndex = 0;
+      } else {
+        currentIndex = index;
+      }
+
+      const card = cards[0];
+      if (!card) return;
+      const cardRect = card.getBoundingClientRect();
+      const style = window.getComputedStyle(track);
+      const gap = parseFloat(style.gap) || 24;
+      const stepWidth = cardRect.width + gap;
+
+      track.style.transform = `translateX(-${currentIndex * stepWidth}px)`;
+
+      // Update dots active class
+      if (dotsContainer) {
+        const dots = dotsContainer.querySelectorAll('.testimonial-dot');
+        dots.forEach((dot, idx) => {
+          dot.classList.toggle('active', idx === currentIndex);
+        });
+      }
+
+      // Update ARIA labels
+      if (prevBtn) prevBtn.setAttribute('aria-disabled', currentIndex === 0 ? 'true' : 'false');
+      if (nextBtn) nextBtn.setAttribute('aria-disabled', currentIndex === maxIndex ? 'true' : 'false');
+    }
+
+    function nextSlide() {
+      const maxIndex = getMaxIndex();
+      if (currentIndex >= maxIndex) {
+        goToSlide(0);
+      } else {
+        goToSlide(currentIndex + 1);
+      }
+    }
+
+    function prevSlide() {
+      const maxIndex = getMaxIndex();
+      if (currentIndex <= 0) {
+        goToSlide(maxIndex);
+      } else {
+        goToSlide(currentIndex - 1);
+      }
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        prevSlide();
+        resetAutoPlay();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        nextSlide();
+        resetAutoPlay();
+      });
+    }
+
+    function startAutoPlay() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      stopAutoPlay();
+      autoPlayTimer = setInterval(() => {
+        if (!isPaused) {
+          nextSlide();
+        }
+      }, 5500);
+    }
+
+    function stopAutoPlay() {
+      if (autoPlayTimer) {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = null;
+      }
+    }
+
+    function resetAutoPlay() {
+      stopAutoPlay();
+      startAutoPlay();
+    }
+
+    // Pause on hover
+    if (viewport) {
+      viewport.addEventListener('mouseenter', () => { isPaused = true; });
+      viewport.addEventListener('mouseleave', () => { isPaused = false; });
+
+      // Touch swipe
+      let startX = 0;
+      let startY = 0;
+      let isSwiping = false;
+
+      viewport.addEventListener('touchstart', (e) => {
+        if (!e.touches[0]) return;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isSwiping = true;
+        isPaused = true;
+      }, { passive: true });
+
+      viewport.addEventListener('touchend', (e) => {
+        if (!isSwiping || !e.changedTouches[0]) return;
+        const diffX = e.changedTouches[0].clientX - startX;
+        const diffY = e.changedTouches[0].clientY - startY;
+        isSwiping = false;
+        isPaused = false;
+
+        if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+          if (diffX < 0) {
+            nextSlide();
+          } else {
+            prevSlide();
+          }
+          resetAutoPlay();
+        }
+      }, { passive: true });
+    }
+
+    // Keyboard navigation
+    section.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        prevSlide();
+        resetAutoPlay();
+      } else if (e.key === 'ArrowRight') {
+        nextSlide();
+        resetAutoPlay();
+      }
+    });
+
+    // Resize listener
+    let resizeDebounce = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeDebounce);
+      resizeDebounce = setTimeout(() => {
+        const maxIndex = getMaxIndex();
+        if (currentIndex > maxIndex) currentIndex = maxIndex;
+        updateDots();
+        goToSlide(currentIndex);
+      }, 150);
+    });
+
+    updateDots();
+    goToSlide(0);
+    startAutoPlay();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTestimonialCarousel);
+  } else {
+    initTestimonialCarousel();
+  }
+})();
+

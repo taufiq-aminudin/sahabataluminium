@@ -13308,3 +13308,112 @@ if (typeof document !== 'undefined') {
   window.addEventListener('online', () => showConnectivityToast(true));
   window.addEventListener('offline', () => showConnectivityToast(false));
 })();
+
+/* =========================================================================
+   INDUSTRIAL PARTNERS & CLIENTS LOGO CAROUSEL CONTROLLER
+   Provides pause/play toggle, arrow controls, and interactive modal/detail
+   ========================================================================= */
+(function() {
+  'use strict';
+
+  function initPartnersCarousel() {
+    const wrapper = document.querySelector('.partners-carousel-wrapper');
+    if (!wrapper) return;
+
+    const prevBtn = document.getElementById('partnersPrevBtn');
+    const nextBtn = document.getElementById('partnersNextBtn');
+    const toggleBtn = document.getElementById('partnersToggleBtn');
+
+    let isPaused = false;
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', function() {
+        isPaused = !isPaused;
+        wrapper.classList.toggle('is-paused', isPaused);
+        toggleBtn.setAttribute('aria-pressed', isPaused ? 'true' : 'false');
+        toggleBtn.innerHTML = isPaused
+          ? '<span style="font-size:14px;">▶</span> <span>Lanjutkan</span>'
+          : '<span style="font-size:14px;">⏸</span> <span>Jeda</span>';
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function() {
+        wrapper.scrollBy({ left: -280, behavior: 'smooth' });
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function() {
+        wrapper.scrollBy({ left: 280, behavior: 'smooth' });
+      });
+    }
+
+    // Modal or Detail on Partner Card click
+    const cards = wrapper.querySelectorAll('.partner-card');
+    cards.forEach(card => {
+      card.addEventListener('click', function(e) {
+        e.preventDefault();
+        const name = card.dataset.name || card.querySelector('.partner-name')?.textContent || 'Mitra Industri';
+        const area = card.dataset.area || card.querySelector('.partner-desc')?.textContent || 'Karawang & Jabodetabek';
+        const project = card.dataset.project || card.querySelector('.partner-tag')?.textContent || 'Pengerjaan Kaca & Kusen SNI';
+        
+        showPartnerModal(name, area, project);
+      });
+    });
+
+    function showPartnerModal(name, area, project) {
+      let modal = document.getElementById('partner-detail-modal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'partner-detail-modal';
+        modal.style.cssText = 'position:fixed;inset:0;background:rgba(4,25,34,0.85);backdrop-filter:blur(6px);z-index:99999;display:none;align-items:center;justify-content:center;padding:20px;';
+        modal.innerHTML = `
+          <div style="background:#073746;color:#fff;border:1px solid #165366;border-radius:16px;max-width:520px;width:100%;padding:28px;position:relative;box-shadow:0 24px 50px rgba(0,0,0,0.5);">
+            <button type="button" id="closePartnerModal" aria-label="Tutup" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#94b2bd;font-size:24px;cursor:pointer;line-height:1;padding:4px 8px;">&times;</button>
+            <div style="display:inline-block;background:#ffd88a;color:#073746;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:4px;margin-bottom:10px;letter-spacing:0.5px;">MITRA & LOKASI PROYEK</div>
+            <h3 id="pmName" style="margin:0 0 6px;font-size:20px;color:#fff;font-weight:800;"></h3>
+            <p id="pmArea" style="margin:0 0 16px;font-size:13px;color:#ffd88a;font-weight:600;"></p>
+            <div style="background:#04242f;border:1px solid #0f3d4c;border-radius:10px;padding:16px;margin-bottom:20px;">
+              <span style="font-size:11px;color:#94b2bd;display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px;">Kategori Pengerjaan Spesialis:</span>
+              <p id="pmProject" style="margin:0;font-size:14px;color:#cde1e8;line-height:1.5;font-weight:600;"></p>
+              <div style="margin-top:10px;padding-top:10px;border-top:1px dashed #134657;font-size:12px;color:#94b2bd;line-height:1.5;">
+                Didukung teknisi berpengalaman, surat izin kerja pabrik (K3 & APD lengkap), profil SNI Alexindo/Inkalum, serta garansi resmi bengkel hingga 36 bulan.
+              </div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <a id="pmWaLink" href="#" target="_blank" rel="noopener" style="flex:1;min-width:180px;background:#25d366;color:#fff;text-align:center;padding:12px 18px;border-radius:8px;font-weight:700;font-size:13.5px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;">
+                <span>💬 Konsultasi Proyek Wilayah Ini</span>
+              </a>
+              <a href="/portofolio" style="padding:12px 18px;border-radius:8px;border:1px solid #165366;color:#cde1e8;font-size:13px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">
+                Lihat Portofolio →
+              </a>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(modal);
+
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal || e.target.id === 'closePartnerModal') {
+            modal.style.display = 'none';
+          }
+        });
+      }
+
+      document.getElementById('pmName').textContent = name;
+      document.getElementById('pmArea').textContent = area;
+      document.getElementById('pmProject').textContent = project;
+      const waText = encodeURIComponent(`Halo Admin Sahabat Kaca Aluminium, saya ingin konsultasi kebutuhan pasang kaca / aluminium untuk area ${name} (${area}).`);
+      document.getElementById('pmWaLink').href = `https://wa.me/6289637371166?text=${waText}`;
+
+      modal.style.display = 'flex';
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPartnersCarousel);
+  } else {
+    initPartnersCarousel();
+  }
+})();
+

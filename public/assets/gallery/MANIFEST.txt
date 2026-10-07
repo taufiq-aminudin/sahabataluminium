@@ -1,0 +1,46 @@
+VISUAL REALISTIS — SIAP UPLOAD
+
+Filename dipertahankan persis sesuai daftar.
+Varian JPG/WEBP/SVG untuk produk yang sama menggunakan visual yang sama.
+Nomor/filename varian tetap dipertahankan.
+
+curtain-wall-gedung.svg -> curtain-wall-gedung
+curtain-wall.svg -> curtain-wall
+etalase-kaca-counter.svg -> etalase-kaca-counter
+etalase-kaca.jpg -> etalase-kaca
+etalase-kaca.webp -> etalase-kaca
+etalase_kaca_1791180041446.jpg -> etalase-kaca
+fasad-acp-seven.svg -> fasad-acp-seven
+fasad-acp.svg -> fasad-acp
+jendela-aluminium.jpg -> jendela-aluminium
+jendela-aluminium.webp -> jendela-aluminium
+jendela-kaca.jpg -> jendela-kaca
+jendela-kaca.webp -> jendela-kaca
+jendela-sliding.jpg -> jendela-sliding
+jendela-sliding.webp -> jendela-sliding
+jendela_sliding_1791180303078.jpg -> jendela-sliding
+kanopi-kaca-carport.svg -> kanopi-kaca-carport
+kanopi-kaca.jpg -> kanopi-kaca
+kanopi-kaca.webp -> kanopi-kaca
+kanopi_kaca_1791180028957.jpg -> kanopi-kaca
+kusen-aluminium.jpg -> kusen-aluminium
+kusen-aluminium.webp -> kusen-aluminium
+kusen_aluminium_1791179997547.jpg -> kusen-aluminium
+partisi-aluminium.jpg -> partisi-aluminium
+partisi-aluminium.webp -> partisi-aluminium
+pintu-aluminium.jpg -> pintu-aluminium
+pintu-aluminium.webp -> pintu-aluminium
+pintu-bifold.svg -> pintu-bifold
+pintu-kaca-putih.jpg -> pintu-kaca-putih
+pintu-kaca-putih.webp -> pintu-kaca-putih
+pintu-kaca.jpg -> pintu-kaca
+pintu-kaca.webp -> pintu-kaca
+pintu-kamar-mandi.jpg -> pintu-kamar-mandi
+pintu-kamar-mandi.webp -> pintu-kamar-mandi
+pintu-sliding.jpg -> pintu-sliding
+pintu-sliding.webp -> pintu-sliding
+railing-balkon-kaca.svg -> railing-balkon-kaca
+railing-kaca.svg -> railing-kaca
+railing-tangga-kaca.svg -> railing-tangga-kaca
+shower-kaca.jpg -> shower-kaca
+shower-kaca.webp -> shower-kaca

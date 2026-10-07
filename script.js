@@ -1,44 +1,10 @@
-window.toggleNav = function(openState) {
+window.toggleNav = function() {
   const n = document.getElementById('mainNav');
-  const toggleBtn = document.querySelector('.menu-toggle');
-  let backdrop = document.querySelector('.mobile-nav-backdrop');
-  if (!n) return;
-
-  if (!backdrop) {
-    backdrop = document.createElement('div');
-    backdrop.className = 'mobile-nav-backdrop';
-    backdrop.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(backdrop);
-    backdrop.addEventListener('click', () => window.toggleNav(false));
-  }
-
-  const willOpen = typeof openState === 'boolean' ? openState : !n.classList.contains('open');
-
-  if (willOpen) {
-    n.classList.add('open');
-    backdrop.classList.add('active');
-    backdrop.setAttribute('aria-hidden', 'false');
-    if (toggleBtn) {
-      toggleBtn.setAttribute('aria-expanded', 'true');
-      toggleBtn.innerHTML = '&times;';
-    }
-    document.body.classList.add('mobile-nav-locked');
-  } else {
-    n.classList.remove('open');
-    backdrop.classList.remove('active');
-    backdrop.setAttribute('aria-hidden', 'true');
-    if (toggleBtn) {
-      toggleBtn.setAttribute('aria-expanded', 'false');
-      toggleBtn.innerHTML = '&#9776;';
-    }
-    document.body.classList.remove('mobile-nav-locked');
-    const openDd = document.querySelector('.nav-dropdown.active-mobile');
-    if (openDd) openDd.classList.remove('active-mobile');
-  }
+  if (n) n.classList.toggle('open');
 };
 
 window.toggleDropdown = function(e) {
-  if (window.innerWidth <= 1050) {
+  if (window.innerWidth <= 992) {
     if (e && e.preventDefault) e.preventDefault();
     const d = document.getElementById('navDropdownLayanan');
     if (d) d.classList.toggle('active-mobile');
@@ -48,67 +14,18 @@ window.toggleDropdown = function(e) {
 window.toggleNavMenu = window.toggleNav;
 window.toggleMobileDropdown = window.toggleDropdown;
 
-function setupMobileNavDrawer() {
-  const nav = document.querySelector('#mainNav');
-  const toggle = document.querySelector('.menu-toggle');
-  if (!nav) return;
-
-  // 1. Ensure backdrop exists
-  let backdrop = document.querySelector('.mobile-nav-backdrop');
-  if (!backdrop) {
-    backdrop = document.createElement('div');
-    backdrop.className = 'mobile-nav-backdrop';
-    backdrop.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(backdrop);
-    backdrop.addEventListener('click', () => window.toggleNav(false));
-  }
-
-  // 2. Ensure drawer header with close button exists
-  if (!nav.querySelector('.mobile-drawer-header')) {
-    const drawerHeader = document.createElement('div');
-    drawerHeader.className = 'mobile-drawer-header';
-    drawerHeader.innerHTML = `
-      <div class="mobile-drawer-brand">
-        <img src="/assets/logo.png" alt="Logo Sahabat Kaca Aluminium" style="width:28px;height:28px;border-radius:6px;object-fit:cover;">
-        <span style="font-weight:800;font-size:14.5px;color:#073746;">Sahabat Kaca Aluminium</span>
-      </div>
-      <button type="button" class="mobile-nav-close" aria-label="Tutup menu navigasi">&times;</button>
-    `;
-    nav.insertBefore(drawerHeader, nav.firstChild);
-
-    const closeBtn = drawerHeader.querySelector('.mobile-nav-close');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', () => window.toggleNav(false));
-    }
-  }
-
-  // 3. Ensure drawer footer exists
-  if (!nav.querySelector('.mobile-drawer-footer')) {
-    const drawerFooter = document.createElement('div');
-    drawerFooter.className = 'mobile-drawer-footer';
-    drawerFooter.innerHTML = `
-      <a href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20ingin%20konsultasi%20layanan." target="_blank" rel="noopener" class="mobile-drawer-cta">
-        <span>💬 Survey Gratis WA (0896-3737-1166)</span>
-      </a>
-      <div style="font-size:11.5px;color:#64748b;margin-top:10px;line-height:1.45;text-align:center;">
-        📍 Workshop: Jl. Raden Rubaya, Karawang Barat
-      </div>
-    `;
-    nav.appendChild(drawerFooter);
-  }
-
-  // 4. Menu Toggle Button
-  if (toggle) {
-    toggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      window.toggleNav();
-    });
-  }
-
-  // 5. Dropdown toggles
+const toggle = document.querySelector('.menu-toggle');
+const nav = document.querySelector('#mainNav');
+if (toggle && nav) {
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    window.toggleNav();
+  });
+}
+if (nav) {
   document.querySelectorAll('.nav-dropdown-toggle').forEach(btn => {
     btn.addEventListener('click', (e) => {
-      if (window.innerWidth <= 1050) {
+      if (window.innerWidth <= 992) {
         e.preventDefault();
         e.stopPropagation();
         const parent = btn.closest('.nav-dropdown');
@@ -117,52 +34,13 @@ function setupMobileNavDrawer() {
     });
   });
 
-  // 6. Navigation links auto-close drawer on click
   document.querySelectorAll('#mainNav a:not(.nav-dropdown-toggle)').forEach(a => {
     a.addEventListener('click', () => {
-      window.toggleNav(false);
+      nav.classList.remove('open');
+      const openDd = document.querySelector('.nav-dropdown.active-mobile');
+      if (openDd) openDd.classList.remove('active-mobile');
     });
   });
-
-  // 7. Escape key listener
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && nav.classList.contains('open')) {
-      window.toggleNav(false);
-    }
-  });
-
-  // 8. Touch swipe gesture to close (swipe right closes drawer)
-  let touchStartX = 0;
-  let touchStartY = 0;
-  nav.addEventListener('touchstart', (e) => {
-    if (e.touches && e.touches[0]) {
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-    }
-  }, { passive: true });
-
-  nav.addEventListener('touchend', (e) => {
-    if (e.changedTouches && e.changedTouches[0]) {
-      const deltaX = e.changedTouches[0].clientX - touchStartX;
-      const deltaY = Math.abs(e.changedTouches[0].clientY - touchStartY);
-      if (deltaX > 50 && deltaY < 100 && nav.classList.contains('open')) {
-        window.toggleNav(false);
-      }
-    }
-  }, { passive: true });
-
-  // 9. Window resize auto-close
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 1050 && nav.classList.contains('open')) {
-      window.toggleNav(false);
-    }
-  });
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', setupMobileNavDrawer);
-} else {
-  setupMobileNavDrawer();
 }
 
 const lightbox = document.querySelector('#lightbox');
@@ -13538,4 +13416,3 @@ if (typeof document !== 'undefined') {
     initPartnersCarousel();
   }
 })();
-

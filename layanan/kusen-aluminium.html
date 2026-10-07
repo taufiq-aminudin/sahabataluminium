@@ -15,7 +15,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 
   <!-- SEO PRIMARY TAGS -->
-  <title>Jasa Pasang Kusen Aluminium Karawang Profil 3" & 4" SNI | Sahabat Kaca Aluminium</title>
+  <title>Jasa Pasang Kusen Aluminium Karawang Profil 3&quot; & 4&quot; SNI | Sahabat Kaca Aluminium</title>
   <meta name="description" content="Fabrikasi dan pemasangan kusen aluminium presisi standar SNI untuk rumah tinggal, ruko, gedung perkantoran, dan pabrik industri di Karawang. Menggunakan pr...">
   <link rel="canonical" href="https://sahabat-aluminium.my.id/layanan/kusen-aluminium">
 
@@ -24,19 +24,21 @@
   <meta property="og:locale" content="id_ID">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://sahabat-aluminium.my.id/layanan/kusen-aluminium">
-  <meta property="og:title" content="Jasa Pasang Kusen Aluminium Karawang Profil 3" & 4" SNI | Sahabat Kaca Aluminium">
+  <meta property="og:title" content="Jasa Pasang Kusen Aluminium Karawang Profil 3&quot; & 4&quot; SNI | Sahabat Kaca Aluminium">
   <meta property="og:description" content="Pembuatan & pasang kusen jendela, pintu profil 3 & 4 inch. Siku miter 45° presisi, anti rayap & lapuk seumur hidup.">
   <meta property="og:image" content="https://sahabat-aluminium.my.id/assets/gallery/kusen-aluminium.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Jasa Pasang Kusen Aluminium Karawang Profil 3" & 4" SNI">
+  <meta name="twitter:title" content="Jasa Pasang Kusen Aluminium Karawang Profil 3&quot; & 4&quot; SNI">
   <meta name="twitter:description" content="Pembuatan & pasang kusen jendela, pintu profil 3 & 4 inch. Siku miter 45° presisi, anti rayap & lapuk seumur hidup.">
   <meta name="twitter:image" content="https://sahabat-aluminium.my.id/assets/gallery/kusen-aluminium.jpg">
 
-  <link rel="icon" type="image/png" href="../assets/logo.png">
+  <link rel="icon" type="image/png" href="/assets/logo.png">
+  <link rel="apple-touch-icon" href="/assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/print.css" media="print">
 
   <!-- SCHEMA.ORG STRUCTURED DATA -->
   <script type="application/ld+json">
@@ -68,7 +70,7 @@
     "offers": {
       "@type": "Offer",
       "priceCurrency": "IDR",
-      "price": "2125001",
+      "price": "212500",
       "description": "Rp 212.500 – Rp 412.500 / m1"
     }
   }
@@ -136,7 +138,7 @@
   <div class="container nav">
     <a class="brand" href="/" aria-label="Sahabat Kaca Aluminium">
       <span class="brand-logo">
-        <img src="../assets/logo.png" alt="Logo Sahabat Kaca Aluminium">
+        <img src="/assets/logo.png" alt="Logo Sahabat Kaca Aluminium">
       </span>
       <span class="brand-name">
         Sahabat <b>Kaca Aluminium</b>
@@ -151,8 +153,8 @@
       <a href="/" class="nav-link ">Beranda</a>
       <a href="/tentang-kami" class="nav-link ">Tentang Kami</a>
       
-      <div class="nav-dropdown active">
-        <a href="/layanan" class="nav-link nav-dropdown-toggle">Layanan <span class="arrow">▾</span></a>
+      <div id="navDropdownLayanan" class="nav-dropdown active">
+        <a href="/layanan" class="nav-link nav-dropdown-toggle" onclick="toggleDropdown(event)">Layanan <span class="arrow">▾</span></a>
         <div class="nav-dropdown-menu">
           <a href="/layanan/kusen-aluminium" class="nav-dropdown-item">Kusen Aluminium</a>
           <a href="/layanan/pintu-aluminium" class="nav-dropdown-item">Pintu Aluminium</a>
@@ -162,8 +164,12 @@
           <a href="/layanan/kanopi-kaca-tempered" class="nav-dropdown-item">Kanopi Kaca Tempered</a>
           <a href="/layanan/shower-kaca" class="nav-dropdown-item">Shower Kaca</a>
           <a href="/layanan/etalase-kaca" class="nav-dropdown-item">Etalase Kaca</a>
+          <a href="/layanan/railing-kaca" class="nav-dropdown-item">Railing Kaca Tempered</a>
+          <a href="/layanan/pintu-lipat-bifold" class="nav-dropdown-item">Pintu Lipat Bifold</a>
+          <a href="/layanan/fasad-acp" class="nav-dropdown-item">Fasad ACP</a>
+          <a href="/layanan/curtain-wall" class="nav-dropdown-item">Curtain Wall Fasad Kaca</a>
           <div class="nav-dropdown-divider"></div>
-          <a href="/layanan" class="nav-dropdown-footer">→ Katalog Semua 8 Layanan</a>
+          <a href="/layanan" class="nav-dropdown-footer">→ Katalog Semua 12 Layanan</a>
         </div>
       </div>
 
@@ -186,6 +192,13 @@ function toggleNav() {
   const n = document.getElementById('mainNav');
   if (n) n.classList.toggle('open');
 }
+function toggleDropdown(e) {
+  if (window.innerWidth <= 992) {
+    if (e && e.preventDefault) e.preventDefault();
+    const d = document.getElementById('navDropdownLayanan');
+    if (d) d.classList.toggle('active-mobile');
+  }
+}
 </script>
 
 
@@ -202,18 +215,19 @@ function toggleNav() {
   </div>
 </div>
 
+<main id="serviceDetailContainer" data-slug="kusen-aluminium">
 <!-- HERO DETAIL -->
 <section style="background:linear-gradient(135deg, #073746 0%, #0d5c73 60%, #082833 100%);color:#fff;padding:60px 0 70px;">
   <div class="container">
     <div style="display:grid;grid-template-columns:1.2fr 0.8fr;gap:40px;align-items:center;">
       <div>
-        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(200,148,61,0.25);border:1px solid var(--gold);color:#ffd88a;padding:5px 12px;border-radius:6px;font-size:12.5px;font-weight:700;margin-bottom:12px;">
+        <div id="serviceHeroBadge" style="display:inline-flex;align-items:center;gap:6px;background:rgba(200,148,61,0.25);border:1px solid var(--gold);color:#ffd88a;padding:5px 12px;border-radius:6px;font-size:12.5px;font-weight:700;margin-bottom:12px;">
           ★ SPESIALIS RESMI KARAWANG • GARANSI 18 BULAN RESMI
         </div>
-        <h1 style="color:#fff;font-size:clamp(2.1rem, 3.8vw, 3.2rem);line-height:1.15;margin:10px 0 16px;">
-          Jasa Pasang Kusen Aluminium Karawang Profil 3" & 4" SNI
+        <h1 id="serviceHeroTitle" style="color:#fff;font-size:clamp(2.1rem, 3.8vw, 3.2rem);line-height:1.15;margin:10px 0 16px;">
+          Jasa Pasang Kusen Aluminium Karawang Profil 3&quot; & 4&quot; SNI
         </h1>
-        <p style="color:#cde1e8;font-size:16px;line-height:1.7;margin-bottom:24px;">
+        <p id="serviceHeroDesc" style="color:#cde1e8;font-size:16px;line-height:1.7;margin-bottom:24px;">
           Fabrikasi dan pemasangan kusen aluminium presisi standar SNI untuk rumah tinggal, ruko, gedung perkantoran, dan pabrik industri di Karawang. Menggunakan profil aluminium pilihan Alexindo, Inkalum, dan Dacon dengan potongan sudut miter 45 derajat dobel spigot anti renggang dan karet EPDM kedap cuaca.
         </p>
 
@@ -237,11 +251,11 @@ function toggleNav() {
       <!-- MAIN VERIFIED PHOTO CARD -->
       <div style="background:#fff;color:var(--ink);border-radius:14px;padding:20px;box-shadow:0 18px 45px rgba(0,0,0,0.28);">
         <div style="position:relative;height:240px;overflow:hidden;border-radius:10px;margin-bottom:16px;">
-          <img src="../assets/gallery/kusen-aluminium.jpg" alt="Jasa Pasang Kusen Aluminium Karawang Profil Alexindo Inkalum Presisi" style="width:100%;height:100%;object-fit:cover;">
+          <img id="serviceHeroImg" src="/assets/gallery/kusen-aluminium.jpg" alt="Jasa Pasang Kusen Aluminium Karawang Profil Alexindo Inkalum Presisi" style="width:100%;height:100%;object-fit:cover;">
           <span style="position:absolute;top:10px;left:10px;background:rgba(7,55,70,0.9);color:#5eead4;font-size:11px;font-weight:800;padding:4px 10px;border-radius:6px;">
-            Profil 3" & 4" SNI
+            Profil 3&quot; & 4&quot; SNI
           </span>
-          <span style="position:absolute;bottom:10px;right:10px;background:#ffd88a;color:#073746;font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:6px;">
+          <span id="serviceHeroStartingPrice" style="position:absolute;bottom:10px;right:10px;background:#ffd88a;color:#073746;font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:6px;">
             Mulai Rp 212.500 / m1
           </span>
         </div>
@@ -271,7 +285,7 @@ function toggleNav() {
       </p>
     </div>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:24px;">
+    <div id="serviceDetailModels" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:24px;">
       
     <div style="background:#fff;border:1px solid #dce5e9;border-radius:12px;padding:24px;box-shadow:0 6px 18px rgba(7,55,70,0.06);display:flex;flex-direction:column;">
       <h3 style="margin:0 0 10px;font-size:18px;color:var(--deep);">Kusen Profil 3 Inch (Standard)</h3>
@@ -315,7 +329,7 @@ function toggleNav() {
           <h3 style="margin:0;font-size:18px;color:#fff;">📋 Tabel Spesifikasi Teknis Standar SNI</h3>
         </div>
         <table style="width:100%;border-collapse:collapse;font-size:13.5px;">
-          <tbody>
+          <tbody id="serviceDetailSpecs">
             
     <tr>
       <td style="padding:12px 16px;border-bottom:1px solid #eef3f5;font-weight:700;color:var(--deep);width:32%;">Dimensi</td>
@@ -361,7 +375,7 @@ function toggleNav() {
           Semua proyek Kusen Aluminium dari Sahabat Kaca Aluminium menggunakan profil ekstrusi dan kaca original yang lolos uji kelayakan:
         </p>
 
-        <ul style="list-style:none;padding:0;margin:0 0 24px;">
+        <ul id="serviceDetailMaterials" style="list-style:none;padding:0;margin:0 0 24px;">
           
     <li style="margin-bottom:10px;display:flex;align-items:flex-start;gap:8px;font-size:14.5px;color:#244450;">
       <span style="color:var(--gold);font-weight:bold;">✔</span>
@@ -402,7 +416,7 @@ function toggleNav() {
 <!-- GALERI FOTO PROYEK -->
 <section style="padding:70px 0;background:#fff;">
   <div class="container">
-    <div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:30px;flex-wrap:wrap;gap:16px;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:30px;flex-wrap:wrap;gap:16px;">
       <div>
         <div class="eyebrow" style="color:var(--gold);">DOKUMENTASI ASLI LAPANGAN</div>
         <h2 style="font-size:clamp(1.8rem, 3vw, 2.5rem);color:var(--deep);margin:8px 0 0;">
@@ -414,18 +428,18 @@ function toggleNav() {
       </a>
     </div>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:20px;">
+    <div id="serviceDetailGallery" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:20px;">
       
     <div style="height:200px;border-radius:10px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
-      <img src="../assets/gallery/kusen-aluminium.jpg" alt="Kusen Aluminium Proyek Karawang" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+      <img src="/assets/gallery/kusen-aluminium.jpg" alt="Kusen Aluminium Proyek Karawang" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
     </div>
   
     <div style="height:200px;border-radius:10px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
-      <img src="../assets/gallery/jendela-aluminium.jpg" alt="Kusen Aluminium Proyek Karawang" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+      <img src="/assets/gallery/jendela-aluminium.jpg" alt="Kusen Aluminium Proyek Karawang" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
     </div>
   
     <div style="height:200px;border-radius:10px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
-      <img src="../assets/gallery/pintu-aluminium.jpg" alt="Kusen Aluminium Proyek Karawang" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+      <img src="/assets/gallery/pintu-aluminium.jpg" alt="Kusen Aluminium Proyek Karawang" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
     </div>
   
     </div>
@@ -489,7 +503,8 @@ function toggleNav() {
       </h2>
     </div>
 
-    
+    <div id="serviceDetailFaq">
+      
     <div style="background:#fff;border:1px solid #dce5e9;border-radius:10px;padding:20px;margin-bottom:14px;">
       <h3 style="margin:0 0 8px;font-size:16.5px;color:var(--deep);">❓ Apa perbedaan kusen aluminium 3 inch dan 4 inch?</h3>
       <p style="margin:0;font-size:14px;color:var(--muted);line-height:1.7;">Kusen 3 inch memiliki penampang 7.6 x 3.8 cm, cocok untuk kusen kamar tidur, jendela kamar, atau perumahan standar. Kusen 4 inch (10.1 x 4.4 cm) memiliki profil lebih lebar dan tebal, sangat ideal untuk pintu utama, pintu balkon, ruko, maupun gedung kantor.</p>
@@ -500,6 +515,7 @@ function toggleNav() {
       <p style="margin:0;font-size:14px;color:var(--muted);line-height:1.7;">Tidak. Kami memotong profil dengan mesin otomatis sudut miter 45 derajat presisi, mengunci dengan spigot ganda di dalam profil, serta mengaplikasikan sealant elastis neutral weatherproof pada perimeter luar dan karet EPDM pada sisi kaca.</p>
     </div>
   
+    </div>
   </div>
 </section>
 
@@ -523,6 +539,7 @@ function toggleNav() {
     </div>
   </div>
 </section>
+</main>
 
 
 <!-- =====================================================
@@ -532,21 +549,21 @@ function toggleNav() {
   <div class="container footer-grid">
     <div>
       <div class="footer-brand" style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-        <img src="../assets/logo.png" alt="Logo Sahabat Kaca Aluminium" style="width:36px;height:36px;border-radius:50%;background:#fff;">
+        <img src="/assets/logo.png" alt="Logo Sahabat Kaca Aluminium" style="width:36px;height:36px;border-radius:50%;background:#fff;">
         <span style="font-size:16px;font-weight:800;color:#fff;">Sahabat Kaca Aluminium</span>
       </div>
       <p style="color:#a9bec5;font-size:13px;line-height:1.7;">
-        Bengkel dan kontraktor spesialis kusen aluminium, pintu kaca tempered, jendela, partisi, kanopi carport, shower screen, dan etalase komersial di Karawang dan sekitarnya. Bergaransi resmi, material SNI, dan layanan survey lokasi gratis.
+        Bengkel aplikator dan kontraktor spesialis kusen aluminium SNI, pintu sliding & swing, jendela casement, partisi kantor industri, kanopi kaca tempered, shower screen, railing tangga, dan etalase komersial di Karawang dan sekitarnya. Bergaransi resmi pabrik, material SNI original, dan layanan survey lokasi gratis.
       </p>
       <div style="font-size:12.5px;color:#c7d9df;margin-top:8px;">
         📍 <strong>Workshop:</strong> Jl. Raden Rubaya, Nagasari, Kec. Karawang Barat, Jawa Barat 41315<br>
-        ⏰ <strong>Jam Buka:</strong> 08.00 - 18.00 WIB (Setiap Hari)<br>
+        ⏰ <strong>Jam Buka:</strong> 08.00 - 18.00 WIB (Buka Setiap Hari)<br>
         📱 <strong>WhatsApp:</strong> <a href="https://wa.me/6289637371166" style="color:#ffd88a;font-weight:700;">0896-3737-1166</a>
       </div>
     </div>
 
     <div>
-      <b style="color:#fff;font-size:14px;display:block;margin-bottom:12px;">Navigasi Layanan</b>
+      <b style="color:#fff;font-size:14px;display:block;margin-bottom:12px;">Katalog 12 Layanan</b>
       <a href="/layanan/kusen-aluminium" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Kusen Aluminium</a>
       <a href="/layanan/pintu-aluminium" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Pintu Aluminium</a>
       <a href="/layanan/jendela-aluminium" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Jendela Aluminium</a>
@@ -555,6 +572,10 @@ function toggleNav() {
       <a href="/layanan/kanopi-kaca-tempered" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Kanopi Kaca Carport</a>
       <a href="/layanan/shower-kaca" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Shower Screen Kaca</a>
       <a href="/layanan/etalase-kaca" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Etalase Kaca Toko</a>
+      <a href="/layanan/railing-kaca" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Railing Kaca Tempered</a>
+      <a href="/layanan/pintu-lipat-bifold" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Pintu Lipat Bifold</a>
+      <a href="/layanan/fasad-acp" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Fasad ACP Aluminium</a>
+      <a href="/layanan/curtain-wall" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Curtain Wall Gedung</a>
     </div>
 
     <div>
@@ -572,7 +593,7 @@ function toggleNav() {
 
   <div class="container copyright" style="border-top:1px solid #173742;padding-top:18px;margin-top:25px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
     <span>&copy; 2026 Sahabat Kaca Aluminium Karawang. Hak Cipta Dilindungi Undang-Undang.</span>
-    <span>Workshop Resmi Karawang & Bekasi</span>
+    <span>Workshop Resmi Karawang & Jabodetabek</span>
   </div>
 </footer>
 

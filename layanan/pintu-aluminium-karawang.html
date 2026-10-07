@@ -41,12 +41,13 @@
   <meta name="twitter:description" content="Pintu aluminium sliding, swing, dan lipat bifold di Karawang. Free survey on-site.">
   <meta name="twitter:image" content="https://sahabat-aluminium.my.id/assets/gallery/pintu-aluminium.jpg">
 
-  <link rel="icon" type="image/png" href="../assets/logo.png">
+  <link rel="icon" type="image/png" href="/assets/logo.png">
+  <link rel="apple-touch-icon" href="/assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css">
-  <link rel="stylesheet" href="../iklan.css">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/print.css" media="print">
 
   <!-- SCHEMA.ORG STRUCTURED DATA -->
   <script type="application/ld+json">
@@ -617,36 +618,77 @@
   <header class="site-header">
     <div class="container nav">
       <a class="brand" href="/" aria-label="Sahabat Kaca Aluminium">
-        <span class="brand-logo"><img src="../assets/logo.png" alt="Sahabat Kaca Aluminium Logo"></span>
+        <span class="brand-logo"><img src="/assets/logo.png" alt="Logo Sahabat Kaca Aluminium"></span>
         <span class="brand-name">Sahabat <b>Kaca Aluminium</b></span>
       </a>
 
-      <nav id="mainNav">
-        <a href="/">Beranda</a>
-        <a href="/layanan.html">Semua Layanan</a>
-        <a href="/galeri.html">Portofolio Proyek</a>
-        <a href="/artikel.html">Blog & Artikel</a>
-        <a href="/kontak.html">Hubungi Kami</a>
+      <button class="menu-toggle" aria-label="Buka navigasi menu" onclick="toggleNav()">
+        ☰
+      </button>
+
+      <nav id="mainNav" class="site-nav">
+        <a href="/" class="nav-link">Beranda</a>
+        <a href="/tentang-kami" class="nav-link">Tentang Kami</a>
+        
+        <div id="navDropdownLayanan" class="nav-dropdown active">
+          <a href="/layanan" class="nav-link nav-dropdown-toggle" onclick="toggleDropdown(event)">Layanan <span class="arrow">▾</span></a>
+          <div class="nav-dropdown-menu">
+            <a href="/layanan/kusen-aluminium" class="nav-dropdown-item">Kusen Aluminium</a>
+            <a href="/layanan/pintu-aluminium" class="nav-dropdown-item">Pintu Aluminium</a>
+            <a href="/layanan/jendela-aluminium" class="nav-dropdown-item">Jendela Aluminium</a>
+            <a href="/layanan/pintu-kaca-tempered" class="nav-dropdown-item">Pintu Kaca Tempered</a>
+            <a href="/layanan/partisi-kaca-aluminium" class="nav-dropdown-item">Partisi Kaca Aluminium</a>
+            <a href="/layanan/kanopi-kaca-tempered" class="nav-dropdown-item">Kanopi Kaca Tempered</a>
+            <a href="/layanan/shower-kaca" class="nav-dropdown-item">Shower Kaca</a>
+            <a href="/layanan/etalase-kaca" class="nav-dropdown-item">Etalase Kaca</a>
+            <a href="/layanan/railing-kaca" class="nav-dropdown-item">Railing Kaca Tempered</a>
+            <a href="/layanan/pintu-lipat-bifold" class="nav-dropdown-item">Pintu Lipat Bifold</a>
+            <a href="/layanan/fasad-acp" class="nav-dropdown-item">Fasad ACP</a>
+            <a href="/layanan/curtain-wall" class="nav-dropdown-item">Curtain Wall Fasad Kaca</a>
+            <div class="nav-dropdown-divider"></div>
+            <a href="/layanan" class="nav-dropdown-footer">→ Katalog Semua 12 Layanan</a>
+          </div>
+        </div>
+
+        <a href="/hitung-estimasi" class="nav-link">Hitung Estimasi</a>
+        <a href="/status-proyek" class="nav-link">Status Proyek</a>
+        <a href="/portofolio" class="nav-link">Portofolio</a>
+        <a href="/kontraktor" class="nav-link">Kontraktor</a>
+        <a href="/blog" class="nav-link">Blog & Artikel</a>
+        <a href="/faq" class="nav-link">FAQ</a>
+        <a href="/testimoni" class="nav-link">Testimoni</a>
       </nav>
 
-      <a class="header-contact" href="https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20ingin%20konsultasi%20pintu%20aluminium%20di%20Karawang." target="_blank" rel="noopener">
-        <span class="wa-icon">◉</span>
-        <span>
-          <small>Admin Karawang</small>
-          <b>0896-3737-1166</b>
-        </span>
-        <em>WhatsApp & Konsultasi</em>
+      <a class="header-cta-btn" href="https://wa.me/6289637371166?text=Halo%20Admin%2C%20saya%20ingin%20konsultasi%20pintu%20aluminium%20di%20Karawang." target="_blank" rel="noopener">
+        <span>💬 Survey Gratis WA</span>
       </a>
     </div>
   </header>
+  <script>
+  function toggleNav() {
+    const n = document.getElementById('mainNav');
+    if (n) n.classList.toggle('open');
+  }
+  function toggleDropdown(e) {
+    if (window.innerWidth <= 992) {
+      if (e && e.preventDefault) e.preventDefault();
+      const d = document.getElementById('navDropdownLayanan');
+      if (d) d.classList.toggle('active-mobile');
+    }
+  }
+  </script>
 
   <main>
     <!-- BREADCRUMB -->
-    <div style="background:#f1f6f8;padding:12px 0;font-size:12.5px;color:var(--muted);border-bottom:1px solid #e1ebed;">
+    <div class="breadcrumb-wrap">
       <div class="container">
-        <a href="/" style="color:var(--blue);font-weight:600;">Beranda</a> &gt; 
-        <a href="/layanan.html" style="color:var(--blue);font-weight:600;">Layanan</a> &gt; 
-        <span>Pintu Aluminium Karawang</span>
+        <ol class="breadcrumb-list">
+          <li class="breadcrumb-item"><a href="/">Beranda</a></li>
+          <li class="breadcrumb-separator">/</li>
+          <li class="breadcrumb-item"><a href="/layanan">Layanan</a></li>
+          <li class="breadcrumb-separator">/</li>
+          <li class="breadcrumb-item active" aria-current="page">Pintu Aluminium Karawang</li>
+        </ol>
       </div>
     </div>
 
@@ -684,7 +726,7 @@
 
         <div>
           <div class="comm-hero-card">
-            <img src="../assets/gallery/pintu-aluminium.jpg" alt="Pintu Aluminium Karawang" style="width:100%;height:220px;object-fit:cover;border-radius:10px;margin-bottom:14px;">
+            <img src="/assets/gallery/pintu-aluminium.jpg" alt="Pintu Aluminium Karawang" style="width:100%;height:220px;object-fit:cover;border-radius:10px;margin-bottom:14px;">
             <h3 style="margin:0 0 6px;color:var(--deep);font-size:18px;">Pesan Pintu Aluminium Siap Pasang</h3>
             <p style="font-size:13px;color:var(--muted);margin:0 0 16px;line-height:1.6;">
               Kirimkan foto lokasi atau perkiraan ukuran opening Anda, tim estimator kami akan menghitungkan simulasi RAB transparan dalam 15 menit.
@@ -907,9 +949,9 @@
           <div class="ba-card">
             <div class="ba-image-split">
               <span class="ba-badge-before">SEBELUM</span>
-              <img src="../assets/gallery/pintu-kamar-mandi.jpg" alt="Sebelum: Pintu Kayu Rusak Lapuk">
+              <img src="/assets/gallery/pintu-kamar-mandi.jpg" alt="Sebelum: Pintu Kayu Rusak Lapuk">
               <span class="ba-badge-after">SESUDAH</span>
-              <img src="../assets/gallery/pintu-aluminium.jpg" alt="Sesudah: Pintu Aluminium Swing Modern">
+              <img src="/assets/gallery/pintu-aluminium.jpg" alt="Sesudah: Pintu Aluminium Swing Modern">
             </div>
             <div class="ba-body">
               <h4>Transformasi Pintu Kamar Tidur & Ruang Tamu</h4>
@@ -924,9 +966,9 @@
           <div class="ba-card">
             <div class="ba-image-split">
               <span class="ba-badge-before">SEBELUM</span>
-              <img src="../assets/gallery/pintu-sliding.jpg" alt="Sebelum: Pintu Geser Lama Sempit Bukaan Terbatas">
+              <img src="/assets/gallery/pintu-sliding.jpg" alt="Sebelum: Pintu Geser Lama Sempit Bukaan Terbatas">
               <span class="ba-badge-after">SESUDAH</span>
-              <img src="../assets/gallery/pintu-bifold.svg" alt="Sesudah: Pintu Lipat Bifold Aluminium Modern 4 Daun Bukaan Lebar">
+              <img src="/assets/gallery/pintu-bifold.svg" alt="Sesudah: Pintu Lipat Bifold Aluminium Modern 4 Daun Bukaan Lebar">
             </div>
             <div class="ba-body">
               <h4>Transformasi Akses Ruang Keluarga ke Taman Belakang</h4>
@@ -954,7 +996,7 @@
         <div class="project-showcase-grid">
           <!-- Proyek 1 -->
           <div class="project-showcase-card">
-            <img src="../assets/gallery/pintu-sliding.jpg" alt="Pintu Sliding Cluster Victoria Galuh Mas">
+            <img src="/assets/gallery/pintu-sliding.jpg" alt="Pintu Sliding Cluster Victoria Galuh Mas">
             <div class="project-showcase-content">
               <span class="project-meta">📍 Cluster Victoria, Galuh Mas Karawang Barat</span>
               <h4>Pintu Sliding Geser 4 Daun Kaca Tempered</h4>
@@ -969,7 +1011,7 @@
 
           <!-- Proyek 2 -->
           <div class="project-showcase-card">
-            <img src="../assets/gallery/pintu-aluminium.jpg" alt="Pintu Swing Kupu Tarung Grand Taruma">
+            <img src="/assets/gallery/pintu-aluminium.jpg" alt="Pintu Swing Kupu Tarung Grand Taruma">
             <div class="project-showcase-content">
               <span class="project-meta">📍 Grand Taruma, Telukjambe Timur Karawang</span>
               <h4>Pintu Utama Double Swing Kupu Tarung Urat Kayu</h4>
@@ -984,7 +1026,7 @@
 
           <!-- Proyek 3 -->
           <div class="project-showcase-card">
-            <img src="../assets/gallery/partisi-aluminium.jpg" alt="Pintu Kantor KIIC Karawang">
+            <img src="/assets/gallery/partisi-aluminium.jpg" alt="Pintu Kantor KIIC Karawang">
             <div class="project-showcase-content">
               <span class="project-meta">📍 Kawasan Industri KIIC Karawang Barat</span>
               <h4>Pintu Aluminium Partisi Kaca Kantor Pabrik</h4>
@@ -1276,9 +1318,9 @@
             <b>Jasa Etalase Kaca Toko</b>
             <span>Etalase konter HP, display perhiasan, toko roti.</span>
           </a>
-          <a href="/layanan.html" class="interlink-card">
+          <a href="/layanan" class="interlink-card">
             <b>Semua Produk & Layanan</b>
-            <span>Katalog lengkap portofolio Sahabat Kaca Aluminium.</span>
+            <span>Katalog lengkap 12 layanan spesialis Sahabat Kaca Aluminium.</span>
           </a>
         </div>
       </div>
@@ -1289,44 +1331,60 @@
   <footer>
     <div class="container footer-grid">
       <div>
-        <a class="brand footer-brand" href="/">
-          <span class="brand-logo"><img src="../assets/logo.png" alt="Sahabat Kaca Aluminium"></span>
-          <span>Sahabat <b>Kaca Aluminium</b></span>
-        </a>
-        <p>Solusi pintu aluminium sliding, swing, dan bifold terbaik di Karawang, Cikarang & Bekasi.</p>
-        <p style="font-size:12px;color:#85a6b1;margin-top:6px;">📍 <strong>Alamat Lengkap:</strong> Karawang, Jawa Barat<br>⏰ <strong>Jam Operasional:</strong> Buka Setiap Hari (08:00 - 18:00 WIB)</p>
+        <div class="footer-brand" style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <img src="/assets/logo.png" alt="Logo Sahabat Kaca Aluminium" style="width:36px;height:36px;border-radius:50%;background:#fff;">
+          <span style="font-size:16px;font-weight:800;color:#fff;">Sahabat Kaca Aluminium</span>
+        </div>
+        <p style="color:#a9bec5;font-size:13px;line-height:1.7;">
+          Bengkel aplikator dan kontraktor spesialis kusen aluminium SNI, pintu sliding & swing, jendela casement, partisi kantor industri, kanopi kaca tempered, shower screen, railing tangga, dan etalase komersial di Karawang dan sekitarnya. Bergaransi resmi pabrik, material SNI original, dan layanan survey lokasi gratis.
+        </p>
+        <div style="font-size:12.5px;color:#c7d9df;margin-top:8px;">
+          📍 <strong>Workshop:</strong> Jl. Raden Rubaya, Nagasari, Kec. Karawang Barat, Jawa Barat 41315<br>
+          ⏰ <strong>Jam Buka:</strong> 08.00 - 18.00 WIB (Buka Setiap Hari)<br>
+          📱 <strong>WhatsApp:</strong> <a href="https://wa.me/6289637371166" style="color:#ffd88a;font-weight:700;">0896-3737-1166</a>
+        </div>
       </div>
 
       <div>
-        <b>Layanan Karawang</b>
-        <a href="/jasa-kusen-aluminium-karawang">Kusen Aluminium Karawang</a>
-        <a href="/layanan/pintu-aluminium-karawang">Pintu Aluminium Karawang</a>
-        <a href="/jasa-jendela-aluminium-karawang">Jendela Aluminium Karawang</a>
-        <a href="/jasa-pintu-kaca-karawang">Pintu Kaca Tempered</a>
-        <a href="/jasa-partisi-kaca-aluminium-karawang">Partisi Kaca Kantor</a>
-        <a href="/jasa-kanopi-kaca-karawang">Kanopi Kaca Tempered</a>
-        <a href="/jasa-shower-kaca-karawang">Shower Screen Kaca</a>
-        <a href="/jasa-etalase-kaca-karawang">Etalase Kaca Toko</a>
+        <b style="color:#fff;font-size:14px;display:block;margin-bottom:12px;">Katalog 12 Layanan</b>
+        <a href="/layanan/kusen-aluminium" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Kusen Aluminium</a>
+        <a href="/layanan/pintu-aluminium" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Pintu Aluminium</a>
+        <a href="/layanan/jendela-aluminium" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Jendela Aluminium</a>
+        <a href="/layanan/pintu-kaca-tempered" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Pintu Kaca Tempered</a>
+        <a href="/layanan/partisi-kaca-aluminium" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Partisi Kaca Kantor</a>
+        <a href="/layanan/kanopi-kaca-tempered" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Kanopi Kaca Carport</a>
+        <a href="/layanan/shower-kaca" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Shower Screen Kaca</a>
+        <a href="/layanan/etalase-kaca" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Etalase Kaca Toko</a>
+        <a href="/layanan/railing-kaca" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Railing Kaca Tempered</a>
+        <a href="/layanan/pintu-lipat-bifold" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Pintu Lipat Bifold</a>
+        <a href="/layanan/fasad-acp" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Fasad ACP Aluminium</a>
+        <a href="/layanan/curtain-wall" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Curtain Wall Gedung</a>
       </div>
 
       <div>
-        <b>Kontak & Pemesanan</b>
-        <a href="https://wa.me/6289637371166" target="_blank" rel="noopener">WhatsApp: 0896-3737-1166</a>
-        <a href="tel:+6289637371166">Telepon: 0896-3737-1166</a>
-        <span style="font-size:12px;color:#85a6b1;margin-top:6px;">Area Layanan: Karawang Barat, Karawang Timur, Klari, Telukjambe, Cikampek, Purwasari, Rengasdengklok, Cikarang, Bekasi.</span>
+        <b style="color:#fff;font-size:14px;display:block;margin-bottom:12px;">Informasi & Area</b>
+        <a href="/tentang-kami" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Tentang Perusahaan</a>
+        <a href="/portofolio" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Portofolio Proyek</a>
+        <a href="/hitung-estimasi" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Kalkulator Estimasi Biaya</a>
+        <a href="/status-proyek" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Lacak Status Proyek</a>
+        <a href="/kontraktor" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Kerjasama Kontraktor / B2B</a>
+        <a href="/blog" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Artikel & Edukasi</a>
+        <a href="/faq" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Tanya Jawab (FAQ)</a>
+        <a href="/testimoni" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Testimoni Pelanggan</a>
       </div>
     </div>
 
-    <div class="container copyright">
-      © 2026 Sahabat Kaca Aluminium Karawang. Hak Cipta Dilindungi.
+    <div class="container copyright" style="border-top:1px solid #173742;padding-top:18px;margin-top:25px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+      <span>&copy; 2026 Sahabat Kaca Aluminium Karawang. Hak Cipta Dilindungi Undang-Undang.</span>
+      <span>Workshop Resmi Karawang & Jabodetabek</span>
     </div>
   </footer>
 
   <!-- FLOATING WHATSAPP -->
-  <a class="whatsapp-float" href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20ingin%20konsultasi%20pintu%20aluminium." target="_blank" rel="noopener" aria-label="Chat WhatsApp Admin">
-    WhatsApp Admin
+  <a class="whatsapp-float" href="https://wa.me/6289637371166?text=Halo%20Admin%20Sahabat%20Kaca%20Aluminium%2C%20saya%20ingin%20konsultasi%20dan%20survey%20lokasi." target="_blank" rel="noopener" aria-label="Hubungi WhatsApp">
+    <span>💬 WhatsApp Kami</span>
   </a>
 
-<script src="/script.js"></script>
+  <script src="/script.js"></script>
 </body>
 </html>

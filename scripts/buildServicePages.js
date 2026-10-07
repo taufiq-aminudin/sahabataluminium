@@ -8,10 +8,15 @@ const __dirname = path.dirname(__filename);
 
 const services = masterData.SERVICES;
 
-function getHeader(activeSlug, depth = 1) {
-  const prefix = depth === 2 ? '../' : depth === 1 ? '' : '';
-  const root = '/';
+function escapeAttr(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
 
+function getHeader(activeSlug) {
   return `
 <!-- =====================================================
      MASTER HEADER & DROPDOWN NAVIGATION
@@ -20,7 +25,7 @@ function getHeader(activeSlug, depth = 1) {
   <div class="container nav">
     <a class="brand" href="/" aria-label="Sahabat Kaca Aluminium">
       <span class="brand-logo">
-        <img src="${prefix}assets/logo.png" alt="Logo Sahabat Kaca Aluminium">
+        <img src="/assets/logo.png" alt="Logo Sahabat Kaca Aluminium">
       </span>
       <span class="brand-name">
         Sahabat <b>Kaca Aluminium</b>
@@ -35,8 +40,8 @@ function getHeader(activeSlug, depth = 1) {
       <a href="/" class="nav-link ${activeSlug === 'beranda' ? 'active' : ''}">Beranda</a>
       <a href="/tentang-kami" class="nav-link ${activeSlug === 'tentang-kami' ? 'active' : ''}">Tentang Kami</a>
       
-      <div class="nav-dropdown ${activeSlug && activeSlug.startsWith('layanan') ? 'active' : ''}">
-        <a href="/layanan" class="nav-link nav-dropdown-toggle">Layanan <span class="arrow">▾</span></a>
+      <div id="navDropdownLayanan" class="nav-dropdown ${activeSlug && activeSlug.startsWith('layanan') ? 'active' : ''}">
+        <a href="/layanan" class="nav-link nav-dropdown-toggle" onclick="toggleDropdown(event)">Layanan <span class="arrow">▾</span></a>
         <div class="nav-dropdown-menu">
           <a href="/layanan/kusen-aluminium" class="nav-dropdown-item">Kusen Aluminium</a>
           <a href="/layanan/pintu-aluminium" class="nav-dropdown-item">Pintu Aluminium</a>
@@ -46,8 +51,12 @@ function getHeader(activeSlug, depth = 1) {
           <a href="/layanan/kanopi-kaca-tempered" class="nav-dropdown-item">Kanopi Kaca Tempered</a>
           <a href="/layanan/shower-kaca" class="nav-dropdown-item">Shower Kaca</a>
           <a href="/layanan/etalase-kaca" class="nav-dropdown-item">Etalase Kaca</a>
+          <a href="/layanan/railing-kaca" class="nav-dropdown-item">Railing Kaca Tempered</a>
+          <a href="/layanan/pintu-lipat-bifold" class="nav-dropdown-item">Pintu Lipat Bifold</a>
+          <a href="/layanan/fasad-acp" class="nav-dropdown-item">Fasad ACP</a>
+          <a href="/layanan/curtain-wall" class="nav-dropdown-item">Curtain Wall Fasad Kaca</a>
           <div class="nav-dropdown-divider"></div>
-          <a href="/layanan" class="nav-dropdown-footer">→ Katalog Semua 8 Layanan</a>
+          <a href="/layanan" class="nav-dropdown-footer">→ Katalog Semua 12 Layanan</a>
         </div>
       </div>
 
@@ -70,12 +79,18 @@ function toggleNav() {
   const n = document.getElementById('mainNav');
   if (n) n.classList.toggle('open');
 }
+function toggleDropdown(e) {
+  if (window.innerWidth <= 992) {
+    if (e && e.preventDefault) e.preventDefault();
+    const d = document.getElementById('navDropdownLayanan');
+    if (d) d.classList.toggle('active-mobile');
+  }
+}
 </script>
 `;
 }
 
-function getFooter(depth = 1) {
-  const prefix = depth === 2 ? '../' : depth === 1 ? '' : '';
+function getFooter() {
   return `
 <!-- =====================================================
      MASTER FOOTER & FLOATING WHATSAPP
@@ -84,21 +99,21 @@ function getFooter(depth = 1) {
   <div class="container footer-grid">
     <div>
       <div class="footer-brand" style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-        <img src="${prefix}assets/logo.png" alt="Logo Sahabat Kaca Aluminium" style="width:36px;height:36px;border-radius:50%;background:#fff;">
+        <img src="/assets/logo.png" alt="Logo Sahabat Kaca Aluminium" style="width:36px;height:36px;border-radius:50%;background:#fff;">
         <span style="font-size:16px;font-weight:800;color:#fff;">Sahabat Kaca Aluminium</span>
       </div>
       <p style="color:#a9bec5;font-size:13px;line-height:1.7;">
-        Bengkel dan kontraktor spesialis kusen aluminium, pintu kaca tempered, jendela, partisi, kanopi carport, shower screen, dan etalase komersial di Karawang dan sekitarnya. Bergaransi resmi, material SNI, dan layanan survey lokasi gratis.
+        Bengkel aplikator dan kontraktor spesialis kusen aluminium SNI, pintu sliding & swing, jendela casement, partisi kantor industri, kanopi kaca tempered, shower screen, railing tangga, dan etalase komersial di Karawang dan sekitarnya. Bergaransi resmi pabrik, material SNI original, dan layanan survey lokasi gratis.
       </p>
       <div style="font-size:12.5px;color:#c7d9df;margin-top:8px;">
         📍 <strong>Workshop:</strong> Jl. Raden Rubaya, Nagasari, Kec. Karawang Barat, Jawa Barat 41315<br>
-        ⏰ <strong>Jam Buka:</strong> 08.00 - 18.00 WIB (Setiap Hari)<br>
+        ⏰ <strong>Jam Buka:</strong> 08.00 - 18.00 WIB (Buka Setiap Hari)<br>
         📱 <strong>WhatsApp:</strong> <a href="https://wa.me/6289637371166" style="color:#ffd88a;font-weight:700;">0896-3737-1166</a>
       </div>
     </div>
 
     <div>
-      <b style="color:#fff;font-size:14px;display:block;margin-bottom:12px;">Navigasi Layanan</b>
+      <b style="color:#fff;font-size:14px;display:block;margin-bottom:12px;">Katalog 12 Layanan</b>
       <a href="/layanan/kusen-aluminium" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Kusen Aluminium</a>
       <a href="/layanan/pintu-aluminium" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Pintu Aluminium</a>
       <a href="/layanan/jendela-aluminium" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Jendela Aluminium</a>
@@ -107,6 +122,10 @@ function getFooter(depth = 1) {
       <a href="/layanan/kanopi-kaca-tempered" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Kanopi Kaca Carport</a>
       <a href="/layanan/shower-kaca" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Shower Screen Kaca</a>
       <a href="/layanan/etalase-kaca" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Etalase Kaca Toko</a>
+      <a href="/layanan/railing-kaca" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Railing Kaca Tempered</a>
+      <a href="/layanan/pintu-lipat-bifold" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Pintu Lipat Bifold</a>
+      <a href="/layanan/fasad-acp" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Fasad ACP Aluminium</a>
+      <a href="/layanan/curtain-wall" style="color:#a9bec5;text-decoration:none;margin-bottom:6px;display:block;">Curtain Wall Gedung</a>
     </div>
 
     <div>
@@ -124,7 +143,7 @@ function getFooter(depth = 1) {
 
   <div class="container copyright" style="border-top:1px solid #173742;padding-top:18px;margin-top:25px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
     <span>&copy; 2026 Sahabat Kaca Aluminium Karawang. Hak Cipta Dilindungi Undang-Undang.</span>
-    <span>Workshop Resmi Karawang & Bekasi</span>
+    <span>Workshop Resmi Karawang & Jabodetabek</span>
   </div>
 </footer>
 
@@ -138,40 +157,52 @@ function getFooter(depth = 1) {
 
 function generateServicePage(service) {
   const canonicalUrl = `https://sahabat-aluminium.my.id/layanan/${service.slug}`;
-  const ogImageUrl = `https://sahabat-aluminium.my.id/${service.image}`;
+  const cleanImgPath = service.image.replace(/^\//, '');
+  const ogImageUrl = `https://sahabat-aluminium.my.id/${cleanImgPath}`;
 
-  const modelsHtml = service.models.map(m => `
+  // Safe price number extraction (only take digits before any slash, e.g. "Mulai Rp 212.500 / m1" -> 212500)
+  const pricePrefix = (service.priceStarting || '').split('/')[0] || '';
+  const priceDigits = pricePrefix.replace(/[^0-9]/g, '') || '100000';
+
+  const modelsHtml = (service.models || []).map(m => `
     <div style="background:#fff;border:1px solid #dce5e9;border-radius:12px;padding:24px;box-shadow:0 6px 18px rgba(7,55,70,0.06);display:flex;flex-direction:column;">
-      <h3 style="margin:0 0 10px;font-size:18px;color:var(--deep);">${m.name}</h3>
-      <p style="font-size:13.5px;color:var(--muted);margin:0 0 16px;line-height:1.6;flex-grow:1;">${m.desc}</p>
+      <h3 style="margin:0 0 10px;font-size:18px;color:var(--deep);">${escapeAttr(m.name)}</h3>
+      <p style="font-size:13.5px;color:var(--muted);margin:0 0 16px;line-height:1.6;flex-grow:1;">${escapeAttr(m.desc)}</p>
       <div style="border-top:1px solid #eef3f5;padding-top:12px;display:flex;justify-content:space-between;align-items:center;">
-        <span style="font-size:13px;font-weight:700;color:var(--blue);">${m.rate}</span>
+        <span style="font-size:13px;font-weight:700;color:var(--blue);">${escapeAttr(m.rate)}</span>
         <a href="/hitung-estimasi?service=${service.calcKey}" style="font-size:12px;color:var(--deep);font-weight:700;">Hitung RAB &rarr;</a>
       </div>
     </div>
   `).join('');
 
-  const materialsHtml = service.materials.map(m => `
+  const materialsHtml = (service.materials || []).map(m => `
     <li style="margin-bottom:10px;display:flex;align-items:flex-start;gap:8px;font-size:14.5px;color:#244450;">
       <span style="color:var(--gold);font-weight:bold;">✔</span>
-      <span>${m}</span>
+      <span>${escapeAttr(m)}</span>
     </li>
   `).join('');
 
-  const specsRowsHtml = Object.entries(service.specifications).map(([key, val]) => `
+  const specsRowsHtml = Object.entries(service.specifications || {}).map(([key, val]) => `
     <tr>
-      <td style="padding:12px 16px;border-bottom:1px solid #eef3f5;font-weight:700;color:var(--deep);width:32%;">${key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</td>
-      <td style="padding:12px 16px;border-bottom:1px solid #eef3f5;color:#334155;">${val}</td>
+      <td style="padding:12px 16px;border-bottom:1px solid #eef3f5;font-weight:700;color:var(--deep);width:32%;">${escapeAttr(key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()))}</td>
+      <td style="padding:12px 16px;border-bottom:1px solid #eef3f5;color:#334155;">${escapeAttr(val)}</td>
     </tr>
   `).join('');
 
-  const galleryHtml = service.galleryImages.map(img => `
-    <div style="height:200px;border-radius:10px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
-      <img src="../${img}" alt="${service.name} Proyek Karawang" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
-    </div>
-  `).join('');
+  const galleryImages = (service.galleryImages && service.galleryImages.length > 0)
+    ? service.galleryImages
+    : [service.image];
 
-  const faqSchema = service.faq.map(f => ({
+  const galleryHtml = galleryImages.map(img => {
+    const cleanPath = img.replace(/^\//, '');
+    return `
+    <div style="height:200px;border-radius:10px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+      <img src="/${cleanPath}" alt="${escapeAttr(service.name)} Proyek Karawang" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+    </div>
+  `;
+  }).join('');
+
+  const faqSchema = (service.faq || []).map(f => ({
     "@type": "Question",
     "name": f.q,
     "acceptedAnswer": {
@@ -180,10 +211,10 @@ function generateServicePage(service) {
     }
   }));
 
-  const faqHtml = service.faq.map(f => `
+  const faqHtml = (service.faq || []).map(f => `
     <div style="background:#fff;border:1px solid #dce5e9;border-radius:10px;padding:20px;margin-bottom:14px;">
-      <h3 style="margin:0 0 8px;font-size:16.5px;color:var(--deep);">❓ ${f.q}</h3>
-      <p style="margin:0;font-size:14px;color:var(--muted);line-height:1.7;">${f.a}</p>
+      <h3 style="margin:0 0 8px;font-size:16.5px;color:var(--deep);">❓ ${escapeAttr(f.q)}</h3>
+      <p style="margin:0;font-size:14px;color:var(--muted);line-height:1.7;">${escapeAttr(f.a)}</p>
     </div>
   `).join('');
 
@@ -204,8 +235,8 @@ function generateServicePage(service) {
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 
   <!-- SEO PRIMARY TAGS -->
-  <title>${service.title} | Sahabat Kaca Aluminium</title>
-  <meta name="description" content="${service.description.slice(0, 155)}...">
+  <title>${escapeAttr(service.title)} | Sahabat Kaca Aluminium</title>
+  <meta name="description" content="${escapeAttr(service.description.slice(0, 155))}...">
   <link rel="canonical" href="${canonicalUrl}">
 
   <!-- OPEN GRAPH & TWITTER -->
@@ -213,28 +244,30 @@ function generateServicePage(service) {
   <meta property="og:locale" content="id_ID">
   <meta property="og:type" content="article">
   <meta property="og:url" content="${canonicalUrl}">
-  <meta property="og:title" content="${service.title} | Sahabat Kaca Aluminium">
-  <meta property="og:description" content="${service.summary}">
+  <meta property="og:title" content="${escapeAttr(service.title)} | Sahabat Kaca Aluminium">
+  <meta property="og:description" content="${escapeAttr(service.summary)}">
   <meta property="og:image" content="${ogImageUrl}">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${service.title}">
-  <meta name="twitter:description" content="${service.summary}">
+  <meta name="twitter:title" content="${escapeAttr(service.title)}">
+  <meta name="twitter:description" content="${escapeAttr(service.summary)}">
   <meta name="twitter:image" content="${ogImageUrl}">
 
-  <link rel="icon" type="image/png" href="../assets/logo.png">
+  <link rel="icon" type="image/png" href="/assets/logo.png">
+  <link rel="apple-touch-icon" href="/assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/print.css" media="print">
 
   <!-- SCHEMA.ORG STRUCTURED DATA -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Service",
-    "name": "${service.name} Karawang",
-    "serviceType": "${service.name}",
-    "description": "${service.description}",
+    "name": "${escapeAttr(service.name)} Karawang",
+    "serviceType": "${escapeAttr(service.name)}",
+    "description": "${escapeAttr(service.description)}",
     "provider": {
       "@type": "LocalBusiness",
       "name": "Sahabat Kaca Aluminium",
@@ -257,8 +290,8 @@ function generateServicePage(service) {
     "offers": {
       "@type": "Offer",
       "priceCurrency": "IDR",
-      "price": "${service.priceStarting.replace(/[^0-9]/g, '') || '85000'}",
-      "description": "${service.priceRange}"
+      "price": "${priceDigits}",
+      "description": "${escapeAttr(service.priceRange)}"
     }
   }
   </script>
@@ -283,7 +316,7 @@ function generateServicePage(service) {
       {
         "@type": "ListItem",
         "position": 3,
-        "name": "${service.name}",
+        "name": "${escapeAttr(service.name)}",
         "item": "${canonicalUrl}"
       }
     ]
@@ -300,7 +333,7 @@ function generateServicePage(service) {
 </head>
 <body>
 
-${getHeader('layanan', 2)}
+${getHeader('layanan')}
 
 <!-- BREADCRUMB -->
 <div class="breadcrumb-wrap">
@@ -310,7 +343,7 @@ ${getHeader('layanan', 2)}
       <li class="breadcrumb-separator">/</li>
       <li class="breadcrumb-item"><a href="/layanan">Layanan</a></li>
       <li class="breadcrumb-separator">/</li>
-      <li class="breadcrumb-item active" aria-current="page">${service.name}</li>
+      <li class="breadcrumb-item active" aria-current="page">${escapeAttr(service.name)}</li>
     </ol>
   </div>
 </div>
@@ -325,10 +358,10 @@ ${getHeader('layanan', 2)}
           ★ SPESIALIS RESMI KARAWANG • GARANSI ${service.warranty.toUpperCase()}
         </div>
         <h1 id="serviceHeroTitle" style="color:#fff;font-size:clamp(2.1rem, 3.8vw, 3.2rem);line-height:1.15;margin:10px 0 16px;">
-          ${service.title}
+          ${escapeAttr(service.title)}
         </h1>
         <p id="serviceHeroDesc" style="color:#cde1e8;font-size:16px;line-height:1.7;margin-bottom:24px;">
-          ${service.description}
+          ${escapeAttr(service.description)}
         </p>
 
         <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:28px;">
@@ -351,12 +384,12 @@ ${getHeader('layanan', 2)}
       <!-- MAIN VERIFIED PHOTO CARD -->
       <div style="background:#fff;color:var(--ink);border-radius:14px;padding:20px;box-shadow:0 18px 45px rgba(0,0,0,0.28);">
         <div style="position:relative;height:240px;overflow:hidden;border-radius:10px;margin-bottom:16px;">
-          <img id="serviceHeroImg" src="../${service.image}" alt="${service.imageAlt}" style="width:100%;height:100%;object-fit:cover;">
+          <img id="serviceHeroImg" src="/${cleanImgPath}" alt="${escapeAttr(service.imageAlt)}" style="width:100%;height:100%;object-fit:cover;">
           <span style="position:absolute;top:10px;left:10px;background:rgba(7,55,70,0.9);color:#5eead4;font-size:11px;font-weight:800;padding:4px 10px;border-radius:6px;">
-            ${service.badge}
+            ${escapeAttr(service.badge)}
           </span>
           <span id="serviceHeroStartingPrice" style="position:absolute;bottom:10px;right:10px;background:#ffd88a;color:#073746;font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:6px;">
-            ${service.priceStarting}
+            ${escapeAttr(service.priceStarting)}
           </span>
         </div>
         <h3 style="margin:0 0 8px;font-size:18px;color:var(--deep);">Spesifikasi Resmi & RAB Cepat</h3>
@@ -377,7 +410,7 @@ ${getHeader('layanan', 2)}
     <div style="text-align:center;max-width:760px;margin:0 auto 40px;">
       <div class="eyebrow" style="color:var(--gold);">PILIHAN MODEL & VARIASI</div>
       <h2 style="font-size:clamp(1.8rem, 3vw, 2.5rem);color:var(--deep);margin:8px 0 12px;">
-        Model ${service.name} Populer
+        Model ${escapeAttr(service.name)} Populer
       </h2>
       <p style="color:var(--muted);font-size:15px;line-height:1.7;">
         Kami menyediakan beragam opsi konfigurasi sesuai kebutuhan arsitektur dan fungsional ruangan Anda.
@@ -415,7 +448,7 @@ ${getHeader('layanan', 2)}
           Material Berkualitas Tinggi & Tahan Cuaca
         </h2>
         <p style="color:var(--muted);font-size:14.5px;line-height:1.7;margin-bottom:20px;">
-          Semua proyek ${service.name} dari Sahabat Kaca Aluminium menggunakan profil ekstrusi dan kaca original yang lolos uji kelayakan:
+          Semua proyek ${escapeAttr(service.name)} dari Sahabat Kaca Aluminium menggunakan profil ekstrusi dan kaca original yang lolos uji kelayakan:
         </p>
 
         <ul id="serviceDetailMaterials" style="list-style:none;padding:0;margin:0 0 24px;">
@@ -434,7 +467,7 @@ ${getHeader('layanan', 2)}
 <!-- GALERI FOTO PROYEK -->
 <section style="padding:70px 0;background:#fff;">
   <div class="container">
-    <div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:30px;flex-wrap:wrap;gap:16px;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:30px;flex-wrap:wrap;gap:16px;">
       <div>
         <div class="eyebrow" style="color:var(--gold);">DOKUMENTASI ASLI LAPANGAN</div>
         <h2 style="font-size:clamp(1.8rem, 3vw, 2.5rem);color:var(--deep);margin:8px 0 0;">
@@ -461,7 +494,7 @@ ${getHeader('layanan', 2)}
         5 Tahap Pengerjaan Bergaransi
       </h2>
       <p style="color:var(--muted);font-size:15px;line-height:1.7;">
-        Setiap pesanan ${service.name} melalui prosedur standar operasional ketat untuk memastikan hasil akhir rapi, kokoh, dan presisi.
+        Setiap pesanan ${escapeAttr(service.name)} melalui prosedur standar operasional ketat untuk memastikan hasil akhir rapi, kokoh, dan presisi.
       </p>
     </div>
 
@@ -505,7 +538,7 @@ ${getHeader('layanan', 2)}
     <div style="text-align:center;margin-bottom:36px;">
       <div class="eyebrow" style="color:var(--gold);">TANYA JAWAB</div>
       <h2 style="font-size:clamp(1.8rem, 3vw, 2.4rem);color:var(--deep);margin:8px 0 0;">
-        Pertanyaan Umum Seputar ${service.name}
+        Pertanyaan Umum Seputar ${escapeAttr(service.name)}
       </h2>
     </div>
 
@@ -519,7 +552,7 @@ ${getHeader('layanan', 2)}
 <section style="background:linear-gradient(135deg, #073746 0%, #0d5c73 100%);color:#fff;padding:60px 0;text-align:center;">
   <div class="container" style="max-width:800px;">
     <h2 style="color:#fff;font-size:clamp(1.9rem, 3.2vw, 2.6rem);margin:0 0 16px;">
-      Butuh Pemasangan ${service.name} di Karawang?
+      Butuh Pemasangan ${escapeAttr(service.name)} di Karawang?
     </h2>
     <p style="color:#cde1e8;font-size:15.5px;line-height:1.7;margin:0 0 30px;">
       Konsultasikan ukuran atau kirimkan denah bangunan Anda. Tim teknisi Sahabat Kaca Aluminium siap melakukan survey gratis dan menerbitkan estimasi biaya RAB resmi.
@@ -537,13 +570,13 @@ ${getHeader('layanan', 2)}
 </section>
 </main>
 
-${getFooter(2)}
+${getFooter()}
 
 </body>
 </html>`;
 }
 
-// Generate the 8 files in /layanan/
+// Generate all 12 service detail pages in /layanan/
 const outDir = path.join(__dirname, '../layanan');
 if (!fs.existsSync(outDir)) {
   fs.mkdirSync(outDir, { recursive: true });
@@ -555,4 +588,4 @@ services.forEach(s => {
   console.log(`Generated: layanan/${s.slug}.html`);
 });
 
-console.log('Successfully generated all 8 service detail pages!');
+console.log(`Successfully generated all ${services.length} service detail pages!`);

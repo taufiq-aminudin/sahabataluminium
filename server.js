@@ -1229,9 +1229,13 @@ landingPages.forEach(slug => {
     res.sendFile(path.join(__dirname, `${slug}.html`));
   });
 
-  // Alias without 'jasa-' prefix e.g. /layanan/pintu-aluminium-karawang redirects 301 to canonical /jasa-pintu-aluminium-karawang
+  // Alias without 'jasa-' prefix e.g. /layanan/pintu-aluminium-karawang
   const withoutJasa = slug.replace(/^jasa-/, '');
   app.get(`/layanan/${withoutJasa}`, (req, res) => {
+    const serviceHtml = path.join(__dirname, 'layanan', `${withoutJasa}.html`);
+    if (fs.existsSync(serviceHtml)) {
+      return res.sendFile(serviceHtml);
+    }
     const rawHost = (req.headers['x-forwarded-host'] || req.headers.host || '').toLowerCase().split(':')[0];
     if (rawHost === 'sahabat-aluminium.my.id' || rawHost === 'www.sahabat-aluminium.my.id') {
       return res.redirect(301, `https://sahabat-aluminium.my.id/${slug}`);
@@ -1240,7 +1244,7 @@ landingPages.forEach(slug => {
   });
 });
 
-// Explicit routes for 17 requested separate pages
+// Explicit routes for all separate service pages in /layanan/
 const servicePages = [
   'kusen-aluminium',
   'pintu-aluminium',
@@ -1249,7 +1253,12 @@ const servicePages = [
   'partisi-kaca-aluminium',
   'kanopi-kaca-tempered',
   'shower-kaca',
-  'etalase-kaca'
+  'etalase-kaca',
+  'railing-kaca',
+  'pintu-lipat-bifold',
+  'fasad-acp',
+  'curtain-wall',
+  'pintu-aluminium-karawang'
 ];
 
 servicePages.forEach(slug => {

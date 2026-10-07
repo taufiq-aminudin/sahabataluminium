@@ -13162,7 +13162,7 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
   'use strict';
 
   function updateNavActiveState() {
-    const currentPath = window.location.pathname.replace(//$/, '') || '/';
+    const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
     const nav = document.getElementById('mainNav');
     if (!nav) return;
 
@@ -13173,7 +13173,7 @@ const SERVICE_CATALOG = PRICING_CONFIG.services;
     nav.querySelectorAll('a.nav-link:not(.nav-dropdown-toggle)').forEach(a => {
       const href = a.getAttribute('href');
       if (!href) return;
-      const linkPath = href.replace(//$/, '') || '/';
+      const linkPath = href.replace(/\/$/, '') || '/';
       if (linkPath === currentPath) {
         a.classList.add('active');
       }

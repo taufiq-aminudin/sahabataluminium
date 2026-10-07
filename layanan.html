@@ -207,6 +207,15 @@
     </div>
 
     <!-- GRID 12 CARDS (DYNAMICALLY RENDERED BY SERVICE_MASTER) -->
+        <!-- FILTER TABS FOR 12 SERVICES -->
+    <div class="services-filter-bar" style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:35px;" role="tablist">
+      <button type="button" class="service-filter-btn active" data-category="all" onclick="window.filterServices('all', this)" style="background:#072e3b;color:#fff;border:1.5px solid #072e3b;padding:8px 18px;border-radius:9999px;font-weight:700;font-size:13px;cursor:pointer;transition:all 0.2s ease;">Semua (12)</button>
+      <button type="button" class="service-filter-btn" data-category="pintu-jendela" onclick="window.filterServices('pintu-jendela', this)" style="background:#fff;color:#475569;border:1.5px solid #cbd5e1;padding:8px 18px;border-radius:9999px;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s ease;">Pintu & Jendela (4)</button>
+      <button type="button" class="service-filter-btn" data-category="kaca-partisi" onclick="window.filterServices('kaca-partisi', this)" style="background:#fff;color:#475569;border:1.5px solid #cbd5e1;padding:8px 18px;border-radius:9999px;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s ease;">Kaca & Partisi (3)</button>
+      <button type="button" class="service-filter-btn" data-category="kanopi-fasad" onclick="window.filterServices('kanopi-fasad', this)" style="background:#fff;color:#475569;border:1.5px solid #cbd5e1;padding:8px 18px;border-radius:9999px;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s ease;">Kanopi & Fasad (4)</button>
+      <button type="button" class="service-filter-btn" data-category="etalase-custom" onclick="window.filterServices('etalase-custom', this)" style="background:#fff;color:#475569;border:1.5px solid #cbd5e1;padding:8px 18px;border-radius:9999px;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s ease;">Etalase Toko (1)</button>
+    </div>
+
     <div id="servicesGridContainer" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(310px, 1fr));gap:28px;">
 
       <!-- CARD 1: Kusen Aluminium -->

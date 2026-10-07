@@ -13679,25 +13679,52 @@ footer .footer-grid {
   color: #94a3b8;
 }
 
-/* SPA Router Content & Progress Bar */
-#spa-content {
-  display: block;
-  width: 100%;
-  min-height: 50vh;
-  transition: opacity 0.15s ease-out;
+/* =========================================================================
+   PROJECT GALLERY CARDS FADE-IN ANIMATION (VIEWPORT & CATEGORY FILTER)
+   ========================================================================= */
+@keyframes projectCardFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
-#spa-progress-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #0d9488 0%, #2dd4bf 50%, #ffd88a 100%);
-  z-index: 999999;
-  transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
-  width: 0%;
-  opacity: 0;
-  pointer-events: none;
-  box-shadow: 0 0 10px rgba(45, 212, 191, 0.7);
+.portfolio-card-wrap,
+.project-card,
+.masonry-card,
+.featured-project-card,
+.gallery-card {
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s ease,
+              border-color 0.25s ease;
+  will-change: opacity, transform;
+}
+
+.portfolio-card-wrap.fade-in,
+.portfolio-card-wrap.in-view,
+.project-card.fade-in,
+.project-card.in-view,
+.masonry-card.fade-in,
+.featured-project-card.fade-in {
+  animation: projectCardFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--card-delay, 0) * 45ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-card-wrap.fade-in,
+  .portfolio-card-wrap.in-view,
+  .project-card.fade-in,
+  .project-card.in-view,
+  .masonry-card.fade-in,
+  .featured-project-card.fade-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 

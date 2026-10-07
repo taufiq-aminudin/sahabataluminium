@@ -13220,6 +13220,45 @@ if (typeof document !== 'undefined') {
 }
 
 // ========================================================
+// PROJECT GALLERY CARDS VIEWPORT & FILTER FADE-IN
+// ========================================================
+(function initGalleryCardAnimation() {
+  function observeGalleryCards() {
+    const cards = document.querySelectorAll('.portfolio-card-wrap, .project-card, .featured-project-card, .masonry-card');
+    if (!cards.length) return;
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view', 'fade-in');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.08,
+        rootMargin: '0px 0px -30px 0px'
+      });
+
+      cards.forEach((card, i) => {
+        if (!card.style.getPropertyValue('--card-delay')) {
+          card.style.setProperty('--card-delay', (i % 6));
+        }
+        observer.observe(card);
+      });
+    } else {
+      cards.forEach(card => card.classList.add('in-view', 'fade-in'));
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', observeGalleryCards);
+  } else {
+    observeGalleryCards();
+  }
+})();
+
+// ========================================================
 // SERVICE WORKER & OFFLINE ACCESSIBILITY
 // ========================================================
 (function initServiceWorker() {

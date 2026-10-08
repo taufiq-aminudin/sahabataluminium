@@ -602,7 +602,7 @@ const services = {
         minRate: PARTISI_PRICE_RANGES.standard.min,
         maxRate: PARTISI_PRICE_RANGES.standard.max,
         targetRate: PARTISI_PRICE_RANGES.standard.target,
-        rate: 'Rp 1.250.000 – Rp 1.650.000 / unit',
+        rate: 'Rp 650.000 – Rp 850.000 / m²',
         leadTime: '3–5 Hari Kerja',
         formula: 'Luas m² × Tarif + Kusen 3" + Kaca 5mm + Karet EPDM + Sealant + Sekrup Fisher + Jasa Pasang Presisi',
         rabRatios: { kaca: 0.28, struktur: 0.30, hardware: 0.06, sealant: 0.05, fabrikasi: 0.10, pasang: 0.11, transport: 0.03, margin: 0.07 }
@@ -615,7 +615,7 @@ const services = {
         minRate: PARTISI_PRICE_RANGES.premium.min,
         maxRate: PARTISI_PRICE_RANGES.premium.max,
         targetRate: PARTISI_PRICE_RANGES.premium.target,
-        rate: 'Rp 2.400.000 – Rp 3.500.000 / unit',
+        rate: 'Rp 850.000 – Rp 1.200.000 / m²',
         leadTime: '4–7 Hari Kerja',
         formula: 'Luas m² × Tarif + Kusen 4" Alexindo + Kaca 6mm/8mm + Sealant Akustik + Bracket Baja + Pasang Presisi',
         rabRatios: { kaca: 0.32, struktur: 0.28, hardware: 0.06, sealant: 0.05, fabrikasi: 0.10, pasang: 0.10, transport: 0.03, margin: 0.06 }
@@ -657,7 +657,7 @@ const services = {
         minRate: JENDELA_PRICE_RANGES.standard.min,
         maxRate: JENDELA_PRICE_RANGES.standard.max,
         targetRate: JENDELA_PRICE_RANGES.standard.target,
-        rate: 'Rp 2.125.000 – Rp 2.625.000 / unit',
+        rate: 'Rp 850.000 – Rp 1.150.000 / unit',
         leadTime: '3–5 Hari Kerja',
         formula: 'Jumlah unit × Tarif + Kusen + Daun Casement + Kaca 5mm + Friction Stay + Rambuncis + Pasang',
         rabRatios: { kaca: 0.25, struktur: 0.34, hardware: 0.10, sealant: 0.04, fabrikasi: 0.10, pasang: 0.08, transport: 0.03, margin: 0.06 }
@@ -670,7 +670,7 @@ const services = {
         minRate: JENDELA_PRICE_RANGES.premium.min,
         maxRate: JENDELA_PRICE_RANGES.premium.max,
         targetRate: JENDELA_PRICE_RANGES.premium.target,
-        rate: 'Rp 2.750.000 – Rp 3.500.000 / unit',
+        rate: 'Rp 1.200.000 – Rp 1.800.000 / unit',
         leadTime: '4–6 Hari Kerja',
         formula: 'Jumlah unit × Tarif + Kusen 4" Alexindo + Kaca Panasap + Multi-point Lock Dekkson + Weatherseal + Pasang',
         rabRatios: { kaca: 0.28, struktur: 0.33, hardware: 0.12, sealant: 0.04, fabrikasi: 0.08, pasang: 0.07, transport: 0.02, margin: 0.06 }
@@ -848,7 +848,7 @@ const services = {
         minRate: KUSEN_PRICE_RANGES.standard.min,
         maxRate: KUSEN_PRICE_RANGES.standard.max,
         targetRate: KUSEN_PRICE_RANGES.standard.target,
-        rate: 'Rp 212.500 – Rp 275.000 / m1',
+        rate: 'Rp 85.000 – Rp 130.000 / m1',
         leadTime: '2–4 Hari Kerja',
         formula: '(Panjang m1 × Tarif) + Sekrup Fisher + Sealant Neutral + Upah Tukang Presisi + Cutting Waste 8%',
         rabRatios: { kaca: 0.00, struktur: 0.54, hardware: 0.08, sealant: 0.08, fabrikasi: 0.12, pasang: 0.08, transport: 0.03, margin: 0.07 }
@@ -861,7 +861,7 @@ const services = {
         minRate: KUSEN_PRICE_RANGES.premium.min,
         maxRate: KUSEN_PRICE_RANGES.premium.max,
         targetRate: KUSEN_PRICE_RANGES.premium.target,
-        rate: 'Rp 337.500 – Rp 412.500 / m1',
+        rate: 'Rp 135.000 – Rp 175.000 / m1',
         leadTime: '3–5 Hari Kerja',
         formula: '(Panjang m1 × Tarif) + Sekrup Fisher Heavy + Sealant Weatherseal + Upah Pasang + Cutting Waste 8%',
         rabRatios: { kaca: 0.00, struktur: 0.56, hardware: 0.08, sealant: 0.07, fabrikasi: 0.12, pasang: 0.07, transport: 0.03, margin: 0.07 }
@@ -971,7 +971,7 @@ const services = {
         minRate: BIFOLD_PRICE_RANGES.standard.min,
         maxRate: BIFOLD_PRICE_RANGES.standard.max,
         targetRate: BIFOLD_PRICE_RANGES.standard.target,
-        rate: 'Rp 7.000.000 – Rp 8.750.000 / daun',
+        rate: 'Rp 7.500.000 – Rp 8.750.000 / daun',
         leadTime: '5–7 Hari Kerja',
         formula: '(Jumlah Daun × Tarif) + Rel Gantung + Roller Bearing + Flush Bolt + Kaca 5mm + Pasang',
         rabRatios: { kaca: 0.18, struktur: 0.40, hardware: 0.18, sealant: 0.03, fabrikasi: 0.09, pasang: 0.06, transport: 0.01, margin: 0.05 }
@@ -984,7 +984,7 @@ const services = {
         minRate: BIFOLD_PRICE_RANGES.premium.min,
         maxRate: BIFOLD_PRICE_RANGES.premium.max,
         targetRate: BIFOLD_PRICE_RANGES.premium.target,
-        rate: 'Rp 8.750.000 – Rp 12.000.000 / daun',
+        rate: 'Rp 8.750.000 – Rp 10.500.000 / daun',
         leadTime: '7–10 Hari Kerja',
         formula: '(Jumlah Daun × Tarif) + Rel Heavy Duty 250kg + Engsel SUS304 + Kaca Tempered + Flush Threshold + Pasang',
         rabRatios: { kaca: 0.22, struktur: 0.38, hardware: 0.18, sealant: 0.03, fabrikasi: 0.08, pasang: 0.05, transport: 0.01, margin: 0.05 }
@@ -1026,7 +1026,7 @@ const services = {
         minRate: ETALASE_PRICE_RANGES.standard.min,
         maxRate: ETALASE_PRICE_RANGES.standard.max,
         targetRate: ETALASE_PRICE_RANGES.standard.target,
-        rate: 'Rp 3.000.000 – Rp 4.125.000 / unit',
+        rate: 'Rp 1.250.000 – Rp 1.650.000 / unit',
         leadTime: '3–5 Hari Kerja',
         formula: 'Rangka Hollow Etalase + Kaca 5mm + Roda Rem + Kunci Huben + Perakitan Workshop',
         rabRatios: { kaca: 0.30, struktur: 0.34, hardware: 0.10, sealant: 0.04, fabrikasi: 0.12, pasang: 0.02, transport: 0.02, margin: 0.06 }
@@ -1039,7 +1039,7 @@ const services = {
         minRate: ETALASE_PRICE_RANGES.premium.min,
         maxRate: ETALASE_PRICE_RANGES.premium.max,
         targetRate: ETALASE_PRICE_RANGES.premium.target,
-        rate: 'Rp 5.000.000 – Rp 8.750.000 / unit',
+        rate: 'Rp 2.400.000 – Rp 3.500.000 / unit',
         leadTime: '5–7 Hari Kerja',
         formula: 'Rangka Anodize Hitam + Kaca Tempered 6mm + LED Strip Hidden + Kunci Sentral + Fabrikasi',
         rabRatios: { kaca: 0.32, struktur: 0.32, hardware: 0.12, sealant: 0.04, fabrikasi: 0.10, pasang: 0.02, transport: 0.02, margin: 0.06 }
